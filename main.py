@@ -54,7 +54,7 @@ class WhdbxMain:
         else:
             self.tmpl.assign('URL_APPEND_EMULATE', '')
         # TODO: assign crest data
-        #self.tmpl.assign('IS_IGB', 'false')
+        self.tmpl.assign('HAVE_CREST', 'false')
         #self.tmpl.assign('char', self.igb.get_char())
         #self.tmpl.assign('ssys', self.igb.get_solarsystem())
         #self.tmpl.assign('corp', self.igb.get_corp())
