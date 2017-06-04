@@ -1,0 +1,50 @@
+#!/usr/bin/python3.5
+# -*- coding: utf-8 -*-
+import json
+import datetime
+import os
+
+import cherrypy
+from cherrypy._cpdispatch import Dispatcher
+
+
+class WhdbxCustomDispatcher(Dispatcher):
+    def __call__(self, path_info: str):
+        path_info = path_info.lower()
+        return Dispatcher.__call__(self, path_info)
+
+
+class WhdbxMain:
+    def __init__(self):
+        pass
+
+    @cherrypy.expose()
+    def index(self):
+        return 'index'
+
+
+if __name__ == '__main__':
+    cherrypy.config.update({
+        'server.socket_host': '0.0.0.0',
+        'server.socket_port': 81,
+        'engine.autoreload.on': True
+    })
+
+    whdbx_config = {
+        '/': {
+            'request.dispatch': WhdbxCustomDispatcher(),
+            'tools.sessions.on': True,
+            'tools.staticdir.root': os.path.abspath(os.getcwd())
+        },
+        '/static': {
+            'tools.staticdir.on': True,
+            'tools.staticdir.dir': './static'
+        }
+    }
+    cherrypy.tree.mount(WhdbxMain(), '/', whdbx_config)
+
+    # handle console Ctrl+C events
+    cherrypy.engine.signals.subscribe()
+
+    cherrypy.engine.start()
+    cherrypy.engine.block()
