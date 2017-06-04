@@ -1,0 +1,107 @@
+## -*- coding: utf-8 -*-
+
+<%def name="print_effects(id_type, name)">
+<table border="0" cellpadding="5" cellspacing="5" width="95%">
+  <tr>
+    <td>
+        <center>
+            <h2 class="info_hl">${name}</h2>
+            <img src="img/effect_icons/${name.lower()}.png" />
+        </center>
+    </td>
+    <td>
+    <table class="effect_table">
+        <tr>
+            <td width="40" class="effect_table_bg_dark">&nbsp;</td>
+            <td width="200" class="effect_table_bg_dark">&nbsp;</td>
+            <td class="effect_table_bg_dark"><span class="infoblock_header_text">C1</span></td>
+            <td class="effect_table_bg_dark"><span class="infoblock_header_text">C2</span></td>
+            <td class="effect_table_bg_dark"><span class="infoblock_header_text">C3</span></td>
+            <td class="effect_table_bg_dark"><span class="infoblock_header_text">C4</span></td>
+            <td class="effect_table_bg_dark"><span class="infoblock_header_text">C5</span></td>
+            <td class="effect_table_bg_dark"><span class="infoblock_header_text">C6</span></td>
+        </tr>
+        % for e in effects:
+          % if e['id_type'] == id_type:
+        <tr>
+            % if loop.odd:
+            <td class="effect_table_bg_dark">
+            % else:
+            <td class="effect_table_bg_light">
+            % endif
+                <img src="img/effect_icons/${e['icon']}" width="32" />
+            </td>
+
+            % if loop.odd:
+            <td class="effect_table_bg_dark">
+            % else:
+            <td class="effect_table_bg_light">
+            % endif
+                <span>${e['effect']}</span>
+            </td>
+
+            % if loop.odd:
+            <td class="effect_table_bg_dark">
+            % else:
+            <td class="effect_table_bg_light">
+            % endif
+                <span class="effect_value">${e['c1']}</span>
+            </td>
+
+            % if loop.odd:
+            <td class="effect_table_bg_dark">
+            % else:
+            <td class="effect_table_bg_light">
+            % endif
+                <span class="effect_value">${e['c2']}</span>
+            </td>
+
+            % if loop.odd:
+            <td class="effect_table_bg_dark">
+            % else:
+            <td class="effect_table_bg_light">
+            % endif
+                <span class="effect_value">${e['c3']}</span>
+            </td>
+
+            % if loop.odd:
+            <td class="effect_table_bg_dark">
+            % else:
+            <td class="effect_table_bg_light">
+            % endif
+                <span class="effect_value">${e['c4']}</span>
+            </td>
+
+            % if loop.odd:
+            <td class="effect_table_bg_dark">
+            % else:
+            <td class="effect_table_bg_light">
+            % endif
+                <span class="effect_value">${e['c5']}</span>
+            </td>
+
+            % if loop.odd:
+            <td class="effect_table_bg_dark">
+            % else:
+            <td class="effect_table_bg_light">
+            % endif
+                <span class="effect_value">${e['c6']}</span>
+            </td>
+        </tr>
+          % endif
+        % endfor
+    </table>
+    </td>
+  </tr>
+</table>
+</%def>
+
+<div class="signature_info">
+${print_effects(1, 'Black hole')}<br />
+${print_effects(2, 'Magnetar')}<br />
+${print_effects(3, 'Red Giant')}<br />
+${print_effects(4, 'Pulsar')}<br />
+${print_effects(5, 'Wolf Rayet')}<br />
+${print_effects(6, 'Cataclysmic Variable')}<br />
+</div>
+

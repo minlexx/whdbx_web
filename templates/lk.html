@@ -1,0 +1,33 @@
+## -*- coding: utf-8 -*-
+<div class="lk_wrapper">
+
+## Api key: ${char_apikey}<br />
+
+% if char_apikey[0] == 0:
+    <center><h1>Личный кабинет - нет регистрации</h1></center>
+    <table class="lk_reg_table"><tr>
+        <td>
+            На вашего персонажа не найдено зарегистрированного API-ключа.<br />
+            Зарегистрируйте свой ключ, используя форму ниже:
+            <br />
+            <br />
+            <form action="./?mode=lk" method="post">
+            Key ID: <input type="text" name="reg_keyid" size="7" maxlength="7" /><br />
+            V.code: <input type="text" name="reg_vcode" size="64" maxlength="64" /><br />
+            <br />
+            <input type="button" onclick="check_key()" value="Проверить ключ..." />
+            </form>
+        </td>
+        <td>
+            <span class="infoblock_header_text">Инструкция по регистрации подходящего API ключа</span>
+        </td>
+    </tr>
+    </table>
+% else:
+% endif
+</div>
+
+% if api_res != '':
+<br />
+<div class="dev_data_dump"><pre>${api_res | h}</pre></div>
+% endif

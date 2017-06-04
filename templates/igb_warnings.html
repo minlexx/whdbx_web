@@ -1,0 +1,20 @@
+## -*- coding: utf-8 -*-
+
+##Is EVE ingame: ${IS_IGB}<br />
+##Is ingame trusted: ${IS_IGB_TRUSTED}<br />
+
+% if (IS_IGB=='false'):
+<div class="igb_warning" id="igb_warning">
+    <img border="0" align="right" src="img/close_win7.png" style="cursor: pointer" onclick="showhide('igb_warning');" />
+    Весь функционал сайта полностью раскрывается только в ингейм-браузере EVE клиента!
+</div>
+% endif
+
+% if (IS_IGB=='true') and (IS_IGB_TRUSTED!='true'):
+<div class="igb_warning" id="igb_warning2">
+    <img border="0" align="right" src="img/close_win7.png" style="cursor: pointer" onclick="showhide('igb_warning2');" />
+    Для использования всех функций сайта вам необходимо выдать ему доверие:
+    тогда сайт сможет автоматически определять ваше местоположение.
+    После выдачи доверия не забудьте <a style="cursor:pointer" onclick="window.location.reload();"><b>перезагрузить</b></a> страницу!
+</div>
+% endif

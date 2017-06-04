@@ -1,0 +1,67 @@
+## -*- coding: utf-8 -*-
+<div class="corp_pos_info_wrapper">
+    <h1>Отслеживание</h1>
+
+    <table class="corp_pos_table">
+        <tr>
+            <th>Персонаж</th>
+            <th>Локация</th>
+            <th>Корабль</th>
+            <th>Время</th>
+            <th>IP</th>
+        </tr>
+% for tr in tracker_rows:
+        <tr>
+            <td>
+                <a href="#" onclick="javascript:CCPEVE.showInfo(1377, ${tr['char_id']}); return false;"
+                   title="${tr['char_name']}">
+                   <img src="https://image.eveonline.com/Character/${tr['char_id']}_32.jpg" /></a>
+                <a href="#" onclick="javascript:CCPEVE.showInfo(1377, ${tr['char_id']}); return false;"
+                   title="${tr['char_name']}">${tr['char_name']}</a>
+                (<span class="zkb_ship">${tr['corp_name']}</span>)
+            </td>
+            <td>
+                <a href="#" onclick="javascript:CCPEVE.showInfo(5, ${tr['solarsystem_id']}); return false;">
+                    ${tr['solarsystem_name']}</a>
+                % if tr['is_wh']:
+                (<a href="./?${tr['solarsystem_name']}">инфо о ВХ системе</a>)
+                % endif
+                % if tr['station_name'] != '':
+                <br />
+                <!-- <url=showinfo:1531//60012607>Arnon IX - Moon 3 - Sisters of EVE Bureau</url> -->
+                <a href="#" onclick="javascript:CCPEVE.showInfo(1531, ${tr['station_id']}); return false;">
+                    ${tr['station_name']}</a>
+                % endif
+            </td>
+            <td>
+                <a href="#" onclick="javascript:CCPEVE.showInfo(${tr['shiptype_id']}); return false;"
+                  onmouseover="Tip('${tr['shiptype_name']}');"
+                  onmouseout="UnTip();"
+                  title="IGB: ${tr['shiptype_name']}">
+                    <img src="img/Types/${tr['shiptype_id']}_32.png" />
+                    ${tr['shiptype_name']}
+                </a>
+            </td>
+            <td>
+                ${tr['ts']}
+                <br />
+                % if tr['minutes_ago'] < 60:
+                <span class="zkb_time_hl">${tr['minutes_ago']} min ago</span>
+                % endif
+                % if (tr['hours_ago'] >= 1) and (tr['hours_ago'] < 24):
+                <span class="zkb_time_hl">${tr['hours_ago']} hours ago</span>
+                % endif
+            </td>
+            <td>
+                ${tr['ip_addr']}
+            </td>
+        </tr>
+% endfor
+    </table>
+
+    <br />
+    <br />
+</div>
+
+##<br />
+##<div class="dev_data_dump"><pre>${tracker_rows_dbg | h}</pre></div>

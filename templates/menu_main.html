@@ -1,0 +1,34 @@
+## -*- coding: utf-8 -*-
+
+<!-- ------------------------------- -->
+<!-- MENU WILLL BE HERE -->
+<div class="menu_block">
+<center>
+  % if MODE == 'default':
+  <img src="img/refresh.png" width="16" />
+    % if IS_IGB_TRUSTED == 'true':
+    <a href="./?${URL_APPEND_EMULATE}">ТЕКУЩАЯ СИСТЕМА</a>
+    % else:
+    <a href="./?${URL_APPEND_EMULATE}">ПОИСК СИСТЕМЫ</a>
+    % endif
+  <img src="img/refresh.png" width="16" /> |
+  % else:
+  %   if IS_IGB_TRUSTED == 'true':
+  <a href="./?${URL_APPEND_EMULATE}">ТЕКУЩАЯ СИСТЕМА</a> |
+  %   else:
+  <a href="./?${URL_APPEND_EMULATE}">ПОИСК СИСТЕМЫ</a> |
+  %   endif
+  % endif
+
+  % if MODE == 'ss':
+  J<input type="text" name="ssys" id="ssys" maxlength="15" size="9" onkeyup="fast_search_system();" />
+  <div class="fast_search_result" id="fast_search_result"></div> |
+  % endif
+
+  <a href="./?mode=sig&amp;id=all${URL_APPEND_EMULATE}">СИГНАТУРКИ</a> |
+  <a href="./?mode=sleeper&amp;id=all${URL_APPEND_EMULATE}">СЛИПЕРЫ</a> |
+  <a href="./?mode=effects${URL_APPEND_EMULATE}">ЭФФЕКТЫ</a> |
+  <a href="./?mode=whdb${URL_APPEND_EMULATE}">БАЗА ВХ</a>
+</center>
+</div>
+<!-- ------------------------------- -->

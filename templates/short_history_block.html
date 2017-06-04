@@ -1,0 +1,39 @@
+## -*- coding: utf-8 -*-
+
+<!-- SHORT HISTORY OF LAST VISITS BLOCK -->
+
+<div class="short_history_block">
+  <span class="infoblock_header_text">Последние системы:</span>
+  <table border="0" width="300">
+    % for tr in last_visited_systems:
+    <tr>
+      <!-- solarsystem -->
+      <td>
+        <a href="./?${tr['solarsystem_name']}">${tr['solarsystem_name']}</a>
+      </td>
+
+      <!-- statics -->
+      <td>
+        % if int(tr['wh_class']) > 0:
+        C${tr['wh_class']}-${tr['wh_statics']}
+        % elif int(tr['wh_class']) < 0:
+        C${abs(tr['wh_class'])}s-${tr['wh_statics']}
+        % endif
+      </td>
+
+      <!-- time -->
+      <td>
+        ${tr['ts']}
+        % if tr['minutes_ago'] < 60:
+        <span class="zkb_time_hl">${tr['minutes_ago']} мин.</span>
+        % endif
+        % if (tr['hours_ago'] >= 1) and (tr['hours_ago'] < 24):
+        <span class="zkb_time_hl">${tr['hours_ago']} ч.</span>
+        % endif
+      </td>
+    </tr>
+    % endfor
+  </table>
+</div>
+
+<!-- SHORT HISTORY OF LAST VISITS BLOCK END -->

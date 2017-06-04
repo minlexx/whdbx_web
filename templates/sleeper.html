@@ -1,0 +1,130 @@
+## -*- coding: utf-8 -*-
+
+<%!
+    from classes.utils import dotted_number
+%>
+
+% if sleeper.is_valid():
+<div class="sleeper_info">
+  <table border="0">
+    <tr>
+      <td class="sleeper_info1">
+        <img src="img/sleepers/${sleeper.icon}" />
+      </td>
+      <td class="sleeper_info2">
+        <h1>
+        &nbsp;<img src="img/sleepers/icons/${sleeper.size}.png" />&nbsp;&nbsp;
+        ${sleeper.name}, ${sleeper.size}, classes: ${sleeper.wh_class_str}</h1>
+
+          <p>Abilities:
+              % if len(sleeper.abilities) == 0:
+              none
+              % else:
+              % for ability in sleeper.abilities:
+              <img src="img/sleepers/icons/${ability}.png" />
+              % endfor
+              % endif
+          </p>
+
+          <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td valign="top">
+              <p>Navigation:</p>
+              <ul>
+                  <li><img src="img/sleepers/icons/signature.jpg" />Signature: <b>${sleeper.signature}</b> m</li>
+                  <li><img src="img/sleepers/icons/max_speed.png" />Max. speed: <b>${sleeper.maxspeed | dotted_number}</b> m/s</li>
+                  <li><img src="img/sleepers/icons/orbit2.png" />Orbit: <b>${sleeper.orbit | dotted_number}</b> m</li>
+              </ul>
+              </td>
+
+              <td valign="top">
+              <p>Defense:</p>
+              <ul>
+                  <li><img src="img/sleepers/icons/armor_hp.png" />Armor: <b>${sleeper.armor | dotted_number}</b></li>
+                  <li><img src="img/sleepers/icons/hull_hp.png" />Hull: <b>${sleeper.hull | dotted_number}</b></li>
+                  <li><img src="img/sleepers/icons/armor_resists.png" />Resists:
+                      <img src="img/sleepers/icons/res_em.jpg" /> ${sleeper.res_em}
+                      <img src="img/sleepers/icons/res_therm.jpg" /> ${sleeper.res_therm}
+                      <img src="img/sleepers/icons/res_kin.jpg" /> ${sleeper.res_kin}
+                      <img src="img/sleepers/icons/res_exp.jpg" /> ${sleeper.res_exp}
+                  </li>
+                  <li><img src="img/sleepers/icons/ehp2.png" />EHP: <b>${sleeper.ehp_total | dotted_number}</b></li>
+              </ul>
+              </td>
+
+              <td valign="top">
+              <p>Offense:</p>
+              <ul>
+                  <li><img src="img/sleepers/icons/optimal.jpg" />Optimal: <b>${sleeper.optimal | dotted_number}</b></li>
+                  <li><img src="img/sleepers/icons/dps_total.png" />
+                      DPS <img src="img/sleepers/icons/dps_laser.png" />:
+                      <img src="img/sleepers/icons/dps_em.jpg" /> ${sleeper.dps_em}
+                      <img src="img/sleepers/icons/dps_therm.jpg" /> ${sleeper.dps_therm}
+                  </li>
+                  <li><img src="img/sleepers/icons/dps_total.png" />
+                      DPS <img src="img/sleepers/icons/dps_launcher.png" />:
+                      <img src="img/sleepers/icons/dps_kin.jpg" /> ${sleeper.dps_kin}
+                      <img src="img/sleepers/icons/dps_exp.jpg" /> ${sleeper.dps_exp}
+                  </li>
+                  <li><img src="img/sleepers/icons/dps_total.png" />Total DPS: <b>${sleeper.dps_total | dotted_number}</b></li>
+              </ul>
+              </td>
+              <td valign="top">
+                % if len(class_sleepers)>0:
+                    <span class="infoblock_header_text">Слиперы ${sleeper.wh_class_str} класса:</span><br />
+                    <ul>
+                    % for s1 in class_sleepers:
+                        <li>
+                            <img src="img/sleepers/icons/${s1['size']}.png" />
+                            <a href="./?mode=sleeper&amp;id=${s1['id']}">${s1['name']}</a><br />
+                        </li>
+                    % endfor
+                    </ul>
+                % endif
+              </td>
+            </tr>
+          </table>
+
+          <p>Loot:</p>
+          <ul>
+              <li>${sleeper.loot_acd} x <img src="img/sleepers/icons/sinka.png" /> Ancient Coordinates Database</li>
+              <li>${sleeper.loot_nna} x <img src="img/sleepers/icons/sinka.png" /> Neural Network Analyzer</li>
+              <li>${sleeper.loot_sdl} x <img src="img/sleepers/icons/sinka.png" /> Sleeper Data Library</li>
+              <li>${sleeper.loot_sdai} x <img src="img/sleepers/icons/sinka.png" /> Sleeper Drone AI Nexus</li>
+              <li>Total: <img src="img/sleepers/icons/wreck.png" /> ${sleeper.loot_total | dotted_number} ISK</li>
+              <li>ISK/EHP: <img src="img/sleepers/icons/isk.png" /> <b>~${round(sleeper.isk_per_ehp)}</b></li>
+          </ul>
+      </td>
+    </tr>
+  </table>
+</div>
+
+% else:
+##<%include file="failure.html"/>
+##<blockquote>
+##    <h3>Нет такого слипера :(</h3>
+##</blockquote>
+##
+## All sleepers display mode
+
+<%def name="print_sleepers_for_class(sl_list, classStr)">
+    <span class="infoblock_header_text">Слиперы ${classStr} классов:</span><br />
+    <ul>
+        % for a_sl in sl_list:
+        <li>
+            <img src="img/sleepers/icons/${a_sl['size']}.png" />
+            <a href="./?mode=sleeper&amp;id=${a_sl['id']}">${a_sl['name']}</a><br />
+        </li>
+        % endfor
+    </ul>
+</%def>
+
+<table width="100%">
+    <tr>
+        <td>${print_sleepers_for_class(sleepers_c12,'1,2')}</td>
+        <td>${print_sleepers_for_class(sleepers_c34,'3,4')}</td>
+        <td>${print_sleepers_for_class(sleepers_c56,'5,6')}</td>
+    </tr>
+</table>
+
+% endif

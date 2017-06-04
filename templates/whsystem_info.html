@@ -1,0 +1,203 @@
+## -*- coding: utf-8 -*-
+
+<div class="solarsystem_info_wrapper">
+
+<%def name="print_sec_info(sec)">
+  % if sec >= 0.5:
+    хайсек
+  % elif (sec > 0) and (sec < 0.5):
+    лоусек
+  % else:
+    нули
+  % endif
+</%def>
+
+<%def name="print_static_info(s)">
+  <span class="static_name" onmouseover="Tip(''+
+  'Ведет в: <b>${s.in_class_str}</b><br />'
+   + 'Масса: <b>${s.max_mass_tt}</b> тыс.тонн<br />'
+   + 'Масса на прыг: <b>${s.max_jump_mass_tt}</b> тыс.тонн<br />'
+   + 'Время жизни: <b>${s.lifetime_hr}</b>ч.<br />'
+   + '');"
+  onmouseout="UnTip();">${s.name} ${s.in_class_str}</span>
+</%def>
+
+<%def name="print_effect(e)">
+  % if e == None:
+  <span class="info_hl">нет</span>
+  % else:
+  <span class="static_name" onmouseover="Tip(document.getElementById('current_effect_html').innerHTML);" onmouseout="UnTip();">${e.name}</span>
+  % endif
+</%def>
+
+
+<div style="display: none; border: 1px" id="current_effect_html">
+% if whsys.wh_effect:
+    <b>${whsys.wh_effect.name}</b>, class <b>${whsys.wh_effect.hole_class_str}</b>:<br />
+    <table border="0" cellpadding="5"><tr>
+        <td><img src="img/effect_icons/${whsys.wh_effect.effect_icon}" /></td>
+        <td>
+  % for erow in whsys.wh_effect.effects:
+## ('Missile velocity', 'missile velocity.png', '36%')
+            <img src="img/effect_icons/${erow[1]}" class="effect_icon" /> &nbsp;&nbsp;&nbsp;
+            ${erow[0]}: <span class="effect_value">${erow[2]}</span><br />
+  % endfor
+        </td>
+    </tr></table>
+% else:
+    <b>Нет эффекта</b>
+% endif
+</div>
+
+
+<div class="solarsystem_info">
+
+
+<span class="infoblock_header_text">Солнечная система:
+% if whsys.is_valid():
+  <a href="#" onclick="javascript:CCPEVE.showInfo(5, ${whsys.ssys_id}); return false;">${whsys.name}</a>
+  &lt; <a href="#" onclick="javascript:CCPEVE.showInfo(4, ${whsys.const_id}); return false;">${whsys.const_name}</a>
+  &lt; <a href="#" onclick="javascript:CCPEVE.showInfo(3, ${whsys.reg_id}); return false;">${whsys.reg_name}</a>
+% endif
+</span>
+
+    % if whsys.is_valid() and whsys.is_wh:
+    <div class="whsys_signatures_info">
+    <span class="infoblock_header_text">Сигнатуры и аномалии:</span><br />
+    <blockquote>
+    % for sig in sigs:
+        <img src="img/sigs/${sig['sig_type']}_site.png" width="20" />
+        <a href="./?mode=sig&amp;id=${sig['id']}" target="_blank">${sig['sig_name']}</a><br />
+    % endfor
+    </blockquote>
+    </div>
+    % endif
+
+<blockquote>
+
+<br />
+
+% if not whsys.is_valid():
+
+    Нет информации.<br />
+    ##% if IS_IGB == 'false':
+    <br /><br />
+    <%include file="fast_search_block.html"/>
+    ##% endif
+
+% elif whsys.is_wh:
+
+    % if whsys.is_thera():
+        Класс ВХ: <span class="info_hl">Thera</span><br />
+        <ul>
+        <li><span class="newwh_comment">
+            Тера может иметь аномалии 3-4 класса,<br />
+            все газы/руды из старших классов.<br />
+            <b>8</b> статиков - <b>2</b> в хайсек, <b>3</b> в лоу, <b>3</b> в нули.
+            </span>
+        </li>
+        </ul>
+    % elif whsys.is_frig_shattered():
+        Класс ВХ: <span class="info_hl">фриго-ВХ (класс от 1 до 3, эффект из с6)</span><br />
+        <ul>
+          <li>
+            <span class="newwh_comment">
+              Статиками являются фригодырки.<br />
+              <%include file="report_statics_form.html"/>
+            </span>
+          </li>
+        </ul>
+    % elif whsys.is_shattered():
+        Класс ВХ: <span class="info_hl">С${(whsys.wh_class * (-1))} (shattered)</span><br />
+        <ul>
+          <li>
+            <span class="newwh_comment">
+              Т.к. это новые системы, информация о статиках<br />
+              может быть неверной. Сообщайте об ошибках!<br />
+              <%include file="report_statics_form.html"/>
+            </span>
+          </li>
+        </ul>
+    % elif whsys.is_drifters():
+        Класс ВХ: <span class="info_hl">С${whsys.wh_class} (drifters)</span><br />
+        <ul>
+            <li><span class="newwh_comment">Эффект от с2, информации о статиках нет.</span></li>
+        </ul>
+    % else:
+        Класс ВХ: <span class="info_hl">С${whsys.wh_class}</span><br />
+    % endif
+
+% if len(whsys.wh_statics) == 0:
+  Статики: <span class="info_hl">неизвестно</span>,
+% elif len(whsys.wh_statics) == 1:
+  Статик: ${print_static_info(whsys.wh_statics[0])}
+% else:
+  Статики:
+  % for a_static in whsys.wh_statics:
+    ${print_static_info(a_static)}
+    % if not loop.last:
+      ,
+    % endif
+  % endfor
+% endif
+<br />
+Эффект: ${print_effect(whsys.wh_effect)}<br />
+Планет: <span class="info_hl">${whsys.wh_planets}</span><br />
+Лун: <span class="info_hl">${whsys.wh_moons}</span><br />
+Звезда: <span class="info_hl">${whsys.wh_star}</span><br />
+
+% else:
+
+ <b>${whsys.name}</b> не является WH системой. Это ${print_sec_info(whsys.security_full)}.<br />
+
+% endif
+
+% if whsys.is_valid():
+ <!-- общие для всех систем свойства -->
+ Уровень безопасности: <span style="color: ${whsys.sec_color}; font-weight:bold;">${whsys.security}</span><br />
+ Радиус: <span class="info_hl">${whsys.radius_ae} AE</span> (орбита посл. планеты)<br />
+ Поделиться ссылкой: <a href="./?${whsys.name}" target="_blank">${whsys.name}</a><br />
+% endif
+
+<%def name="print_route(ss, ssid, route)">
+  Маршрут до <a href="#" onclick="javascript:CCPEVE.showInfo(5, ${ssid}); return false;">${ss}</a>:
+    % if route is not None:
+        ${len(route)} прыгов
+    % else:
+        не найден
+    % endif
+  [ <a href="#" onclick="showhide('route_${ssid}'); return false;">Показать</a> |
+  <a href="#" onclick="CCPEVE.setDestination(${ssid}); return false;">Задать</a> |
+  <a href="#" onclick="CCPEVE.showRouteTo(${ssid}); return false;">На карте</a> ]
+    <div id="route_${ssid}" class="ss_route_block" style="display: none">
+    % for jump in route:
+    <span style="color: ${jump['from']['sec_color']}">${jump['from']['name']}</span> -
+    % endfor
+    % if len(route) > 0:
+    <span style="color: ${route[len(route)-1]['to']['sec_color']}">${route[len(route)-1]['to']['name']}</span>
+    % endif
+    </div>
+</%def>
+
+% if whsys.is_valid() and whsys.is_wh == False:
+ <!-- empire only - route to hubs -->
+ <br />
+ ${print_route('Jita', whsys.JITA_ID, whsys.route_jita)}<br />
+ ${print_route('Amarr', whsys.AMARR_ID, whsys.route_amarr)}<br />
+ ${print_route('Dodixie', whsys.DODIXIE_ID, whsys.route_dodixie)}<br />
+ ${print_route('Hek', whsys.HEK_ID, whsys.route_hek)}<br />
+ ${print_route('Rens', whsys.RENS_ID, whsys.route_rens)}<br />
+% endif
+
+</blockquote>
+
+##% if whsys_dbg is not None:
+##<br />
+##<div class="dev_data_dump">Solar system debug info: <pre>${whsys_dbg | h}</pre></div>
+##% endif
+
+</div>
+
+
+</div>
+<!-- solarsystem_info_wrapper -->

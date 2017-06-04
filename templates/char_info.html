@@ -1,0 +1,58 @@
+## -*- coding: utf-8 -*-
+
+% if IS_IGB=='true' and IS_IGB_TRUSTED=='true':
+
+<div class="character_info">
+
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td class="character_info">
+                <a href="#" onclick="javascript:CCPEVE.showInfo(1377, ${char['id']}); return false;"
+                   title="${char['name']}">
+                   <img src="https://image.eveonline.com/Character/${char['id']}_64.jpg" /></a>
+                <br />
+                <a href="#" onclick="javascript:CCPEVE.showInfo(1377, ${char['id']}); return false;"
+                   title="${char['name']}">${char['name']}</a>
+            </td>
+            <td class="character_info">
+                <a href="#" onclick="javascript:CCPEVE.showInfo(2, ${corp['id']}); return false;"
+                   title="${corp['name']}">
+                   <img src="https://image.eveonline.com/Corporation/${corp['id']}_64.png" /></a>
+                <br />
+                <a href="#" onclick="javascript:CCPEVE.showInfo(2, ${corp['id']}); return false;"
+                   title="${corp['name']}">${corp['name']}</a>
+            </td>
+            <td class="character_info">
+                <a href="#" onclick="javascript:CCPEVE.showInfo(${ship['id']}); return false;"
+                   title="${ship['name']}">
+                   <img src="img/Types/${ship['id']}_64.png" />
+                </a><br />
+                <a href="#" onclick="javascript:CCPEVE.showInfo(${ship['id']}); return false;">${ship['name']}</a>
+            </td>
+            <td class="character_info">
+                <a href="#" onclick="javascript:CCPEVE.showInfo(5, ${ssys['id']}); return false;"
+                   title="${ssys['name']}">
+                   <img src="img/solarsystem_icon_64.png" />
+                </a><br />
+                <a href="#" onclick="javascript:CCPEVE.showInfo(5, ${ssys['id']}); return false;">${ssys['name']}</a>
+            </td>
+            <!-- fast search block -->
+            <td class="character_info">
+            <%include file="fast_search_block.html"/>
+            </td>
+            <!-- short visits history block -->
+            <td class="character_info">
+            <%include file="short_history_block.html"/>
+            </td>
+            % if IS_OUR_CORP:
+            <!-- corp menu block -->
+            <td class="character_info">
+            <%include file="corp_menu_block.html"/>
+            </td>
+            % endif
+        </tr>
+    </table>
+
+</div>
+
+% endif

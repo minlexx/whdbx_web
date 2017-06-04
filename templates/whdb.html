@@ -1,0 +1,167 @@
+## -*- coding: utf-8 -*-
+
+<script type="text/javascript">
+function look_checkbox(name) {
+    var ret_url = '';
+    var cb = document.getElementById(name);
+    if (cb) {
+        if (cb.checked) {
+            ret_url += '&';
+            ret_url += cb.name;
+            ret_url += '=';
+            ret_url += cb.value;
+        }
+    }
+    return ret_url;
+}
+
+function send_find() {
+    var res_div = document.getElementById('jsystem_search_results');
+    if( !res_div ) return false;
+    res_div.innerHTML = 'Search...';
+    //
+    var url = './ajax.py?whdb=1';
+    var all_cbs = [
+        'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'shattered', 'frigwr', 'drifters',
+        'noeffect', 'bh', 'cv', 'mag', 'pul', 'rg', 'wr',
+        'in_c1', 'in_c2', 'in_c3', 'in_c4', 'in_c5', 'in_c6', 'in_null', 'in_low', 'in_high' ];
+    for (var i=0; i<all_cbs.length; i++ ) {
+        url += look_checkbox(all_cbs[i]);
+    }
+    //
+    res_div.innerHTML = '';
+    //res_div.innerHTML = '<a href=\"' + url + '\">link</a><br />';
+    myajax(url, whdb_search_handler)
+    return true;
+}
+
+function whdb_search_handler() {
+    if( g_xmlhttp == null ) return false;
+    var res_div = document.getElementById('jsystem_search_results');
+    if( !res_div ) return false;
+    var resp = '';
+    if( g_xmlhttp.readyState==4 && g_xmlhttp.status==200 ) {
+        resp = g_xmlhttp.responseText;
+    }
+    if( (resp != '') && (resp != 'ERROR') ) {
+        var obj = JSON.parse(resp);
+        //res_div.innerHTML += 'Query: <pre>' + obj.query + '</pre><br />';
+        //res_div.innerHTML += '[<pre>' + obj.systems + '</pre>]';
+        var table = document.createElement('table');
+        res_div.appendChild(table);
+        table.style.border = '1px solid red';
+        table.style.padding = '2px';
+        for (var i=0; i<obj.systems.length; i++) {
+            var tr = table.insertRow(i);
+            var cell1 = tr.insertCell(0);
+            var cell2 = tr.insertCell(1);
+            var cell3 = tr.insertCell(2);
+            var cell4 = tr.insertCell(3);
+            var cell5 = tr.insertCell(4);
+            var cell6 = tr.insertCell(5);
+            cell1.innerHTML = '#' + (i+1);
+            cell2.innerHTML = '<a href=\"./?' + obj.systems[i].name + '\">' + obj.systems[i].name + '</a>';
+            cell3.innerHTML = 'c' + obj.systems[i].class;
+            if (obj.systems[i].class == 7) {
+                cell3.innerHTML = 'hi-sec';
+            } else if (obj.systems[i].class == 8) {
+                cell3.innerHTML = 'low-sec';
+            } else if (obj.systems[i].class == 9) {
+                cell3.innerHTML = 'null-sec';
+            } else if (obj.systems[i].class == 13) {
+                cell3.innerHTML = 'frig-WH';
+            } else if (obj.systems[i].class == 12) {
+                cell3.innerHTML = 'Thera';
+            } else if ((obj.systems[i].class >= -6) && (obj.systems[i].class <= -1)) {
+                cell3.innerHTML = 'shattered c' + Math.abs(obj.systems[i].class);
+            } else if ((obj.systems[i].class >= 14) && (obj.systems[i].class <= 18)) {
+                cell3.innerHTML = 'drifters c' + Math.abs(obj.systems[i].class);
+            }
+            cell4.innerHTML = '[<a href=\"https://beta.eve-kill.net/system/' + obj.systems[i].id + '/\">EVEKILL</a>]';
+            cell4.innerHTML += ' [<a href=\"https://zkillboard.com/system/' + obj.systems[i].id + '/\">ZKB</a>]';
+            // https://zkillboard.com/system/31002234/
+            cell5.innerHTML = obj.systems[i].effect;
+            cell6.innerHTML = obj.systems[i].statics;
+        }
+    }
+}
+</script>
+
+<div class="solarsystem_info_wrapper" align="center">
+    <h1>База WH</h1>
+    <p class="infoblock_header_text">Найти все системы:</p>
+    <form>
+        <table>
+            <tr>
+                <td>Класса:</td>
+                <td>
+                    <input type="checkbox" id="c1" name="class" value="1" />
+                    <label for="c1">class 1</label>
+                    <input type="checkbox" id="c2" name="class" value="2" />
+                    <label for="c2">class 2</label>
+                    <input type="checkbox" id="c3" name="class" value="3" />
+                    <label for="c3">class 3</label>
+                    <input type="checkbox" id="c4" name="class" value="4" />
+                    <label for="c4">class 4</label>
+                    <input type="checkbox" id="c5" name="class" value="5" />
+                    <label for="c5">class 5</label>
+                    <input type="checkbox" id="c6" name="class" value="6" />
+                    <label for="c6">class 6</label>
+                    <input type="checkbox" id="shattered" name="class" value="shattered" />
+                    <label for="shattered">разломанные</label>
+                    <input type="checkbox" id="frigwr" name="class" value="frigwr" />
+                    <label for="frigwr">фриг-WH</label>
+                    <input type="checkbox" id="drifters" name="class" value="drifters" />
+                    <label for="drifters">drifters</label>
+                </td>
+            </tr>
+            <tr>
+                <td>С эффектом:</td>
+                <td>
+                    <input type="checkbox" id="noeffect" name="effect" value="noeffect" />
+                    <label for="noeffect">Без эффекта</label>
+                    <input type="checkbox" id="bh" name="effect" value="bh" />
+                    <label for="bh">Black Hole</label>
+                    <input type="checkbox" id="cv" name="effect" value="cv" />
+                    <label for="cv">Cataclysmic Variable</label>
+                    <input type="checkbox" id="mag" name="effect" value="mag" />
+                    <label for="mag">Magnetar</label>
+                    <input type="checkbox" id="pul" name="effect" value="pul" />
+                    <label for="pul">Pulsar</label>
+                    <input type="checkbox" id="rg" name="effect" value="rg" />
+                    <label for="rg">Red Giant</label>
+                    <input type="checkbox" id="wr" name="effect" value="wr" />
+                    <label for="wr">Wolf-Rayet</label>
+                </td>
+            </tr>
+            <tr>
+                <td>Со статиком:</td>
+                <td>
+                    <input type="checkbox" id="in_c1" name="in_class" value="1" />
+                    <label for="in_c1">в класс 1</label>
+                    <input type="checkbox" id="in_c2" name="in_class" value="2" />
+                    <label for="in_c2">в класс 2</label>
+                    <input type="checkbox" id="in_c3" name="in_class" value="3" />
+                    <label for="in_c3">в класс 3</label>
+                    <input type="checkbox" id="in_c4" name="in_class" value="4" />
+                    <label for="in_c4">в класс 4</label>
+                    <input type="checkbox" id="in_c5" name="in_class" value="5" />
+                    <label for="in_c5">в класс 5</label>
+                    <input type="checkbox" id="in_c6" name="in_class" value="6" />
+                    <label for="in_c6">в класс 6</label>
+                    <input type="checkbox" id="in_null" name="in_class" value="9" />
+                    <label for="in_null">в Null-sec</label>
+                    <input type="checkbox" id="in_low" name="in_class" value="8" />
+                    <label for="in_low">в Low-sec</label>
+                    <input type="checkbox" id="in_high" name="in_class" value="7" />
+                    <label for="in_high">в High-sec</label>
+                </td>
+            </tr>
+        </table>
+        <input type="button" onclick="send_find();" value="Поиск!" />
+    </form>
+
+    <div id="jsystem_search_results">
+        &nbsp;
+    </div>
+</div>

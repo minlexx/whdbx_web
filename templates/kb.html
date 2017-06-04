@@ -1,0 +1,180 @@
+## -*- coding: utf-8 -*-
+<div class="solarsystem_info_wrapper">
+<h1>Killboard</h1>
+Данные CCP KillLog API кешированы до: ${kills_cached_until}<br />
+    <!-- ${kills_cache_filename} -->
+<br />
+
+<table class="kb_table">
+    <tr>
+        <th width="70">Time</th>
+        <th width="40">Ship</th>
+        <th width="100">Place</th>
+        <th width="40">&nbsp;</th>
+        <th>Victim</th>
+        <th width="40">&nbsp;</th>
+        <th>Final Blow / attackers</th>
+        <th width="50">links</th>
+    </tr>
+% for kill in kills:
+<tr>
+    <!-- KILL: ${kill['tostring']} -->
+    <!-- kill time -->
+    % if kill['is_loss']:
+    <td class="kb_ship_loss">
+    % else:
+    <td>
+    % endif
+        <span class="kb_time">${kill['killtime_date']}<br />
+            ${kill['killtime_time']}<br />
+            % if kill['killtime_daysago'] < 1:
+            <span class="kb_time_highlight">Сегодня</span>
+            % elif kill['killtime_daysago'] < 2:
+            <span class="kb_time_highlight">Вчера</span>
+            % elif kill['killtime_daysago'] < 7:
+            <span class="kb_time_highlight">${int(kill['killtime_daysago'])} дн. назад</span>
+            % endif
+        </span>
+    </td>
+
+    <!-- victim ship icon -->
+    % if kill['is_loss']:
+    <td class="kb_ship_loss">
+    % else:
+    <td>
+    % endif
+        <center>
+        <a href="#" onclick="javascript:CCPEVE.showInfo(${kill['victim_shiptypeid']}); return false;"
+           onmouseover="Tip('${kill['victim_shiptypename']}');"
+           onmouseout="UnTip();">
+            <img src="img/Types/${kill['victim_shiptypeid']}_32.png"
+               title="${kill['victim_shiptypename']}" /></a>
+        </center>
+    </td>
+
+    <!-- solarsystem -->
+    % if kill['is_loss']:
+    <td class="kb_ship_loss">
+    % else:
+    <td>
+    % endif
+        <a href="https://beta.eve-kill.net/system/${kill['solarsystemid']}/"
+           target="_blank" onmouseover="Tip('Open in EVE-KILL');" onmouseout="UnTip();">
+            ${kill['solarsystemname']}
+        </a>
+        <span style="color: ${kill['solarsystem_sscolor']}">${kill['solarsystem_ss']}</span>
+        <br />
+        ${kill['solarsystem_regionname']}
+    </td>
+
+    <!-- victim corp/ally icon -->
+    <td>
+        <center>
+        % if kill['victim_allyid'] > 0:
+            <a href="#" onclick="javascript:CCPEVE.showInfo(16159, ${kill['victim_allyid']}); return false;"
+               onmouseover="Tip('${kill['victim_allyname']}');" onmouseout="UnTip();"
+               title="${kill['victim_allyname']}">
+            <img src="https://image.eveonline.com/Alliance/${kill['victim_allyid']}_32.png" /></a>
+        % else:
+            <a href="#" onclick="javascript:CCPEVE.showInfo(2, ${kill['victim_corpid']}); return false;"
+               onmouseover="Tip('${kill['victim_corpname']}');" onmouseout="UnTip();"
+               title="${kill['victim_corpname']}">
+            <img src="https://image.eveonline.com/Corporation/${kill['victim_corpid']}_32.png" /></a>
+        % endif
+        </center>
+    </td>
+
+    <!-- victim name, corp/ally name, ship -->
+    <td>
+        % if kill['victim_charname'] != '':
+        <a href="#" onclick="javascript:CCPEVE.showInfo(1377, ${kill['victim_charid']}); return false;">
+            ${kill['victim_charname']}
+        </a> (<span class="kb_ship">${kill['victim_shiptypename']}</span>)
+        % else:
+        ${kill['victim_shiptypename']}
+        % endif
+        <br />
+        <span class="kb_victim">
+            [<a href="#" onclick="javascript:CCPEVE.showInfo(2, ${kill['victim_corpid']}); return false;"
+              title="${kill['victim_corpname']}">${kill['victim_corpname']}</a>]
+            % if kill['victim_allyid'] > 0:
+            &lt;<a href="#" onclick="javascript:CCPEVE.showInfo(16159, ${kill['victim_allyid']}); return false;"
+              title="${kill['victim_allyname']}">${kill['victim_allyname']}</a>&gt;
+            % endif
+        </span>
+    </td>
+    <!-- final blow attacker corp/ally icon -->
+    <td>
+        <center>
+        % if kill['attackers'][0]['allyid'] > 0:
+            <a href="#" onclick="javascript:CCPEVE.showInfo(16159, ${kill['attackers'][0]['allyid']}); return false;"
+               onmouseover="Tip('${kill['attackers'][0]['allyname']}');" onmouseout="UnTip();"
+               title="${kill['attackers'][0]['allyname']}">
+            <img src="https://image.eveonline.com/Alliance/${kill['attackers'][0]['allyid']}_32.png" /></a>
+        % else:
+            <a href="#" onclick="javascript:CCPEVE.showInfo(2, ${kill['attackers'][0]['corpid']}); return false;"
+               onmouseover="Tip('${kill['attackers'][0]['corpname']}');" onmouseout="UnTip();"
+               title="${kill['attackers'][0]['corpname']}">
+            <img src="https://image.eveonline.com/Corporation/${kill['attackers'][0]['corpid']}_32.png" /></a>
+        % endif
+        </center>
+    </td>
+    <!-- attackers -->
+    <td>
+        % for attacker in kill['attackers']:
+            % if loop.first:
+                <img src="img/Types/${attacker['shiptypeid']}_32.png"
+                    title="${attacker['shiptypename']}"
+                    onmouseover="Tip('${attacker['shiptypename']}');" onmouseout="UnTip();" />
+                % if attacker['charname'] != '':
+                    <a href="#" onclick="javascript:CCPEVE.showInfo(1377, ${attacker['charid']}); return false;">
+                    ${attacker['charname']}
+                    </a>
+                % else:
+                    <a href="#" onclick="javascript:CCPEVE.showInfo(${attacker['shiptypeid']}); return false;">
+                    ${attacker['shiptypename']}
+                    </a>
+                % endif
+                <!-- FB attacker corp/ally -->
+                <span class="kb_victim">
+                    [<a href="#" onclick="javascript:CCPEVE.showInfo(2, ${attacker['corpid']}); return false;"
+                      title="${attacker['corpname']}">${attacker['corpname']}</a>]
+                    % if attacker['allyid'] > 0:
+                    &lt;<a href="#" onclick="javascript:CCPEVE.showInfo(16159, ${attacker['allyid']}); return false;"
+                      title="${attacker['allyname']}">${attacker['allyname']}</a>&gt;
+                    % endif
+                </span>
+                <br />
+                % if len(kill['attackers']) > 1:
+                    <span class="kb_attackers">
+                    +${len(kill['attackers'])-1}:
+                % endif
+            % else:
+                % if attacker['charname'] != '':
+                    <a href="#" onclick="javascript:CCPEVE.showInfo(1377, ${attacker['charid']}); return false;">
+                    ${attacker['charname']}
+                    </a>
+                % else:
+                    <a href="#" onclick="javascript:CCPEVE.showInfo(${attacker['shiptypeid']}); return false;">
+                    ${attacker['corpname']}/${attacker['shiptypename']}
+                    </a>
+                % endif
+                % if not loop.last:
+                    ,
+                % endif
+            % endif
+        % endfor
+        % if len(kill['attackers']) > 1:
+            </span> <!-- kb_attackers -->
+        % endif
+    </td>
+    <!-- links -->
+    <td>
+        <a href="https://beta.eve-kill.net/kill/${kill['killid']}/" target="_blank">EVE-KILL</a><br />
+        <a href="https://zkillboard.com/kill/${kill['killid']}/" target="_blank">ZKB</a><br />
+    </td>
+</tr>
+% endfor
+</table>
+
+</div>

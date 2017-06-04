@@ -1,0 +1,198 @@
+## -*- coding: utf-8 -*-
+
+<%!
+    from classes.utils import dotted_number
+%>
+
+<%def name="print_wave(wave)">
+  % if wave.is_capital:
+  Кап. доресп волна ${wave.wave_id}:
+  % else:
+  Волна ${wave.wave_id}:
+ % endif
+  <img src="img/sigs/dps.png" width="22" />
+  <span class="sig_dps">${wave.total_dps}</span> DPS,
+<img src="img/sigs/wreck.png" width="20" />
+  <span class="sig_isk">${wave.total_isk | dotted_number}</span> ISK
+    <ul>
+        % for sl in wave.sleepers:
+        <li>
+            ${sl.count}
+            <img src="img/sleepers/icons/${sl.size}.png" />
+            <a href="./?mode=sleeper&amp;id=${sl.id}" target="_blank">${sl.name}</a>
+            % for abil in sl.abilities:
+            <img src="img/sleepers/icons/${abil}.png" width="22" />
+            % endfor
+            % if sl.is_trigger:
+            <font color="#FF2222"><b>TRIGGER</b></font>
+            % endif
+        </li>
+        % endfor
+    </ul>
+</%def>
+
+
+% if sig.is_valid():
+## single signature info
+<div class="signature_info">
+    % if len(sigs)>0:
+    <div class="whsys_signatures_info">
+        <span class="infoblock_header_text">
+            % if sig.wh_class == 12:
+            Сигнатуры и аномалии Теры:
+            % elif sig.wh_class == 13:
+            Сигнатуры и аномалии фриг-ВХ:
+            % elif (sig.wh_class >= 1) and (sig.wh_class <= 6):
+            Сигнатуры и аномалии ${sig.wh_class} класса:
+            % elif (sig.wh_class >= -6) and (sig.wh_class <= -1):
+            Сигнатуры и аномалии ${(-1) * sig.wh_class} класса:
+            % else:
+            Другие сигнатуры того же типа:
+            % endif
+        </span><br />
+        <ul>
+        % for a_sig in sigs:
+            <li>
+                <img src="img/sigs/${a_sig['sig_type']}_site.png" width="20" />
+                <a href="./?mode=sig&amp;id=${a_sig['id']}">${a_sig['sig_name']}</a><br />
+            </li>
+        % endfor
+        </ul>
+    </div>
+    % endif
+
+    <h2><img src="img/sigs/${sig.sig_type}_site.png" />${sig.name}, ${sig.sig_type}
+    % if sig.wh_class == 12:
+        , Thera
+    % elif sig.wh_class == 13:
+        , frig-shattered
+    % elif (sig.wh_class >= 1) and (sig.wh_class <= 6):
+        , class ${sig.wh_class}
+    % elif (sig.wh_class >= -6) and (sig.wh_class <= -1):
+        , class ${(-1) * sig.wh_class} shattered
+    % endif
+    </h2>
+
+    % if sig.is_oregas():
+    <p>Слиперы появляются примерно через 20 минут после активации сигнатуры.</p>
+    % endif
+
+    % for wave in sig.waves:
+    ${print_wave(wave)}
+    % endfor
+
+    % if sig.is_gas():
+        Газовые облака:<br/>
+        <ul>
+        % for gas in sig.gas_clouds:
+            <li>
+                <img src="img/Types/${gas.typeid}_32.png" />
+                <b><a href="#" onclick="javascript:CCPEVE.showInfo(${gas.typeid}); return false;">${gas.friendlyName}</a></b>
+                * <span class="sig_ehp">${gas.count}</span>,
+                всего <span class="sig_isk">${gas.total_price | dotted_number}</span> ISK
+                (<span class="sig_isk">${round(gas.price1piece) | dotted_number}</span> ISK/единица)<br />
+                Полная вентура: <span class="sig_isk">${gas.full_venture_price | dotted_number}</span> ISK
+                (<b>${gas.volume1piece}</b> m3 единица, <b>${gas.num_pcs_in_venture}</b> единиц всего)
+                <br />
+                Копка на вентуре: <span class="sig_isk">${gas.isk_per_hour_venture | dotted_number}</span> ISK/час.
+            </li>
+        % endfor
+        </ul>
+        Полный выхлоп с облаков: <span class="sig_isk">${sig.total_isk_oregas | dotted_number}</span> ISK<br />
+        (обновление цен с EVE-Central раз в сутки, продажная в Jita)<br />
+        (Время заполнения вентуры с 2 x
+        <a href="#" onclick="javascript:CCPEVE.showInfo(25812); return false;">Gas Cloud Harvester II</a>,
+        <a href="#" onclick="javascript:CCPEVE.showInfo(32918); return false;">Mining Frigate V</a>,
+        без бонусов = <span class="sig_ehp">31</span> мин.)<br />
+    % elif sig.is_ore():
+        Рудные астероиды:<br/>
+        <ul>
+        % for ore in sig.ore_rocks:
+            <li>
+                <img src="img/Types/${ore.typeid}_32.png" />
+                <b><a href="#" onclick="javascript:CCPEVE.showInfo(${ore.typeid}); return false;">${ore.name}</a></b>
+                * <span class="sig_ehp">${ore.count}</span>
+            </li>
+        % endfor
+        </ul>
+    % endif
+
+    <br />
+    <br />
+    <hr />
+
+    <ul>
+        <li>
+            Total: <img src="img/sigs/wreck.png" width="20" />
+            <span class="sig_isk">${sig.total_isk | dotted_number}</span> ISK
+        </li>
+        <li>
+            Total: <img src="img/sigs/ehp2.png" width="22" />
+            <span class="sig_ehp">${sig.total_ehp | dotted_number}</span> EHP</li>
+        <li>
+            ISK/EHP: <b>${sig.isk_per_ehp | dotted_number}</b>
+        </li>
+        <li>
+            <img src="img/sigs/dps.png" width="22" />100 dps:
+            <span class="sig_isk">${sig.isk_per_hour_per_100dps | dotted_number}</span> ISK/hour
+        </li>
+        <li>
+            <img src="img/sigs/dps.png" width="22" />500 dps:
+            <span class="sig_isk">${sig.isk_per_hour_per_500dps | dotted_number}</span> ISK/hour
+        </li>
+    </ul>
+</div>
+
+% else:
+## all signatures info:
+
+<%def name="print_sigs_list(sigs_list)">
+    <ul>
+    % for a_sig in sigs_list:
+        <li>
+            <img src="img/sigs/${a_sig['sig_type']}_site.png" width="20" />
+            <a href="./?mode=sig&amp;id=${a_sig['id']}">${a_sig['sig_name']}</a><br />
+        </li>
+    % endfor
+    </ul>
+</%def>
+
+<%def name="print_sigs_for_class(sigs_list, whclass)">
+    <span class="infoblock_header_text">Сигнатуры и аномалии ${whclass} класса:</span><br />
+    ${print_sigs_list(sigs_list)}
+</%def>
+
+<table width="100%">
+    <tr>
+        <td>${print_sigs_for_class(sigs_c1,1)}</td>
+        <td>${print_sigs_for_class(sigs_c2,2)}</td>
+        <td>${print_sigs_for_class(sigs_c3,3)}</td>
+    </tr>
+    <tr>
+        <td>${print_sigs_for_class(sigs_c4,4)}</td>
+        <td>${print_sigs_for_class(sigs_c5,5)}</td>
+        <td>${print_sigs_for_class(sigs_c6,6)}</td>
+    </tr>
+    <tr>
+        <td valign="top">
+            <span class="infoblock_header_text">Рудные аномальки / Ore sites:</span><br />
+            ${print_sigs_list(sigs_ore)}
+        </td>
+        <td valign="top">
+            <span class="infoblock_header_text">Газы / Gas sites:</span><br />
+            ${print_sigs_list(sigs_gas)}
+        </td>
+        <td valign="top">
+            <span class="infoblock_header_text">Аномалии в Thera:</span><br />
+            ${print_sigs_list(sigs_thera)}
+        </td>
+    </tr>
+</table>
+
+% endif
+
+
+% if sig_dbg is not None:
+<br />
+<div class="dev_data_dump">Signature debug info: <pre>${sig_dbg | h}</pre></div>
+% endif
