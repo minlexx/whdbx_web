@@ -26,6 +26,9 @@ class TemplateEngine:
         if vname in self._args:
             self._args.pop(vname)
 
+    def unassign_all(self):
+        self._args = dict()
+
     def render(self, tname):
         tmpl = self._lookup.get_template(tname)
         return tmpl.render(**self._args)
