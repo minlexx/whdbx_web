@@ -3,7 +3,7 @@
 import configparser
 
 
-class SiteCfg:
+class SiteConfig:
     def __init__(self, cfg_filename='whdbx_config.ini'):
         self.DEBUG = False
         self.EMULATE = False
