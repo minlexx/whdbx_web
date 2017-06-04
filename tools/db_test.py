@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from classes import cfg
+from classes import sitecfg
 from classes import sitedb
 
 
-c = cfg.SiteCfg()
+c = sitecfg.SiteCfg()
 db = sitedb.SiteDb(c)
 
 # ret = db.find_route(30003067, 30002187)  # Amarr
