@@ -1,0 +1,9 @@
+.directory
+.idea
+__pycache__
+_caches/api/*.xml
+_caches/prices/*.json
+_caches/routes/*.json
+_caches/templates/*.py
+_caches/zkb/*.json
+reported_statics.txt
