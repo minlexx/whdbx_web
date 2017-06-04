@@ -1,0 +1,33 @@
+SELECT class,star,planet,moon,effect,static_1,static_2 FROM wormholesystems WHERE solarsystemid = 31001947;
+
+SELECT ss.solarSystemName, ss.security, ss.radius, ss.regionID, ss.constellationID, mr.itemName as regionName, mc.itemName as constellationName  FROM mapsolarsystems ss  JOIN mapdenormalize mr ON mr.itemID = ss.regionID  JOIN mapdenormalize mc ON mc.itemID = ss.constellationID WHERE ss.solarsystemid = 31001947;
+
+------------------------------------------
+control tower dogmas
+
+-- 365 = goupID control tower
+-- 478 = marketGroupID control towers
+-- Amarr control tower = 12235
+
+-- 1031 attributeId control tower size
+-- 1233 attributeId strontium bay
+
+SELECT dat.attributeName, dta.attributeid, dta.valueInt, dta.valueFloat, dat.description
+  FROM dgmTypeAttributes dta
+  JOIN dgmAttributeTypes dat ON dat.attributeID=dta.attributeID
+  WHERE dta.typeID=12235;
+
+-- take capacity from invTypes table (fule bay)
+-- strontium bay from dogmas
+
+--  Fuel Usage
+--Type                      Size    No Sov  With Sov
+--Empire                    Large   40      30
+--Empire                    Medium  20      15
+--Empire                    Small   10      7?
+--Serpentis/Guristas/etc    Large   36      27
+--Serpentis/Guristas/etc    Medium  18      14
+--Serpentis/Guristas/etc    Small   9       7
+--Dark Blood/Dread          Large   32      24
+--Dark Blood/Dread          Medium  16      12
+--Dark Blood/Dread          Small   8       6 
