@@ -1,0 +1,369 @@
+body {
+    font-family: Calibri, Tahoma, Verdana, Sans;
+    font-size: 13px;
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+img {
+    border: 0px;
+    vertical-align: middle;
+}
+
+a:link {
+    color: #FFA600;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:visited {
+    color: #FFA600;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #FFFF00;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+a:active {
+    color: #FFFF00;
+    text-decoration: underline;
+}
+
+.igb_warning {
+    border: 2px solid #FF0000;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    padding: 10px;
+    color: #FFAAAA;
+    background-color: #221111;
+}
+
+.menu_block {
+    border: 1px solid #550099;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.character_info {
+    border: 1px solid #550099;
+    padding: 10px;
+    font-size: 14px;
+}
+
+td.character_info {
+    text-align: center;
+    padding: 2px;
+    border: 0px;
+    font-size: 12px;
+    width: 70px;
+    vertical-align: top;
+}
+
+.fast_search_block {
+    border: 0px solid #550099;
+    padding: 2px 30px 2px 50px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.fast_search_result {
+    display: inline;
+}
+
+.short_history_block {
+    border: 0px solid #550099;
+    padding: 2px 2px 2px 2px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.corp_menu_block {
+    border: 0px solid #550099;
+    padding: 2px;
+    width: 150px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.solarsystem_info_wrapper {
+    border: 1px solid #550099;
+    margin: 0px;
+    padding: 0px;
+}
+
+.solarsystem_info {
+    border: 0px;
+    padding: 10px;
+    font-size: 14px;
+    display: block;
+    width: 90%;
+}
+
+.whsys_signatures_info {
+    border: 0px solid green;
+    padding: 10px;
+    font-size: 14px;
+    /*display: inline-block;*/
+    display: block;
+    width: 40%;
+    float: right;
+}
+
+.infoblock_header_text {
+    font-size: 16px;
+    font-weight: bold;
+    color: #8899FF;
+}
+
+.info_hl {
+    font-weight: bold;
+    color: #8899FF;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.static_name {
+    font-weight: bold;
+    color: #FFA600;
+    cursor: pointer;
+}
+
+.newwh_comment {
+    font-style: italic;
+    font-size: 13px;
+    color: #AAFFAA;
+}
+
+.ss_route_block {
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.effect_icon {
+    border: 0px;
+    vertical-align: middle;
+    width: 32px;
+    height: 32px;
+}
+
+.effect_value {
+    font-weight: bold;
+    color: #FFFF00;
+}
+
+.effect_table {
+    border: 1px solid #444444;
+    border-collapse: collapse;
+    width: 90%;
+}
+
+.effect_table_bg_light {
+    background-color: #222222;
+}
+
+.effect_table_bg_dark {
+    background-color: #111111;
+}
+
+.sleeper_info {
+    border: 1px solid #550099;
+    padding: 10px;
+    font-size: 14px;
+}
+
+td.sleeper_info1 {
+    border: 0px;
+    padding: 5px;
+    vertical-align: top;
+}
+
+td.sleeper_info2 {
+    border: 0px;
+    padding: 5px;
+}
+
+.sleeper_info h1 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.sleeper_info p {
+    color: #8899FF;
+}
+
+.signature_info {
+    border: 1px solid #550099;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.sig_dps {
+    font-weight: bold;
+    color: #FF6666;
+}
+
+.sig_ehp {
+    font-weight: bold;
+    color: #FFFF44;
+}
+
+.sig_isk {
+    font-weight: bold;
+    color: #66FF66;
+}
+
+.corp_pos_info_wrapper {
+    border: 1px solid #550099;
+    margin: 0px;
+    padding: 20px;
+}
+.corp_pos_info_wrapper h1 {color: #8899FF;}
+.corp_pos_table {
+    border: 1px solid #666666;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 13px;
+}
+.corp_pos_table th {
+    border: 1px solid #666666;
+    padding: 5px;
+    color: #AABBFF;
+    background-color: #222222;
+}
+.corp_pos_table td {
+    border: 1px solid #666666;
+    padding: 5px;
+}
+.corp_pos_hl { font-weight: bold; color: #FFFF00; }
+.corp_pos_positive { font-weight: bold; color: #00FF00; }
+.corp_pos_negative { font-weight: bold; color: #FF0000; }
+
+
+.lk_wrapper {
+    border: 1px solid #550099;
+    margin: 0px;
+    padding: 20px;
+}
+.lk_wrapper h1 {color: #8899FF;}
+.lk_reg_table {
+    border: 0px solid #666666;
+    border-collapse: collapse;
+    width: 100%;
+}
+.lk_reg_table td {
+    border: 0px solid #666666;
+    padding: 5px;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+.sec_color_10 { color: #33ffff; }
+.sec_color_9 { color: #4cffcc; }
+.sec_color_8 { color: #00ff4c; }
+.sec_color_7 { color: #00ff00; }
+.sec_color_6 { color: #99ff33; }
+.sec_color_5 { color: #ffff00; }
+.sec_color_4 { color: #e57f00; }
+.sec_color_3 { color: #ff6600; }
+.sec_color_2 { color: #ff4c00; }
+.sec_color_1 { color: #e53300; }
+.sec_color_0 { color: #ff0000; }
+
+.zkb_table {
+    border: 1px solid #222222;
+    border-collapse: collapse;
+    width: 100%;
+}
+.zkb_table td {
+    border: 1px solid #222222;
+    border-collapse: collapse;
+    padding: 5px;
+    font-size: 14px;
+}
+.zkb_table_False { background-color: #191919; }
+.zkb_table_True { background-color: #0A0A0A; }
+.zkb_table_kill_False { background-color: #003300; }
+.zkb_table_kill_True { background-color: #002200; }
+.zkb_table_loss_False { background-color: #330000; }
+.zkb_table_loss_True { background-color: #220000; }
+
+.zkb_time { color: #BBBBBB; font-size: 12px; }
+.zkb_ship { color: #0088BB; font-size: 13px; font-weight: normal; }
+.zkb_time_hl { color: #FF0000; font-size: 12px; font-weight: bold; }
+.zkb_victim { color: #FFFFFF; font-size: 13px; font-weight: normal; }
+.zkb_att_hl { color: #AAAAAA; font-size: 12px; font-weight: bold; }
+.zkb_totalvalue { color: #FFFF00; font-size: 13px; font-weight: normal; }
+
+.zkb_corpstats_table {
+    border: 1px solid #222222;
+    border-collapse: collapse;
+}
+.zkb_corpstats_table th {
+    border: 1px solid #222222;
+    border-collapse: collapse;
+    background-color: #222222;
+    padding: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
+.zkb_corpstats_table td {
+    border: 1px solid #222222;
+    border-collapse: collapse;
+    padding: 4px;
+    font-size: 14px;
+}
+.zkb_corpstats_kills { font-weight: bold; color: #00FF00; }
+.zkb_corpstats_losses { font-weight: bold; color: #FF0000; }
+
+.kb_table {
+    border: 1px solid #222222;
+    border-collapse: collapse;
+    width: 100%;
+    color: #888888;
+}
+.kb_table td {
+    border: 1px solid #222222;
+    border-collapse: collapse;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: normal;
+}
+.kb_table th {
+    border: 1px solid #222222;
+    border-collapse: collapse;
+    padding: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #444444;
+}
+.kb_time { color: #BBBBFF; font-size: 12px; }
+.kb_time_highlight { color: #FF8888; font-size: 11px; font-weight: bold; }
+.kb_ship { color: #0088BB; font-size: 13px; font-weight: normal; }
+.kb_ship_kill { background-color: #003300; }
+.kb_ship_loss { background-color: #220000; }
+.kb_victim { font-size: 12px; font-weight: normal; }
+.kb_attackers { color: #AAAAAA; font-size: 12px; font-weight: bold; }
+
+.dev_data_dump {
+    border: 1px solid #00FF00;
+    padding: 2px;
+    background-color: #112211;
+    font-family: Lucida Console, Monospace, Courier New;
+    font-size: 11px;
+    color: #AAFFAA;
+}
+
+.credits {
+    font-size: 10px;
+    color: #444444;
+    font-style: italic;
+}
