@@ -10,6 +10,7 @@ import cherrypy
 from cherrypy._cpdispatch import Dispatcher
 
 from classes.sitecfg import SiteConfig
+from classes.template_engine import TemplateEngine
 
 
 class WhdbxCustomDispatcher(Dispatcher):
@@ -23,6 +24,7 @@ class WhdbxMain:
         p = pathlib.Path(os.path.dirname(os.path.abspath(__file__)))
         self.rootdir = p.as_posix()
         self.cfg = SiteConfig()
+        self.tmpl = TemplateEngine(self.cfg)
         cherrypy.log('Whdbx started, rootdir=[{}]'.format(self.rootdir))
 
     @cherrypy.expose()
