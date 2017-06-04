@@ -77,11 +77,16 @@ if __name__ == '__main__':
         'engine.autoreload.on': True
     })
 
+    rootdir = p = pathlib.Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
+
     whdbx_config = {
         '/': {
             'request.dispatch': WhdbxCustomDispatcher(),
             'tools.sessions.on': True,
-            'tools.staticdir.root': os.path.abspath(os.getcwd())
+            'tools.sessions.storage_class': cherrypy.lib.sessions.FileSession,
+            'tools.sessions.storage_path': rootdir + "/sessions",
+            'tools.sessions.timeout': 30*24*3600,  # month
+            'tools.staticdir.root': rootdir
         },
         '/static': {
             'tools.staticdir.on': True,
