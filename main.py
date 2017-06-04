@@ -3,6 +3,8 @@
 import json
 import datetime
 import os
+import os.path
+import pathlib
 
 import cherrypy
 from cherrypy._cpdispatch import Dispatcher
@@ -16,7 +18,9 @@ class WhdbxCustomDispatcher(Dispatcher):
 
 class WhdbxMain:
     def __init__(self):
-        pass
+        p = pathlib.Path(os.path.dirname(os.path.abspath(__file__)))
+        self.rootdir = p.as_posix()
+        cherrypy.log('Whdbx started, rootdir=[{}]'.format(self.rootdir))
 
     @cherrypy.expose()
     def index(self):
