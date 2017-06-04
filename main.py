@@ -54,12 +54,12 @@ class WhdbxMain:
         else:
             self.tmpl.assign('URL_APPEND_EMULATE', '')
         # TODO: assign crest data
-        self.tmpl.assign('HAVE_CREST', 'false')
-        #self.tmpl.assign('char', self.igb.get_char())
-        #self.tmpl.assign('ssys', self.igb.get_solarsystem())
-        #self.tmpl.assign('corp', self.igb.get_corp())
-        #self.tmpl.assign('ship', self.igb.get_ship())
-        #self.tmpl.assign('station', self.igb.get_station())
+        self.tmpl.assign('HAVE_SSO_LOGIN', 'false')
+        self.tmpl.assign('char', {})
+        self.tmpl.assign('ssys', {})
+        self.tmpl.assign('corp', {})
+        self.tmpl.assign('ship', {})
+        self.tmpl.assign('station', {})
         # this can be used in any page showing header.html, so set default it here
         self.tmpl.assign('last_visited_systems', list())  # empty list
         # TODO: self.fill_last_visited_systems()

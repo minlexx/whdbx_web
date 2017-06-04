@@ -1,6 +1,6 @@
 ## -*- coding: utf-8 -*-
 
-% if HAVE_CREST=='true':
+% if HAVE_SSO_LOGIN == 'true':
 
 <div class="character_info">
 
@@ -44,12 +44,6 @@
             <td class="character_info">
             <%include file="short_history_block.html"/>
             </td>
-            % if IS_OUR_CORP:
-            <!-- corp menu block -->
-            <td class="character_info">
-            <%include file="corp_menu_block.html"/>
-            </td>
-            % endif
         </tr>
     </table>
 
