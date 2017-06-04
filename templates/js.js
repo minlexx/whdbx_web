@@ -1,15 +1,5 @@
 ## -*- coding: utf-8 -*-
 
-var IS_IGB = ${IS_IGB};
-var IS_IGB_TRUSTED = ${IS_IGB_TRUSTED};
-
-
-function checkTrust() {
-    if( IS_IGB && !IS_IGB_TRUSTED ) {
-        CCPEVE.requestTrust( '${TRUST_URI}' );
-    }
-}
-
 
 function showhide(id) {
     var element = document.getElementById(id);
