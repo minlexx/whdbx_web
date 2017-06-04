@@ -27,9 +27,47 @@ class WhdbxMain:
         self.tmpl = TemplateEngine(self.cfg)
         cherrypy.log('Whdbx started, rootdir=[{}]'.format(self.rootdir))
 
+    def debugprint(self) -> str:
+        res = ''
+        cherrypy.response.headers['Content-Type'] = 'text/plain; charset=utf-8'
+        res += 'use evekill: ' + str(self.cfg.ZKB_USE_EVEKILL)
+        res += str(os.environ)
+        return res
+
+    # call this if any input error
+    def display_failure(self, comment: str = None) -> str:
+        if comment:
+            self.tmpl.assign('error_comment', comment)
+        res = self.tmpl.render('header.html')
+        res += self.tmpl.render('failure.html')
+        res += self.tmpl.render('footer.html')
+        return res
+
+    def setup_template_vars(self, page: str = ''):
+        self.tmpl.unassign_all()
+        self.tmpl.assign('title', 'WHDBX')
+        self.tmpl.assign('error_comment', '')  # should be always defined!
+        self.tmpl.assign('MODE', page)
+        self.tmpl.assign('sitecfg', self.cfg)
+        if self.cfg.EMULATE:
+            self.tmpl.assign('URL_APPEND_EMULATE', '&amp;EMULATE=1')
+        else:
+            self.tmpl.assign('URL_APPEND_EMULATE', '')
+        # TODO: assign crest data
+        #self.tmpl.assign('IS_IGB', 'false')
+        #self.tmpl.assign('char', self.igb.get_char())
+        #self.tmpl.assign('ssys', self.igb.get_solarsystem())
+        #self.tmpl.assign('corp', self.igb.get_corp())
+        #self.tmpl.assign('ship', self.igb.get_ship())
+        #self.tmpl.assign('station', self.igb.get_station())
+        # this can be used in any page showing header.html, so set default it here
+        self.tmpl.assign('last_visited_systems', list())  # empty list
+        # TODO: self.fill_last_visited_systems()
+
     @cherrypy.expose()
     def index(self):
-        return 'index'
+        self.setup_template_vars('index')
+        return self.tmpl.render('index.html')
 
 
 if __name__ == '__main__':
