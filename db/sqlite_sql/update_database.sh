@@ -4,11 +4,10 @@
 # path/command of sqlite3 executable
 SQLITE3_EXE=sqlite3
 # database file name to update
-DB_FILENAME=eve-frostline.db
+DB_FILENAME=eve.db
 # list of SQL scripts to execute
 SQL_FILES=( \
 	"effects_new.sql" \
-	"pos_fuel_data.sql" \
 	"signature_oregas.sql" \
 	"signatures.sql" \
 	"signature_waves.sql" \
@@ -16,6 +15,7 @@ SQL_FILES=( \
 	"wanderingwormholes.sql" \
 	"wormholeclassifications.sql" \
 	"wormholesystems_new.sql" \
+	"user_reported_statics.sql" \
 )
 
 # ===== do not edit below this line =====
