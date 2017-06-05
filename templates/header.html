@@ -2,26 +2,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf8" />
-<title>${title}</title>
-<link rel="stylesheet" media="screen" type="text/css" href="static/css/main.css" />
-<script type="text/javascript">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
+  <title>${title}</title>
+  <link rel="icon" type="image/vnd.microsoft.icon" href="/static/favicon.ico" />
+  <link rel="stylesheet" media="screen" type="text/css" href="static/css/main.css" />
+  <script type="text/javascript">
 <%include file="js.js"/>
-</script>
+  </script>
 </head>
 
 <body>
-<!-- wz_toltip must be included inside body section! -->
-<script type="text/javascript" src="static/js/wz_toolt.js"></script>
-<script type="text/javascript">
-config.Delay = 200
-config.BgColor = '#330066'; // Background colour (HTML colour value, in quotes)
-config.BorderWidth = 1;
-config.BorderColor = '#AA88FF';
-config.BorderStyle = 'solid'; // Any permitted CSS value, but I recommend 'solid', 'dotted' or 'dashed'
-config.FontColor = '#FFFFFF';
-config.Padding = 3; // Spacing between border and content
-</script>
+  <!-- wz_toltip must be included inside body section! -->
+  <script type="text/javascript" src="static/js/wz_toolt.js"></script>
+  <script type="text/javascript">
+  config.Delay = 200
+  config.BgColor = '#330066'; // Background colour (HTML colour value, in quotes)
+  config.BorderWidth = 1;
+  config.BorderColor = '#AA88FF';
+  config.BorderStyle = 'solid'; // Any permitted CSS value, but I recommend 'solid', 'dotted' or 'dashed'
+  config.FontColor = '#FFFFFF';
+  config.Padding = 3; // Spacing between border and content
+  </script>
 
 <%include file="char_info.html"/>
 <%include file="menu_main.html"/>
