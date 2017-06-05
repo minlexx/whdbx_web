@@ -138,7 +138,7 @@ if __name__ == '__main__':
         'engine.autoreload.on': True
     })
 
-    rootdir = p = pathlib.Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
+    rootdir = pathlib.Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
 
     whdbx_config = {
         '/': {
