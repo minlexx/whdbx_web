@@ -54,6 +54,7 @@ class WhdbxMain:
             self.tmpl.assign('URL_APPEND_EMULATE', '')
         # TODO: assign crest data
         self.tmpl.assign('HAVE_SSO_LOGIN', 'false')
+        self.tmpl.assign('SSO_LOGIN_URL', self.cfg.sso_login_url(''))
         self.tmpl.assign('char', {})
         self.tmpl.assign('ssys', {})
         self.tmpl.assign('corp', {})

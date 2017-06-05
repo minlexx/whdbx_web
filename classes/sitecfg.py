@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import configparser
+import urllib.parse
 
 
 class SiteConfig:
@@ -64,3 +65,17 @@ class SiteConfig:
             self.SSO_SECRET_KEY = str(cfg['sso']['secret_key'])
             self.SSO_SCOPES = str(cfg['sso']['scopes'])
             self.SSO_CALLBACK_URL = str(cfg['sso']['callback_url'])
+
+    def sso_login_url(self, optional_state: str = ''):
+        url = 'https://login.eveonline.com/oauth/authorize'
+        url += '?response_type=code'
+        url += '&redirect_uri='
+        url += urllib.parse.quote_plus(self.SSO_CALLBACK_URL)
+        url += '&client_id='
+        url += urllib.parse.quote_plus(self.SSO_CLIENT_ID)
+        url += '&scope='
+        url += urllib.parse.quote_plus(self.SSO_SCOPES)
+        if optional_state != '':
+            url += '&state='
+            url += optional_state
+        return url
