@@ -1,8 +1,13 @@
 ## -*- coding: utf-8 -*-
+<%include file="header.html"/>
 
-<blockquote>
+<div class="solarsystem_info_wrapper">
+  <blockquote>
     <h2>Увы и ах, возникла ошибка</h2>
 % if error_comment != '':
     ${error_comment}
 % endif
-</blockquote>
+  </blockquote>
+</div>
+
+<%include file="footer.html"/>
