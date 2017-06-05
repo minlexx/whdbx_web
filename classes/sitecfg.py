@@ -69,13 +69,13 @@ class SiteConfig:
     def sso_login_url(self, optional_state: str = ''):
         url = 'https://login.eveonline.com/oauth/authorize'
         url += '?response_type=code'
-        url += '&redirect_uri='
+        url += '&amp;redirect_uri='
         url += urllib.parse.quote_plus(self.SSO_CALLBACK_URL)
-        url += '&client_id='
+        url += '&amp;client_id='
         url += urllib.parse.quote_plus(self.SSO_CLIENT_ID)
-        url += '&scope='
+        url += '&amp;scope='
         url += urllib.parse.quote_plus(self.SSO_SCOPES)
         if optional_state != '':
-            url += '&state='
+            url += '&amp;state='
             url += optional_state
         return url
