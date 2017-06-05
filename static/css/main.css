@@ -52,7 +52,8 @@ a:active {
 .character_info {
     border: 1px solid #550099;
     padding: 10px;
-    font-size: 14px;
+    font-size: 13px;
+    color: #AAAAAA;
 }
 
 td.character_info {
