@@ -69,6 +69,12 @@ class WhdbxMain:
         self.setup_template_vars('index')
         return self.tmpl.render('index.html')
 
+    @cherrypy.expose()
+    def eve_sso_callback(self, code):
+        self.tmpl.unassign_all()
+        s = 'code=' + code
+        return s
+
 
 if __name__ == '__main__':
     cherrypy.config.update({
