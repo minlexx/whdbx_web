@@ -14,6 +14,7 @@ import requests.exceptions
 
 from classes.sitecfg import SiteConfig
 from classes.template_engine import TemplateEngine
+from classes.database import SiteDb
 
 
 class WhdbxCustomDispatcher(Dispatcher):
@@ -27,6 +28,7 @@ class WhdbxMain:
         self.rootdir = pathlib.Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
         self.cfg = SiteConfig()
         self.tmpl = TemplateEngine(self.cfg)
+        self.db = SiteDb(self.cfg)
         cherrypy.log('Whdbx started, rootdir=[{}]'.format(self.rootdir))
 
     def debugprint(self) -> str:
@@ -81,6 +83,15 @@ class WhdbxMain:
         self.init_session()
         self.setup_template_vars('index')
         return self.tmpl.render('index.html')
+
+    @cherrypy.expose()
+    def effects(self):
+        self.init_session()
+        self.setup_template_vars('effects')
+        effs = self.db.select_all_effects()
+        self.tmpl.assign('effects', effs)
+        self.tmpl.assign('title', 'Эффекты - WHDBX')
+        return self.tmpl.render('effects.html')
 
     @cherrypy.expose()
     def eve_sso_callback(self, code, state):
