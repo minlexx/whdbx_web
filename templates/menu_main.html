@@ -5,18 +5,18 @@
 <div class="menu_block">
 <center>
   % if MODE == 'default':
-  <img src="static/img/refresh.png" width="16" />
+  <img src="/static/img/refresh.png" width="16" />
     % if HAVE_SSO_LOGIN == 'true':
-    <a href="./?${URL_APPEND_EMULATE}">ТЕКУЩАЯ СИСТЕМА</a>
+    <a href="/?${URL_APPEND_EMULATE}">ТЕКУЩАЯ СИСТЕМА</a>
     % else:
-    <a href="./?${URL_APPEND_EMULATE}">ПОИСК СИСТЕМЫ</a>
+    <a href="/?${URL_APPEND_EMULATE}">ПОИСК СИСТЕМЫ</a>
     % endif
-  <img src="static/img/refresh.png" width="16" /> |
+  <img src="/static/img/refresh.png" width="16" /> |
   % else:
   %   if HAVE_SSO_LOGIN == 'true':
-  <a href="./?${URL_APPEND_EMULATE}">ТЕКУЩАЯ СИСТЕМА</a> |
+  <a href="/?${URL_APPEND_EMULATE}">ТЕКУЩАЯ СИСТЕМА</a> |
   %   else:
-  <a href="./?${URL_APPEND_EMULATE}">ПОИСК СИСТЕМЫ</a> |
+  <a href="/?${URL_APPEND_EMULATE}">ПОИСК СИСТЕМЫ</a> |
   %   endif
   % endif
 
@@ -25,10 +25,10 @@
   <div class="fast_search_result" id="fast_search_result"></div> |
   % endif
 
-  <a href="./signatures/?id=all${URL_APPEND_EMULATE}">СИГНАТУРКИ</a> |
-  <a href="./sleepers/?id=all${URL_APPEND_EMULATE}">СЛИПЕРЫ</a> |
-  <a href="./effects/?${URL_APPEND_EMULATE}">ЭФФЕКТЫ</a> |
-  <a href="./whdb/?${URL_APPEND_EMULATE}">БАЗА ВХ</a>
+  <a href="/signatures/?id=all${URL_APPEND_EMULATE}">СИГНАТУРКИ</a> |
+  <a href="/sleepers/?id=all${URL_APPEND_EMULATE}">СЛИПЕРЫ</a> |
+  <a href="/effects/?${URL_APPEND_EMULATE}">ЭФФЕКТЫ</a> |
+  <a href="/whdb/?${URL_APPEND_EMULATE}">БАЗА ВХ</a>
 </center>
 </div>
 <!-- ------------------------------- -->
