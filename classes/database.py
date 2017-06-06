@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from . import sitecfg
-import sqlite3
 import json
+import sqlite3
+import threading
+
+from . import sitecfg
 
 
 # WH class value constants
@@ -68,12 +70,13 @@ def get_ss_security_color(security_level: float):
 
 class SiteDb:
     def __init__(self, siteconfig: sitecfg.SiteConfig):
-        self._conn = sqlite3.connect(siteconfig.EVEDB)
+        self._conn = sqlite3.connect(siteconfig.EVEDB, check_same_thread=False)
         # vars for route finding
         self._jumps_cache = dict()  # db cache
         self._jumps_max_jumps = 0
         self._jumps_min_route_len = 9999
         self._routes_cache_dir = siteconfig.ROUTES_CACHE_DIR
+        self._write_lock = threading.Lock()
 
     def connection_handle(self):
         return self._conn
@@ -121,10 +124,15 @@ class SiteDb:
         select_wh_query_new = (
             'UPDATE wormholesystems_new SET statics = ? '
             ' WHERE solarsystemid = ?')
+        # get write lock
+        self._write_lock.acquire()
+        #
         cursor = self._conn.cursor()
         cursor.execute(select_wh_query_new, (statics_str, ssys_id))
         self._conn.commit()
         cursor.close()
+        # release lock
+        self._write_lock.release()
 
     def query_solarsystem(self, ssys_id: int):
         ccp_q = (
