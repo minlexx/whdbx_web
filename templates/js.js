@@ -84,7 +84,10 @@ function jsystem_search_handler() {
     }
     if( (resp != '') && (resp != 'ERROR') ) {
         res_div.innerHTML = 'id=[' + resp + ']';
-        window.location = './?mode=ss&id=' + resp;
+        window.location = '/' + resp;
+    }
+    if (resp == 'ERROR') {
+        res_div.innerHTML = 'Ошибка!';
     }
     return true;
 }
@@ -99,7 +102,7 @@ function fast_search_hole() {
     if( s_h.length == 4 ) {
         var msg = 'Поиск дыры: ' + s_h;
         res_div.innerHTML = msg;
-        var url = './ajax.py?search_hole='+encodeURIComponent(s_h)
+        var url = '/ajax/?search_hole=' + encodeURIComponent(s_h)
         myajax(url, hole_search_handler)
     }
     return true;
@@ -125,9 +128,9 @@ function fast_search_system() {
     if( ss.toLowerCase() == 'thera' )
         do_search = true; // Thera !
     if( do_search ) {
-        var msg = 'Поиск системы: ' + ss;
+        var msg = 'Поиск: ' + ss;
         res_div.innerHTML = msg;
-        var url = './ajax.py?search_jsystem=' + encodeURIComponent(ss)
+        var url = '/ajax/?search_jsystem=' + encodeURIComponent(ss)
         myajax(url, jsystem_search_handler)
     }
     return true;
@@ -162,7 +165,7 @@ function report_statics(ssid) {
         return;
     }
     res.innerHTML = 'Отправка запроса....';
-    var url = './ajax.py?report_statics=' + encodeURIComponent(ss)
+    var url = '/ajax/?report_statics=' + encodeURIComponent(ss)
         + '&ssid=' + encodeURIComponent(ssid)
     console.log(url)
     myajax(url, reportstatic_search_handler)
