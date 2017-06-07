@@ -15,7 +15,7 @@ import requests.exceptions
 
 from classes.sitecfg import SiteConfig
 from classes.template_engine import TemplateEngine
-from classes.database import SiteDb
+from classes.database import SiteDb, WHClass
 
 
 def is_whsystem_name(name: str) -> bool:
@@ -182,6 +182,32 @@ class WhdbxMain:
                     search_jsystem = search_jsystem.upper()
                     # ret_print = str(jsys['id'])
                     ret_print = search_jsystem
+        #
+        if 'search_hole' in params:
+            hole_name = str(params['search_hole'])
+            if hole_name != '':
+                hole_name = hole_name.upper()
+                wh = self.db.find_wormhole(hole_name)
+                if wh is not None:
+                    wh['in_class_str'] = ''
+                    if wh['in_class'] != 0:
+                        if wh['in_class'] == WHClass.THERA_WH_CLASS:
+                            wh['in_class_str'] = 'Thera'
+                        if wh['in_class'] == WHClass.FRIG_WH_CLASS:
+                            wh['in_class_str'] = 'frig-WH'
+                        if wh['in_class'] == WHClass.HISEC_WH_CLASS:
+                            wh['in_class_str'] = 'High sec'
+                        if wh['in_class'] == WHClass.LOW_WH_CLASS:
+                            wh['in_class_str'] = 'Low sec'
+                        if wh['in_class'] == WHClass.NULL_WH_CLASS:
+                            wh['in_class_str'] = 'Null sec'
+                        if (wh['in_class'] >= 1) and (wh['in_class'] <= 6):
+                            wh['in_class_str'] = 'C' + str(wh['in_class'])
+                        if (wh['in_class'] >= -6) and (wh['in_class'] <= -1):
+                            wh['in_class_str'] = 'C' + str(wh['in_class']) + ' shattered'
+                        if WHClass.is_drifters(wh['in_class']):
+                            wh['in_class_str'] = 'Drifters WH'
+                    ret_print = json.dumps(wh)
         return ret_print
 
 

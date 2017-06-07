@@ -70,6 +70,9 @@ function hole_search_handler() {
         s += '</span>'
         res_div.innerHTML = s;
     }
+    if (resp == 'ERROR') {
+        res_div.innerHTML = 'Не найдено!';
+    }
     return true;
 }
 

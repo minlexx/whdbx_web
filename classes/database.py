@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from enum import IntEnum
 import json
 import sqlite3
 import threading
@@ -8,13 +8,20 @@ from . import sitecfg
 
 
 # WH class value constants
-HISEC_WH_CLASS = 7
-LOW_WH_CLASS = 8
-NULL_WH_CLASS = 9
-THERA_WH_CLASS = 12
-FRIG_WH_CLASS = 13
-DRIFTERS_WH_CLASS_MIN = 14
-DRIFTERS_WH_CLASS_MAX = 18
+class WHClass(IntEnum):
+    HISEC_WH_CLASS = 7
+    LOW_WH_CLASS = 8
+    NULL_WH_CLASS = 9
+    THERA_WH_CLASS = 12
+    FRIG_WH_CLASS = 13
+    DRIFTERS_WH_CLASS_MIN = 14
+    DRIFTERS_WH_CLASS_MAX = 18
+
+    @staticmethod
+    def is_drifters(cl: int) -> bool:
+        if (cl >= WHClass.DRIFTERS_WH_CLASS_MIN) and (cl <= WHClass.DRIFTERS_WH_CLASS_MAX):
+            return True
+        return False
 
 
 def safe_int(v):
@@ -250,7 +257,7 @@ class SiteDb:
         # ^^ do not do it - too many lines there
         #
         # frig WHs contain class 1-3 anomalies
-        if wh_class == FRIG_WH_CLASS:
+        if wh_class == WHClass.FRIG_WH_CLASS:
             q_frig = 'SELECT id,wh_class,sig_type,sig_name FROM signatures WHERE wh_class=3'
             cur = self._conn.cursor()
             cur.execute(q_frig)
