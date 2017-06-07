@@ -113,6 +113,12 @@ class WhdbxMain:
         return self.tmpl.render('effects.html')
 
     @cherrypy.expose()
+    def sleepers(self, **params):
+        self.init_session()
+        self.setup_template_vars('sleepers')
+        return self.tmpl.render('sleepers.html')
+
+    @cherrypy.expose()
     def ss(self, jsystem):
         return self.debugprint('/ss: requested info about: {}'.format(jsystem))
 
