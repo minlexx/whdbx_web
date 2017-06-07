@@ -31,11 +31,12 @@ class WhdbxMain:
         self.db = SiteDb(self.cfg)
         cherrypy.log('Whdbx started, rootdir=[{}]'.format(self.rootdir))
 
-    def debugprint(self) -> str:
+    def debugprint(self, msg: str = '') -> str:
         res = ''
         cherrypy.response.headers['Content-Type'] = 'text/plain; charset=utf-8'
-        res += 'use evekill: ' + str(self.cfg.ZKB_USE_EVEKILL)
-        res += str(os.environ)
+        res += 'use evekill: ' + str(self.cfg.ZKB_USE_EVEKILL) + '\n'
+        res += str(os.environ) + '\n'
+        res += msg
         return res
 
     # call this if any input error
@@ -140,6 +141,19 @@ class WhdbxMain:
         # Redirect to index
         raise cherrypy.HTTPRedirect('/', status=302)
         return 'Redirecting...'
+
+    @cherrypy.expose()
+    def ajax(self, **params):
+        # msg = '\n'
+        # msg += 'params: {}\n'.format(str(params))
+        # return self.debugprint(msg)
+        # params: {'search_jsystem': 'j170122'}
+        ret_print = ''
+        if 'search_jsystem' in params:
+             jsys = self.db.find_ss_by_name(params['search_jsystem'])
+             if jsys:
+                 ret_print = str(jsys['id'])
+        return ret_print
 
 
 if __name__ == '__main__':
