@@ -114,8 +114,10 @@ function fast_search_system() {
     }
     var ss = inp.value;
     var do_search = false;
-    if((ss.length == 7) && ((ss[0] == 'J') || (ss[0]=='j')))
+    if((ss.length == 7) && ((ss[0] == 'J') || (ss[0]=='j'))) {
         do_search = true; // Jxxxxxx / jxxxxxx
+        ss = ss.toUpperCase();
+    }
     if((ss.length == 6) && (isNumber(ss))) {
         do_search = true; // xxxxxx / xxxxxx, where xxxxxx are numbers
         ss = 'J' + ss;
@@ -125,7 +127,7 @@ function fast_search_system() {
     if( do_search ) {
         var msg = 'Поиск системы: ' + ss;
         res_div.innerHTML = msg;
-        var url = './ajax.py?search_jsystem='+encodeURIComponent(ss)
+        var url = './ajax.py?search_jsystem=' + encodeURIComponent(ss)
         myajax(url, jsystem_search_handler)
     }
     return true;
