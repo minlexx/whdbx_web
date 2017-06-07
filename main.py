@@ -5,6 +5,7 @@ import datetime
 import os
 import os.path
 import pathlib
+import re
 import uuid
 
 import cherrypy
@@ -17,9 +18,26 @@ from classes.template_engine import TemplateEngine
 from classes.database import SiteDb
 
 
+def is_whsystem_name(name: str) -> bool:
+    if name.lower() == 'thera': return True  # special case
+    if len(name) != 7: return False  # must be 7 chars
+    if name[0] not in ['j', 'J']: return False  # 1st letter should be j or J
+    name = name[1:]  # other 6 characters must be numbers
+    m = re.match(r'^[0123456789]+$', name)
+    if m is None: return False
+    return True
+
+
 class WhdbxCustomDispatcher(Dispatcher):
     def __call__(self, path_info: str):
         path_info = path_info.lower()
+        # check that requested path is in form 'J123456' ('/j170122')
+        # redirects /J123456 to /ss/?jsystem=J123456
+        if len(path_info) > 1:
+            jsystem_name = path_info[1:]  # remove leading '/'
+            if is_whsystem_name(jsystem_name):
+                cherrypy.request.params['jsystem'] = jsystem_name
+                return Dispatcher.__call__(self, '/ss')
         return Dispatcher.__call__(self, path_info)
 
 
@@ -95,6 +113,10 @@ class WhdbxMain:
         return self.tmpl.render('effects.html')
 
     @cherrypy.expose()
+    def ss(self, jsystem):
+        return self.debugprint('/ss: requested info about: {}'.format(jsystem))
+
+    @cherrypy.expose()
     def eve_sso_callback(self, code, state):
         self.init_session()
         self.tmpl.unassign_all()
@@ -144,15 +166,22 @@ class WhdbxMain:
 
     @cherrypy.expose()
     def ajax(self, **params):
-        # msg = '\n'
-        # msg += 'params: {}\n'.format(str(params))
-        # return self.debugprint(msg)
-        # params: {'search_jsystem': 'j170122'}
-        ret_print = ''
+        ret_print = 'ERROR'  # default return
+        #
         if 'search_jsystem' in params:
-             jsys = self.db.find_ss_by_name(params['search_jsystem'])
-             if jsys:
-                 ret_print = str(jsys['id'])
+            """
+            params: search_jsystem - solarsystem name, like 'j170122' or 'J170122'
+            This AJAX handler only checks that 'search_jsystem' exists.
+            If it exists, it returns solarsystem name. 'ERROR' otherwise
+            """
+            search_jsystem = str(params['search_jsystem'])
+            if is_whsystem_name(search_jsystem):
+                jsys = self.db.find_ss_by_name(search_jsystem)
+                if jsys:
+                    # solarsystem was found, return its name
+                    search_jsystem = search_jsystem.upper()
+                    # ret_print = str(jsys['id'])
+                    ret_print = search_jsystem
         return ret_print
 
 
