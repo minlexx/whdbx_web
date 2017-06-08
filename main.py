@@ -81,10 +81,6 @@ class WhdbxMain:
         self.tmpl.assign('error_comment', '')  # should be always defined!
         self.tmpl.assign('MODE', page)
         self.tmpl.assign('sitecfg', self.cfg)
-        if self.cfg.EMULATE:
-            self.tmpl.assign('URL_APPEND_EMULATE', '&amp;EMULATE=1')
-        else:
-            self.tmpl.assign('URL_APPEND_EMULATE', '')
         # TODO: assign crest data
         self.tmpl.assign('HAVE_SSO_LOGIN', 'false')
         self.tmpl.assign('SSO_LOGIN_URL', self.cfg.sso_login_url(cherrypy.session['sso_state']))

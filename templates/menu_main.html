@@ -1,5 +1,9 @@
 ## -*- coding: utf-8 -*-
 
+## function to output menu item
+<%def name="print_effects(e, name)">
+<%/def>
+
 <!-- ------------------------------- -->
 <!-- MENU WILLL BE HERE -->
 <div class="menu_block">
@@ -7,16 +11,16 @@
   % if MODE == 'default':
   <img src="/static/img/refresh.png" width="16" />
     % if HAVE_SSO_LOGIN == 'true':
-    <a href="/?${URL_APPEND_EMULATE}">ТЕКУЩАЯ СИСТЕМА</a>
+    <a href="/">ТЕКУЩАЯ СИСТЕМА</a>
     % else:
-    <a href="/?${URL_APPEND_EMULATE}">ПОИСК СИСТЕМЫ</a>
+    <a href="/">ПОИСК СИСТЕМЫ</a>
     % endif
   <img src="/static/img/refresh.png" width="16" /> |
   % else:
   %   if HAVE_SSO_LOGIN == 'true':
-  <a href="/?${URL_APPEND_EMULATE}">ТЕКУЩАЯ СИСТЕМА</a> |
+  <a href="/">ТЕКУЩАЯ СИСТЕМА</a> |
   %   else:
-  <a href="/?${URL_APPEND_EMULATE}">ПОИСК СИСТЕМЫ</a> |
+  <a href="/">ПОИСК СИСТЕМЫ</a> |
   %   endif
   % endif
 
@@ -25,10 +29,10 @@
   <div class="fast_search_result" id="fast_search_result"></div> |
   % endif
 
-  <a href="/signatures/?id=all${URL_APPEND_EMULATE}">СИГНАТУРКИ</a> |
-  <a href="/sleepers/?id=all${URL_APPEND_EMULATE}">СЛИПЕРЫ</a> |
-  <a href="/effects/?${URL_APPEND_EMULATE}">ЭФФЕКТЫ</a> |
-  <a href="/whdb/?${URL_APPEND_EMULATE}">БАЗА ВХ</a>
+  <a href="/signatures/?id=all">СИГНАТУРКИ</a> |
+  <a href="/sleepers/?id=all">СЛИПЕРЫ</a> |
+  <a href="/effects/">ЭФФЕКТЫ</a> |
+  <a href="/whdb/">БАЗА ВХ</a>
 </center>
 </div>
 <!-- ------------------------------- -->
