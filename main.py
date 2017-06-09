@@ -116,6 +116,8 @@ class WhdbxMain:
 
     @cherrypy.expose()
     def ss(self, jsystem):
+        self.init_session()
+        self.setup_template_vars('ss')
         return self.debugprint('/ss: requested info about: {}'.format(jsystem))
 
     @cherrypy.expose()
