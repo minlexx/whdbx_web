@@ -1,38 +1,31 @@
 ## -*- coding: utf-8 -*-
 
+##<img src="/static/img/refresh.png" width="16" />
+
 ## function to output menu item
-<%def name="print_effects(e, name)">
+<%def name="print_menu_link(link_title, link_url, link_tag)">
+  % if MODE != link_tag:
+    <a href="${link_url}">${link_title}</a>
+  % else:
+    <b>${link_title}</b>
+  % endif
 </%def>
 
 <!-- ------------------------------- -->
 <!-- MENU WILLL BE HERE -->
 <div class="menu_block">
 <center>
-  % if MODE == 'default':
-  <img src="/static/img/refresh.png" width="16" />
-    % if HAVE_SSO_LOGIN == 'true':
-    <a href="/">ТЕКУЩАЯ СИСТЕМА</a>
-    % else:
-    <a href="/">ПОИСК СИСТЕМЫ</a>
-    % endif
-  <img src="/static/img/refresh.png" width="16" /> |
-  % else:
-  %   if HAVE_SSO_LOGIN == 'true':
-  <a href="/">ТЕКУЩАЯ СИСТЕМА</a> |
-  %   else:
-  <a href="/">ПОИСК СИСТЕМЫ</a> |
-  %   endif
-  % endif
 
-  % if MODE == 'ss':
-  J<input type="text" name="ssys" id="ssys" maxlength="15" size="9" onkeyup="fast_search_system();" />
-  <div class="fast_search_result" id="fast_search_result"></div> |
-  % endif
+## if MODE == 'ss':
+##J<input type="text" name="ssys" id="ssys" maxlength="15" size="9" onkeyup="fast_search_system();" />
+##<div class="fast_search_result" id="fast_search_result"></div> |
+## endif
 
-  <a href="/signatures/?id=all">СИГНАТУРКИ</a> |
-  <a href="/sleepers/?id=all">СЛИПЕРЫ</a> |
-  <a href="/effects/">ЭФФЕКТЫ</a> |
-  <a href="/whdb/">БАЗА ВХ</a>
+  ${print_menu_link('ПОИСК СИСТЕМЫ', '/', 'index')} |
+  ${print_menu_link('СИГНАТУРКИ', '/signatures/', 'signatures')} |
+  ${print_menu_link('СЛИПЕРЫ', '/sleepers/', 'sleepers')} |
+  ${print_menu_link('ЭФФЕКТЫ', '/effects/', 'effects')} |
+  ${print_menu_link('БАЗА ВХ', '/whdb/', 'whdb')}
 </center>
 </div>
 <!-- ------------------------------- -->
