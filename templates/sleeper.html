@@ -1,19 +1,19 @@
 ## -*- coding: utf-8 -*-
-
 <%!
     from classes.utils import dotted_number
 %>
+<%include file="header.html"/>
 
 % if sleeper.is_valid():
 <div class="sleeper_info">
   <table border="0">
     <tr>
       <td class="sleeper_info1">
-        <img src="img/sleepers/${sleeper.icon}" />
+        <img src="/static/img/sleepers/${sleeper.icon}" />
       </td>
       <td class="sleeper_info2">
         <h1>
-        &nbsp;<img src="img/sleepers/icons/${sleeper.size}.png" />&nbsp;&nbsp;
+        &nbsp;<img src="/static/img/sleepers/icons/${sleeper.size}.png" />&nbsp;&nbsp;
         ${sleeper.name}, ${sleeper.size}, classes: ${sleeper.wh_class_str}</h1>
 
           <p>Abilities:
@@ -21,7 +21,7 @@
               none
               % else:
               % for ability in sleeper.abilities:
-              <img src="img/sleepers/icons/${ability}.png" />
+              <img src="/static/img/sleepers/icons/${ability}.png" />
               % endfor
               % endif
           </p>
@@ -31,42 +31,42 @@
               <td valign="top">
               <p>Navigation:</p>
               <ul>
-                  <li><img src="img/sleepers/icons/signature.jpg" />Signature: <b>${sleeper.signature}</b> m</li>
-                  <li><img src="img/sleepers/icons/max_speed.png" />Max. speed: <b>${sleeper.maxspeed | dotted_number}</b> m/s</li>
-                  <li><img src="img/sleepers/icons/orbit2.png" />Orbit: <b>${sleeper.orbit | dotted_number}</b> m</li>
+                  <li><img src="/static/img/sleepers/icons/signature.jpg" />Signature: <b>${sleeper.signature}</b> m</li>
+                  <li><img src="/static/img/sleepers/icons/max_speed.png" />Max. speed: <b>${sleeper.maxspeed | dotted_number}</b> m/s</li>
+                  <li><img src="/static/img/sleepers/icons/orbit2.png" />Orbit: <b>${sleeper.orbit | dotted_number}</b> m</li>
               </ul>
               </td>
 
               <td valign="top">
               <p>Defense:</p>
               <ul>
-                  <li><img src="img/sleepers/icons/armor_hp.png" />Armor: <b>${sleeper.armor | dotted_number}</b></li>
-                  <li><img src="img/sleepers/icons/hull_hp.png" />Hull: <b>${sleeper.hull | dotted_number}</b></li>
-                  <li><img src="img/sleepers/icons/armor_resists.png" />Resists:
-                      <img src="img/sleepers/icons/res_em.jpg" /> ${sleeper.res_em}
-                      <img src="img/sleepers/icons/res_therm.jpg" /> ${sleeper.res_therm}
-                      <img src="img/sleepers/icons/res_kin.jpg" /> ${sleeper.res_kin}
-                      <img src="img/sleepers/icons/res_exp.jpg" /> ${sleeper.res_exp}
+                  <li><img src="/static/img/sleepers/icons/armor_hp.png" />Armor: <b>${sleeper.armor | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/hull_hp.png" />Hull: <b>${sleeper.hull | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/armor_resists.png" />Resists:
+                      <img src="/static/img/sleepers/icons/res_em.jpg" /> ${sleeper.res_em}
+                      <img src="/static/img/sleepers/icons/res_therm.jpg" /> ${sleeper.res_therm}
+                      <img src="/static/img/sleepers/icons/res_kin.jpg" /> ${sleeper.res_kin}
+                      <img src="/static/img/sleepers/icons/res_exp.jpg" /> ${sleeper.res_exp}
                   </li>
-                  <li><img src="img/sleepers/icons/ehp2.png" />EHP: <b>${sleeper.ehp_total | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/ehp2.png" />EHP: <b>${sleeper.ehp_total | dotted_number}</b></li>
               </ul>
               </td>
 
               <td valign="top">
               <p>Offense:</p>
               <ul>
-                  <li><img src="img/sleepers/icons/optimal.jpg" />Optimal: <b>${sleeper.optimal | dotted_number}</b></li>
-                  <li><img src="img/sleepers/icons/dps_total.png" />
-                      DPS <img src="img/sleepers/icons/dps_laser.png" />:
-                      <img src="img/sleepers/icons/dps_em.jpg" /> ${sleeper.dps_em}
-                      <img src="img/sleepers/icons/dps_therm.jpg" /> ${sleeper.dps_therm}
+                  <li><img src="/static/img/sleepers/icons/optimal.jpg" />Optimal: <b>${sleeper.optimal | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/dps_total.png" />
+                      DPS <img src="/static/img/sleepers/icons/dps_laser.png" />:
+                      <img src="/static/img/sleepers/icons/dps_em.jpg" /> ${sleeper.dps_em}
+                      <img src="/static/img/sleepers/icons/dps_therm.jpg" /> ${sleeper.dps_therm}
                   </li>
-                  <li><img src="img/sleepers/icons/dps_total.png" />
-                      DPS <img src="img/sleepers/icons/dps_launcher.png" />:
-                      <img src="img/sleepers/icons/dps_kin.jpg" /> ${sleeper.dps_kin}
-                      <img src="img/sleepers/icons/dps_exp.jpg" /> ${sleeper.dps_exp}
+                  <li><img src="/static/img/sleepers/icons/dps_total.png" />
+                      DPS <img src="/static/img/sleepers/icons/dps_launcher.png" />:
+                      <img src="/static/img/sleepers/icons/dps_kin.jpg" /> ${sleeper.dps_kin}
+                      <img src="/static/img/sleepers/icons/dps_exp.jpg" /> ${sleeper.dps_exp}
                   </li>
-                  <li><img src="img/sleepers/icons/dps_total.png" />Total DPS: <b>${sleeper.dps_total | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/dps_total.png" />Total DPS: <b>${sleeper.dps_total | dotted_number}</b></li>
               </ul>
               </td>
               <td valign="top">
@@ -75,8 +75,8 @@
                     <ul>
                     % for s1 in class_sleepers:
                         <li>
-                            <img src="img/sleepers/icons/${s1['size']}.png" />
-                            <a href="./?mode=sleeper&amp;id=${s1['id']}">${s1['name']}</a><br />
+                            <img src="/static/img/sleepers/icons/${s1['size']}.png" />
+                            <a href="/sleepers/?id=${s1['id']}">${s1['name']}</a><br />
                         </li>
                     % endfor
                     </ul>
@@ -87,12 +87,12 @@
 
           <p>Loot:</p>
           <ul>
-              <li>${sleeper.loot_acd} x <img src="img/sleepers/icons/sinka.png" /> Ancient Coordinates Database</li>
-              <li>${sleeper.loot_nna} x <img src="img/sleepers/icons/sinka.png" /> Neural Network Analyzer</li>
-              <li>${sleeper.loot_sdl} x <img src="img/sleepers/icons/sinka.png" /> Sleeper Data Library</li>
-              <li>${sleeper.loot_sdai} x <img src="img/sleepers/icons/sinka.png" /> Sleeper Drone AI Nexus</li>
-              <li>Total: <img src="img/sleepers/icons/wreck.png" /> ${sleeper.loot_total | dotted_number} ISK</li>
-              <li>ISK/EHP: <img src="img/sleepers/icons/isk.png" /> <b>~${round(sleeper.isk_per_ehp)}</b></li>
+              <li>${sleeper.loot_acd} x <img src="/static/img/sleepers/icons/sinka.png" /> Ancient Coordinates Database</li>
+              <li>${sleeper.loot_nna} x <img src="/static/img/sleepers/icons/sinka.png" /> Neural Network Analyzer</li>
+              <li>${sleeper.loot_sdl} x <img src="/static/img/sleepers/icons/sinka.png" /> Sleeper Data Library</li>
+              <li>${sleeper.loot_sdai} x <img src="/static/img/sleepers/icons/sinka.png" /> Sleeper Drone AI Nexus</li>
+              <li>Total: <img src="/static/img/sleepers/icons/wreck.png" /> ${sleeper.loot_total | dotted_number} ISK</li>
+              <li>ISK/EHP: <img src="/static/img/sleepers/icons/isk.png" /> <b>~${round(sleeper.isk_per_ehp)}</b></li>
           </ul>
       </td>
     </tr>
@@ -112,8 +112,8 @@
     <ul>
         % for a_sl in sl_list:
         <li>
-            <img src="img/sleepers/icons/${a_sl['size']}.png" />
-            <a href="./?mode=sleeper&amp;id=${a_sl['id']}">${a_sl['name']}</a><br />
+            <img src="/static/img/sleepers/icons/${a_sl['size']}.png" />
+            <a href="/sleepers/?id=${a_sl['id']}">${a_sl['name']}</a><br />
         </li>
         % endfor
     </ul>
@@ -128,3 +128,5 @@
 </table>
 
 % endif
+
+<%include file="footer.html"/>

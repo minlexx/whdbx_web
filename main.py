@@ -16,6 +16,7 @@ import requests.exceptions
 from classes.sitecfg import SiteConfig
 from classes.template_engine import TemplateEngine
 from classes.database import SiteDb, WHClass
+from classes.sleeper import WHSleeper
 
 
 def is_whsystem_name(name: str) -> bool:
@@ -112,7 +113,24 @@ class WhdbxMain:
     def sleepers(self, **params):
         self.init_session()
         self.setup_template_vars('sleepers')
-        return self.tmpl.render('sleepers.html')
+        sleeper = WHSleeper()
+        self.tmpl.assign('sleeper', sleeper)
+        if 'id' in params:
+            sleeper_id = int(params['id'])
+            sleeper.load_info(sleeper_id, self.db)
+            self.tmpl.assign('MODE', 'single_sleeper')
+            self.tmpl.assign('title', sleeper.name + ' - WHDBX')
+            self.tmpl.assign('class_sleepers', self.db.query_sleeper_by_class(sleeper.wh_class_str))
+            self.tmpl.assign('sleepers_c12', list())
+            self.tmpl.assign('sleepers_c34', list())
+            self.tmpl.assign('sleepers_c56', list())
+        else:
+            self.tmpl.assign('title', 'Слиперы - WHDBX')
+            self.tmpl.assign('class_sleepers', list())
+            self.tmpl.assign('sleepers_c12', self.db.query_sleeper_by_class('1,2'))
+            self.tmpl.assign('sleepers_c34', self.db.query_sleeper_by_class('3,4'))
+            self.tmpl.assign('sleepers_c56', self.db.query_sleeper_by_class('5,6'))
+        return self.tmpl.render('sleeper.html')
 
     @cherrypy.expose()
     def ss(self, jsystem):
