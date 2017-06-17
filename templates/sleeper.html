@@ -76,7 +76,7 @@
                     % for s1 in class_sleepers:
                         <li>
                             <img src="/static/img/sleepers/icons/${s1['size']}.png" />
-                            <a href="/sleepers/?id=${s1['id']}">${s1['name']}</a><br />
+                            <a href="/sleepers/${s1['id']}/">${s1['name']}</a><br />
                         </li>
                     % endfor
                     </ul>
@@ -113,7 +113,7 @@
         % for a_sl in sl_list:
         <li>
             <img src="/static/img/sleepers/icons/${a_sl['size']}.png" />
-            <a href="/sleepers/?id=${a_sl['id']}">${a_sl['name']}</a><br />
+            <a href="/sleepers/${a_sl['id']}/">${a_sl['name']}</a><br />
         </li>
         % endfor
     </ul>
