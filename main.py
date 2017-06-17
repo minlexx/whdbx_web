@@ -30,6 +30,9 @@ def is_whsystem_name(name: str) -> bool:
 
 
 class WhdbxCustomDispatcher(Dispatcher):
+
+    sleepers_id_match = re.compile(r'\/sleepers\/([0-9]+)\/')
+
     def __call__(self, path_info: str):
         path_info = path_info.lower()
         # check that requested path is in form 'J123456' ('/j170122')
@@ -39,6 +42,10 @@ class WhdbxCustomDispatcher(Dispatcher):
             if is_whsystem_name(jsystem_name):
                 cherrypy.request.params['jsystem'] = jsystem_name
                 return Dispatcher.__call__(self, '/ss')
+            m = self.sleepers_id_match.match(path_info)
+            if m is not None:
+                cherrypy.request.params['id'] = m.group(1)
+                return Dispatcher.__call__(self, '/sleepers/')
         return Dispatcher.__call__(self, path_info)
 
 
