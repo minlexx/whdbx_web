@@ -31,7 +31,7 @@ def is_whsystem_name(name: str) -> bool:
 
 class WhdbxCustomDispatcher(Dispatcher):
 
-    sleepers_id_match = re.compile(r'\/sleepers\/([0-9]+)\/')
+    sleepers_id_match = re.compile(r'/sleepers/([0-9]+)/')
 
     def __call__(self, path_info: str):
         path_info = path_info.lower()
