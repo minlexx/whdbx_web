@@ -19,7 +19,7 @@
         <li>
             ${sl.count}
             <img src="/static/img/sleepers/icons/${sl.size}.png" />
-            <a href="/sleepers/{sl.id}/" target="_blank">${sl.name}</a>
+            <a href="/sleepers/${sl.id}/" target="_blank">${sl.name}</a>
             % for abil in sl.abilities:
             <img src="/static/img/sleepers/icons/${abil}.png" width="22" />
             % endfor
@@ -54,7 +54,7 @@
         % for a_sig in sigs:
             <li>
                 <img src="/static/img/sigs/${a_sig['sig_type']}_site.png" width="20" />
-                <a href="/sig/{a_sig['id']}/">${a_sig['sig_name']}</a><br />
+                <a href="/signatures/${a_sig['id']}/">${a_sig['sig_name']}</a><br />
             </li>
         % endfor
         </ul>
@@ -86,7 +86,7 @@
         <ul>
         % for gas in sig.gas_clouds:
             <li>
-                <img src="/static/img/Types/${gas.typeid}_32.png" />
+                <img src="https://imageserver.eveonline.com/Type/${gas.typeid}_32.png" />
                 <b><a href="#" onclick="javascript:CCPEVE.showInfo(${gas.typeid}); return false;">${gas.friendlyName}</a></b>
                 * <span class="sig_ehp">${gas.count}</span>,
                 всего <span class="sig_isk">${gas.total_price | dotted_number}</span> ISK
@@ -109,7 +109,7 @@
         <ul>
         % for ore in sig.ore_rocks:
             <li>
-                <img src="/static/img/Types/${ore.typeid}_32.png" />
+                <img src="https://imageserver.eveonline.com/Type/${ore.typeid}_32.png" />
                 <b><a href="#" onclick="javascript:CCPEVE.showInfo(${ore.typeid}); return false;">${ore.name}</a></b>
                 * <span class="sig_ehp">${ore.count}</span>
             </li>
@@ -151,7 +151,7 @@
     % for a_sig in sigs_list:
         <li>
             <img src="/static/img/sigs/${a_sig['sig_type']}_site.png" width="20" />
-            <a href="/sig/${a_sig['id']}/">${a_sig['sig_name']}</a><br />
+            <a href="/signatures/${a_sig['id']}/">${a_sig['sig_name']}</a><br />
         </li>
     % endfor
     </ul>
