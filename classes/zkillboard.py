@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import os.path
 import datetime
 import json
 import sqlite3
@@ -123,6 +124,12 @@ class ZKBCacheFile(ZKBCacheBase):
             return
         if self._cache_dir is None:
             return
+        # auto-create cache dir if not exists
+        if not os.path.isdir(self._cache_dir):
+            try:
+                os.makedirs(self._cache_dir)
+            except OSError:
+                pass
         cache_file = self._cache_dir + '/' + request_str + '.json'
         # store reply to cache file
         try:
