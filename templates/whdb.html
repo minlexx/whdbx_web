@@ -21,7 +21,7 @@ function send_find() {
     if( !res_div ) return false;
     res_div.innerHTML = 'Search...';
     //
-    var url = './ajax.py?whdb=1';
+    var url = '/ajax/?whdb=1';
     var all_cbs = [
         'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'shattered', 'frigwr', 'drifters',
         'noeffect', 'bh', 'cv', 'mag', 'pul', 'rg', 'wr',
@@ -31,7 +31,6 @@ function send_find() {
     }
     //
     res_div.innerHTML = '';
-    //res_div.innerHTML = '<a href=\"' + url + '\">link</a><br />';
     myajax(url, whdb_search_handler)
     return true;
 }
