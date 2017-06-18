@@ -1,8 +1,8 @@
 ## -*- coding: utf-8 -*-
-
 <%!
     from classes.utils import dotted_number
 %>
+<%include file="header.html"/>
 
 <%def name="print_wave(wave)">
   % if wave.is_capital:
@@ -10,18 +10,18 @@
   % else:
   Волна ${wave.wave_id}:
  % endif
-  <img src="img/sigs/dps.png" width="22" />
+  <img src="/static/img/sigs/dps.png" width="22" />
   <span class="sig_dps">${wave.total_dps}</span> DPS,
-<img src="img/sigs/wreck.png" width="20" />
+<img src="/static/img/sigs/wreck.png" width="20" />
   <span class="sig_isk">${wave.total_isk | dotted_number}</span> ISK
     <ul>
         % for sl in wave.sleepers:
         <li>
             ${sl.count}
-            <img src="img/sleepers/icons/${sl.size}.png" />
-            <a href="./?mode=sleeper&amp;id=${sl.id}" target="_blank">${sl.name}</a>
+            <img src="/static/img/sleepers/icons/${sl.size}.png" />
+            <a href="/sleepers/{sl.id}/" target="_blank">${sl.name}</a>
             % for abil in sl.abilities:
-            <img src="img/sleepers/icons/${abil}.png" width="22" />
+            <img src="/static/img/sleepers/icons/${abil}.png" width="22" />
             % endfor
             % if sl.is_trigger:
             <font color="#FF2222"><b>TRIGGER</b></font>
@@ -53,15 +53,15 @@
         <ul>
         % for a_sig in sigs:
             <li>
-                <img src="img/sigs/${a_sig['sig_type']}_site.png" width="20" />
-                <a href="./?mode=sig&amp;id=${a_sig['id']}">${a_sig['sig_name']}</a><br />
+                <img src="/static/img/sigs/${a_sig['sig_type']}_site.png" width="20" />
+                <a href="/sig/{a_sig['id']}/">${a_sig['sig_name']}</a><br />
             </li>
         % endfor
         </ul>
     </div>
     % endif
 
-    <h2><img src="img/sigs/${sig.sig_type}_site.png" />${sig.name}, ${sig.sig_type}
+    <h2><img src="/static/img/sigs/${sig.sig_type}_site.png" />${sig.name}, ${sig.sig_type}
     % if sig.wh_class == 12:
         , Thera
     % elif sig.wh_class == 13:
@@ -86,7 +86,7 @@
         <ul>
         % for gas in sig.gas_clouds:
             <li>
-                <img src="img/Types/${gas.typeid}_32.png" />
+                <img src="/static/img/Types/${gas.typeid}_32.png" />
                 <b><a href="#" onclick="javascript:CCPEVE.showInfo(${gas.typeid}); return false;">${gas.friendlyName}</a></b>
                 * <span class="sig_ehp">${gas.count}</span>,
                 всего <span class="sig_isk">${gas.total_price | dotted_number}</span> ISK
@@ -109,7 +109,7 @@
         <ul>
         % for ore in sig.ore_rocks:
             <li>
-                <img src="img/Types/${ore.typeid}_32.png" />
+                <img src="/static/img/Types/${ore.typeid}_32.png" />
                 <b><a href="#" onclick="javascript:CCPEVE.showInfo(${ore.typeid}); return false;">${ore.name}</a></b>
                 * <span class="sig_ehp">${ore.count}</span>
             </li>
@@ -123,21 +123,21 @@
 
     <ul>
         <li>
-            Total: <img src="img/sigs/wreck.png" width="20" />
+            Total: <img src="/static/img/sigs/wreck.png" width="20" />
             <span class="sig_isk">${sig.total_isk | dotted_number}</span> ISK
         </li>
         <li>
-            Total: <img src="img/sigs/ehp2.png" width="22" />
+            Total: <img src="/static/img/sigs/ehp2.png" width="22" />
             <span class="sig_ehp">${sig.total_ehp | dotted_number}</span> EHP</li>
         <li>
             ISK/EHP: <b>${sig.isk_per_ehp | dotted_number}</b>
         </li>
         <li>
-            <img src="img/sigs/dps.png" width="22" />100 dps:
+            <img src="/static/img/sigs/dps.png" width="22" />100 dps:
             <span class="sig_isk">${sig.isk_per_hour_per_100dps | dotted_number}</span> ISK/hour
         </li>
         <li>
-            <img src="img/sigs/dps.png" width="22" />500 dps:
+            <img src="/static/img/sigs/dps.png" width="22" />500 dps:
             <span class="sig_isk">${sig.isk_per_hour_per_500dps | dotted_number}</span> ISK/hour
         </li>
     </ul>
@@ -150,8 +150,8 @@
     <ul>
     % for a_sig in sigs_list:
         <li>
-            <img src="img/sigs/${a_sig['sig_type']}_site.png" width="20" />
-            <a href="./?mode=sig&amp;id=${a_sig['id']}">${a_sig['sig_name']}</a><br />
+            <img src="/static/img/sigs/${a_sig['sig_type']}_site.png" width="20" />
+            <a href="/sig/${a_sig['id']}/">${a_sig['sig_name']}</a><br />
         </li>
     % endfor
     </ul>
@@ -196,3 +196,5 @@
 <br />
 <div class="dev_data_dump">Signature debug info: <pre>${sig_dbg | h}</pre></div>
 % endif
+
+<%include file="footer.html"/>
