@@ -306,6 +306,110 @@ class WhdbxMain:
                         if WHClass.is_drifters(wh['in_class']):
                             wh['in_class_str'] = 'Drifters WH'
                     ret_print = json.dumps(wh)
+        if 'whdb' in params:
+            # QUERY_PARAMS= {'whdb': ['1'], 'class': ['5', '6', 'shattered', 'frigwr']}
+            res = dict()
+            res['systems'] = []
+            s3conn = self.db.connection_handle()
+            q = 'SELECT solarsystemid, system, class, star, planets, moons, effect, statics \n'
+            q += ' FROM wormholesystems_new'
+            class_cond = ''
+            eff_cond = ''
+            static_cond = ''
+            if 'class' in params:
+                class_list = params['class']
+                has_shattered = False
+                for cd in class_list:
+                    if cd.isnumeric():
+                        if len(class_cond) > 0:
+                            class_cond += ' OR '
+                        class_cond += ('(class=' + str(cd) + ')')
+                    elif cd == 'shattered':
+                        has_shattered = True
+                    elif cd == 'frigwr':
+                        if len(class_cond) > 0:
+                            class_cond += ' OR '
+                        class_cond += '(class=13)'
+                    elif cd == 'drifters':
+                        if len(class_cond) > 0:
+                            class_cond += ' OR '
+                        class_cond += '((class >= 14) AND (class <= 18))'
+                if has_shattered and (len(class_cond) > 0):
+                    for cd in class_list:
+                        if cd.isnumeric():
+                            class_cond += ' OR '
+                            class_cond += ('(class=-' + str(cd) + ')')
+            if 'effect' in params:
+                eff_list = params['effect']
+                for eff in eff_list:
+                    if len(eff_cond) > 0:
+                        eff_cond += ' OR '
+                    if eff == 'noeffect':
+                        eff_cond += '(effect IS NULL)'
+                    elif eff == 'bh':
+                        eff_cond += '(effect=\'Black Hole\')'
+                    elif eff == 'cv':
+                        eff_cond += '(effect=\'Cataclysmic Variable\')'
+                    elif eff == 'mag':
+                        eff_cond += '(effect=\'Magnetar\')'
+                    elif eff == 'pul':
+                        eff_cond += '(effect=\'Pulsar\')'
+                    elif eff == 'rg':
+                        eff_cond += '(effect=\'Red Giant\')'
+                    elif eff == 'wr':
+                        eff_cond += '(effect=\'Wolf-Rayet Star\')'
+            if 'in_class' in params:
+                in_class_list = params['in_class']
+                icl = ''
+                for ic in in_class_list:
+                    if ic.isnumeric():
+                        if icl != '':
+                            icl += ' OR '
+                        icl += ('in_class=' + ic)
+                if icl != '':
+                    q2 = 'SELECT hole FROM wormholeclassifications WHERE '
+                    q2 += icl
+                    hole_list = []
+                    cur2 = s3conn.cursor()
+                    cur2.execute(q2)
+                    for row in cur2:
+                        hole_list.append(row[0])
+                        if static_cond != '':
+                            static_cond += ' OR '
+                        static_cond += '(statics LIKE \'%' + row[0] + '%\')'
+            # finalize query
+            where_cond = ''
+            if class_cond != '':
+                where_cond += '(' + class_cond + ')'
+            if eff_cond != '':
+                if where_cond != '':
+                    where_cond += ' AND '
+                where_cond += '(' + eff_cond + ')'
+            if static_cond != '':
+                if where_cond != '':
+                    where_cond += ' AND '
+                where_cond += '(' + static_cond + ')'
+            if where_cond != '':
+                q += '\n WHERE ' + where_cond
+            cursor = s3conn.cursor()
+            cursor.execute(q)
+            for row in cursor:
+                jsys = dict()
+                # solarsystemid, system, class, star, planets, moons, effect, statics
+                jsys['id'] = int(row[0])
+                jsys['name'] = row[1]
+                jsys['class'] = int(row[2])
+                # jsys['star'] = row[3]  # not very needed
+                # jsys['planets'] = int(row[4])  # not very needed
+                # jsys['moons'] = int(row[5])  # not very needed
+                jsys['effect'] = row[6]
+                jsys['statics'] = []
+                for st in str(row[7]).split(','):
+                    jsys['statics'].append(st)
+                res['systems'].append(jsys)
+            res['query'] = q
+            # output result
+            ret_print = json.dumps(res)
         return ret_print
 
 
