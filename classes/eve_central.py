@@ -63,6 +63,12 @@ class EveCentral:
         return ret
 
     def _save_to_cache_file(self, cache_file: str, data: str):
+        # auto-create cache dir if not exists
+        if not os.path.isdir(self._cache_dir):
+            try:
+                os.makedirs(self._cache_dir)
+            except OSError:
+                pass
         try:
             f = open(cache_file, 'wt')  # probably may overwrite old cached file for this request
             f.write(data)
