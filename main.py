@@ -201,6 +201,14 @@ class WhdbxMain:
         return self.tmpl.render('signature.html')
 
     @cherrypy.expose()
+    def whdb(self):
+        self.init_session()
+        self.setup_template_vars('whdb')
+        self.tmpl.assign('title', 'База ВХ - WHDBX')
+        # output
+        return self.tmpl.render('whdb.html')
+
+    @cherrypy.expose()
     def ss(self, jsystem):
         self.init_session()
         self.setup_template_vars('ss')
