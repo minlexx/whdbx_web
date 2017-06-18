@@ -76,6 +76,18 @@ td.character_info {
     display: inline;
 }
 
+.fast_search_block_v2 {
+    display: inline;
+    padding: 10px 30px 10px 50px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.fast_search_result_v2 {
+    display: inline-block;
+    width: 100px;
+}
+
 .short_history_block {
     border: 0px solid #550099;
     padding: 2px 2px 2px 2px;

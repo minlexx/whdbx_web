@@ -86,7 +86,7 @@ function jsystem_search_handler() {
         resp = g_xmlhttp.responseText;
     }
     if( (resp != '') && (resp != 'ERROR') ) {
-        res_div.innerHTML = 'id=[' + resp + ']';
+        res_div.innerHTML = 'Redirect...'; // 'id=[' + resp + ']';
         window.location = '/' + resp;
     }
     if (resp == 'ERROR') {

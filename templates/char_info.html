@@ -49,6 +49,7 @@
 
   <!-- TODO: guide user how to remove authorization (logout) -->
 
+  <%include file="fast_search_block_v2.html"/>
 </div>
 
 % else:
@@ -61,15 +62,15 @@
   </div>
 
   <div id="sso_help_button" style="display: inline; padding-left: 10px;">
-    <a href="#" onclick="showhide('sso_help', 'inline-block'); return true;">
-      Зачем?</a>
+    <a href="/eve_sso_help/">Зачем?</a>
   </div>
 
-  <div id="sso_help" style="display: none; padding-left: 10px;">
+  <!--<div id="sso_help" style="display: none; padding-left: 10px;">
     После авторизации персонажа мы сможем автоматически определять
     ваше местоположение, и не придется вручную вбивать номер системы.
-  </div>
+  </div>-->
 
+  <%include file="fast_search_block_v2.html"/>
 </div>
 
 % endif
