@@ -60,7 +60,7 @@ function whdb_search_handler() {
             var cell5 = tr.insertCell(4);
             var cell6 = tr.insertCell(5);
             cell1.innerHTML = '#' + (i+1);
-            cell2.innerHTML = '<a href=\"./?' + obj.systems[i].name + '\">' + obj.systems[i].name + '</a>';
+            cell2.innerHTML = '<a href=\"/' + obj.systems[i].name + '\">' + obj.systems[i].name + '</a>';
             cell3.innerHTML = 'c' + obj.systems[i].class;
             if (obj.systems[i].class == 7) {
                 cell3.innerHTML = 'hi-sec';
@@ -77,7 +77,10 @@ function whdb_search_handler() {
             } else if ((obj.systems[i].class >= 14) && (obj.systems[i].class <= 18)) {
                 cell3.innerHTML = 'drifters c' + Math.abs(obj.systems[i].class);
             }
-            cell4.innerHTML = '[<a href=\"https://beta.eve-kill.net/system/' + obj.systems[i].id + '/\">EVEKILL</a>]';
+            cell4.innerHTML = '';
+% if sitecfg.ZKB_USE_EVEKILL:
+            cell4.innerHTML += ' [<a href=\"https://beta.eve-kill.net/system/' + obj.systems[i].id + '/\">EVEKILL</a>]';
+% endif
             cell4.innerHTML += ' [<a href=\"https://zkillboard.com/system/' + obj.systems[i].id + '/\">ZKB</a>]';
             // https://zkillboard.com/system/31002234/
             cell5.innerHTML = obj.systems[i].effect;
