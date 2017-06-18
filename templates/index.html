@@ -4,6 +4,9 @@
 <div class="solarsystem_info_wrapper">
 
   <blockquote>
+
+    <%include file="zkb_block.html"/>
+
     <span class="infoblock_header_text">О проекте, история</span><br />
 
     <p><b>WHDBX</b> (<b>W</b>orm<b>h</b>ole <b>D</b>ata<b>b</b>ase E<b>x</b>tended) -
@@ -68,3 +71,7 @@
 <!-- solarsystem_info_wrapper -->
 
 <%include file="footer.html"/>
+
+% if sitecfg.DEBUG:
+<div class="dev_data_dump">Debug info: <pre>${dbg_wspace_kills | h}</pre></div>
+% endif

@@ -18,6 +18,7 @@ from classes.template_engine import TemplateEngine
 from classes.database import SiteDb, WHClass
 from classes.sleeper import WHSleeper
 from classes.signature import WHSignature
+from classes.zkillboard import ZKB
 from classes.utils import dump_object
 
 
@@ -107,11 +108,50 @@ class WhdbxMain:
         # this can be used in any page showing header.html, so set default it here
         self.tmpl.assign('last_visited_systems', list())  # empty list
         # TODO: self.fill_last_visited_systems()
+        self.tmpl.assign('zkb_block_title', '')
+
+    def postprocess_zkb_kills(self, kills: list) -> list:
+        for a_kill in kills:
+            # find type name for victim ship
+            type_info = self.db.find_typeid(a_kill['victim']['shipTypeID'])
+            a_kill['victim']['shipTypeName'] = type_info['name']
+            a_kill['victim']['shipGroupName'] = type_info['groupname']
+            a_kill['our_corp'] = ''
+            # victim_corpid = a_kill['victim']['corporationID']
+            # if self.siteconfig.is_our_corp(victim_corpid):
+            #     a_kill['our_corp'] = 'loss'  # victim is our corp
+            # go through all attackers
+            for atk in a_kill['attackers']:
+                # find type name for attacker ship
+                type_info = self.db.find_typeid(atk['shipTypeID'])
+                atk['shipTypeName'] = type_info['name']
+                # look for our corp kills/losses
+                # if self.cfg.is_our_corp(atk['corporationID']):
+                #    if a_kill['our_corp'] == '':
+                #        a_kill['our_corp'] = 'kill'
+        return kills
 
     @cherrypy.expose()
     def index(self):
         self.init_session()
         self.setup_template_vars('index')
+        # ZKB
+        zkb_options = {
+            'debug': self.cfg.DEBUG,
+            'cache_time': self.cfg.ZKB_CACHE_TIME,
+            'cache_type': self.cfg.ZKB_CACHE_TYPE,
+            'cache_dir': self.cfg.ZKB_CACHE_DIR,
+            'use_evekill': self.cfg.ZKB_USE_EVEKILL
+        }
+        zkb = ZKB(zkb_options)
+        zkb.add_wspace()
+        zkb.add_limit(30)
+        wspace_kills = zkb.go()
+        wspace_kills = self.postprocess_zkb_kills(wspace_kills)
+        self.tmpl.assign('zkb_kills', wspace_kills)
+        self.tmpl.assign('zkb_block_title', 'W-Space kills')
+        self.tmpl.assign('dbg_wspace_kills', dump_object(wspace_kills))
+        #
         return self.tmpl.render('index.html')
 
     @cherrypy.expose()
