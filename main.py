@@ -62,7 +62,7 @@ class WhdbxMain:
         self.cfg = SiteConfig()
         self.tmpl = TemplateEngine(self.cfg)
         self.db = SiteDb(self.cfg)
-        cherrypy.log('Whdbx started, rootdir=[{}]'.format(self.rootdir))
+        cherrypy.log('started, rootdir=[{}]'.format(self.rootdir), 'WHDBXAPP')
 
     def debugprint(self, msg: str = '') -> str:
         res = ''
