@@ -17,6 +17,8 @@ from classes.sitecfg import SiteConfig
 from classes.template_engine import TemplateEngine
 from classes.database import SiteDb, WHClass
 from classes.sleeper import WHSleeper
+from classes.signature import WHSignature
+from classes.utils import dump_object
 
 
 def is_whsystem_name(name: str) -> bool:
@@ -32,6 +34,7 @@ def is_whsystem_name(name: str) -> bool:
 class WhdbxCustomDispatcher(Dispatcher):
 
     sleepers_id_match = re.compile(r'/sleepers/([0-9]+)/')
+    signatures_id_match = re.compile(r'/signatures/([0-9]+)/')
 
     def __call__(self, path_info: str):
         path_info = path_info.lower()
@@ -46,6 +49,10 @@ class WhdbxCustomDispatcher(Dispatcher):
             if m is not None:
                 cherrypy.request.params['id'] = m.group(1)
                 return Dispatcher.__call__(self, '/sleepers/')
+            m = self.signatures_id_match.match(path_info)
+            if m is not None:
+                cherrypy.request.params['id'] = m.group(1)
+                return Dispatcher.__call__(self, '/signatures/')
         return Dispatcher.__call__(self, path_info)
 
 
@@ -138,6 +145,60 @@ class WhdbxMain:
             self.tmpl.assign('sleepers_c34', self.db.query_sleeper_by_class('3,4'))
             self.tmpl.assign('sleepers_c56', self.db.query_sleeper_by_class('5,6'))
         return self.tmpl.render('sleeper.html')
+
+    @cherrypy.expose()
+    def signatures(self, **params):
+        self.init_session()
+        self.setup_template_vars('signatures')
+        self.tmpl.assign('title', 'Сигнатурки - WHDBX')
+        #
+        sig_id = -1
+        if 'id' in params:
+            try:
+                sig_id = int(params['id'])
+            except ValueError:
+                sig_id = -1
+        # default vars
+        sig = WHSignature(self.cfg)
+        self.tmpl.assign('sig', sig)
+        self.tmpl.assign('sig_dbg', None)
+        self.tmpl.assign('sigs', list())
+        # params
+        if sig_id > 0:
+            sig.load(sig_id, self.db)
+            if sig.is_valid():
+                self.tmpl.assign('title', sig.name + ' - WHDBX')
+                self.tmpl.assign('MODE', 'single_signature')
+                if sig.wh_class != 0:
+                    self.tmpl.assign('sigs', self.db.query_signatures_for_class(sig.wh_class))
+                if sig.wh_class == 0:  # ore site or gas site
+                    if sig.sig_type == 'gas':
+                        self.tmpl.assign('sigs', self.db.query_gas_signatures())
+                    elif sig.sig_type == 'ore':
+                        self.tmpl.assign('sigs', self.db.query_ore_signatures())
+            self.tmpl.assign('sigs_c1', list())
+            self.tmpl.assign('sigs_c2', list())
+            self.tmpl.assign('sigs_c3', list())
+            self.tmpl.assign('sigs_c4', list())
+            self.tmpl.assign('sigs_c5', list())
+            self.tmpl.assign('sigs_c6', list())
+            self.tmpl.assign('sigs_gas', list())
+            self.tmpl.assign('sigs_ore', list())
+            self.tmpl.assign('sigs_thera', list())
+        else:
+            self.tmpl.assign('sigs_c1', self.db.query_signatures_for_class(1))
+            self.tmpl.assign('sigs_c2', self.db.query_signatures_for_class(2))
+            self.tmpl.assign('sigs_c3', self.db.query_signatures_for_class(3))
+            self.tmpl.assign('sigs_c4', self.db.query_signatures_for_class(4))
+            self.tmpl.assign('sigs_c5', self.db.query_signatures_for_class(5))
+            self.tmpl.assign('sigs_c6', self.db.query_signatures_for_class(6))
+            self.tmpl.assign('sigs_gas', self.db.query_gas_signatures())
+            self.tmpl.assign('sigs_ore', self.db.query_ore_signatures())
+            self.tmpl.assign('sigs_thera', self.db.query_signatures_for_class(WHClass.THERA_WH_CLASS))
+        # debug mode
+        if self.cfg.DEBUG:
+            self.tmpl.assign('sig_dbg', dump_object(sig))
+        return self.tmpl.render('signature.html')
 
     @cherrypy.expose()
     def ss(self, jsystem):
