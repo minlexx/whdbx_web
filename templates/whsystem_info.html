@@ -35,11 +35,11 @@
 % if whsys.wh_effect:
     <b>${whsys.wh_effect.name}</b>, class <b>${whsys.wh_effect.hole_class_str}</b>:<br />
     <table border="0" cellpadding="5"><tr>
-        <td><img src="img/effect_icons/${whsys.wh_effect.effect_icon}" /></td>
+        <td><img src="/static/img/effect_icons/${whsys.wh_effect.effect_icon}" /></td>
         <td>
   % for erow in whsys.wh_effect.effects:
 ## ('Missile velocity', 'missile velocity.png', '36%')
-            <img src="img/effect_icons/${erow[1]}" class="effect_icon" /> &nbsp;&nbsp;&nbsp;
+            <img src="/static/img/effect_icons/${erow[1]}" class="effect_icon" /> &nbsp;&nbsp;&nbsp;
             ${erow[0]}: <span class="effect_value">${erow[2]}</span><br />
   % endfor
         </td>
@@ -66,8 +66,8 @@
     <span class="infoblock_header_text">Сигнатуры и аномалии:</span><br />
     <blockquote>
     % for sig in sigs:
-        <img src="img/sigs/${sig['sig_type']}_site.png" width="20" />
-        <a href="./?mode=sig&amp;id=${sig['id']}" target="_blank">${sig['sig_name']}</a><br />
+        <img src="/static/img/sigs/${sig['sig_type']}_site.png" width="20" />
+        <a href="/signatures/${sig['id']}/" target="_blank">${sig['sig_name']}</a><br />
     % endfor
     </blockquote>
     </div>
@@ -80,10 +80,6 @@
 % if not whsys.is_valid():
 
     Нет информации.<br />
-    ##% if IS_IGB == 'false':
-    <br /><br />
-    <%include file="fast_search_block.html"/>
-    ##% endif
 
 % elif whsys.is_wh:
 
@@ -121,7 +117,9 @@
     % elif whsys.is_drifters():
         Класс ВХ: <span class="info_hl">С${whsys.wh_class} (drifters)</span><br />
         <ul>
-            <li><span class="newwh_comment">Эффект от с2, информации о статиках нет.</span></li>
+            <li><span class="newwh_comment">Эффект от с2, информации о статиках нет.
+              Обычно имеет соединения между различными системами k-space.
+            </span></li>
         </ul>
     % else:
         Класс ВХ: <span class="info_hl">С${whsys.wh_class}</span><br />
@@ -156,7 +154,7 @@
  <!-- общие для всех систем свойства -->
  Уровень безопасности: <span style="color: ${whsys.sec_color}; font-weight:bold;">${whsys.security}</span><br />
  Радиус: <span class="info_hl">${whsys.radius_ae} AE</span> (орбита посл. планеты)<br />
- Поделиться ссылкой: <a href="./?${whsys.name}" target="_blank">${whsys.name}</a><br />
+ Поделиться ссылкой: <a href="/${whsys.name}" target="_blank">${whsys.name}</a><br />
 % endif
 
 <%def name="print_route(ss, ssid, route)">
