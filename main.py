@@ -15,7 +15,7 @@ import requests.exceptions
 
 from classes.sitecfg import SiteConfig
 from classes.template_engine import TemplateEngine
-from classes.database import SiteDb, WHClass
+from classes.database import SiteDb, WHClass, get_ss_security_color
 from classes.sleeper import WHSleeper
 from classes.signature import WHSignature
 from classes.zkillboard import ZKB
@@ -129,6 +129,17 @@ class WhdbxMain:
                 # if self.cfg.is_our_corp(atk['corporationID']):
                 #    if a_kill['our_corp'] == '':
                 #        a_kill['our_corp'] = 'kill'
+            # find solarsystem name for solarsystem id
+            a_kill['solarSystemName'] = ''
+            a_kill['solarSystemRegion'] = ''
+            a_kill['solarSystemSecurity'] = 0.0
+            a_kill['solarSystemSecurityColor'] = '#FFFFFF'
+            ss_info = self.db.find_ss_by_id(a_kill['solarSystemID'])
+            if ss_info is not None:
+                a_kill['solarSystemName'] = ss_info['name']
+                a_kill['solarSystemRegion'] = ss_info['regionname']
+                a_kill['solarSystemSecurity'] = ss_info['security']
+                a_kill['solarSystemSecurityColor'] = get_ss_security_color(ss_info['security'])
         return kills
 
     @cherrypy.expose()
