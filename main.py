@@ -20,17 +20,7 @@ from classes.sleeper import WHSleeper
 from classes.signature import WHSignature
 from classes.zkillboard import ZKB
 # from classes.whsystem import WHSystem
-from classes.utils import dump_object
-
-
-def is_whsystem_name(name: str) -> bool:
-    if name.lower() == 'thera': return True  # special case
-    if len(name) != 7: return False  # must be 7 chars
-    if name[0] not in ['j', 'J']: return False  # 1st letter should be j or J
-    name = name[1:]  # other 6 characters must be numbers
-    m = re.match(r'^[0123456789]+$', name)
-    if m is None: return False
-    return True
+from classes.utils import dump_object, is_whsystem_name
 
 
 class WhdbxCustomDispatcher(Dispatcher):

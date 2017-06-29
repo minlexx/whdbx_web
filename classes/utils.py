@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 
 
 def dump_object(o):
@@ -43,3 +44,13 @@ def dotted_number(n_s: str) -> str:
     if is_negative:
         ret = '-' + ret
     return ret
+
+
+def is_whsystem_name(name: str) -> bool:
+    if name.lower() == 'thera': return True  # special case
+    if len(name) != 7: return False  # must be 7 chars
+    if name[0] not in ['j', 'J']: return False  # 1st letter should be j or J
+    name = name[1:]  # other 6 characters must be numbers
+    m = re.match(r'^[0123456789]+$', name)
+    if m is None: return False
+    return True
