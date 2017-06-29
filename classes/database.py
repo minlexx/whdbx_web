@@ -42,7 +42,10 @@ class WHClass(IntEnum):
         return False
 
     @staticmethod
-    def toString(cl: int) -> str:
+    def to_string(cl: int) -> str:
+        if cl == WHClass.HISEC_WH_CLASS: return 'hi sec'
+        if cl == WHClass.LOW_WH_CLASS: return 'low sec'
+        if cl == WHClass.NULL_WH_CLASS: return 'null sec'
         if WHClass.is_thera(cl): return 'Thera'
         s = 'c' + str(abs(cl))  # 'c4' / 'c13'
         if WHClass.is_shattered(cl):
