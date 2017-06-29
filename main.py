@@ -19,6 +19,7 @@ from classes.database import SiteDb, WHClass, get_ss_security_color
 from classes.sleeper import WHSleeper
 from classes.signature import WHSignature
 from classes.zkillboard import ZKB
+# from classes.whsystem import WHSystem
 from classes.utils import dump_object
 
 
@@ -134,12 +135,16 @@ class WhdbxMain:
             a_kill['solarSystemRegion'] = ''
             a_kill['solarSystemSecurity'] = 0.0
             a_kill['solarSystemSecurityColor'] = '#FFFFFF'
+            a_kill['solarSystemWhClass'] = ''
             ss_info = self.db.find_ss_by_id(a_kill['solarSystemID'])
             if ss_info is not None:
                 a_kill['solarSystemName'] = ss_info['name']
                 a_kill['solarSystemRegion'] = ss_info['regionname']
                 a_kill['solarSystemSecurity'] = ss_info['security']
                 a_kill['solarSystemSecurityColor'] = get_ss_security_color(ss_info['security'])
+            whsys_row = self.db.query_wormholesystem_new(a_kill['solarSystemID'])
+            if whsys_row is not None:
+                a_kill['solarSystemWhClass'] = WHClass.to_string(int(whsys_row[0]))
         return kills
 
     @cherrypy.expose()
