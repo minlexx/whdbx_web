@@ -19,7 +19,7 @@ from classes.database import SiteDb, WHClass, get_ss_security_color
 from classes.sleeper import WHSleeper
 from classes.signature import WHSignature
 from classes.zkillboard import ZKB
-# from classes.whsystem import WHSystem
+from classes.whsystem import WHSystem
 from classes.utils import dump_object, is_whsystem_name
 
 
@@ -54,6 +54,13 @@ class WhdbxMain:
         self.cfg = SiteConfig()
         self.tmpl = TemplateEngine(self.cfg)
         self.db = SiteDb(self.cfg)
+        self.zkb_options = {
+            'debug': self.cfg.DEBUG,
+            'cache_time': self.cfg.ZKB_CACHE_TIME,
+            'cache_type': self.cfg.ZKB_CACHE_TYPE,
+            'cache_dir': self.cfg.ZKB_CACHE_DIR,
+            'use_evekill': self.cfg.ZKB_USE_EVEKILL
+        }
         cherrypy.log('started, rootdir=[{}]'.format(self.rootdir), 'WHDBXAPP')
 
     def debugprint(self, msg: str = '') -> str:
@@ -65,9 +72,8 @@ class WhdbxMain:
         return res
 
     # call this if any input error
-    def display_failure(self, comment: str = None) -> str:
-        if comment:
-            self.tmpl.assign('error_comment', comment)
+    def display_failure(self, comment: str = '') -> str:
+        self.tmpl.assign('error_comment', comment)
         return self.tmpl.render('failure.html')
 
     def init_session(self):
@@ -142,14 +148,7 @@ class WhdbxMain:
         self.init_session()
         self.setup_template_vars('index')
         # ZKB
-        zkb_options = {
-            'debug': self.cfg.DEBUG,
-            'cache_time': self.cfg.ZKB_CACHE_TIME,
-            'cache_type': self.cfg.ZKB_CACHE_TYPE,
-            'cache_dir': self.cfg.ZKB_CACHE_DIR,
-            'use_evekill': self.cfg.ZKB_USE_EVEKILL
-        }
-        zkb = ZKB(zkb_options)
+        zkb = ZKB(self.zkb_options)
         zkb.add_wspace()
         zkb.add_limit(30)
         wspace_kills = zkb.go()
@@ -258,7 +257,42 @@ class WhdbxMain:
     def ss(self, jsystem):
         self.init_session()
         self.setup_template_vars('ss')
-        return self.debugprint('/ss: requested info about: {}'.format(jsystem))
+        #
+        # find solarsystem
+        ss_info = self.db.find_ss_by_name(jsystem)
+        if ss_info is None:
+            return self.display_failure('Solar system not found: {}'.format(jsystem))
+        ssid = ss_info['id']
+        #
+        # find whsystem
+        whsys = WHSystem(self.db)
+        whsys.query_info(ssid)
+        if whsys.name != '':
+            self.tmpl.assign('title', whsys.name + ' - WHDBX')
+            whsys.query_trade_routes(self.cfg)
+        #
+        # zkillboard
+        zkb = ZKB(self.zkb_options)
+        zkb.add_solarSystem(ssid)
+        zkb.add_limit(30)
+        zkb_kills = zkb.go()
+        zkb_kills = self.postprocess_zkb_kills(zkb_kills)
+        #
+        # WH signatures
+        sigs = []
+        if whsys.is_wh:
+            sigs = self.db.query_signatures_for_class(whsys.wh_class)
+        #
+        # assign template vars
+        self.tmpl.assign('whsys', whsys)
+        self.tmpl.assign('zkb_kills', zkb_kills)
+        self.tmpl.assign('zkb_block_title', '')
+        self.tmpl.assign('utcnow', datetime.datetime.utcnow())
+        self.tmpl.assign('sigs', sigs)
+        if self.cfg.DEBUG:
+            self.tmpl.assign('whsys_dbg', dump_object(whsys))
+        # return self.debugprint('/ss: requested info about: {}'.format(jsystem))
+        return self.tmpl.render('whsystem_info.html')
 
     @cherrypy.expose()
     def eve_sso_callback(self, code, state):
