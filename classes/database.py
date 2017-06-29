@@ -23,6 +23,36 @@ class WHClass(IntEnum):
             return True
         return False
 
+    @staticmethod
+    def is_shattered(cl: int) -> bool:
+        if (cl <= -1) and (cl >= -6):
+            return True
+        return False
+
+    @staticmethod
+    def is_frig_shattered(cl: int) -> bool:
+        if cl == WHClass.FRIG_WH_CLASS:
+            return True
+        return False
+
+    @staticmethod
+    def is_thera(cl: int) -> bool:
+        if cl == WHClass.THERA_WH_CLASS:
+            return True
+        return False
+
+    @staticmethod
+    def toString(cl: int) -> str:
+        if WHClass.is_thera(cl): return 'Thera'
+        s = 'c' + str(abs(cl))  # 'c4' / 'c13'
+        if WHClass.is_shattered(cl):
+            s += ' shattered'
+        elif WHClass.is_frig_shattered(cl):
+            s += ' frig shattered'
+        elif WHClass.is_drifters(cl):
+            s += ' drifters WH'
+        return s
+
 
 def safe_int(v):
     if v is None:
