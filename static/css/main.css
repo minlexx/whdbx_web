@@ -47,6 +47,8 @@ a:active {
     border: 1px solid #550099;
     padding: 10px;
     font-size: 14px;
+    /* background-color: darkslateblue; */
+    background-color: #222222;
 }
 
 .character_info {
