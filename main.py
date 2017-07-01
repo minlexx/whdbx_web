@@ -1,7 +1,8 @@
 #!/usr/bin/python3.5
 # -*- coding: utf-8 -*-
-import json
+import argparse
 import datetime
+import json
 import os
 import os.path
 import pathlib
@@ -548,10 +549,22 @@ class WhdbxMain:
 
 
 if __name__ == '__main__':
+    # maybe we have som ecommand-line arguments?
+    ap = argparse.ArgumentParser(description='WHDBX web application launcher',
+                                 add_help=True, allow_abbrev=False)
+    ap.add_argument('--host', action='store', default='127.0.0.1', type=str, metavar='BIND_HOST',
+                    help='Host to bind to. Default: 127.0.0.1')
+    ap.add_argument('--port', action='store', default='8081', type=int, metavar='BIND_PORT',
+                    help='Port to listen on. Default: 8081')
+    ap.add_argument('--autoreload', action='store_true', default=False,
+                    help='Enable cherrypy autorelaod function. It self-restarts the server'
+                         ' if source files are changed.')
+    args = ap.parse_args()
+
     cherrypy.config.update({
-        'server.socket_host': '0.0.0.0',
-        'server.socket_port': 81,
-        'engine.autoreload.on': True
+        'server.socket_host': args.host,
+        'server.socket_port': args.port,
+        'engine.autoreload.on': args.autoreload
     })
 
     rootdir = pathlib.Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
