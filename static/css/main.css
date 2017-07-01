@@ -383,3 +383,8 @@ td.sleeper_info2 {
     /* font-style: italic; */
     font-weight: bold;
 }
+
+.helptext {
+    font-size: 14px;
+    color: #CCCCCC;
+}
