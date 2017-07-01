@@ -58,13 +58,11 @@ a:active {
     color: #AAAAAA;
 }
 
-td.character_info {
+.character_info_inline {
+    display: inline-block;
+    vertical-align: middle;
     text-align: center;
-    padding: 2px;
-    border: 0px;
     font-size: 12px;
-    width: 70px;
-    vertical-align: top;
 }
 
 .fast_search_block {
