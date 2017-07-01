@@ -379,6 +379,7 @@ td.sleeper_info2 {
 
 .credits {
     font-size: 10px;
-    color: #444444;
-    font-style: italic;
+    color: #888888;
+    /* font-style: italic; */
+    font-weight: bold;
 }
