@@ -28,6 +28,7 @@ class SiteConfig:
         self.SSO_SECRET_KEY = ''
         self.SSO_SCOPES = ''
         self.SSO_CALLBACK_URL = ''
+        self.SSO_USER_AGENT = ''
 
         self.load(cfg_filename)
 
@@ -65,6 +66,7 @@ class SiteConfig:
             self.SSO_SECRET_KEY = str(cfg['sso']['secret_key'])
             self.SSO_SCOPES = str(cfg['sso']['scopes'])
             self.SSO_CALLBACK_URL = str(cfg['sso']['callback_url'])
+            self.SSO_USER_AGENT = str(cfg['sso']['user_agent'])
 
     def sso_login_url(self, optional_state: str = ''):
         url = 'https://login.eveonline.com/oauth/authorize'
