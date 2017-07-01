@@ -1,0 +1,94 @@
+## -*- coding: utf-8 -*-
+<%include file="header.html"/>
+
+<div class="solarsystem_info_wrapper">
+  <blockquote class="helptext">
+
+    <br />
+    <span class="infoblock_header_text">Информация о EVE-SSO</span><br />
+
+    <p><b>EVE SSO (Single Sign-On)</b> - система единой авторизации пользователей
+      EVE Online, единая система входа, использующая протокол OAuth2
+      (<a href="https://ru.wikipedia.org/wiki/OAuth" target="_blank">Википедия</a>).
+      Призвана
+      упростить авторизацию персонажа на всех сайтах, посвященных EVE Online.
+      Любой сайт третьей стороны (такой, как этот) может задействовать
+      механизм EVE-SSO для авторизации пользователя.
+    </p>
+
+    <p>
+      Суть её заключается в том, что информация об аккаунте (логин и пароль)
+      вводятся на безопасном сайте <a href="https://login.eveonline.com">login.eveonline.com</a>
+      по зашифрованному протоколу HTTPS, а не на стороннем сайте. Таким образом,
+      данные вашего аккаунта остаются в безопасности, и сторонний сайт не
+      имеет доступа к этой информации.
+    </p>
+
+    <p>
+      При нажатии на кнопку "LOG IN with EVE Online" происходит переадресация на
+      логин-страничку CCP, на которой сайт запрашивает определенные разрешения.
+      Вы можете выбрать персонажа, которым хотите зайти на сайт, и ввести
+      логин/пароль от аккаунта. При успешной авторизации на сайте CCP,
+      и согласии с выдачей стороннему ресурсу этих разрешений, сайт,
+      который запрашивал их, получает ключ (токен), который позволяет
+      ему авторизовываться для запроса некоторой информации или
+      совершения определенных действий от вашего имени. Токен действует в
+      течение 20 минут и по истечении срока действия может быть автоматически
+      продлен.
+    </p>
+
+    <table border="0" width="100%">
+      <tr>
+        <td valign="top">
+          <b>WHDBX</b> запрашивает следующие разрешения:<br />
+          <ul>
+            <li><b>read_location</b> - позволяет определить местонахождение вашего
+                персонажа. Позволит автоматически показывать информацию о
+                текущей солнечной системе;</li>
+            <li><b>read_ship_type</b> - если вы не в доке, позволяет узнать, на каком
+                корабле вы сидите и нарисовать его иконочку около ника и портрета;</li>
+            <li><b>open_window</b> - позволяет открывать окна с информацией о кораблях,
+                персонажах, корпорациях в клиенте EVE при щелчке по ссылке на сайте;</li>
+            <li><b>read_online</b> - позволяет узнать, онлайн ли персонаж (стоит ли
+                лишний раз обновлять текущую систему или пытаться открывать окна
+                в клиенте).</li>
+          </ul>
+
+          <br />
+          <span class="infoblock_header_text">Управление разрешениями для сторонних
+            приложений</span><br />
+
+          <p>
+            CCP предусмотрели возможность управлять выданными токенами и забирать
+            доступ у ресурсов по вашему желанию. Чтобы управлять разрешениями
+            сторонних приложений, войдите в центр поддержки и выберите в меню
+            пункт «Использование сторонних программ» (или пройдите по ссылке:
+            <a href="https://community.eveonline.com/support/third-party-applications/">
+              https://community.eveonline.com/support/third-party-applications/</a>).
+          </p>
+
+          <br />
+          <span class="infoblock_header_text">Ссылки по теме:</span><br />
+          <ul>
+            <li><a href="https://support.eveonline.com/hc/en-us/articles/205381192-Single-Sign-On-SSO-"
+                   target="_blank">Основная информация по SSO (english)</a></li>
+            <li><a href="https://support.eveonline.com/hc/ru/articles/115001579209-%D0%A3%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5-%D1%80%D0%B0%D0%B7%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D1%8F%D0%BC%D0%B8-%D0%B4%D0%BB%D1%8F-%D1%81%D1%82%D0%BE%D1%80%D0%BE%D0%BD%D0%BD%D0%B8%D1%85-%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B9-%D1%81-%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%D0%BC-SSO"
+                   target="_blank">Управление разрешениями для сторонних приложений с
+                   использованием SSO (рус)</a></li>
+            <li><a href="https://ru.wikipedia.org/wiki/OAuth" target="_blank">
+              Протокол OAuth (Википедия)</a></li>
+            <li><a href="https://community.eveonline.com/support/third-party-applications/" target="_blank">
+              Управление доступами сторонних приложений</a></li>
+            <li><a href="http://eveonline-third-party-documentation.readthedocs.io/en/latest/sso/" target="_blank">
+              Документация по EVE-SSO для сторонних разработчиков</a></li>
+          </ul>
+
+        </td>
+        <td valign="top"><img border="0" src="/static/img/sso_help2.png" /></td>
+      </tr>
+    </table>
+
+  </blockquote>
+</div>
+
+<%include file="footer.html"/>
