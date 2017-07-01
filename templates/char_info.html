@@ -1,75 +1,45 @@
 ## -*- coding: utf-8 -*-
 
-% if HAVE_SSO_LOGIN == 'true':
+% if HAVE_SSO_LOGIN:
 
 <div class="character_info">
 
-    <table border="0" cellpadding="0" cellspacing="0">
-        <tr>
-            <td class="character_info">
-                <a href="#" onclick="javascript:CCPEVE.showInfo(1377, ${char['id']}); return false;"
-                   title="${char['name']}">
-                   <img src="https://image.eveonline.com/Character/${char['id']}_64.jpg" /></a>
-                <br />
-                <a href="#" onclick="javascript:CCPEVE.showInfo(1377, ${char['id']}); return false;"
-                   title="${char['name']}">${char['name']}</a>
-            </td>
-            <td class="character_info">
-                <a href="#" onclick="javascript:CCPEVE.showInfo(2, ${corp['id']}); return false;"
-                   title="${corp['name']}">
-                   <img src="https://image.eveonline.com/Corporation/${corp['id']}_64.png" /></a>
-                <br />
-                <a href="#" onclick="javascript:CCPEVE.showInfo(2, ${corp['id']}); return false;"
-                   title="${corp['name']}">${corp['name']}</a>
-            </td>
-            <td class="character_info">
-                <a href="#" onclick="javascript:CCPEVE.showInfo(${ship['id']}); return false;"
-                   title="${ship['name']}">
-                   <img src="img/Types/${ship['id']}_64.png" />
-                </a><br />
-                <a href="#" onclick="javascript:CCPEVE.showInfo(${ship['id']}); return false;">${ship['name']}</a>
-            </td>
-            <td class="character_info">
-                <a href="#" onclick="javascript:CCPEVE.showInfo(5, ${ssys['id']}); return false;"
-                   title="${ssys['name']}">
-                   <img src="img/solarsystem_icon_64.png" />
-                </a><br />
-                <a href="#" onclick="javascript:CCPEVE.showInfo(5, ${ssys['id']}); return false;">${ssys['name']}</a>
-            </td>
-            <!-- fast search block -->
-            <td class="character_info">
-            <%include file="fast_search_block.html"/>
-            </td>
-            <!-- short visits history block -->
-            <td class="character_info">
-            <%include file="short_history_block.html"/>
-            </td>
-        </tr>
-    </table>
+  <div class="character_info_inline">
+    <a href="#" onclick="showCharInfo(${SSO_CHAR_ID}); return false;"
+       title="Show info: ${SSO_CHAR_NAME}">
+       <img src="https://image.eveonline.com/Character/${SSO_CHAR_ID}_32.jpg"
+            border="0" width="32"
+            onmouseover="Tip('<img src=&quot;https://image.eveonline.com/Character/${SSO_CHAR_ID}_128.jpg&quot;>');"
+            onmouseout="UnTip();"/></a>
+  </div>
 
-  <!-- TODO: guide user how to remove authorization (logout) -->
+  <div class="character_info_inline">
+    <a href="#" onclick="showCharInfo(${SSO_CHAR_ID}); return false;"
+       title="Show info: ${SSO_CHAR_NAME}">${SSO_CHAR_NAME}</a>
+    <br />
+    [ <a href="/logout">Выход</a> ]
+  </div>
 
-  <%include file="fast_search_block_v2.html"/>
+  <div class="character_info_inline">
+    <%include file="fast_search_block_v2.html"/>
+  </div>
+
+  ## <!-- TODO: Not done yet -->
+  ##<div class="character_info_inline">
+  ##  <%include file="short_history_block.html"/>
+  ##</div>
 </div>
 
 % else:
 
 <div class="character_info">
-
   <div style="display: inline">
     <a href="${SSO_LOGIN_URL}">
       <img border="0" src="/static/img/EVE_SSO_Login_Buttons_Small_Black.png" /></a>
   </div>
-
   <div id="sso_help_button" style="display: inline; padding-left: 10px;">
     <a href="/eve_sso_help/">Зачем?</a>
   </div>
-
-  <!--<div id="sso_help" style="display: none; padding-left: 10px;">
-    После авторизации персонажа мы сможем автоматически определять
-    ваше местоположение, и не придется вручную вбивать номер системы.
-  </div>-->
-
   <%include file="fast_search_block_v2.html"/>
 </div>
 
