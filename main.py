@@ -250,8 +250,14 @@ class WhdbxMain:
         self.init_session()
         self.setup_template_vars('whdb')
         self.tmpl.assign('title', 'База ВХ - WHDBX')
-        # output
         return self.tmpl.render('whdb.html')
+
+    @cherrypy.expose()
+    def about(self):
+        self.init_session()
+        self.setup_template_vars('about')
+        self.tmpl.assign('title', 'О проекте - WHDBX')
+        return self.tmpl.render('about.html')
 
     @cherrypy.expose()
     def ss(self, jsystem):
