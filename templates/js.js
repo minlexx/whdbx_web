@@ -173,3 +173,12 @@ function report_statics(ssid) {
     console.log(url)
     myajax(url, reportstatic_search_handler)
 }
+
+
+% if HAVE_SSO_LOGIN:
+var HAVE_SSO_LOGIN = true;
+var SSO_TOKEN_EXPIRE_DT = new Date('${SSO_TOKEN_EXPIRE_DT}'); // in UTC
+% else:
+var HAVE_SSO_LOGIN = false;
+var SSO_TOKEN_EXPIRE_DT = new Date(new Date().getTime()); // current time in UTC
+%endif

@@ -102,21 +102,32 @@ class WhdbxMain:
 
     def setup_template_vars(self, page: str = ''):
         self.tmpl.unassign_all()
-        self.tmpl.assign('title', 'WHDBX')
+        self.tmpl.assign('title', 'WHDBX')  # default title
         self.tmpl.assign('error_comment', '')  # should be always defined!
-        self.tmpl.assign('MODE', page)
+        self.tmpl.assign('MODE', page)  # current page identifier
         self.tmpl.assign('sitecfg', self.cfg)
-        # TODO: assign crest data
-        self.tmpl.assign('HAVE_SSO_LOGIN', 'false')
+        # assign EVE-SSO data defaults
+        self.tmpl.assign('HAVE_SSO_LOGIN', False)
+        self.tmpl.assign('SSO_TOKEN_EXPIRE_DT', '')
         self.tmpl.assign('SSO_LOGIN_URL', self.cfg.sso_login_url(cherrypy.session['sso_state']))
-        self.tmpl.assign('char', {})
-        self.tmpl.assign('ssys', {})
-        self.tmpl.assign('corp', {})
-        self.tmpl.assign('ship', {})
-        self.tmpl.assign('station', {})
-        # this can be used in any page showing header.html, so set default it here
+        self.tmpl.assign('SSO_CHAR_ID', '')
+        self.tmpl.assign('SSO_CHAR_NAME', '')
+        self.tmpl.assign('SSO_SOLARSYSTEM_ID', '')
+        self.tmpl.assign('SSO_SOLARSYSTEM_NAME', '')
+        self.tmpl.assign('SSO_CORP_ID', '')
+        self.tmpl.assign('SSO_CORP_NAME', '')
+        self.tmpl.assign('SSO_SHIP_ID', '')
+        self.tmpl.assign('SSO_SHIP_NAME', '')
+        if cherrypy.session['sso_token'] != '':
+            self.tmpl.assign('HAVE_SSO_LOGIN', True)
+            self.tmpl.assign('SSO_TOKEN_EXPIRE_DT',
+                cherrypy.session['sso_expire_dt_utc'].strftime('%Y-%m-%dT%H:%M:%SZ'))
+            self.tmpl.assign('SSO_CHAR_ID', cherrypy.session['sso_char_id'])
+            self.tmpl.assign('SSO_CHAR_NAME', cherrypy.session['sso_char_name'])
+        # this can be used in any page showing header.html, so set it here
         self.tmpl.assign('last_visited_systems', list())  # empty list
         # TODO: self.fill_last_visited_systems()
+        # this can be used in every page with zkb_block, so set it here
         self.tmpl.assign('zkb_block_title', '')
 
     def postprocess_zkb_kills(self, kills: list) -> list:
