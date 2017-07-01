@@ -61,13 +61,14 @@ class WhdbxMain:
             'cache_dir': self.cfg.ZKB_CACHE_DIR,
             'use_evekill': self.cfg.ZKB_USE_EVEKILL
         }
-        cherrypy.log('started, rootdir=[{}]'.format(self.rootdir), 'WHDBXAPP')
+        self.tag = 'WHDBX'
+        cherrypy.log('started, rootdir=[{}]'.format(self.rootdir), self.tag)
 
     def debugprint(self, msg: str = '') -> str:
         res = ''
         cherrypy.response.headers['Content-Type'] = 'text/plain; charset=utf-8'
         res += 'use evekill: ' + str(self.cfg.ZKB_USE_EVEKILL) + '\n'
-        res += str(os.environ) + '\n'
+        res += str(os.environ) + '\n\n'
         res += msg
         return res
 
@@ -81,12 +82,22 @@ class WhdbxMain:
         if 'sso_state' not in cherrypy.session:
             new_state = uuid.uuid4().hex
             cherrypy.session['sso_state'] = new_state
-            cherrypy.log('Generated new sso_state = {}'.format(new_state))
+            cherrypy.log('Generated new sso_state = {}'.format(new_state), self.tag)
         #
-        needed_sso_vars = ['sso_token', 'sso_refresh_token', 'sso_expire_dt']
+        needed_sso_vars = ['sso_token', 'sso_refresh_token', 'sso_expire_dt',
+                           'sso_expire_dt_utc', 'sso_char_id', 'sso_char_name']
         for var_name in needed_sso_vars:
             if var_name not in cherrypy.session:
                 cherrypy.session[var_name] = ''
+
+    @cherrypy.expose()
+    def dump_session(self, **params):
+        text = '\n'
+        keys = cherrypy.session.keys()
+        for key in keys:
+            value = str(cherrypy.session[key])
+            text += "  cherrypy.session['{}'] = '{}'\n".format(str(key), value)
+        return self.debugprint(text)
 
     def setup_template_vars(self, page: str = ''):
         self.tmpl.unassign_all()
@@ -324,12 +335,15 @@ class WhdbxMain:
         try:
             r = requests.post('https://login.eveonline.com/oauth/token',
                               auth=(self.cfg.SSO_CLIENT_ID, self.cfg.SSO_SECRET_KEY),
-                              headers={'Content-Type': 'application/x-www-form-urlencoded'},
+                              headers={
+                                  'Content-Type': 'application/x-www-form-urlencoded',
+                                  'User-Agent': self.cfg.SSO_USER_AGENT
+                              },
                               data={'grant_type': 'authorization_code', 'code': code},
                               timeout=10)
         except requests.exceptions.RequestException as req_e:
             return self.display_failure('Error during communication to '
-                                        'login.eveonline.com: <br />' + str(req_e))
+                                        'login.eveonline.com (get token): <br />' + str(req_e))
 
         # {"access_token":"kumuk...LAnz4RJZA2","token_type":"Bearer","expires_in":1200,
         #  "refresh_token":"MkMi5cGg...fIQisV0"}
@@ -337,19 +351,46 @@ class WhdbxMain:
         try:
             details = json.loads(r.text)
         except json.JSONDecodeError:
-            return self.display_failure('Error decoding server response from login.eveonline.com!')
+            return self.display_failure('Error decoding server response '
+                                        'from login.eveonline.com! (get token)')
 
         access_token = details['access_token']
         refresh_token = details['refresh_token']
         expires_in = int(details['expires_in'])
         td = datetime.timedelta(seconds=expires_in)
         dt_now = datetime.datetime.now()
+        dt_utcnow = datetime.datetime.utcnow()
         dt_expire = dt_now + td
+        dt_utcexpire = dt_utcnow + td
 
         # save those in session
         cherrypy.session['sso_token'] = access_token
         cherrypy.session['sso_refresh_token'] = refresh_token
         cherrypy.session['sso_expire_dt'] = dt_expire
+        cherrypy.session['sso_expire_dt_utc'] = dt_utcexpire
+
+        # obtain character ID and name
+        try:
+            # special request to EVE-SSO login site to get char ID & name (not part of OAuth2 protocol)
+            # see http://eveonline-third-party-documentation.readthedocs.io/en/latest/sso/obtaincharacterid.html
+            r = requests.get('https://login.eveonline.com/oauth/verify',
+                             headers={
+                                 'Authorization': 'Bearer ' + access_token,
+                                 'User-Agent': self.cfg.SSO_USER_AGENT
+                             },
+                             timeout=10)
+        except requests.exceptions.RequestException as req_e:
+            return self.display_failure('Error during communication to '
+                                        'login.eveonline.com (get character info): <br />' + str(req_e))
+        response_text = r.text
+        try:
+            details = json.loads(r.text)
+        except json.JSONDecodeError:
+            return self.display_failure('Error decoding server response '
+                                        'from login.eveonline.com! (get character info)')
+        # store in session
+        cherrypy.session['sso_char_id'] = str(details['CharacterID'])
+        cherrypy.session['sso_char_name'] = str(details['CharacterName'])
 
         # Redirect to index
         raise cherrypy.HTTPRedirect('/', status=302)
