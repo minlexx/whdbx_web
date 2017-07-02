@@ -84,7 +84,9 @@ class WhdbxMain:
             new_state = uuid.uuid4().hex
             cherrypy.session['sso_state'] = new_state
             cherrypy.log('Generated new sso_state = {}'.format(new_state), self.tag)
-        #
+        self.sso_session_logout()
+
+    def sso_session_logout(self):
         needed_sso_vars = ['sso_token', 'sso_refresh_token', 'sso_expire_dt',
                            'sso_expire_dt_utc', 'sso_char_id', 'sso_char_name']
         for var_name in needed_sso_vars:
@@ -396,7 +398,7 @@ class WhdbxMain:
                                         'login.eveonline.com (get character info): <br />' + str(req_e))
         response_text = r.text
         try:
-            details = json.loads(r.text)
+            details = json.loads(response_text)
         except json.JSONDecodeError:
             return self.display_failure('Error decoding server response '
                                         'from login.eveonline.com! (get character info)')
@@ -411,7 +413,6 @@ class WhdbxMain:
     @cherrypy.expose()
     def ajax(self, **params):
         ret_print = 'ERROR'  # default return
-        #
         if 'search_jsystem' in params:
             """
             params: search_jsystem - solarsystem name, like 'j170122' or 'J170122'
@@ -426,7 +427,6 @@ class WhdbxMain:
                     search_jsystem = search_jsystem.upper()
                     # ret_print = str(jsys['id'])
                     ret_print = search_jsystem
-        #
         if 'search_hole' in params:
             hole_name = str(params['search_hole'])
             if hole_name != '':
@@ -555,6 +555,65 @@ class WhdbxMain:
                 res['systems'].append(jsys)
             res['query'] = q
             # output result
+            ret_print = json.dumps(res)
+        if 'sso_refresh_token' in params:
+            cherrypy.log('ajax: sso_refresh_token: start refresh', self.tag)
+            res = {
+                'error': '',
+                'sso_expire_dt_utc': ''
+            }
+            refresh_token = cherrypy.session['sso_refresh_token']
+            if refresh_token != '':
+                try:
+                    r = requests.post('https://login.eveonline.com/oauth/token',
+                                      auth=(self.cfg.SSO_CLIENT_ID, self.cfg.SSO_SECRET_KEY),
+                                      headers={
+                                          'Content-Type': 'application/x-www-form-urlencoded',
+                                          'User-Agent': self.cfg.SSO_USER_AGENT
+                                      },
+                                      data={
+                                          'grant_type': 'refresh_token',
+                                          'refresh_token': refresh_token
+                                      },
+                                      timeout=10)
+                    if r.status_code == 200:
+                        response_text = r.text
+                        details = json.loads(response_text)
+                        # get data from JSON reply
+                        access_token = details['access_token']
+                        refresh_token = details['refresh_token']
+                        expires_in = int(details['expires_in'])
+                        # calculate expire datetime
+                        td = datetime.timedelta(seconds=expires_in)
+                        dt_now = datetime.datetime.now()
+                        dt_utcnow = datetime.datetime.utcnow()
+                        dt_expire = dt_now + td
+                        dt_utcexpire = dt_utcnow + td
+                        # save those in session
+                        cherrypy.session['sso_token'] = access_token
+                        cherrypy.session['sso_refresh_token'] = refresh_token
+                        cherrypy.session['sso_expire_dt'] = dt_expire
+                        cherrypy.session['sso_expire_dt_utc'] = dt_utcexpire
+                        cherrypy.log('ajax: sso_refresh_token: success', self.tag)
+                        # form reply JSON
+                        res['sso_expire_dt_utc'] = dt_utcexpire.strftime('%Y-%m-%dT%H:%M:%SZ')
+                    else:
+                        # some SSO error
+                        cherrypy.log('ajax: sso_refresh_token: failed to refresh'
+                                     ' (HTTP error={}), logout'.format(r.status_code))
+                        self.sso_session_logout()
+                        res['error'] = 'Error during communication to login.eveonline.com ' \
+                                       '(refresh token)'
+                except requests.exceptions.RequestException as req_e:
+                    cherrypy.log('ajax: sso_refresh_token: failed to refresh, logout')
+                    self.sso_session_logout()
+                    res['error'] = 'Error during communication to login.eveonline.com ' \
+                                   '(refresh token): ' + str(req_e)
+                except json.JSONDecodeError as json_e:
+                    res['error'] = 'Error decoding server response from ' \
+                                   'login.eveonline.com! (refresh token)' + str(json_e)
+            else:
+                res['error'] = 'Not found refresh_token in saved session!'
             ret_print = json.dumps(res)
         return ret_print
 
