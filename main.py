@@ -576,7 +576,7 @@ class WhdbxMain:
                                           'refresh_token': refresh_token
                                       },
                                       timeout=10)
-                    if r.status_code == 200:
+                    if (r.status_code >= 200) and (r.status_code < 300):
                         response_text = r.text
                         details = json.loads(response_text)
                         # get data from JSON reply
