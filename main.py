@@ -62,6 +62,12 @@ class WhdbxMain:
             'cache_dir': self.cfg.ZKB_CACHE_DIR,
             'use_evekill': self.cfg.ZKB_USE_EVEKILL
         }
+        self.needed_sso_vars = ['sso_token', 'sso_refresh_token',
+                                'sso_expire_dt', 'sso_expire_dt_utc',
+                                'sso_char_id', 'sso_char_name',
+                                'sso_corp_id', 'sso_corp_name', 'sso_ally_id',
+                                'sso_ship_id', 'sso_ship_name',
+                                'sso_solarsystem_id', 'sso_solarsystem_name']
         self.tag = 'WHDBX'
         cherrypy.log('started, rootdir=[{}]'.format(self.rootdir), self.tag)
 
@@ -84,18 +90,16 @@ class WhdbxMain:
             new_state = uuid.uuid4().hex
             cherrypy.session['sso_state'] = new_state
             cherrypy.log('Generated new sso_state = {}'.format(new_state), self.tag)
-        self.sso_session_cleanup()
-
-    def sso_session_cleanup(self):
-        needed_sso_vars = ['sso_token', 'sso_refresh_token',
-                           'sso_expire_dt', 'sso_expire_dt_utc',
-                           'sso_char_id', 'sso_char_name',
-                           'sso_corp_id', 'sso_corp_name', 'sso_ally_id',
-                           'sso_ship_id', 'sso_ship_name',
-                           'sso_solarsystem_id', 'sso_solarsystem_name']
-        for var_name in needed_sso_vars:
+        # auto-create missing session vars as empty strings
+        for var_name in self.needed_sso_vars:
             if var_name not in cherrypy.session:
                 cherrypy.session[var_name] = ''
+
+    def sso_session_cleanup(self):
+        for var_name in self.needed_sso_vars:
+            cherrypy.session[var_name] = ''
+        del cherrypy.session['sso_state']
+        cherrypy.log('session cleaned', self.tag)
 
     @cherrypy.expose()
     def dump_session(self, **params):
@@ -301,6 +305,14 @@ class WhdbxMain:
         self.setup_template_vars('eve_sso_help')
         self.tmpl.assign('title', 'O EVE-SSO - WHDBX')
         return self.tmpl.render('eve_sso_help.html')
+
+    @cherrypy.expose()
+    def logout(self):
+        # clear session
+        self.sso_session_cleanup()
+        # Redirect to index
+        raise cherrypy.HTTPRedirect('/', status=302)
+        return 'Redirecting...'  # never executed
 
     @cherrypy.expose()
     def ss(self, jsystem):
