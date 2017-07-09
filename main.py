@@ -423,212 +423,241 @@ class WhdbxMain:
 
     @cherrypy.expose()
     def ajax(self, **params):
-        ret_print = 'ERROR'  # default return
+        ret_print = ''  # this string will be returned as result
         if 'search_jsystem' in params:
-            """
-            params: search_jsystem - solarsystem name, like 'j170122' or 'J170122'
-            This AJAX handler only checks that 'search_jsystem' exists.
-            If it exists, it returns solarsystem name. 'ERROR' otherwise
-            """
-            search_jsystem = str(params['search_jsystem'])
-            if is_whsystem_name(search_jsystem):
-                jsys = self.db.find_ss_by_name(search_jsystem)
-                if jsys:
-                    # solarsystem was found, return its name
-                    search_jsystem = search_jsystem.upper()
-                    # ret_print = str(jsys['id'])
-                    ret_print = search_jsystem
+            # the only AJAX call that returns simple string; others return JSON strings.
+            ret_print = self.ajax_search_jsystem(**params)
         if 'search_hole' in params:
-            hole_name = str(params['search_hole'])
-            if hole_name != '':
-                hole_name = hole_name.upper()
-                wh = self.db.find_wormhole(hole_name)
-                if wh is not None:
-                    wh['in_class_str'] = ''
-                    if wh['in_class'] != 0:
-                        if wh['in_class'] == WHClass.THERA_WH_CLASS:
-                            wh['in_class_str'] = 'Thera'
-                        if wh['in_class'] == WHClass.FRIG_WH_CLASS:
-                            wh['in_class_str'] = 'frig-WH'
-                        if wh['in_class'] == WHClass.HISEC_WH_CLASS:
-                            wh['in_class_str'] = 'High sec'
-                        if wh['in_class'] == WHClass.LOW_WH_CLASS:
-                            wh['in_class_str'] = 'Low sec'
-                        if wh['in_class'] == WHClass.NULL_WH_CLASS:
-                            wh['in_class_str'] = 'Null sec'
-                        if (wh['in_class'] >= 1) and (wh['in_class'] <= 6):
-                            wh['in_class_str'] = 'C' + str(wh['in_class'])
-                        if (wh['in_class'] >= -6) and (wh['in_class'] <= -1):
-                            wh['in_class_str'] = 'C' + str(wh['in_class']) + ' shattered'
-                        if WHClass.is_drifters(wh['in_class']):
-                            wh['in_class_str'] = 'Drifters WH'
-                    ret_print = json.dumps(wh)
+            wh = self.ajax_search_hole(**params)  # may return None
+            ret_print = 'ERROR'
+            if wh is not None:
+                ret_print = json.dumps(wh)
         if 'whdb' in params:
-            # QUERY_PARAMS= {'whdb': ['1'], 'class': ['5', '6', 'shattered', 'frigwr']}
-            res = dict()
-            res['systems'] = []
-            s3conn = self.db.connection_handle()
-            q = 'SELECT solarsystemid, system, class, star, planets, moons, effect, statics \n'
-            q += ' FROM wormholesystems_new'
-            class_cond = ''
-            eff_cond = ''
-            static_cond = ''
-            if 'class' in params:
-                class_list = params['class']
-                has_shattered = False
-                for cd in class_list:
-                    if cd.isnumeric():
-                        if len(class_cond) > 0:
-                            class_cond += ' OR '
-                        class_cond += ('(class=' + str(cd) + ')')
-                    elif cd == 'shattered':
-                        has_shattered = True
-                    elif cd == 'frigwr':
-                        if len(class_cond) > 0:
-                            class_cond += ' OR '
-                        class_cond += '(class=13)'
-                    elif cd == 'drifters':
-                        if len(class_cond) > 0:
-                            class_cond += ' OR '
-                        class_cond += '((class >= 14) AND (class <= 18))'
-                if has_shattered and (len(class_cond) > 0):
-                    for cd in class_list:
-                        if cd.isnumeric():
-                            class_cond += ' OR '
-                            class_cond += ('(class=-' + str(cd) + ')')
-            if 'effect' in params:
-                eff_list = params['effect']
-                for eff in eff_list:
-                    if len(eff_cond) > 0:
-                        eff_cond += ' OR '
-                    if eff == 'noeffect':
-                        eff_cond += '(effect IS NULL)'
-                    elif eff == 'bh':
-                        eff_cond += '(effect=\'Black Hole\')'
-                    elif eff == 'cv':
-                        eff_cond += '(effect=\'Cataclysmic Variable\')'
-                    elif eff == 'mag':
-                        eff_cond += '(effect=\'Magnetar\')'
-                    elif eff == 'pul':
-                        eff_cond += '(effect=\'Pulsar\')'
-                    elif eff == 'rg':
-                        eff_cond += '(effect=\'Red Giant\')'
-                    elif eff == 'wr':
-                        eff_cond += '(effect=\'Wolf-Rayet Star\')'
-            if 'in_class' in params:
-                in_class_list = params['in_class']
-                icl = ''
-                for ic in in_class_list:
-                    if ic.isnumeric():
-                        if icl != '':
-                            icl += ' OR '
-                        icl += ('in_class=' + ic)
-                if icl != '':
-                    q2 = 'SELECT hole FROM wormholeclassifications WHERE '
-                    q2 += icl
-                    hole_list = []
-                    cur2 = s3conn.cursor()
-                    cur2.execute(q2)
-                    for row in cur2:
-                        hole_list.append(row[0])
-                        if static_cond != '':
-                            static_cond += ' OR '
-                        static_cond += '(statics LIKE \'%' + row[0] + '%\')'
-            # finalize query
-            where_cond = ''
-            if class_cond != '':
-                where_cond += '(' + class_cond + ')'
-            if eff_cond != '':
-                if where_cond != '':
-                    where_cond += ' AND '
-                where_cond += '(' + eff_cond + ')'
-            if static_cond != '':
-                if where_cond != '':
-                    where_cond += ' AND '
-                where_cond += '(' + static_cond + ')'
-            if where_cond != '':
-                q += '\n WHERE ' + where_cond
-            cursor = s3conn.cursor()
-            cursor.execute(q)
-            for row in cursor:
-                jsys = dict()
-                # solarsystemid, system, class, star, planets, moons, effect, statics
-                jsys['id'] = int(row[0])
-                jsys['name'] = row[1]
-                jsys['class'] = int(row[2])
-                # jsys['star'] = row[3]  # not very needed
-                # jsys['planets'] = int(row[4])  # not very needed
-                # jsys['moons'] = int(row[5])  # not very needed
-                jsys['effect'] = row[6]
-                jsys['statics'] = []
-                for st in str(row[7]).split(','):
-                    jsys['statics'].append(st)
-                res['systems'].append(jsys)
-            res['query'] = q
-            # output result
+            res = self.ajax_whdb_query(**params)
             ret_print = json.dumps(res)
         if 'sso_refresh_token' in params:
-            cherrypy.log('ajax: sso_refresh_token: start refresh', self.tag)
-            res = {
-                'error': '',
-                'sso_expire_dt_utc': ''
-            }
-            refresh_token = cherrypy.session['sso_refresh_token']
-            if refresh_token != '':
-                try:
-                    r = requests.post('https://login.eveonline.com/oauth/token',
-                                      auth=(self.cfg.SSO_CLIENT_ID, self.cfg.SSO_SECRET_KEY),
-                                      headers={
-                                          'Content-Type': 'application/x-www-form-urlencoded',
-                                          'User-Agent': self.cfg.SSO_USER_AGENT
-                                      },
-                                      data={
-                                          'grant_type': 'refresh_token',
-                                          'refresh_token': refresh_token
-                                      },
-                                      timeout=10)
-                    if (r.status_code >= 200) and (r.status_code < 300):
-                        response_text = r.text
-                        details = json.loads(response_text)
-                        # get data from JSON reply
-                        access_token = details['access_token']
-                        refresh_token = details['refresh_token']
-                        expires_in = int(details['expires_in'])
-                        # calculate expire datetime
-                        td = datetime.timedelta(seconds=expires_in)
-                        dt_now = datetime.datetime.now()
-                        dt_utcnow = datetime.datetime.utcnow()
-                        dt_expire = dt_now + td
-                        dt_utcexpire = dt_utcnow + td
-                        # save those in session
-                        cherrypy.session['sso_token'] = access_token
-                        cherrypy.session['sso_refresh_token'] = refresh_token
-                        cherrypy.session['sso_expire_dt'] = dt_expire
-                        cherrypy.session['sso_expire_dt_utc'] = dt_utcexpire
-                        cherrypy.log('ajax: sso_refresh_token: success', self.tag)
-                        # form reply JSON
-                        res['sso_expire_dt_utc'] = dt_utcexpire.strftime('%Y-%m-%dT%H:%M:%SZ')
-                    else:
-                        # some SSO error
-                        cherrypy.log('ajax: sso_refresh_token: failed to refresh'
-                                     ' (HTTP error={}), logout'.format(r.status_code))
-                        self.sso_session_cleanup()
-                        res['error'] = 'Error during communication to login.eveonline.com ' \
-                                       '(refresh token)'
-                except requests.exceptions.RequestException as req_e:
-                    cherrypy.log('ajax: sso_refresh_token: failed to refresh, logout')
-                    self.sso_session_cleanup()
-                    res['error'] = 'Error during communication to login.eveonline.com ' \
-                                   '(refresh token): ' + str(req_e)
-                except json.JSONDecodeError as json_e:
-                    res['error'] = 'Error decoding server response from ' \
-                                   'login.eveonline.com! (refresh token)' + str(json_e)
-            else:
-                res['error'] = 'Not found refresh_token in saved session!'
+            res = self.ajax_sso_call_refresh_token()
             ret_print = json.dumps(res)
         if 'esi_call' in params:
+            res = {'error': 'Unknown esi_call!'}
             call_type = str(params['esi_call'])
+            if call_type == 'public_data':
+                res = self.ajax_esi_call_public_data()
+            ret_print = json.dumps(res)
         return ret_print
+
+    def ajax_search_jsystem(self, **params) -> str:
+        """
+        params: search_jsystem - solarsystem name, like 'j170122' or 'J170122'
+        This AJAX handler only checks that 'search_jsystem' exists.
+        If it exists, it returns solarsystem name. 'ERROR' otherwise
+        """
+        ret = 'ERROR'  # default return
+        search_jsystem = str(params['search_jsystem'])
+        if is_whsystem_name(search_jsystem):
+            jsys = self.db.find_ss_by_name(search_jsystem)
+            if jsys:
+                # solarsystem was found, return its name
+                search_jsystem = search_jsystem.upper()
+                # ret = str(jsys['id'])
+                ret = search_jsystem
+        return ret
+
+    def ajax_search_hole(self, **params) -> dict:
+        wh = None
+        hole_name = str(params['search_hole'])
+        if hole_name != '':
+            hole_name = hole_name.upper()
+            wh = self.db.find_wormhole(hole_name)
+            if wh is not None:
+                wh['in_class_str'] = ''
+                if wh['in_class'] != 0:
+                    if wh['in_class'] == WHClass.THERA_WH_CLASS:
+                        wh['in_class_str'] = 'Thera'
+                    if wh['in_class'] == WHClass.FRIG_WH_CLASS:
+                        wh['in_class_str'] = 'frig-WH'
+                    if wh['in_class'] == WHClass.HISEC_WH_CLASS:
+                        wh['in_class_str'] = 'High sec'
+                    if wh['in_class'] == WHClass.LOW_WH_CLASS:
+                        wh['in_class_str'] = 'Low sec'
+                    if wh['in_class'] == WHClass.NULL_WH_CLASS:
+                        wh['in_class_str'] = 'Null sec'
+                    if (wh['in_class'] >= 1) and (wh['in_class'] <= 6):
+                        wh['in_class_str'] = 'C' + str(wh['in_class'])
+                    if (wh['in_class'] >= -6) and (wh['in_class'] <= -1):
+                        wh['in_class_str'] = 'C' + str(wh['in_class']) + ' shattered'
+                    if WHClass.is_drifters(wh['in_class']):
+                        wh['in_class_str'] = 'Drifters WH'
+        return wh
+
+    def ajax_whdb_query(self, **params) -> dict:
+        # QUERY_PARAMS= {'whdb': ['1'], 'class': ['5', '6', 'shattered', 'frigwr']}
+        res = dict()
+        res['systems'] = []
+        s3conn = self.db.connection_handle()
+        q = 'SELECT solarsystemid, system, class, star, planets, moons, effect, statics \n'
+        q += ' FROM wormholesystems_new'
+        class_cond = ''
+        eff_cond = ''
+        static_cond = ''
+        if 'class' in params:
+            class_list = params['class']
+            has_shattered = False
+            for cd in class_list:
+                if cd.isnumeric():
+                    if len(class_cond) > 0:
+                        class_cond += ' OR '
+                    class_cond += ('(class=' + str(cd) + ')')
+                elif cd == 'shattered':
+                    has_shattered = True
+                elif cd == 'frigwr':
+                    if len(class_cond) > 0:
+                        class_cond += ' OR '
+                    class_cond += '(class=13)'
+                elif cd == 'drifters':
+                    if len(class_cond) > 0:
+                        class_cond += ' OR '
+                    class_cond += '((class >= 14) AND (class <= 18))'
+            if has_shattered and (len(class_cond) > 0):
+                for cd in class_list:
+                    if cd.isnumeric():
+                        class_cond += ' OR '
+                        class_cond += ('(class=-' + str(cd) + ')')
+        if 'effect' in params:
+            eff_list = params['effect']
+            for eff in eff_list:
+                if len(eff_cond) > 0:
+                    eff_cond += ' OR '
+                if eff == 'noeffect':
+                    eff_cond += '(effect IS NULL)'
+                elif eff == 'bh':
+                    eff_cond += '(effect=\'Black Hole\')'
+                elif eff == 'cv':
+                    eff_cond += '(effect=\'Cataclysmic Variable\')'
+                elif eff == 'mag':
+                    eff_cond += '(effect=\'Magnetar\')'
+                elif eff == 'pul':
+                    eff_cond += '(effect=\'Pulsar\')'
+                elif eff == 'rg':
+                    eff_cond += '(effect=\'Red Giant\')'
+                elif eff == 'wr':
+                    eff_cond += '(effect=\'Wolf-Rayet Star\')'
+        if 'in_class' in params:
+            in_class_list = params['in_class']
+            icl = ''
+            for ic in in_class_list:
+                if ic.isnumeric():
+                    if icl != '':
+                        icl += ' OR '
+                    icl += ('in_class=' + ic)
+            if icl != '':
+                q2 = 'SELECT hole FROM wormholeclassifications WHERE '
+                q2 += icl
+                hole_list = []
+                cur2 = s3conn.cursor()
+                cur2.execute(q2)
+                for row in cur2:
+                    hole_list.append(row[0])
+                    if static_cond != '':
+                        static_cond += ' OR '
+                    static_cond += '(statics LIKE \'%' + row[0] + '%\')'
+        # finalize query
+        where_cond = ''
+        if class_cond != '':
+            where_cond += '(' + class_cond + ')'
+        if eff_cond != '':
+            if where_cond != '':
+                where_cond += ' AND '
+            where_cond += '(' + eff_cond + ')'
+        if static_cond != '':
+            if where_cond != '':
+                where_cond += ' AND '
+            where_cond += '(' + static_cond + ')'
+        if where_cond != '':
+            q += '\n WHERE ' + where_cond
+        cursor = s3conn.cursor()
+        cursor.execute(q)
+        for row in cursor:
+            jsys = dict()
+            # solarsystemid, system, class, star, planets, moons, effect, statics
+            jsys['id'] = int(row[0])
+            jsys['name'] = row[1]
+            jsys['class'] = int(row[2])
+            # jsys['star'] = row[3]  # not very needed
+            # jsys['planets'] = int(row[4])  # not very needed
+            # jsys['moons'] = int(row[5])  # not very needed
+            jsys['effect'] = row[6]
+            jsys['statics'] = []
+            for st in str(row[7]).split(','):
+                jsys['statics'].append(st)
+            res['systems'].append(jsys)
+        res['query'] = q
+        return res
+
+    def ajax_sso_call_refresh_token(self) -> dict:
+        cherrypy.log('ajax: sso_refresh_token: start refresh', self.tag)
+        res = {
+            'error': '',
+            'sso_expire_dt_utc': ''
+        }
+        refresh_token = cherrypy.session['sso_refresh_token']
+        if refresh_token != '':
+            try:
+                r = requests.post('https://login.eveonline.com/oauth/token',
+                                  auth=(self.cfg.SSO_CLIENT_ID, self.cfg.SSO_SECRET_KEY),
+                                  headers={
+                                      'Content-Type': 'application/x-www-form-urlencoded',
+                                      'User-Agent': self.cfg.SSO_USER_AGENT
+                                  },
+                                  data={
+                                      'grant_type': 'refresh_token',
+                                      'refresh_token': refresh_token
+                                  },
+                                  timeout=10)
+                if (r.status_code >= 200) and (r.status_code < 300):
+                    response_text = r.text
+                    details = json.loads(response_text)
+                    # get data from JSON reply
+                    access_token = details['access_token']
+                    refresh_token = details['refresh_token']
+                    expires_in = int(details['expires_in'])
+                    # calculate expire datetime
+                    td = datetime.timedelta(seconds=expires_in)
+                    dt_now = datetime.datetime.now()
+                    dt_utcnow = datetime.datetime.utcnow()
+                    dt_expire = dt_now + td
+                    dt_utcexpire = dt_utcnow + td
+                    # save those in session
+                    cherrypy.session['sso_token'] = access_token
+                    cherrypy.session['sso_refresh_token'] = refresh_token
+                    cherrypy.session['sso_expire_dt'] = dt_expire
+                    cherrypy.session['sso_expire_dt_utc'] = dt_utcexpire
+                    cherrypy.log('ajax: sso_refresh_token: success', self.tag)
+                    # form reply JSON
+                    res['sso_expire_dt_utc'] = dt_utcexpire.strftime('%Y-%m-%dT%H:%M:%SZ')
+                else:
+                    # some SSO error
+                    cherrypy.log('ajax: sso_refresh_token: failed to refresh'
+                                 ' (HTTP error={}), logout'.format(r.status_code))
+                    self.sso_session_cleanup()
+                    res['error'] = 'Error during communication to login.eveonline.com ' \
+                                   '(refresh token)'
+            except requests.exceptions.RequestException as req_e:
+                cherrypy.log('ajax: sso_refresh_token: failed to refresh, logout')
+                self.sso_session_cleanup()
+                res['error'] = 'Error during communication to login.eveonline.com ' \
+                               '(refresh token): ' + str(req_e)
+            except json.JSONDecodeError as json_e:
+                res['error'] = 'Error decoding server response from ' \
+                               'login.eveonline.com! (refresh token)' + str(json_e)
+        else:
+            res['error'] = 'Not found refresh_token in saved session!'
+        return res
+
+    def ajax_esi_call_public_data(self) -> dict:
+        cherrypy.log('ajax: esi_call_public_data: start', self.tag)
+        ret = {'error': ''}
+        return ret
 
 
 if __name__ == '__main__':
