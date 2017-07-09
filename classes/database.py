@@ -57,19 +57,19 @@ class WHClass(IntEnum):
         return s
 
 
-def safe_int(v):
+def safe_int(v) -> int:
     if v is None:
         return None
     return int(v)
 
 
-def safe_float(v):
+def safe_float(v) -> float:
     if v is None:
         return None
     return float(v)
 
 
-def get_ss_security_color(security_level: float):
+def get_ss_security_color(security_level: float) -> str:
     sec_color = '#ff0000'
     sec_colors = dict()
     sec_colors['1.0'] = '#33ffff'
@@ -121,7 +121,7 @@ class SiteDb:
     def connection_handle(self):
         return self._conn
 
-    def query_hole_info(self, hole: str):
+    def query_hole_info(self, hole: str) -> tuple:
         cur = self._conn.cursor()
         q = 'SELECT in_class, maxStableTime, maxStableMass, ' \
             '       maxJumpMass, massRegeneration ' \
@@ -131,7 +131,7 @@ class SiteDb:
         cur.close()
         return row
 
-    def query_effect_info(self, effect_id: int, effect_class: int):
+    def query_effect_info(self, effect_id: int, effect_class: int) -> list:
         query = 'SELECT effect, icon, c{0} ' \
                 'FROM effects_new WHERE id_type = ?'.format(effect_class)
         cursor = self._conn.cursor()
@@ -142,7 +142,7 @@ class SiteDb:
         cursor.close()
         return effects
 
-    def query_wormholesystem(self, ssys_id: int):
+    def query_wormholesystem(self, ssys_id: int) -> tuple:
         select_wh_query = (
             'SELECT class, star, planet, moon, effect, static_1, static_2 '
             'FROM wormholesystems WHERE solarsystemid = ?')
@@ -151,7 +151,7 @@ class SiteDb:
         row = cursor.fetchone()
         return row
 
-    def query_wormholesystem_new(self, ssys_id: int):
+    def query_wormholesystem_new(self, ssys_id: int) -> tuple:
         select_wh_query_new = (
             'SELECT class, star, planets, moons, effect, statics '
             'FROM wormholesystems_new WHERE solarsystemid = ?')
@@ -174,7 +174,7 @@ class SiteDb:
         # release lock
         self._write_lock.release()
 
-    def query_solarsystem(self, ssys_id: int):
+    def query_solarsystem(self, ssys_id: int) -> tuple:
         ccp_q = (
             'SELECT ss.solarSystemName, ss.security, ss.radius, ss.regionID, '
             '       ss.constellationID, mr.itemName as regionName, mc.itemName as constellationName '
@@ -187,7 +187,7 @@ class SiteDb:
         row = cursor.fetchone()
         return row
 
-    def select_all_sleepers(self):
+    def select_all_sleepers(self) -> list:
         ret = list()
         q = 'SELECT id,name FROM sleepers ORDER BY id'
         cur = self._conn.cursor()
@@ -200,7 +200,7 @@ class SiteDb:
             ret.append(s)
         return ret
 
-    def select_all_effects(self):
+    def select_all_effects(self) -> list:
         ret = list()
         q = 'SELECT id,id_type,hole,effect,icon,c1,c2,c3,c4,c5,c6 FROM effects_new ORDER BY id'
         cur = self._conn.cursor()
@@ -221,7 +221,7 @@ class SiteDb:
             ret.append(s)
         return ret
 
-    def query_sleeper_by_id(self, sleeper_id: int):
+    def query_sleeper_by_id(self, sleeper_id: int) -> tuple:
         sleeper_query = (
             'SELECT id, wh_class,sz,name,signature,maxspeed,orbit,'
             ' armor,hull,res_em,res_therm,res_kin,res_exp,'
@@ -233,7 +233,7 @@ class SiteDb:
         row = cursor.fetchone()
         return row
 
-    def query_sleeper_by_class(self, class_str: str):
+    def query_sleeper_by_class(self, class_str: str) -> list:
         ret = []
         sleeper_query = (
             'SELECT id,wh_class,sz,name FROM sleepers WHERE wh_class = ?')
@@ -248,7 +248,7 @@ class SiteDb:
             ret.append(sl)
         return ret
 
-    def query_signatures_for_class(self, wh_class: int):
+    def query_signatures_for_class(self, wh_class: int) -> list:
         ret = []
         q = 'SELECT id,wh_class,sig_type,sig_name FROM signatures WHERE wh_class = ?'
         cur = self._conn.cursor()
@@ -304,7 +304,7 @@ class SiteDb:
             cur.close()
         return ret
 
-    def query_gas_signatures(self):
+    def query_gas_signatures(self) -> list:
         ret = []
         q = 'SELECT id,wh_class,sig_type,sig_name FROM signatures WHERE sig_type = ?'
         cur = self._conn.cursor()
@@ -318,7 +318,7 @@ class SiteDb:
             ret.append(sig)
         return ret
 
-    def query_ore_signatures(self):
+    def query_ore_signatures(self) -> list:
         ret = []
         q = 'SELECT id,wh_class,sig_type,sig_name FROM signatures WHERE sig_type = ?'
         cur = self._conn.cursor()
@@ -332,14 +332,14 @@ class SiteDb:
             ret.append(sig)
         return ret
 
-    def query_signature(self, sig_id: int):
+    def query_signature(self, sig_id: int) -> tuple:
         sig_query = 'SELECT id,wh_class,sig_type,sig_name FROM signatures WHERE id = ?'
         cur = self._conn.cursor()
         cur.execute(sig_query, (sig_id,))
         row = cur.fetchone()
         return row
 
-    def query_signature_waves(self, sig_id: int):
+    def query_signature_waves(self, sig_id: int) -> list:
         ret = []
         sig_waves_query = 'SELECT sig_id,wave_id,is_capital,sleepers FROM signature_waves WHERE sig_id = ?'
         cur = self._conn.cursor()
@@ -348,7 +348,7 @@ class SiteDb:
             ret.append(row)
         return ret
 
-    def query_signature_oregas(self, sig_id: int):
+    def query_signature_oregas(self, sig_id: int) -> list:
         ret = list()
         sig_oregas_query = 'SELECT sig_id, oregas FROM signature_oregas WHERE sig_id = ?'
         cur = self._conn.cursor()
@@ -372,7 +372,7 @@ class SiteDb:
         # ret will be like: [{'type': 'c50', 'cnt': 3000}, {'type': 'c60', 'cnt': 1500}]
         return ret
 
-    def jumps_from_system(self, from_ss: int):
+    def jumps_from_system(self, from_ss: int) -> dict:
         if self._jumps_cache:
             if from_ss in self._jumps_cache:
                 return self._jumps_cache[from_ss]
@@ -407,14 +407,14 @@ class SiteDb:
         if s:
             print(s)
 
-    def _str_route(self, route: list):
+    def _str_route(self, route: list) -> str:
         ret = ''
         for j in route:
             ret += j['to_ssname'] + ' - '
         return ret
 
     def _find_route_dive(self, cur_jump: dict, target_ss: int,
-                         recursion_limit: int, visited_systems: list, sec_min: float):
+                         recursion_limit: int, visited_systems: list, sec_min: float) -> list:
         # check recursion limit
         recursion_limit -= 1
         if recursion_limit <= 0:
@@ -478,7 +478,7 @@ class SiteDb:
         #                format(cur_jump['to_ssname'], self.str_route(min_route)))
         return min_route
 
-    def find_route(self, from_ss: int, target_ss: int, sec_min: float=0.5, max_jumps=25):
+    def find_route(self, from_ss: int, target_ss: int, sec_min: float=0.5, max_jumps=25) -> list:
         # stupid, we are already in target ss
         if from_ss == target_ss:
             return list()  # empty list, 0 jumps route
@@ -508,7 +508,8 @@ class SiteDb:
             return min_route
         return None
 
-    def find_route_cache(self, from_ss: int, target_ss: int, sec_min: float=0.5, max_jumps: int=25, cache_dir: str=None):
+    def find_route_cache(self, from_ss: int, target_ss: int, sec_min: float=0.5,
+                         max_jumps: int=25, cache_dir: str=None) -> list:
         ret = None
         read_from_cache = False
         if cache_dir is None:
@@ -535,7 +536,7 @@ class SiteDb:
                 pass
         return ret
 
-    def find_wormhole(self, name: str):
+    def find_wormhole(self, name: str) -> dict:
         ret = None
         q = 'SELECT id,hole,in_class,maxStableTime,maxStableMass,massRegeneration,maxJumpMass ' \
             ' FROM wormholeclassifications ' \
@@ -554,7 +555,7 @@ class SiteDb:
             ret['maxJumpMass'] = int(row[6])
         return ret
 
-    def find_ss_by_name(self, name: str):
+    def find_ss_by_name(self, name: str) -> dict:
         ret = None
         q = 'SELECT ss.solarSystemID, ss.solarSystemName, ss.security, ss.sunTypeID, ss.regionID, '\
             '   it.typeName, mr.regionName ' \
@@ -576,7 +577,7 @@ class SiteDb:
             ret['regionname'] = str(row[6])
         return ret
 
-    def find_ss_by_id(self, ssid: int):
+    def find_ss_by_id(self, ssid: int) -> dict:
         ret = None
         q = 'SELECT ss.solarSystemID, ss.solarSystemName, ss.security, ss.sunTypeID, ss.regionID, ' \
             '  it.typeName, mr.regionName ' \
@@ -598,7 +599,7 @@ class SiteDb:
             ret['regionname'] = str(row[6])
         return ret
 
-    def find_solarsystem_planets(self, ssid: int):
+    def find_solarsystem_planets(self, ssid: int) -> list:
         ret = []
         if ssid <= 0:
             return ret
@@ -618,7 +619,7 @@ class SiteDb:
             ret.append(p)
         return ret
 
-    def find_solarsystem_moons(self, ssid: int):
+    def find_solarsystem_moons(self, ssid: int) -> list:
         ret = []
         if ssid <= 0:
             return ret
@@ -638,7 +639,7 @@ class SiteDb:
             ret.append(p)
         return ret
 
-    def find_typeid(self, typeid: int):
+    def find_typeid(self, typeid: int) -> dict:
         ret = dict()
         ret['typeid'] = 0
         ret['name'] = ''
@@ -669,7 +670,7 @@ class SiteDb:
             print(str(te))
         return ret
 
-    def map_denormalize(self, itemid: int):
+    def map_denormalize(self, itemid: int) -> dict:
         ret = None
         q = 'SELECT itemID, typeID, groupID, solarSystemID, ' \
             ' constellationID, regionID, orbitID, x, y, z, ' \
@@ -691,13 +692,13 @@ class SiteDb:
             ret['y'] = safe_float(row[8])
             ret['z'] = safe_float(row[9])
             ret['radius'] = safe_float(row[10])
-            ret['name'] = row[11]
+            ret['name'] = str(row[11])
             ret['security'] = safe_float(row[12])
             ret['celestialindex'] = safe_int(row[13])
             ret['orbitindex'] = safe_int(row[14])
         return ret
 
-    def pos_fuel_data(self, pos_typeid: int):
+    def pos_fuel_data(self, pos_typeid: int) -> dict:
         ret = None
         q = 'SELECT typeID, typeName, fuel_bay_capacity, strontium_bay_capacity, fuel_blocks_per_hour ' \
             ' FROM posFuelData WHERE typeID = ?'
