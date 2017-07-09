@@ -20,7 +20,7 @@ function hole_search_handler() {
         resp = g_xmlhttp.responseText;
     }
     if( (resp != '') && (resp != 'ERROR') ) {
-        res_div.innerHTML = '[' + resp + ']';
+        // res_div.innerHTML = '[' + resp + ']';
         var obj = JSON.parse(resp);
         // { "maxJumpMass": 300000000, "maxStableMass": 3000000000,
         //   "in_class_str": "C5", "in_class": 5, "massRegeneration": 0,
