@@ -24,6 +24,7 @@ class SiteConfig:
         self.EVECENTRAL_CACHE_DIR = ''
         self.EVECENTRAL_CACHE_HOURS = 24
 
+        self.ESI_BASE_URL = ''
         self.SSO_CLIENT_ID = ''
         self.SSO_SECRET_KEY = ''
         self.SSO_SCOPES = ''
@@ -62,6 +63,7 @@ class SiteConfig:
             self.EVECENTRAL_CACHE_HOURS = int(cfg['evecentral']['evecentral_cache_hours'])
         # eve-sso
         if cfg.has_section('sso'):
+            self.ESI_BASE_URL = str(cfg['sso']['esi_base_url'])
             self.SSO_CLIENT_ID = str(cfg['sso']['client_id'])
             self.SSO_SECRET_KEY = str(cfg['sso']['secret_key'])
             self.SSO_SCOPES = str(cfg['sso']['scopes'])
