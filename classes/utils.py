@@ -54,3 +54,7 @@ def is_whsystem_name(name: str) -> bool:
     m = re.match(r'^[0123456789]+$', name)
     if m is None: return False
     return True
+
+
+def js_escape_quote(s: str) -> str:
+    return s.replace("'", "\\'")
