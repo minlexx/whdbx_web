@@ -84,11 +84,15 @@ class WhdbxMain:
             new_state = uuid.uuid4().hex
             cherrypy.session['sso_state'] = new_state
             cherrypy.log('Generated new sso_state = {}'.format(new_state), self.tag)
-        self.sso_session_logout()
+        self.sso_session_cleanup()
 
-    def sso_session_logout(self):
-        needed_sso_vars = ['sso_token', 'sso_refresh_token', 'sso_expire_dt',
-                           'sso_expire_dt_utc', 'sso_char_id', 'sso_char_name']
+    def sso_session_cleanup(self):
+        needed_sso_vars = ['sso_token', 'sso_refresh_token',
+                           'sso_expire_dt', 'sso_expire_dt_utc',
+                           'sso_char_id', 'sso_char_name',
+                           'sso_corp_id', 'sso_corp_name',
+                           'sso_ship_id', 'sso_ship_name',
+                           'sso_solarsystem_id', 'sso_solarsystem_name']
         for var_name in needed_sso_vars:
             if var_name not in cherrypy.session:
                 cherrypy.session[var_name] = ''
@@ -114,18 +118,25 @@ class WhdbxMain:
         self.tmpl.assign('SSO_LOGIN_URL', self.cfg.sso_login_url(cherrypy.session['sso_state']))
         self.tmpl.assign('SSO_CHAR_ID', '')
         self.tmpl.assign('SSO_CHAR_NAME', '')
-        self.tmpl.assign('SSO_SOLARSYSTEM_ID', '')
-        self.tmpl.assign('SSO_SOLARSYSTEM_NAME', '')
         self.tmpl.assign('SSO_CORP_ID', '')
         self.tmpl.assign('SSO_CORP_NAME', '')
         self.tmpl.assign('SSO_SHIP_ID', '')
         self.tmpl.assign('SSO_SHIP_NAME', '')
+        self.tmpl.assign('SSO_SOLARSYSTEM_ID', '')
+        self.tmpl.assign('SSO_SOLARSYSTEM_NAME', '')
+        self.tmpl.assign('SSO_ONLINE', '')
         if cherrypy.session['sso_token'] != '':
             self.tmpl.assign('HAVE_SSO_LOGIN', True)
             self.tmpl.assign('SSO_TOKEN_EXPIRE_DT',
                 cherrypy.session['sso_expire_dt_utc'].strftime('%Y-%m-%dT%H:%M:%SZ'))
             self.tmpl.assign('SSO_CHAR_ID', cherrypy.session['sso_char_id'])
             self.tmpl.assign('SSO_CHAR_NAME', cherrypy.session['sso_char_name'])
+            self.tmpl.assign('SSO_CORP_ID', cherrypy.session['sso_corp_id'])
+            self.tmpl.assign('SSO_CORP_NAME', cherrypy.session['sso_corp_name'])
+            self.tmpl.assign('SSO_SHIP_ID', cherrypy.session['sso_ship_id'])
+            self.tmpl.assign('SSO_SHIP_NAME', cherrypy.session['sso_ship_name'])
+            self.tmpl.assign('SSO_SOLARSYSTEM_ID', cherrypy.session['sso_solarsystem_id'])
+            self.tmpl.assign('SSO_SOLARSYSTEM_NAME', cherrypy.session['sso_solarsystem_name'])
         # this can be used in any page showing header.html, so set it here
         self.tmpl.assign('last_visited_systems', list())  # empty list
         # TODO: self.fill_last_visited_systems()
@@ -601,12 +612,12 @@ class WhdbxMain:
                         # some SSO error
                         cherrypy.log('ajax: sso_refresh_token: failed to refresh'
                                      ' (HTTP error={}), logout'.format(r.status_code))
-                        self.sso_session_logout()
+                        self.sso_session_cleanup()
                         res['error'] = 'Error during communication to login.eveonline.com ' \
                                        '(refresh token)'
                 except requests.exceptions.RequestException as req_e:
                     cherrypy.log('ajax: sso_refresh_token: failed to refresh, logout')
-                    self.sso_session_logout()
+                    self.sso_session_cleanup()
                     res['error'] = 'Error during communication to login.eveonline.com ' \
                                    '(refresh token): ' + str(req_e)
                 except json.JSONDecodeError as json_e:
@@ -615,6 +626,8 @@ class WhdbxMain:
             else:
                 res['error'] = 'Not found refresh_token in saved session!'
             ret_print = json.dumps(res)
+        if 'esi_call' in params:
+            call_type = str(params['esi_call'])
         return ret_print
 
 
