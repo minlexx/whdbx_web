@@ -71,11 +71,15 @@ class WhdbxMain:
         self.tag = 'WHDBX'
         cherrypy.log('started, rootdir=[{}]'.format(self.rootdir), self.tag)
 
-    def debugprint(self, msg: str = '') -> str:
+    def debugprint(self, msg: str = '',
+                   show_config: bool = True,
+                   show_env: bool = True) -> str:
         res = ''
         cherrypy.response.headers['Content-Type'] = 'text/plain; charset=utf-8'
-        res += 'use evekill: ' + str(self.cfg.ZKB_USE_EVEKILL) + '\n'
-        res += str(os.environ) + '\n\n'
+        if show_config:
+            res += 'use evekill: ' + str(self.cfg.ZKB_USE_EVEKILL) + '\n'
+        if show_env:
+            res += str(os.environ) + '\n\n'
         res += msg
         return res
 
@@ -108,7 +112,7 @@ class WhdbxMain:
         for key in keys:
             value = str(cherrypy.session[key])
             text += "  cherrypy.session['{}'] = '{}'\n".format(str(key), value)
-        return self.debugprint(text)
+        return self.debugprint(text, show_config=False, show_env=False)
 
     def setup_template_vars(self, page: str = ''):
         self.tmpl.unassign_all()
@@ -352,7 +356,6 @@ class WhdbxMain:
         self.tmpl.assign('sigs', sigs)
         if self.cfg.DEBUG:
             self.tmpl.assign('whsys_dbg', dump_object(whsys))
-        # return self.debugprint('/ss: requested info about: {}'.format(jsystem))
         return self.tmpl.render('whsystem_info.html')
 
     @cherrypy.expose()
