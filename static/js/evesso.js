@@ -86,7 +86,17 @@ function evesso_request_public_data() {
             SSO_CHAR_NAME = data.char_name;
             SSO_CORP_ID = data.corp_id;
             SSO_CORP_NAME = data.corp_name;
-            // TODO: update html
+            var CORP_NAME_ESC = SSO_CORP_NAME.replace(/'/g, "\\'"); // escape single quotes
+            // update html
+            $("#character_info_corp_block").html(''
+              + '<a href="#" onclick="showCorpInfo(' + SSO_CORP_ID + '); return false;" '
+              + ' title="Show info: ' + CORP_NAME_ESC + '" '
+              + ' onmouseover="Tip(\'' + CORP_NAME_ESC + '\');" '
+              + ' onmouseout="UnTip();">'
+              + '<img src="https://imageserver.eveonline.com'
+              + '/Corporation/' + SSO_CORP_ID + '_32.png" />'
+              + '</a>');
+            // restart refresher
             window.setTimeout(evesso_refresher, 2000);
         } else {
             console.log('evesso_request_public_data: JSON request was OK, but returned error :(');
