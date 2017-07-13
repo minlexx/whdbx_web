@@ -117,6 +117,62 @@ function evesso_request_public_data() {
 }
 
 
+var evesso_last_ship_refresh_time = 0; // timestamp in milliseconds
+var evesso_ship_refresh_interval = 60*1000; // in milliseconds
+
+function evesso_request_location_ship() {
+    jQuery.ajax({
+        'url': '/ajax',
+        'data': {'esi_call': 'location_ship'},
+        'method': 'GET',
+        'timeout': 15000,
+        'dataType': 'json',
+        'cache': false
+    })
+    .done(function(data, textStatus, jqXHR) {
+        if (data.error == '') {
+            evesso_errors_count = 0;  // clear errors counter
+            evesso_last_ship_refresh_time = new Date().getTime(); // remember time (in ms)
+            console.log('evesso_request_location_ship:  OK');
+            console.log('evesso_request_location_ship:  ship_name: ' + data.ship_name);
+            console.log('evesso_request_location_ship:  ship_type_id: ' + data.ship_type_id);
+            console.log('evesso_request_location_ship:  ship_type_name: ' + data.ship_type_name);
+            // update
+            SSO_SHIP_ID = data.ship_type_id;
+            SSO_SHIP_NAME = data.ship_type_name;
+            SSO_SHIP_TITLE = data.ship_name;
+            var SHIP_NAME_ESC = SSO_SHIP_NAME.replace(/'/g, "\\'"); // escape single quotes
+            var SHIP_TITLE_ESC = SSO_SHIP_TITLE.replace(/'/g, "\\'"); // escape single quotes
+            // update html
+            //$("#character_info_ship_block").html(''
+            //  + '<a href="#" onclick="showCorpInfo(' + SSO_CORP_ID + '); return false;" '
+            //  + ' title="Show info: ' + CORP_NAME_ESC + '" '
+            //  + ' onmouseover="Tip(\'' + CORP_NAME_ESC + '\');" '
+            //  + ' onmouseout="UnTip();">'
+            //  + '<img src="https://imageserver.eveonline.com'
+            //  + '/Corporation/' + SSO_CORP_ID + '_32.png" />'
+            //  + '</a>');
+            // restart refresher
+            window.setTimeout(evesso_refresher, 2000);
+        } else {
+            console.log('evesso_request_location_ship: JSON request was OK, but returned error :(');
+            console.log('evesso_request_location_ship:      data.error: ' + data.error);
+            if (evesso_check_errors_and_logout()) return;
+            // still can retry
+            window.setTimeout(evesso_refresher, 10000);
+        }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.log('evesso_request_location_ship: failed: [' + textStatus + ']');
+        console.log('evesso_request_location_ship: failed: will retry in 10 seconds');
+        // if this fails too many times, probably we are not logged in anymore
+        if (evesso_check_errors_and_logout()) return;
+        // still can retry
+        window.setTimeout(evesso_refresher, 10000);
+    });
+}
+
+
 function evesso_refresher() {
     console.log('evesso_refresher: start');
     
@@ -134,6 +190,18 @@ function evesso_refresher() {
         return;
     }
     console.log('evesso_refresher:  no need to request public data.');
+
+    // update character's ship
+    var ms_since_last_refresh = new Date().getTime() - evesso_last_ship_refresh_time;
+    console.log('evesso_refresher:  ms_since_last_refresh = ' + ms_since_last_refresh)
+    if ((SSO_SHIP_ID == '') || (SSO_SHIP_NAME == '') ||
+        (ms_since_last_refresh > evesso_ship_refresh_interval))
+    {
+        console.log('evesso_refresher:  trigger the request of character ship.');
+        evesso_request_location_ship();
+        return;
+    }
+    console.log('evesso_refresher:  no need to request character ship.');
     
     if (HAVE_SSO_LOGIN) window.setTimeout(evesso_refresher, 15000);
     return;
