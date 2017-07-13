@@ -458,6 +458,8 @@ class WhdbxMain:
             call_type = str(params['esi_call'])
             if call_type == 'public_data':
                 res = self.ajax_esi_call_public_data()
+            elif call_type == 'location_ship':
+                res = self.ajax_esi_call_location_ship()
             ret_print = json.dumps(res)
         return ret_print
 
@@ -696,7 +698,7 @@ class WhdbxMain:
             # https://esi.tech.ccp.is/latest/#!/Character/get_characters_character_id
             # This route is cached for up to 3600 seconds
             url = '{}/characters/{}/'.format(self.cfg.ESI_BASE_URL, char_id)
-            r = requests.get(url)
+            r = requests.get(url, headers={'User-Agent': self.cfg.SSO_USER_AGENT}, timeout=10)
             obj = json.loads(r.text)
             if r.status_code == 200:
                 details = json.loads(r.text)
@@ -711,7 +713,7 @@ class WhdbxMain:
             # https://esi.tech.ccp.is/latest/#!/Corporation/get_corporations_corporation_id
             # This route is cached for up to 3600 seconds
             url = '{}/corporations/{}/'.format(self.cfg.ESI_BASE_URL, ret['corp_id'])
-            r = requests.get(url)
+            r = requests.get(url, headers={'User-Agent': self.cfg.SSO_USER_AGENT}, timeout=10)
             obj = json.loads(r.text)
             if r.status_code == 200:
                 details = json.loads(r.text)
@@ -730,6 +732,51 @@ class WhdbxMain:
             cherrypy.session['sso_corp_name'] = ret['corp_name']
             cherrypy.session['sso_ally_id'] = ret['ally_id']
             cherrypy.log('ajax: esi_call_public_data: success', self.tag)
+        except requests.exceptions.RequestException as e:
+            ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
+        except json.JSONDecodeError:
+            ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
+        return ret
+
+    def ajax_esi_call_location_ship(self) -> dict:
+        ret = {
+            'error': '',
+            'ship_name': '',
+            'ship_type_id': 0,
+            'ship_type_name': ''
+        }
+        if 'sso_char_id' not in cherrypy.session:
+            ret['error'] = 'sso_char_id is not defined in session!'
+            return ret
+        # This is an authenticated call; check if we have an access token
+        if 'sso_token' not in cherrypy.session:
+            ret['error'] = 'SSO access_token is not defined in session!'
+            return ret
+        char_id = cherrypy.session['sso_char_id']
+        access_token = cherrypy.session['sso_token']
+        try:
+            # https://esi.tech.ccp.is/latest/#!/Location/get_characters_character_id_ship
+            # This route is cached for up to 5 seconds
+            url = '{}/characters/{}/ship/'.format(self.cfg.ESI_BASE_URL, char_id)
+            r = requests.get(url,
+                             headers={
+                                 'Authorization': 'Bearer ' + access_token,
+                                 'User-Agent': self.cfg.SSO_USER_AGENT
+                             },
+                             timeout=10)
+            obj = json.loads(r.text)
+            if r.status_code == 200:
+                details = json.loads(r.text)
+                ret['ship_name'] = str(details['ship_name'])
+                ret['ship_type_id'] = int(details['ship_type_id'])
+                typeinfo = self.db.find_typeid(ret['ship_type_id'])
+                if typeinfo is not None:
+                    ret['ship_type_name'] = typeinfo['name']
+            else:
+                if 'error' in obj:
+                    ret['error'] = 'ESI error: {}'.format(obj['error'])
+                else:
+                    ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
         except requests.exceptions.RequestException as e:
             ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
         except json.JSONDecodeError:
