@@ -12,6 +12,7 @@ var SSO_CORP_ID = '${SSO_CORP_ID}';
 var SSO_CORP_NAME = '${SSO_CORP_NAME|js_escape_quote}';
 var SSO_SHIP_ID = '${SSO_SHIP_ID}';
 var SSO_SHIP_NAME = '${SSO_SHIP_NAME|js_escape_quote}';
+var SSO_SHIP_TITLE = '${SSO_SHIP_TITLE|js_escape_quote}';
 var SSO_SOLARSYSTEM_ID = '${SSO_SOLARSYSTEM_ID}';
 var SSO_SOLARSYSTEM_NAME = '${SSO_SOLARSYSTEM_NAME|js_escape_quote}';
 window.setTimeout(evesso_refresher, 2000);

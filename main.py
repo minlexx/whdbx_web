@@ -130,6 +130,7 @@ class WhdbxMain:
         self.tmpl.assign('SSO_CORP_NAME', '')
         self.tmpl.assign('SSO_SHIP_ID', '')
         self.tmpl.assign('SSO_SHIP_NAME', '')
+        self.tmpl.assign('SSO_SHIP_TITLE', '')
         self.tmpl.assign('SSO_SOLARSYSTEM_ID', '')
         self.tmpl.assign('SSO_SOLARSYSTEM_NAME', '')
         self.tmpl.assign('SSO_ONLINE', '')
@@ -143,6 +144,7 @@ class WhdbxMain:
             self.tmpl.assign('SSO_CORP_NAME', cherrypy.session['sso_corp_name'])
             self.tmpl.assign('SSO_SHIP_ID', cherrypy.session['sso_ship_id'])
             self.tmpl.assign('SSO_SHIP_NAME', cherrypy.session['sso_ship_name'])
+            self.tmpl.assign('SSO_SHIP_TITLE', cherrypy.session['sso_ship_title'])
             self.tmpl.assign('SSO_SOLARSYSTEM_ID', cherrypy.session['sso_solarsystem_id'])
             self.tmpl.assign('SSO_SOLARSYSTEM_NAME', cherrypy.session['sso_solarsystem_name'])
         # this can be used in any page showing header.html, so set it here
