@@ -1,4 +1,7 @@
 ## -*- coding: utf-8 -*-
+<%
+from classes.utils import js_escape_quote
+%>
 
 % if HAVE_SSO_LOGIN:
 
@@ -6,7 +9,7 @@
 
   <div class="character_info_inline">
     <a href="#" onclick="showCharInfo(${SSO_CHAR_ID}); return false;"
-       title="Show info: ${SSO_CHAR_NAME}">
+       title="Show info: ${SSO_CHAR_NAME|h}">
        <img src="https://image.eveonline.com/Character/${SSO_CHAR_ID}_32.jpg"
             border="0" width="32"
             onmouseover="Tip('<img src=&quot;https://image.eveonline.com/Character/${SSO_CHAR_ID}_128.jpg&quot;>');"
@@ -20,7 +23,17 @@
     [ <a href="/logout">Выход</a> ]
   </div>
 
-  <div class="character_info_inline" id="character_info_corp_block"></div>
+  <div class="character_info_inline" id="character_info_corp_block">
+  % if (SSO_CORP_ID != '') and (SSO_CORP_NAME != ''):
+    <a href="#" onclick="showCorpInfo(${SSO_CORP_ID}); return false;"
+       title="Show info: ${SSO_CORP_NAME|h}'"
+       onmouseover="Tip('${SSO_CORP_NAME|js_escape_quote}');"
+       onmouseout="UnTip();">
+      <img src="https://imageserver.eveonline.com/Corporation/${SSO_CORP_ID}_32.png" />
+    </a>
+  % endif
+  </div>
+
   <div class="character_info_inline" id="character_info_ship_block"></div>
   <div class="character_info_inline" id="character_info_location_block"></div>
 
