@@ -1,7 +1,16 @@
 ﻿/*
  External vars:
  HAVE_SSO_LOGIN: bool - if the user is authorized
- SSO_TOKEN_EXPIRE_DT: Date, in UTC - sso token expiraion date
+ SSO_TOKEN_EXPIRE_DT: Date, in UTC - eve-sso token expiraion date
+ SSO_CHAR_ID: string, character id
+ SSO_CHAR_NAME: string, character name
+ SSO_CORP_ID: string, corporation id
+ SSO_CORP_NAME: string, corporation name
+ SSO_SHIP_ID: string, ship type id
+ SSO_SHIP_NAME: string, ship type name
+ SSO_SHIP_TITLE: string, ship name given by user
+ SSO_SOLARSYSTEM_ID: string, current solar system id
+ SSO_SOLARSYSTEM_NAME: string, current solar system name
 */
 
 function evesso_is_expired() {
