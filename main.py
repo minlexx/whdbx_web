@@ -66,7 +66,7 @@ class WhdbxMain:
                                 'sso_expire_dt', 'sso_expire_dt_utc',
                                 'sso_char_id', 'sso_char_name',
                                 'sso_corp_id', 'sso_corp_name', 'sso_ally_id',
-                                'sso_ship_id', 'sso_ship_name',
+                                'sso_ship_id', 'sso_ship_name', 'sso_ship_title',
                                 'sso_solarsystem_id', 'sso_solarsystem_name']
         self.tag = 'WHDBX'
         cherrypy.log('started, rootdir=[{}]'.format(self.rootdir), self.tag)
@@ -739,6 +739,7 @@ class WhdbxMain:
         return ret
 
     def ajax_esi_call_location_ship(self) -> dict:
+        cherrypy.log('ajax: ajax_esi_call_location_ship: start', self.tag)
         ret = {
             'error': '',
             'ship_name': '',
@@ -772,6 +773,10 @@ class WhdbxMain:
                 typeinfo = self.db.find_typeid(ret['ship_type_id'])
                 if typeinfo is not None:
                     ret['ship_type_name'] = typeinfo['name']
+                cherrypy.session['sso_ship_id'] = ret['ship_type_id']
+                cherrypy.session['sso_ship_name'] = ret['ship_type_name']
+                cherrypy.session['sso_ship_title'] = ret['ship_name']
+                cherrypy.log('ajax: ajax_esi_call_location_ship: success', self.tag)
             else:
                 if 'error' in obj:
                     ret['error'] = 'ESI error: {}'.format(obj['error'])
