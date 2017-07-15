@@ -130,6 +130,8 @@ function evesso_request_public_data() {
 }
 
 
+// Limit ship refreshing time to once a minute, despite it is cached only for 5 seconds on API side;
+//        we are not that interested in ship anyway.
 var evesso_last_ship_refresh_time = 0; // timestamp in milliseconds
 var evesso_ship_refresh_interval = 60*1000; // in milliseconds
 
@@ -210,7 +212,6 @@ function evesso_refresher() {
 
     // update character's ship
     var ms_since_last_refresh = new Date().getTime() - evesso_last_ship_refresh_time;
-    console.log('evesso_refresher:  ms_since_last_refresh = ' + ms_since_last_refresh)
     if ((SSO_SHIP_ID == '') || (SSO_SHIP_NAME == '') ||
         (ms_since_last_refresh > evesso_ship_refresh_interval))
     {
