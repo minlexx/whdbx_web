@@ -798,6 +798,7 @@ class WhdbxMain:
             'error': '',
             'solarsystem_id': 0,
             'solarsystem_name': '',
+            'is_whsystem': False,
             'is_docked': False
         }
         if 'sso_char_id' not in cherrypy.session:
@@ -830,6 +831,8 @@ class WhdbxMain:
                 ss_info = self.db.find_ss_by_id(ret['solarsystem_id'])
                 if ss_info is not None:
                     ret['solarsystem_name'] = ss_info['name']
+                    if is_whsystem_name(ret['solarsystem_name']):
+                        ret['is_whsystem'] = True
                 cherrypy.session['sso_solarsystem_id'] = ret['solarsystem_id']
                 cherrypy.session['sso_solarsystem_name'] = ret['solarsystem_name']
                 cherrypy.log('ajax: ajax_esi_call_location_location: success', self.tag)
