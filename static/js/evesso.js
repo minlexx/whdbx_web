@@ -102,9 +102,13 @@ function evesso_request_public_data() {
               + ' title="Show info: ' + CORP_NAME_ESC + '" '
               + ' onmouseover="Tip(\'' + CORP_NAME_ESC + '\');" '
               + ' onmouseout="UnTip();">'
-              + '<img src="https://imageserver.eveonline.com'
-              + '/Corporation/' + SSO_CORP_ID + '_32.png" />'
+              + '<img src="https://imageserver.eveonline.com/Corporation/' + SSO_CORP_ID + '_32.png" />'
               + '</a>');
+            $("#character_info_corp_name_block").html(''
+              + '<a href="#" onclick="showCorpInfo(' + SSO_CORP_ID + '); return false;" '
+              + ' title="Show info: ' + CORP_NAME_ESC + '" '
+              + ' onmouseover="Tip(\'' + CORP_NAME_ESC + '\');" '
+              + ' onmouseout="UnTip();">' + SSO_CORP_NAME + '</a>');
             // restart refresher
             window.setTimeout(evesso_refresher, 2000);
         } else {
@@ -153,14 +157,18 @@ function evesso_request_location_ship() {
             var SHIP_NAME_ESC = SSO_SHIP_NAME.replace(/'/g, "\\'"); // escape single quotes
             var SHIP_TITLE_ESC = SSO_SHIP_TITLE.replace(/'/g, "\\'"); // escape single quotes
             // update html
-            //$("#character_info_ship_block").html(''
-            //  + '<a href="#" onclick="showCorpInfo(' + SSO_CORP_ID + '); return false;" '
-            //  + ' title="Show info: ' + CORP_NAME_ESC + '" '
-            //  + ' onmouseover="Tip(\'' + CORP_NAME_ESC + '\');" '
-            //  + ' onmouseout="UnTip();">'
-            //  + '<img src="https://imageserver.eveonline.com'
-            //  + '/Corporation/' + SSO_CORP_ID + '_32.png" />'
-            //  + '</a>');
+            $("#character_info_ship_block").html(''
+              + '<a href="#" onclick="showTypeInfo(' + SSO_SHIP_ID + '); return false;" '
+              + ' title="Show info: ' + SHIP_NAME_ESC + '" '
+              + ' onmouseover="Tip(\'' + SHIP_NAME_ESC + '\');" '
+              + ' onmouseout="UnTip();">'
+              + '<img src="https://imageserver.eveonline.com/Type/' + SSO_SHIP_ID + '_32.png" />'
+              + '</a>');
+            $("#character_info_ship_name_block").html(''
+              + '<a href="#" onclick="showTypeInfo(' + SSO_SHIP_ID + '); return false;" '
+              + ' title="Show info: ' + SHIP_NAME_ESC + '" '
+              + ' onmouseover="Tip(\'' + SHIP_NAME_ESC + '\');" '
+              + ' onmouseout="UnTip();">' + SSO_SHIP_TITLE + '</a>');
             // restart refresher
             window.setTimeout(evesso_refresher, 2000);
         } else {
