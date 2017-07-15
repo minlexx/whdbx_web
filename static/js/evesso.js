@@ -11,11 +11,12 @@
  SSO_SHIP_TITLE: string, ship name given by user
  SSO_SOLARSYSTEM_ID: string, current solar system id
  SSO_SOLARSYSTEM_NAME: string, current solar system name
+ SSO_IS_DOCKED: bool, true if caharacter is docked in structure
 */
 
 function evesso_is_expired() {
     var dt_now = new Date(new Date().getTime()); // current time in UTC
-    console.log('evesso_is_expired: ' + dt_now.getTime() + ' >= ' + SSO_TOKEN_EXPIRE_DT.getTime() + '?');
+    // console.log('evesso_is_expired: ' + dt_now.getTime() + ' >= ' + SSO_TOKEN_EXPIRE_DT.getTime() + '?');
     if (dt_now.getTime() >= SSO_TOKEN_EXPIRE_DT.getTime()) {
         return true;
     }
@@ -86,10 +87,10 @@ function evesso_request_public_data() {
         if (data.error == '') {
             evesso_errors_count = 0;  // clear errors counter
             console.log('evesso_request_public_data:  OK');
-            console.log('evesso_request_public_data:  char_id: ' + data.char_id);
-            console.log('evesso_request_public_data:  char_name: ' + data.char_name);
-            console.log('evesso_request_public_data:  corp_id: ' + data.corp_id);
-            console.log('evesso_request_public_data:  corp_name: ' + data.corp_name);
+            console.log('evesso_request_public_data:   char_id:   ' + data.char_id);
+            console.log('evesso_request_public_data:   char_name: ' + data.char_name);
+            console.log('evesso_request_public_data:   corp_id:   ' + data.corp_id);
+            console.log('evesso_request_public_data:   corp_name: ' + data.corp_name);
             // update
             SSO_CHAR_ID = data.char_id;
             SSO_CHAR_NAME = data.char_name;
@@ -110,7 +111,7 @@ function evesso_request_public_data() {
               + ' onmouseover="Tip(\'' + CORP_NAME_ESC + '\');" '
               + ' onmouseout="UnTip();">' + SSO_CORP_NAME + '</a>');
             // restart refresher
-            window.setTimeout(evesso_refresher, 2000);
+            window.setTimeout(evesso_refresher, 3000);
         } else {
             console.log('evesso_request_public_data: JSON request was OK, but returned error :(');
             console.log('evesso_request_public_data:      data.error: ' + data.error);
@@ -149,9 +150,9 @@ function evesso_request_location_ship() {
             evesso_errors_count = 0;  // clear errors counter
             evesso_last_ship_refresh_time = new Date().getTime(); // remember time (in ms)
             console.log('evesso_request_location_ship:  OK');
-            console.log('evesso_request_location_ship:  ship_name: ' + data.ship_name);
-            console.log('evesso_request_location_ship:  ship_type_id: ' + data.ship_type_id);
-            console.log('evesso_request_location_ship:  ship_type_name: ' + data.ship_type_name);
+            console.log('evesso_request_location_ship:   ship_name:      ' + data.ship_name);
+            console.log('evesso_request_location_ship:   ship_type_id:   ' + data.ship_type_id);
+            console.log('evesso_request_location_ship:   ship_type_name: ' + data.ship_type_name);
             // update
             SSO_SHIP_ID = data.ship_type_id;
             SSO_SHIP_NAME = data.ship_type_name;
@@ -172,7 +173,7 @@ function evesso_request_location_ship() {
               + ' onmouseover="Tip(\'' + SHIP_NAME_ESC + '\');" '
               + ' onmouseout="UnTip();">' + SSO_SHIP_TITLE + '</a>');
             // restart refresher
-            window.setTimeout(evesso_refresher, 2000);
+            window.setTimeout(evesso_refresher, 4000);
         } else {
             console.log('evesso_request_location_ship: JSON request was OK, but returned error :(');
             console.log('evesso_request_location_ship:      data.error: ' + data.error);
@@ -188,6 +189,72 @@ function evesso_request_location_ship() {
         if (evesso_check_errors_and_logout()) return;
         // still can retry
         window.setTimeout(evesso_refresher, 10000);
+    });
+}
+
+
+function evesso_request_location() {
+    // switch image status to "Loading..."
+    $('#character_info_ss_img').attr('src', '/static/img/location_64.gif');
+    //
+    jQuery.ajax({
+        'url': '/ajax',
+        'data': {'esi_call': 'location'},
+        'method': 'GET',
+        'timeout': 15000,
+        'dataType': 'json',
+        'cache': false
+    })
+    .done(function(data, textStatus, jqXHR) {
+        if (data.error == '') {
+            evesso_errors_count = 0;  // clear errors counter
+            console.log('evesso_request_location:  OK');
+            console.log('evesso_request_location:   solarsystem_id:   ' + data.solarsystem_id);
+            console.log('evesso_request_location:   solarsystem_name: ' + data.solarsystem_name);
+            console.log('evesso_request_location:   is_docked:        ' + data.is_docked);
+            console.log('evesso_request_location:   is_whsystem:      ' + data.is_whsystem);
+            // update
+            SSO_SOLARSYSTEM_ID = data.solarsystem_id;
+            SSO_SOLARSYSTEM_NAME = data.solarsystem_name;
+            SSO_IS_DOCKED = data.is_docked;
+            var SOLARSYSTEM_NAME_ESC = SSO_SOLARSYSTEM_NAME.replace(/'/g, "\\'"); // escape single quotes
+            // update html: change soo image to Loaded
+            $('#character_info_ss_img').attr('src', '/static/img/solarsystem_icon_64.png');
+            // update html
+            var docked_str = SSO_IS_DOCKED ? '<br />(docked)' : '';
+            if (data.is_whsystem) {
+                // show link to system
+                $("#character_info_location_name_block").html(''
+                  + '<a href="/' + SSO_SOLARSYSTEM_NAME + '" '
+                  + ' title="Show info: ' + SOLARSYSTEM_NAME_ESC + '" '
+                  + ' onmouseover="Tip(\'' + SOLARSYSTEM_NAME_ESC + '\');" '
+                  + ' onmouseout="UnTip();">' + SSO_SOLARSYSTEM_NAME + '</a>'
+                  + docked_str);
+            } else {
+                // do not show link to system
+                $("#character_info_location_name_block").html(''
+                  + '<b>' + SSO_SOLARSYSTEM_NAME + '</b>'
+                  + docked_str);
+            }
+            // restart refresher
+            window.setTimeout(evesso_refresher, 15000);
+        } else {
+            console.log('evesso_request_location: JSON request was OK, but returned error :(');
+            console.log('evesso_request_location:      data.error: ' + data.error);
+            $("#character_info_location_name_block").html('Error');
+            if (evesso_check_errors_and_logout()) return;
+            // still can retry
+            window.setTimeout(evesso_refresher, 15000);
+        }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.log('evesso_request_location: failed: [' + textStatus + ']');
+        console.log('evesso_request_location: failed: will retry in 10 seconds');
+        $("#character_info_location_name_block").html('Error');
+        // if this fails too many times, probably we are not logged in anymore
+        if (evesso_check_errors_and_logout()) return;
+        // still can retry
+        window.setTimeout(evesso_refresher, 15000);
     });
 }
 
@@ -208,7 +275,7 @@ function evesso_refresher() {
         evesso_request_public_data();
         return;
     }
-    console.log('evesso_refresher:  no need to request public data.');
+    // console.log('evesso_refresher:  no need to request public data.');
 
     // update character's ship
     var ms_since_last_refresh = new Date().getTime() - evesso_last_ship_refresh_time;
@@ -219,8 +286,11 @@ function evesso_refresher() {
         evesso_request_location_ship();
         return;
     }
-    console.log('evesso_refresher:  no need to request character ship.');
+    // console.log('evesso_refresher:  no need to request character ship.');
     
-    if (HAVE_SSO_LOGIN) window.setTimeout(evesso_refresher, 15000);
+    evesso_request_location();
+    
+    // evesso_request_location() will set us timeouts.
+    // if (HAVE_SSO_LOGIN) window.setTimeout(evesso_refresher, 15000);
     return;
 }
