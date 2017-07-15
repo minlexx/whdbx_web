@@ -105,14 +105,53 @@ class WhdbxMain:
         del cherrypy.session['sso_state']
         cherrypy.log('session cleaned', self.tag)
 
+    @staticmethod
+    def is_ip_admin() -> bool:
+        if 'remote-addr' not in cherrypy.request.headers:
+            return False
+        ip = '' + cherrypy.request.headers['remote-addr']
+        if ip.startswith('127.') or ip.startswith('192.168.') or ip.startswith('172.16.') or ip.startswith('10.'):
+            return True
+        return False
+
     @cherrypy.expose()
     def dump_session(self, **params):
+        if not self.is_ip_admin():
+            return self.debugprint('Access denied', show_config=False, show_env=False)
         text = '\n'
         keys = cherrypy.session.keys()
         for key in keys:
             value = str(cherrypy.session[key])
             text += "  cherrypy.session['{}'] = '{}'\n".format(str(key), value)
+        #
         return self.debugprint(text, show_config=False, show_env=False)
+
+    @cherrypy.expose()
+    def adm_reload_config(self, **params):
+        if not self.is_ip_admin():
+            return self.debugprint('Access denied', show_config=False, show_env=False)
+        self.cfg.load()
+        msg = '\n'
+        msg += 'DEBUG: {}\n'.format(self.cfg.DEBUG)
+        msg += 'EMULATE: {}\n'.format(self.cfg.EMULATE)
+        msg += 'TEMPLATE_DIR: {}\n'.format(self.cfg.TEMPLATE_DIR)
+        msg += 'TEMPLATE_CACHE_DIR: {}\n'.format(self.cfg.TEMPLATE_CACHE_DIR)
+        msg += 'EVEDB: {}\n'.format(self.cfg.EVEDB)
+        msg += 'ROUTES_CACHE_DIR: {}\n'.format(self.cfg.ROUTES_CACHE_DIR)
+        msg += 'ZKB_CACHE_TYPE: {}\n'.format(self.cfg.ZKB_CACHE_TYPE)
+        msg += 'ZKB_CACHE_TIME: {}\n'.format(self.cfg.ZKB_CACHE_TIME)
+        msg += 'ZKB_CACHE_DIR: {}\n'.format(self.cfg.ZKB_CACHE_DIR)
+        msg += 'ZKB_CACHE_SQLITE: {}\n'.format(self.cfg.ZKB_CACHE_SQLITE)
+        msg += 'ZKB_USE_EVEKILL: {}\n'.format(self.cfg.ZKB_USE_EVEKILL)
+        msg += 'EVECENTRAL_CACHE_DIR: {}\n'.format(self.cfg.EVECENTRAL_CACHE_DIR)
+        msg += 'EVECENTRAL_CACHE_HOURS: {}\n'.format(self.cfg.EVECENTRAL_CACHE_HOURS)
+        msg += 'ESI_BASE_URL: {}\n'.format(self.cfg.ESI_BASE_URL)
+        msg += 'SSO_CLIENT_ID: {}\n'.format(self.cfg.SSO_CLIENT_ID)
+        msg += 'SSO_SECRET_KEY: {}\n'.format(self.cfg.SSO_SECRET_KEY)
+        msg += 'SSO_SCOPES: {}\n'.format(self.cfg.SSO_SCOPES)
+        msg += 'SSO_CALLBACK_URL: {}\n'.format(self.cfg.SSO_CALLBACK_URL)
+        msg += 'SSO_USER_AGENT: {}\n'.format(self.cfg.SSO_USER_AGENT)
+        return self.debugprint(msg+'\n', show_config=False, show_env=False)
 
     def setup_template_vars(self, page: str = ''):
         self.tmpl.unassign_all()
