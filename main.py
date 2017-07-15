@@ -462,6 +462,8 @@ class WhdbxMain:
                 res = self.ajax_esi_call_public_data()
             elif call_type == 'location_ship':
                 res = self.ajax_esi_call_location_ship()
+            elif call_type == 'location':
+                res = self.ajax_esi_call_location_location()
             ret_print = json.dumps(res)
         return ret_print
 
@@ -779,6 +781,58 @@ class WhdbxMain:
                 cherrypy.session['sso_ship_name'] = ret['ship_type_name']
                 cherrypy.session['sso_ship_title'] = ret['ship_name']
                 cherrypy.log('ajax: ajax_esi_call_location_ship: success', self.tag)
+            else:
+                if 'error' in obj:
+                    ret['error'] = 'ESI error: {}'.format(obj['error'])
+                else:
+                    ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+        except requests.exceptions.RequestException as e:
+            ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
+        except json.JSONDecodeError:
+            ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
+        return ret
+
+    def ajax_esi_call_location_location(self) -> dict:
+        cherrypy.log('ajax: ajax_esi_call_location_location: start', self.tag)
+        ret = {
+            'error': '',
+            'solarsystem_id': 0,
+            'solarsystem_name': '',
+            'is_docked': False
+        }
+        if 'sso_char_id' not in cherrypy.session:
+            ret['error'] = 'sso_char_id is not defined in session!'
+            return ret
+        # This is an authenticated call; check if we have an access token
+        if 'sso_token' not in cherrypy.session:
+            ret['error'] = 'SSO access_token is not defined in session!'
+            return ret
+        char_id = cherrypy.session['sso_char_id']
+        access_token = cherrypy.session['sso_token']
+        try:
+            # https://esi.tech.ccp.is/latest/#!/Location/get_characters_character_id_location
+            # Information about the characters current location. Returns the current solar system id,
+            # #    and also the current station or structure ID if applicable.
+            # This route is cached for up to 5 seconds
+            url = '{}/characters/{}/location/'.format(self.cfg.ESI_BASE_URL, char_id)
+            r = requests.get(url,
+                             headers={
+                                 'Authorization': 'Bearer ' + access_token,
+                                 'User-Agent': self.cfg.SSO_USER_AGENT
+                             },
+                             timeout=10)
+            obj = json.loads(r.text)
+            if r.status_code == 200:
+                details = json.loads(r.text)
+                ret['solarsystem_id'] = int(details['solar_system_id'])
+                if 'structure_id' in details:
+                    ret['is_docked'] = True
+                ss_info = self.db.find_ss_by_id(ret['solarsystem_id'])
+                if ss_info is not None:
+                    ret['solarsystem_name'] = ss_info['name']
+                cherrypy.session['sso_solarsystem_id'] = ret['solarsystem_id']
+                cherrypy.session['sso_solarsystem_name'] = ret['solarsystem_name']
+                cherrypy.log('ajax: ajax_esi_call_location_location: success', self.tag)
             else:
                 if 'error' in obj:
                     ret['error'] = 'ESI error: {}'.format(obj['error'])
