@@ -1,6 +1,6 @@
 ## -*- coding: utf-8 -*-
 <%
-from classes.utils import js_escape_quote
+from classes.utils import js_escape, length_limit_20
 %>
 
 % if HAVE_SSO_LOGIN:
@@ -16,7 +16,7 @@ from classes.utils import js_escape_quote
             onmouseout="UnTip();"/></a>
   </div>
 
-  <div class="character_info_inline">
+  <div class="character_info_inline" style="max-width: 100px;">
     <a href="#" onclick="showCharInfo(${SSO_CHAR_ID}); return false;"
        title="Show info: ${SSO_CHAR_NAME}">${SSO_CHAR_NAME}</a>
     <br />
@@ -27,14 +27,46 @@ from classes.utils import js_escape_quote
   % if (SSO_CORP_ID != '') and (SSO_CORP_NAME != ''):
     <a href="#" onclick="showCorpInfo(${SSO_CORP_ID}); return false;"
        title="Show info: ${SSO_CORP_NAME|h}'"
-       onmouseover="Tip('${SSO_CORP_NAME|js_escape_quote}');"
+       onmouseover="Tip('${SSO_CORP_NAME|js_escape}');"
        onmouseout="UnTip();">
       <img src="https://imageserver.eveonline.com/Corporation/${SSO_CORP_ID}_32.png" />
     </a>
   % endif
   </div>
 
-  <div class="character_info_inline" id="character_info_ship_block"></div>
+  <div class="character_info_inline" style="max-width: 100px;" id="character_info_corp_name_block">
+  % if (SSO_CORP_ID != '') and (SSO_CORP_NAME != ''):
+    <a href="#" onclick="showCorpInfo(${SSO_CORP_ID}); return false;"
+       title="Show info: ${SSO_CORP_NAME|h}'"
+       onmouseover="Tip('${SSO_CORP_NAME|js_escape}');"
+       onmouseout="UnTip();">
+      ${SSO_CORP_NAME|h}
+    </a>
+  % endif
+  </div>
+
+  <div class="character_info_inline" id="character_info_ship_block">
+  % if (SSO_SHIP_ID != '') and (SSO_SHIP_NAME != ''):
+    <a href="#" onclick="showTypeInfo(0); return false;"
+       title="Show info: ${SSO_SHIP_NAME|h}'"
+       onmouseover="Tip('${SSO_SHIP_NAME|js_escape}');"
+       onmouseout="UnTip();">
+      <img src="https://imageserver.eveonline.com/Type/${SSO_SHIP_ID}_32.png" />
+    </a>
+  % endif
+  </div>
+
+  <div class="character_info_inline" style="max-width: 100px;" id="character_info_ship_name_block">
+  % if (SSO_SHIP_ID != '') and (SSO_SHIP_NAME != ''):
+    <a href="#" onclick="showTypeInfo(0); return false;"
+       title="Show info: ${SSO_SHIP_NAME|h}'"
+       onmouseover="Tip('${SSO_SHIP_NAME|js_escape}');"
+       onmouseout="UnTip();">
+      ${SSO_SHIP_TITLE|h}
+    </a>
+  % endif
+  </div>
+
   <div class="character_info_inline" id="character_info_location_block"></div>
 
   <div class="character_info_inline">

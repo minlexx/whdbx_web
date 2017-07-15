@@ -56,5 +56,10 @@ def is_whsystem_name(name: str) -> bool:
     return True
 
 
-def js_escape_quote(s: str) -> str:
+def js_escape(s: str) -> str:
     return s.replace("'", "\\'")
+
+
+def length_limit_20(s: str) -> str:
+    s = s[:20]
+    return s
