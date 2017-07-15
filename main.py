@@ -70,7 +70,7 @@ class WhdbxMain:
                                 'sso_solarsystem_id', 'sso_solarsystem_name']
         self.tag = 'WHDBX'
         cherrypy.log.screen = self.cfg.DEBUG  # enable cherrypy logging to console only in DEBUG
-        cherrypy.log('started, rootdir=[{}]'.format(self.rootdir), self.tag)
+        self.debuglog('started, rootdir=[{}]'.format(self.rootdir))
 
     def debugprint(self, msg: str = '',
                    show_config: bool = True,
@@ -85,7 +85,10 @@ class WhdbxMain:
         return res
 
     def debuglog(self, *args):
-        cherrypy.log(str(args))
+        if not self.cfg.DEBUG: return
+        s = ''
+        for a in args: s += str(a)
+        cherrypy.log(s, self.tag)
 
     # call this if any input error
     def display_failure(self, comment: str = '') -> str:
@@ -97,7 +100,7 @@ class WhdbxMain:
         if 'sso_state' not in cherrypy.session:
             new_state = uuid.uuid4().hex
             cherrypy.session['sso_state'] = new_state
-            cherrypy.log('Generated new sso_state = {}'.format(new_state), self.tag)
+            self.debuglog('Generated new sso_state = {}'.format(new_state))
         # auto-create missing session vars as empty strings
         for var_name in self.needed_sso_vars:
             if var_name not in cherrypy.session:
@@ -107,7 +110,7 @@ class WhdbxMain:
         for var_name in self.needed_sso_vars:
             cherrypy.session[var_name] = ''
         del cherrypy.session['sso_state']
-        cherrypy.log('session cleaned', self.tag)
+        self.debuglog('session cleaned')
 
     @staticmethod
     def is_ip_admin() -> bool:
@@ -672,7 +675,7 @@ class WhdbxMain:
         return res
 
     def ajax_sso_call_refresh_token(self) -> dict:
-        cherrypy.log('ajax: sso_refresh_token: start refresh', self.tag)
+        self.debuglog('ajax: sso_refresh_token: start refresh')
         res = {
             'error': '',
             'sso_expire_dt_utc': ''
@@ -709,18 +712,18 @@ class WhdbxMain:
                     cherrypy.session['sso_refresh_token'] = refresh_token
                     cherrypy.session['sso_expire_dt'] = dt_expire
                     cherrypy.session['sso_expire_dt_utc'] = dt_utcexpire
-                    cherrypy.log('ajax: sso_refresh_token: success', self.tag)
+                    self.debuglog('ajax: sso_refresh_token: success')
                     # form reply JSON
                     res['sso_expire_dt_utc'] = dt_utcexpire.strftime('%Y-%m-%dT%H:%M:%SZ')
                 else:
                     # some SSO error
-                    cherrypy.log('ajax: sso_refresh_token: failed to refresh'
+                    self.debuglog('ajax: sso_refresh_token: failed to refresh'
                                  ' (HTTP error={}), logout'.format(r.status_code))
                     self.sso_session_cleanup()
                     res['error'] = 'Error during communication to login.eveonline.com ' \
                                    '(refresh token)'
             except requests.exceptions.RequestException as req_e:
-                cherrypy.log('ajax: sso_refresh_token: failed to refresh, logout')
+                self.debuglog('ajax: sso_refresh_token: failed to refresh, logout')
                 self.sso_session_cleanup()
                 res['error'] = 'Error during communication to login.eveonline.com ' \
                                '(refresh token): ' + str(req_e)
@@ -732,7 +735,7 @@ class WhdbxMain:
         return res
 
     def ajax_esi_call_public_data(self) -> dict:
-        cherrypy.log('ajax: esi_call_public_data: start', self.tag)
+        self.debuglog('ajax: esi_call_public_data: start')
         ret = {
             'error': '',
             'char_id': 0,
@@ -795,7 +798,7 @@ class WhdbxMain:
             cherrypy.session['sso_corp_id'] = ret['corp_id']
             cherrypy.session['sso_corp_name'] = ret['corp_name']
             cherrypy.session['sso_ally_id'] = ret['ally_id']
-            cherrypy.log('ajax: esi_call_public_data: success', self.tag)
+            self.debuglog('ajax: esi_call_public_data: success')
         except requests.exceptions.RequestException as e:
             ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
         except json.JSONDecodeError:
@@ -803,7 +806,7 @@ class WhdbxMain:
         return ret
 
     def ajax_esi_call_location_ship(self) -> dict:
-        cherrypy.log('ajax: ajax_esi_call_location_ship: start', self.tag)
+        self.debuglog('ajax: ajax_esi_call_location_ship: start')
         ret = {
             'error': '',
             'ship_name': '',
@@ -840,7 +843,7 @@ class WhdbxMain:
                 cherrypy.session['sso_ship_id'] = ret['ship_type_id']
                 cherrypy.session['sso_ship_name'] = ret['ship_type_name']
                 cherrypy.session['sso_ship_title'] = ret['ship_name']
-                cherrypy.log('ajax: ajax_esi_call_location_ship: success', self.tag)
+                self.debuglog('ajax: ajax_esi_call_location_ship: success')
             else:
                 if 'error' in obj:
                     ret['error'] = 'ESI error: {}'.format(obj['error'])
@@ -853,7 +856,7 @@ class WhdbxMain:
         return ret
 
     def ajax_esi_call_location_location(self) -> dict:
-        cherrypy.log('ajax: ajax_esi_call_location_location: start', self.tag)
+        self.debuglog('ajax: ajax_esi_call_location_location: start')
         ret = {
             'error': '',
             'solarsystem_id': 0,
@@ -895,7 +898,7 @@ class WhdbxMain:
                         ret['is_whsystem'] = True
                 cherrypy.session['sso_solarsystem_id'] = ret['solarsystem_id']
                 cherrypy.session['sso_solarsystem_name'] = ret['solarsystem_name']
-                cherrypy.log('ajax: ajax_esi_call_location_location: success', self.tag)
+                self.debuglog('ajax: ajax_esi_call_location_location: success')
             else:
                 if 'error' in obj:
                     ret['error'] = 'ESI error: {}'.format(obj['error'])
