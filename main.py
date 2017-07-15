@@ -679,10 +679,13 @@ class WhdbxMain:
         cherrypy.log('ajax: esi_call_public_data: start', self.tag)
         ret = {
             'error': '',
+            'char_id': 0,
+            'char_name': '',
             'corp_id': 0,
             'corp_name': '',
-            'char_id': 0,
-            'char_name': ''
+            'corp_ticker': '',
+            'corp_member_count': 0,
+            'ally_id': 0
         }
         if 'sso_char_id' not in cherrypy.session:
             ret['error'] = 'sso_char_id is not defined in session!'
@@ -724,7 +727,8 @@ class WhdbxMain:
                 ret['corp_name'] = str(details['corporation_name'])
                 ret['corp_ticker'] = str(details['ticker'])
                 ret['corp_member_count'] = str(details['member_count'])
-                ret['ally_id'] = str(details['alliance_id'])
+                if 'alliance_id' in details:  # it may be not present
+                    ret['ally_id'] = str(details['alliance_id'])
             else:
                 if 'error' in obj:
                     ret['error'] = 'ESI error: {}'.format(obj['error'])
