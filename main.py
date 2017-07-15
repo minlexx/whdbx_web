@@ -69,6 +69,7 @@ class WhdbxMain:
                                 'sso_ship_id', 'sso_ship_name', 'sso_ship_title',
                                 'sso_solarsystem_id', 'sso_solarsystem_name']
         self.tag = 'WHDBX'
+        cherrypy.log.screen = self.cfg.DEBUG  # enable cherrypy logging to console only in DEBUG
         cherrypy.log('started, rootdir=[{}]'.format(self.rootdir), self.tag)
 
     def debugprint(self, msg: str = '',
@@ -82,6 +83,9 @@ class WhdbxMain:
             res += str(os.environ) + '\n\n'
         res += msg
         return res
+
+    def debuglog(self, *args):
+        cherrypy.log(str(args))
 
     # call this if any input error
     def display_failure(self, comment: str = '') -> str:
@@ -131,6 +135,8 @@ class WhdbxMain:
         if not self.is_ip_admin():
             return self.debugprint('Access denied', show_config=False, show_env=False)
         self.cfg.load()
+        # enable cherrypy logging to console only in DEBUG
+        cherrypy.log.screen = self.cfg.DEBUG
         # reload also ZKB options
         self.zkb_options = {
             'debug': self.cfg.DEBUG,
@@ -918,7 +924,8 @@ if __name__ == '__main__':
     cherrypy.config.update({
         'server.socket_host': args.host,
         'server.socket_port': args.port,
-        'engine.autoreload.on': args.autoreload
+        'engine.autoreload.on': args.autoreload,
+        'log.screen': False
     })
 
     rootdir = pathlib.Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
