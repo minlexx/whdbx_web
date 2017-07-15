@@ -131,6 +131,15 @@ class WhdbxMain:
         if not self.is_ip_admin():
             return self.debugprint('Access denied', show_config=False, show_env=False)
         self.cfg.load()
+        # reload also ZKB options
+        self.zkb_options = {
+            'debug': self.cfg.DEBUG,
+            'cache_time': self.cfg.ZKB_CACHE_TIME,
+            'cache_type': self.cfg.ZKB_CACHE_TYPE,
+            'cache_dir': self.cfg.ZKB_CACHE_DIR,
+            'use_evekill': self.cfg.ZKB_USE_EVEKILL
+        }
+        # output
         msg = '\n'
         msg += 'DEBUG: {}\n'.format(self.cfg.DEBUG)
         msg += 'EMULATE: {}\n'.format(self.cfg.EMULATE)
@@ -151,7 +160,9 @@ class WhdbxMain:
         msg += 'SSO_SCOPES: {}\n'.format(self.cfg.SSO_SCOPES)
         msg += 'SSO_CALLBACK_URL: {}\n'.format(self.cfg.SSO_CALLBACK_URL)
         msg += 'SSO_USER_AGENT: {}\n'.format(self.cfg.SSO_USER_AGENT)
-        return self.debugprint(msg+'\n', show_config=False, show_env=False)
+        msg += '\nDatabase was not reconnected; Template engine was not reloaded here.\n'
+        msg += 'You need to fully restart server to do this.\n'
+        return self.debugprint(msg, show_config=False, show_env=False)
 
     def setup_template_vars(self, page: str = ''):
         self.tmpl.unassign_all()
