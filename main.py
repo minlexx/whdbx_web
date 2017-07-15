@@ -120,7 +120,11 @@ class WhdbxMain:
     def is_ip_admin() -> bool:
         if 'remote-addr' not in cherrypy.request.headers:
             return False
-        ip = '' + cherrypy.request.headers['remote-addr']
+        # We may be behind nginx reverse-proxy with setup privding X-Real-Ip:
+        if 'x-real-ip' in cherrypy.request.headers:
+            ip = cherrypy.request.headers['x-real-ip']
+        else:
+            ip = cherrypy.request.headers['remote-addr']
         if ip.startswith('127.') or ip.startswith('192.168.') or ip.startswith('172.16.') or ip.startswith('10.'):
             return True
         return False
@@ -136,6 +140,13 @@ class WhdbxMain:
             text += "  cherrypy.session['{}'] = '{}'\n".format(str(key), value)
         #
         return self.debugprint(text, show_config=False, show_env=False)
+
+    @cherrypy.expose()
+    def dump_headers(self, **params):
+        msg = ''
+        for h in cherrypy.request.headers:
+            msg += str(h) + ': ' + str(cherrypy.request.headers[h]) + '\n'
+        return self.debugprint(msg, show_config=False, show_env=False)
 
     @cherrypy.expose()
     def adm_reload_config(self, **params):
