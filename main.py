@@ -34,6 +34,10 @@ class WhdbxCustomDispatcher(Dispatcher):
         # check that requested path is in form 'J123456' ('/j170122')
         # redirects /J123456 to /ss/?jsystem=J123456
         if len(path_info) > 1:
+            # fix for development environment
+            if path_info == '/eve_sso_callback.py':
+                return Dispatcher.__call__(self, '/eve_sso_callback/')
+            #
             jsystem_name = path_info[1:]  # remove leading '/'
             if is_whsystem_name(jsystem_name):
                 cherrypy.request.params['jsystem'] = jsystem_name
