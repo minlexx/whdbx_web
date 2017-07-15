@@ -47,7 +47,7 @@ from classes.utils import js_escape, length_limit_20
 
   <div class="character_info_inline" id="character_info_ship_block">
   % if (SSO_SHIP_ID != '') and (SSO_SHIP_NAME != ''):
-    <a href="#" onclick="showTypeInfo(0); return false;"
+    <a href="#" onclick="showTypeInfo(${SSO_SHIP_ID}); return false;"
        title="Show info: ${SSO_SHIP_NAME|h}'"
        onmouseover="Tip('${SSO_SHIP_NAME|js_escape}');"
        onmouseout="UnTip();">
@@ -58,7 +58,7 @@ from classes.utils import js_escape, length_limit_20
 
   <div class="character_info_inline" style="max-width: 100px;" id="character_info_ship_name_block">
   % if (SSO_SHIP_ID != '') and (SSO_SHIP_NAME != ''):
-    <a href="#" onclick="showTypeInfo(0); return false;"
+    <a href="#" onclick="showTypeInfo(${SSO_SHIP_ID}); return false;"
        title="Show info: ${SSO_SHIP_NAME|h}'"
        onmouseover="Tip('${SSO_SHIP_NAME|js_escape}');"
        onmouseout="UnTip();">
