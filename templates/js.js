@@ -16,6 +16,7 @@ var SSO_SHIP_TITLE = '${SSO_SHIP_TITLE|js_escape}';
 var SSO_SOLARSYSTEM_ID = '${SSO_SOLARSYSTEM_ID}';
 var SSO_SOLARSYSTEM_NAME = '${SSO_SOLARSYSTEM_NAME|js_escape}';
 var SSO_IS_DOCKED = false;
+var SSO_IS_ONLINE = false;
 window.setTimeout(evesso_refresher, 2000);
 % else:
 var HAVE_SSO_LOGIN = false;
