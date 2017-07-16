@@ -19,10 +19,14 @@ class TemplateEngine:
         self._args = dict()
         self._headers_sent = False
 
-    def assign(self, vname, vvalue):
-        self._args[vname] = vvalue
+    def assign(self, vname: str, vvalue):
+        self._args[vname] = str(vvalue)
 
-    def unassign(self, vname):
+    def is_set(self, vname: str) -> bool:
+        if vname in self._args: return True
+        return False
+
+    def unassign(self, vname: str):
         if vname in self._args:
             self._args.pop(vname)
 
