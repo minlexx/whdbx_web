@@ -974,9 +974,31 @@ class WhdbxMain:
         return ret
 
 
-#def error_page_404(status, message, traceback, version):
-#    # output: "Error 404 Not Found - Well, I'm very sorry but you haven't paid!"
-#    return "Error %s - Well, I'm very sorry but you haven't paid!" % status
+def error_page_404(status, message, traceback, version):
+    # outputs: "Error 404 Not Found - Well, I'm very sorry but you haven't paid!"
+    # return "Error %s - Well, I'm very sorry but you haven't paid!" % status
+    siteconfig = SiteConfig()
+    te = TemplateEngine(siteconfig)
+    te.assign('title', '404 - WHDBX')  # default title
+    te.assign('error_comment', '')  # should be always defined!
+    te.assign('MODE', 'error404')  # current page identifier
+    te.assign('sitecfg', siteconfig)
+    # assign EVE-SSO data defaults
+    te.assign('HAVE_SSO_LOGIN', False)
+    te.assign('SSO_TOKEN_EXPIRE_DT', '')
+    te.assign('SSO_LOGIN_URL', '')
+    te.assign('SSO_CHAR_ID', '')
+    te.assign('SSO_CHAR_NAME', '')
+    te.assign('SSO_CORP_ID', '')
+    te.assign('SSO_CORP_NAME', '')
+    te.assign('SSO_SHIP_ID', '')
+    te.assign('SSO_SHIP_NAME', '')
+    te.assign('SSO_SHIP_TITLE', '')
+    te.assign('SSO_SOLARSYSTEM_ID', '')
+    te.assign('SSO_SOLARSYSTEM_NAME', '')
+    te.assign('SSO_ONLINE', '')
+    te.assign('last_visited_systems', list())  # empty list
+    return te.render('404.html')
 
 
 if __name__ == '__main__':
@@ -1008,8 +1030,8 @@ if __name__ == '__main__':
             'tools.sessions.storage_class': cherrypy.lib.sessions.FileSession,
             'tools.sessions.storage_path': rootdir + "/sessions",
             'tools.sessions.timeout': 30*24*3600,  # month
-            'tools.staticdir.root': rootdir
-            # 'error_page.404': error_page_404
+            'tools.staticdir.root': rootdir,
+            'error_page.404': error_page_404
         },
         '/static': {
             'tools.staticdir.on': True,
