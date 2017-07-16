@@ -8,6 +8,10 @@ from classes.utils import js_escape, length_limit_20
 <div class="character_info">
 
   <div class="character_info_inline">
+    <img src="/static/img/offline.png" width="20" id="character_info_online_img" />
+  </div>
+
+  <div class="character_info_inline">
     <a href="#" onclick="showCharInfo(${SSO_CHAR_ID}); return false;"
        title="Show info: ${SSO_CHAR_NAME|h}">
        <img src="https://image.eveonline.com/Character/${SSO_CHAR_ID}_32.jpg"

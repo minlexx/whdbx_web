@@ -216,7 +216,12 @@ function evesso_request_location_online() {
             console.log('evesso_request_location_online:   is_online: ' + data.is_online);
             // update
             SSO_IS_ONLINE = data.is_online;
-            // TODO: update html
+            // update html
+            if (SSO_IS_ONLINE) {
+                $('#character_info_online_img').attr('src', '/static/img/online.png');
+            } else {
+                $('#character_info_online_img').attr('src', '/static/img/offline.png');
+            }
             // restart refresher
             window.setTimeout(evesso_refresher, 3000);
         } else {
