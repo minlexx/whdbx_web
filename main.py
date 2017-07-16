@@ -96,6 +96,8 @@ class WhdbxMain:
 
     # call this if any input error
     def display_failure(self, comment: str = '') -> str:
+        if not self.tmpl.is_set('title'):
+            self.tmpl.assign('title', 'ERROR - WHDBX')
         self.tmpl.assign('error_comment', comment)
         return self.tmpl.render('failure.html')
 
@@ -972,6 +974,11 @@ class WhdbxMain:
         return ret
 
 
+#def error_page_404(status, message, traceback, version):
+#    # output: "Error 404 Not Found - Well, I'm very sorry but you haven't paid!"
+#    return "Error %s - Well, I'm very sorry but you haven't paid!" % status
+
+
 if __name__ == '__main__':
     # maybe we have som ecommand-line arguments?
     ap = argparse.ArgumentParser(description='WHDBX web application launcher',
@@ -1002,6 +1009,7 @@ if __name__ == '__main__':
             'tools.sessions.storage_path': rootdir + "/sessions",
             'tools.sessions.timeout': 30*24*3600,  # month
             'tools.staticdir.root': rootdir
+            # 'error_page.404': error_page_404
         },
         '/static': {
             'tools.staticdir.on': True,
