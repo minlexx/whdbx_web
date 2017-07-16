@@ -12,7 +12,21 @@
  SSO_SOLARSYSTEM_ID: string, current solar system id
  SSO_SOLARSYSTEM_NAME: string, current solar system name
  SSO_IS_DOCKED: bool, true if caharacter is docked in structure
+ SSO_IS_ONLINE: bool, true if caharacter is in game
 */
+
+
+// variables used in this script:
+var evesso_errors_count = 0;
+var evesso_max_errors = 10;
+// Limit ship refreshing time to once a minute, despite it is cached only for 5 seconds on API side;
+//        we are not that interested in ship anyway.
+var evesso_last_ship_refresh_time = 0; // timestamp in milliseconds
+var evesso_ship_refresh_interval = 60*1000; // in milliseconds
+// Limit online refreshing time to once a minute, because it is cached for 60 seconds
+var evesso_last_online_refresh_time = 0; // timestamp in milliseconds
+var evesso_online_refresh_interval = 60*1000; // in milliseconds
+
 
 function evesso_is_expired() {
     var dt_now = new Date(new Date().getTime()); // current time in UTC
@@ -22,9 +36,6 @@ function evesso_is_expired() {
     }
     return false;
 }
-
-var evesso_errors_count = 0;
-var evesso_max_errors = 10;
 
 
 function evesso_check_errors_and_logout() {
@@ -131,11 +142,6 @@ function evesso_request_public_data() {
 }
 
 
-// Limit ship refreshing time to once a minute, despite it is cached only for 5 seconds on API side;
-//        we are not that interested in ship anyway.
-var evesso_last_ship_refresh_time = 0; // timestamp in milliseconds
-var evesso_ship_refresh_interval = 60*1000; // in milliseconds
-
 function evesso_request_location_ship() {
     jQuery.ajax({
         'url': '/ajax',
@@ -173,7 +179,7 @@ function evesso_request_location_ship() {
               + ' onmouseover="Tip(\'' + SHIP_NAME_ESC + '\');" '
               + ' onmouseout="UnTip();">' + SSO_SHIP_TITLE + '</a>');
             // restart refresher
-            window.setTimeout(evesso_refresher, 4000);
+            window.setTimeout(evesso_refresher, 3000);
         } else {
             console.log('evesso_request_location_ship: JSON request was OK, but returned error :(');
             console.log('evesso_request_location_ship:      data.error: ' + data.error);
@@ -185,6 +191,45 @@ function evesso_request_location_ship() {
     .fail(function(jqXHR, textStatus, errorThrown) {
         console.log('evesso_request_location_ship: failed: [' + textStatus + ']');
         console.log('evesso_request_location_ship: failed: will retry in 10 seconds');
+        // if this fails too many times, probably we are not logged in anymore
+        if (evesso_check_errors_and_logout()) return;
+        // still can retry
+        window.setTimeout(evesso_refresher, 10000);
+    });
+}
+
+
+function evesso_request_location_online() {
+    jQuery.ajax({
+        'url': '/ajax',
+        'data': {'esi_call': 'location_online'},
+        'method': 'GET',
+        'timeout': 15000,
+        'dataType': 'json',
+        'cache': false
+    })
+    .done(function(data, textStatus, jqXHR) {
+        if (data.error == '') {
+            evesso_errors_count = 0;  // clear errors counter
+            evesso_last_online_refresh_time = new Date().getTime(); // remember time (in ms)
+            console.log('evesso_request_location_online:  OK');
+            console.log('evesso_request_location_online:   is_online: ' + data.is_online);
+            // update
+            SSO_IS_ONLINE = data.is_online;
+            // TODO: update html
+            // restart refresher
+            window.setTimeout(evesso_refresher, 3000);
+        } else {
+            console.log('evesso_request_location_online: JSON request was OK, but returned error :(');
+            console.log('evesso_request_location_online:      data.error: ' + data.error);
+            if (evesso_check_errors_and_logout()) return;
+            // still can retry
+            window.setTimeout(evesso_refresher, 10000);
+        }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.log('evesso_request_location_online: failed: [' + textStatus + ']');
+        console.log('evesso_request_location_online: failed: will retry in 10 seconds');
         // if this fails too many times, probably we are not logged in anymore
         if (evesso_check_errors_and_logout()) return;
         // still can retry
@@ -249,7 +294,7 @@ function evesso_request_location() {
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
         console.log('evesso_request_location: failed: [' + textStatus + ']');
-        console.log('evesso_request_location: failed: will retry in 10 seconds');
+        console.log('evesso_request_location: failed: will retry in 15 seconds');
         $("#character_info_location_name_block").html('Error');
         // if this fails too many times, probably we are not logged in anymore
         if (evesso_check_errors_and_logout()) return;
@@ -269,16 +314,24 @@ function evesso_refresher() {
         return;
     }
     
-    // check if character public data is known
+    // check if character public data is known; if not, request it
     if ((SSO_CHAR_ID == '') || (SSO_CORP_ID == '')) {
         console.log('evesso_refresher:  trigger the request of public data.');
         evesso_request_public_data();
         return;
     }
-    // console.log('evesso_refresher:  no need to request public data.');
+    
+    // update character's online status
+    var ms_since_last_refresh = new Date().getTime() - evesso_last_online_refresh_time;
+    if (ms_since_last_refresh > evesso_online_refresh_interval)
+    {
+        console.log('evesso_refresher:  trigger the request of character online status.');
+        evesso_request_location_online();
+        return;
+    }
 
     // update character's ship
-    var ms_since_last_refresh = new Date().getTime() - evesso_last_ship_refresh_time;
+    ms_since_last_refresh = new Date().getTime() - evesso_last_ship_refresh_time;
     if ((SSO_SHIP_ID == '') || (SSO_SHIP_NAME == '') ||
         (ms_since_last_refresh > evesso_ship_refresh_interval))
     {
@@ -286,7 +339,6 @@ function evesso_refresher() {
         evesso_request_location_ship();
         return;
     }
-    // console.log('evesso_refresher:  no need to request character ship.');
     
     evesso_request_location();
     

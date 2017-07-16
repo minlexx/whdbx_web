@@ -878,7 +878,7 @@ class WhdbxMain:
         self.debuglog('ajax: ajax_esi_call_location_online: start')
         ret = {
             'error': '',
-            'is_online': false
+            'is_online': False
         }
         if 'sso_char_id' not in cherrypy.session:
             ret['error'] = 'sso_char_id is not defined in session!'
