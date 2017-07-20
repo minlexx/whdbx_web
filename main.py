@@ -26,57 +26,110 @@ from classes.whsystem import WHSystem
 from classes.utils import dump_object, is_whsystem_name
 
 
-class WhdbxCustomDispatcher(Dispatcher):
-
-    sleepers_id_match = re.compile(r'/sleepers/([0-9]+)/')
-    signatures_id_match = re.compile(r'/signatures/([0-9]+)/')
-
-    def __call__(self, path_info: str):
-        path_info = path_info.lower()
-        # check that requested path is in form 'J123456' ('/j170122')
-        # redirects /J123456 to /ss/?jsystem=J123456
-        if len(path_info) > 1:
-            # fix for development environment
-            if path_info == '/eve_sso_callback.py':
-                return Dispatcher.__call__(self, '/eve_sso_callback/')
-            #
-            jsystem_name = path_info[1:]  # remove leading '/'
-            if is_whsystem_name(jsystem_name):
-                cherrypy.request.params['jsystem'] = jsystem_name
-                return Dispatcher.__call__(self, '/ss')
-            m = self.sleepers_id_match.match(path_info)
-            if m is not None:
-                cherrypy.request.params['id'] = m.group(1)
-                return Dispatcher.__call__(self, '/sleepers/')
-            m = self.signatures_id_match.match(path_info)
-            if m is not None:
-                cherrypy.request.params['id'] = m.group(1)
-                return Dispatcher.__call__(self, '/signatures/')
-        return Dispatcher.__call__(self, path_info)
+def error_page_404(status, message, traceback, version):
+    # outputs: "Error 404 Not Found - Well, I'm very sorry but you haven't paid!"
+    # return "Error %s - Well, I'm very sorry but you haven't paid!" % status
+    siteconfig = SiteConfig()
+    te = TemplateEngine(siteconfig)
+    te.assign('title', '404 - WHDBX')  # default title
+    te.assign('error_comment', '')  # should be always defined!
+    te.assign('MODE', 'error404')  # current page identifier
+    te.assign('sitecfg', siteconfig)
+    # assign EVE-SSO data defaults
+    te.assign('HAVE_SSO_LOGIN', False)
+    te.assign('SSO_TOKEN_EXPIRE_DT', '')
+    te.assign('SSO_LOGIN_URL', '')
+    te.assign('SSO_CHAR_ID', '')
+    te.assign('SSO_CHAR_NAME', '')
+    te.assign('SSO_CORP_ID', '')
+    te.assign('SSO_CORP_NAME', '')
+    te.assign('SSO_SHIP_ID', '')
+    te.assign('SSO_SHIP_NAME', '')
+    te.assign('SSO_SHIP_TITLE', '')
+    te.assign('SSO_SOLARSYSTEM_ID', '')
+    te.assign('SSO_SOLARSYSTEM_NAME', '')
+    te.assign('SSO_ONLINE', '')
+    te.assign('last_visited_systems', list())  # empty list
+    return te.render('404.html')
 
 
-class WhdbxMain:
+class WhdbxApp:
+    class CustomDispatcher(Dispatcher):
+
+        sleepers_id_match = re.compile(r'/sleepers/([0-9]+)/')
+        signatures_id_match = re.compile(r'/signatures/([0-9]+)/')
+
+        def __call__(self, path_info: str):
+            path_info = path_info.lower()
+            # check that requested path is in form 'J123456' ('/j170122')
+            # redirects /J123456 to /ss/?jsystem=J123456
+            if len(path_info) > 1:
+                # fix for development environment
+                if path_info == '/eve_sso_callback.py':
+                    return Dispatcher.__call__(self, '/eve_sso_callback/')
+                #
+                jsystem_name = path_info[1:]  # remove leading '/'
+                if is_whsystem_name(jsystem_name):
+                    cherrypy.request.params['jsystem'] = jsystem_name
+                    return Dispatcher.__call__(self, '/ss')
+                m = self.sleepers_id_match.match(path_info)
+                if m is not None:
+                    cherrypy.request.params['id'] = m.group(1)
+                    return Dispatcher.__call__(self, '/sleepers/')
+                m = self.signatures_id_match.match(path_info)
+                if m is not None:
+                    cherrypy.request.params['id'] = m.group(1)
+                    return Dispatcher.__call__(self, '/signatures/')
+            return Dispatcher.__call__(self, path_info)
+
     def __init__(self):
         self.rootdir = pathlib.Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
         self.cfg = SiteConfig()
         self.tmpl = TemplateEngine(self.cfg)
         self.db = SiteDb(self.cfg)
+
+        # options for zkillboard helper
         self.zkb_options = {
-            'debug': self.cfg.DEBUG,
+            'debug': False,
             'cache_time': self.cfg.ZKB_CACHE_TIME,
             'cache_type': self.cfg.ZKB_CACHE_TYPE,
             'cache_dir': self.cfg.ZKB_CACHE_DIR,
             'use_evekill': self.cfg.ZKB_USE_EVEKILL
         }
+
+        # session vars declaration
         self.needed_sso_vars = ['sso_token', 'sso_refresh_token',
                                 'sso_expire_dt', 'sso_expire_dt_utc',
                                 'sso_char_id', 'sso_char_name',
                                 'sso_corp_id', 'sso_corp_name', 'sso_ally_id',
                                 'sso_ship_id', 'sso_ship_name', 'sso_ship_title',
                                 'sso_solarsystem_id', 'sso_solarsystem_name']
+
+        # logging setup
         self.tag = 'WHDBX'
         cherrypy.log.screen = self.cfg.DEBUG  # enable cherrypy logging to console only in DEBUG
+
+        # options for cherrypy application
+        self.cherrypy_config = {
+            '/': {
+                'request.dispatch': WhdbxApp.CustomDispatcher(),
+                'tools.sessions.on': True,
+                'tools.sessions.storage_class': cherrypy.lib.sessions.FileSession,
+                'tools.sessions.storage_path': self.rootdir + "/sessions",
+                'tools.sessions.timeout': 30 * 24 * 60,  # month, in minutes
+                'tools.staticdir.root': self.rootdir,
+                'error_page.404': error_page_404
+            },
+            '/static': {
+                'tools.staticdir.on': True,
+                'tools.staticdir.dir': './static'
+            }
+        }
+
         self.debuglog('started, rootdir=[{}]'.format(self.rootdir))
+
+    def get_cherrypy_app_config(self) -> dict:
+        return self.cherrypy_config
 
     def debugprint(self, msg: str = '',
                    show_config: bool = True,
@@ -161,7 +214,7 @@ class WhdbxMain:
         cherrypy.log.screen = self.cfg.DEBUG
         # reload also ZKB options
         self.zkb_options = {
-            'debug': self.cfg.DEBUG,
+            'debug': False,
             'cache_time': self.cfg.ZKB_CACHE_TIME,
             'cache_type': self.cfg.ZKB_CACHE_TYPE,
             'cache_dir': self.cfg.ZKB_CACHE_DIR,
@@ -976,33 +1029,6 @@ class WhdbxMain:
         return ret
 
 
-def error_page_404(status, message, traceback, version):
-    # outputs: "Error 404 Not Found - Well, I'm very sorry but you haven't paid!"
-    # return "Error %s - Well, I'm very sorry but you haven't paid!" % status
-    siteconfig = SiteConfig()
-    te = TemplateEngine(siteconfig)
-    te.assign('title', '404 - WHDBX')  # default title
-    te.assign('error_comment', '')  # should be always defined!
-    te.assign('MODE', 'error404')  # current page identifier
-    te.assign('sitecfg', siteconfig)
-    # assign EVE-SSO data defaults
-    te.assign('HAVE_SSO_LOGIN', False)
-    te.assign('SSO_TOKEN_EXPIRE_DT', '')
-    te.assign('SSO_LOGIN_URL', '')
-    te.assign('SSO_CHAR_ID', '')
-    te.assign('SSO_CHAR_NAME', '')
-    te.assign('SSO_CORP_ID', '')
-    te.assign('SSO_CORP_NAME', '')
-    te.assign('SSO_SHIP_ID', '')
-    te.assign('SSO_SHIP_NAME', '')
-    te.assign('SSO_SHIP_TITLE', '')
-    te.assign('SSO_SOLARSYSTEM_ID', '')
-    te.assign('SSO_SOLARSYSTEM_NAME', '')
-    te.assign('SSO_ONLINE', '')
-    te.assign('last_visited_systems', list())  # empty list
-    return te.render('404.html')
-
-
 if __name__ == '__main__':
     # maybe we have som ecommand-line arguments?
     ap = argparse.ArgumentParser(description='WHDBX web application launcher',
@@ -1023,24 +1049,8 @@ if __name__ == '__main__':
         'log.screen': False
     })
 
-    rootdir = pathlib.Path(os.path.dirname(os.path.abspath(__file__))).as_posix()
-
-    whdbx_config = {
-        '/': {
-            'request.dispatch': WhdbxCustomDispatcher(),
-            'tools.sessions.on': True,
-            'tools.sessions.storage_class': cherrypy.lib.sessions.FileSession,
-            'tools.sessions.storage_path': rootdir + "/sessions",
-            'tools.sessions.timeout': 30*24*60,  # month, in minutes
-            'tools.staticdir.root': rootdir,
-            'error_page.404': error_page_404
-        },
-        '/static': {
-            'tools.staticdir.on': True,
-            'tools.staticdir.dir': './static'
-        }
-    }
-    cherrypy.tree.mount(WhdbxMain(), '/', whdbx_config)
+    whdbx_app = WhdbxApp()
+    cherrypy.tree.mount(whdbx_app, '/', whdbx_app.get_cherrypy_app_config())
 
     # handle console Ctrl+C events
     cherrypy.engine.signals.subscribe()
