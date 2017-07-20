@@ -50,9 +50,9 @@ class SiteConfig:
             self.TEMPLATE_DIR = cfg['general']['template_dir']
             self.TEMPLATE_CACHE_DIR = cfg['general']['template_cache_dir']
             # session vars
-            self.SESSION_TYPE = cfg['general']['session_storage_type']
-            self.SESSION_TIME_MINUTES = cfg['general']['session_time_minutes']
-            self.SESSION_FILES_DIR = cfg['general']['session_files_dir']
+            self.SESSION_TYPE = str(cfg['general']['session_storage_type'])
+            self.SESSION_TIME_MINUTES = int(cfg['general']['session_time_minutes'])
+            self.SESSION_FILES_DIR = str(cfg['general']['session_files_dir'])
         # sqlite
         if cfg.has_section('sqlite'):
             self.EVEDB = cfg['sqlite']['evedb']
