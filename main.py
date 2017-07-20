@@ -3,6 +3,7 @@
 import argparse
 import datetime
 import json
+import logging
 import os
 import os.path
 import pathlib
@@ -54,8 +55,8 @@ def error_page_404(status, message, traceback, version):
 
 
 class WhdbxApp:
-    class CustomDispatcher(Dispatcher):
 
+    class CustomDispatcher(Dispatcher):
         sleepers_id_match = re.compile(r'/sleepers/([0-9]+)/')
         signatures_id_match = re.compile(r'/signatures/([0-9]+)/')
 
@@ -110,13 +111,28 @@ class WhdbxApp:
         cherrypy.log.screen = self.cfg.DEBUG  # enable cherrypy logging to console only in DEBUG
 
         # options for cherrypy application
+        session_storage_class = cherrypy.lib.sessions.RamSession
+        session_storage_path = os.path.abspath(self.cfg.SESSION_FILES_DIR)
+        if self.cfg.SESSION_TYPE == 'file':
+            session_storage_class = cherrypy.lib.sessions.FileSession
+            # verify that sessions directory actually exists
+            if not os.path.isdir(session_storage_path):
+                self.debuglog('Creating session file storage: ', session_storage_path)
+                os.makedirs(session_storage_path)
+        elif self.cfg.SESSION_TYPE == 'memcache':
+            session_storage_class = cherrypy.lib.sessions.MemcachedSession
+        # elif self.cfg.SESSION_TYPE == 'redis':  # not done yet
+        #    session_class = WhdbxRedisSession
+        else:
+            cherrypy.log('Unknown value for session_storage_type: "{}"; using memory session.'.format(
+                self.cfg.SESSION_TYPE), self.tag, logging.WARNING)
         self.cherrypy_config = {
             '/': {
                 'request.dispatch': WhdbxApp.CustomDispatcher(),
                 'tools.sessions.on': True,
-                'tools.sessions.storage_class': cherrypy.lib.sessions.FileSession,
-                'tools.sessions.storage_path': self.rootdir + "/sessions",
-                'tools.sessions.timeout': 30 * 24 * 60,  # month, in minutes
+                'tools.sessions.storage_class': session_storage_class,
+                'tools.sessions.storage_path': session_storage_path,
+                'tools.sessions.timeout': self.cfg.SESSION_TIME_MINUTES,
                 'tools.staticdir.root': self.rootdir,
                 'error_page.404': error_page_404
             },
