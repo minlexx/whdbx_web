@@ -11,6 +11,8 @@ import uuid
 
 import cherrypy
 from cherrypy._cpdispatch import Dispatcher
+import cherrypy.lib.sessions
+
 import requests
 import requests.exceptions
 
@@ -1029,7 +1031,7 @@ if __name__ == '__main__':
             'tools.sessions.on': True,
             'tools.sessions.storage_class': cherrypy.lib.sessions.FileSession,
             'tools.sessions.storage_path': rootdir + "/sessions",
-            'tools.sessions.timeout': 30*24*3600,  # month
+            'tools.sessions.timeout': 30*24*60,  # month, in minutes
             'tools.staticdir.root': rootdir,
             'error_page.404': error_page_404
         },
