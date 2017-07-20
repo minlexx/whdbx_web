@@ -12,6 +12,10 @@ class SiteConfig:
         self.TEMPLATE_DIR = '.'
         self.TEMPLATE_CACHE_DIR = '.'
 
+        self.SESSION_TYPE = 'memory'
+        self.SESSION_TIME_MINUTES = 60
+        self.SESSION_FILES_DIR = '.'
+
         self.EVEDB = ''
         self.ROUTES_CACHE_DIR = '.'
 
@@ -39,13 +43,16 @@ class SiteConfig:
         if cfg_filename not in read_files:
             return
 
-        self.DEBUG = cfg['general'].getboolean('DEBUG')
-        self.EMULATE = cfg['general'].getboolean('EMULATE')
-
-        # template vars
-        if cfg.has_section('dirs'):
-            self.TEMPLATE_DIR = cfg['dirs']['template_dir']
-            self.TEMPLATE_CACHE_DIR = cfg['dirs']['template_cache_dir']
+        if cfg.has_section('general'):
+            self.DEBUG = cfg['general'].getboolean('DEBUG')
+            self.EMULATE = cfg['general'].getboolean('EMULATE')
+            # template vars
+            self.TEMPLATE_DIR = cfg['general']['template_dir']
+            self.TEMPLATE_CACHE_DIR = cfg['general']['template_cache_dir']
+            # session vars
+            self.SESSION_TYPE = cfg['general']['session_storage_type']
+            self.SESSION_TIME_MINUTES = cfg['general']['session_time_minutes']
+            self.SESSION_FILES_DIR = cfg['general']['session_files_dir']
         # sqlite
         if cfg.has_section('sqlite'):
             self.EVEDB = cfg['sqlite']['evedb']
