@@ -1060,7 +1060,7 @@ if __name__ == '__main__':
     ap.add_argument('--port', action='store', default='8081', type=int, metavar='BIND_PORT',
                     help='Port to listen on. Default: 8081')
     ap.add_argument('--autoreload', action='store_true', default=False,
-                    help='Enable cherrypy autorelaod function. It self-restarts the server'
+                    help='Enable cherrypy autoreload function. It self-restarts the server'
                          ' if source files are changed.')
     args = ap.parse_args()
 
