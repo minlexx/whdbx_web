@@ -301,6 +301,12 @@ class WhdbxApp:
         self.tmpl.assign('zkb_block_title', '')
 
     def postprocess_zkb_kills(self, kills: list) -> list:
+        """
+        Add some EXTRA information to kills list provided by ZKillboard API
+        Adds type names and extra solarsystem info
+        :param kills: list of kills as provided by zkillboard
+        :return: modified list
+        """
         for a_kill in kills:
             # find type name for victim ship
             type_info = self.db.find_typeid(a_kill['victim']['shipTypeID'])
