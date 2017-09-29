@@ -388,33 +388,69 @@ class ZKB:
                 # skip JSON parse errors
                 pass
             utcnow = datetime.datetime.utcnow()
-            for a_kill in zkb_kills:
-                a_kill['kill_dt'] = ''
-                # ValueError: time data '2015.07.08 01:11:00' does not match format '%Y-%m-%d %H:%M:%S'
-                try:
-                    a_kill['kill_dt'] = datetime.datetime.strptime(a_kill['killTime'], '%Y-%m-%d %H:%M:%S')
-                except ValueError as v_e:
-                    a_kill['kill_dt'] = datetime.datetime.strptime(a_kill['killTime'], '%Y.%m.%d %H:%M:%S')
-                delta = utcnow - a_kill['kill_dt']
-                a_kill['days_ago'] = delta.days
-                # convert to integers (zkillboard sends strings)
-                a_kill['victim']['allianceID'] = int(a_kill['victim']['allianceID'])
-                a_kill['victim']['corporationID'] = int(a_kill['victim']['corporationID'])
-                a_kill['victim']['shipTypeID'] = int(a_kill['victim']['shipTypeID'])
-                # process attackers
-                finalBlow_attacker = dict()
-                for atk in a_kill['attackers']:
-                    fb = int(atk['finalBlow'])
-                    atk['finalBlow'] = fb
-                    if atk['finalBlow'] == 1:
-                        finalBlow_attacker = atk
-                a_kill['finalBlowAttacker'] = finalBlow_attacker
-                a_kill['finalBlowAttacker']['allianceID'] = int(a_kill['finalBlowAttacker']['allianceID'])
-                a_kill['finalBlowAttacker']['corporationID'] = int(a_kill['finalBlowAttacker']['corporationID'])
-                a_kill['finalBlowAttacker']['shipTypeID'] = int(a_kill['finalBlowAttacker']['shipTypeID'])
-                if 'zkb' in a_kill:
-                    if 'totalValue' in a_kill['zkb']:
-                        a_kill['zkb']['totalValueM'] = round(float(a_kill['zkb']['totalValue']) / 1000000.0)
+            try:
+                for a_kill in zkb_kills:
+                    # fix new keys format to old format, becuase templates use old keys
+                    a_kill['killID'] = a_kill['killmail_id']
+                    # init a kill datetime with an empty date
+                    a_kill['kill_dt'] = datetime.datetime.fromtimestamp(0)
+                    a_kill['killTime'] = a_kill['killmail_time']  # compatibility with old API
+                    # guess time format, ZKB has changed it over time
+                    # ValueError: time data '2015.07.08 01:11:00' does not match format '%Y-%m-%d %H:%M:%S'
+                    # current ZKB has a totallly different time format: "2017-06-07T17:02:57Z"
+                    try:
+                        a_kill['kill_dt'] = datetime.datetime.strptime(a_kill['killmail_time'], '%Y-%m-%dT%H:%M:%SZ')
+                    except ValueError:
+                        # some older formats
+                        try:
+                            a_kill['kill_dt'] = datetime.datetime.strptime(a_kill['killmail_time'], '%Y-%m-%d %H:%M:%S')
+                        except ValueError:
+                            a_kill['kill_dt'] = datetime.datetime.strptime(a_kill['killmail_time'], '%Y.%m.%d %H:%M:%S')
+                    # now calculate how long ago it happened
+                    delta = utcnow - a_kill['kill_dt']
+                    a_kill['days_ago'] = delta.days
+                    # convert to integers (zkillboard sends strings) and also initialize all keys used by templates
+                    a_kill['victim']['characterID'] = 0
+                    a_kill['victim']['allianceID'] = 0
+                    a_kill['victim']['corporationID'] = 0
+                    a_kill['victim']['shipTypeID'] = 0
+                    # fix character_id => characterID
+                    if 'character_id' in a_kill['victim']:
+                        a_kill['victim']['characterID'] = int(a_kill['victim']['character_id'])
+                    # fix alliance_id => allianceID
+                    if 'alliance_id' in a_kill['victim']:
+                        a_kill['victim']['allianceID'] = int(a_kill['victim']['alliance_id'])
+                    # fix corporation_id => corporationID
+                    if 'corporation_id' in a_kill['victim']:
+                        a_kill['victim']['corporationID'] = int(a_kill['victim']['corporation_id'])
+                    # fix ship_type_id => shipTypeID
+                    if 'ship_type_id' in a_kill['victim']:
+                        a_kill['victim']['shipTypeID'] = int(a_kill['victim']['ship_type_id'])
+                    # process attackers
+                    finalBlow_attacker = dict()
+                    for atk in a_kill['attackers']:
+                        if atk['final_blow'] == True:
+                            finalBlow_attacker = atk
+                    a_kill['finalBlowAttacker'] = finalBlow_attacker
+                    a_kill['finalBlowAttacker']['characterID'] = 0
+                    a_kill['finalBlowAttacker']['allianceID'] = 0
+                    a_kill['finalBlowAttacker']['corporationID'] = 0
+                    a_kill['finalBlowAttacker']['shipTypeID'] = 0
+                    if 'character_id' in a_kill['finalBlowAttacker']:
+                        a_kill['finalBlowAttacker']['characterID'] = int(a_kill['finalBlowAttacker']['character_id'])
+                    if 'alliance_id' in a_kill['finalBlowAttacker']:
+                        a_kill['finalBlowAttacker']['allianceID'] = int(a_kill['finalBlowAttacker']['alliance_id'])
+                    if 'corporation_id' in a_kill['finalBlowAttacker']:
+                        a_kill['finalBlowAttacker']['corporationID'] = int(a_kill['finalBlowAttacker']['corporation_id'])
+                    if 'ship_type_id' in a_kill['finalBlowAttacker']:
+                        a_kill['finalBlowAttacker']['shipTypeID'] = int(a_kill['finalBlowAttacker']['ship_type_id'])
+                    if 'zkb' in a_kill:
+                        if 'totalValue' in a_kill['zkb']:
+                            a_kill['zkb']['totalValueM'] = round(float(a_kill['zkb']['totalValue']) / 1000000.0)
+            except KeyError as k_e:
+                if self._debug:
+                    print('It is possible that ZKB API has chabged (again).')
+                    print(str(k_e))
         return zkb_kills
 
 # #################################
