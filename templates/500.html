@@ -1,0 +1,36 @@
+## -*- coding: utf-8 -*-
+<%include file="header.html"/>
+
+<div class="solarsystem_info_wrapper">
+
+  <blockquote>
+
+    <center>
+      <h2>500 Internal server error</h2>
+      <br />
+
+      <div id="warningmessage" class="igb_warning">
+      <blockquote>
+        Ой! Что-то сломалось, срочно стучите в личку <b>Lexx Min</b>,
+        или багрепорт в
+        <a href="https://github.com/minlexx/whdbx_web/issues/new">issues на github</a>!
+        <br />
+        Приложите нижеследующую информацию, если имеется:
+      </blockquote>
+    </div>
+
+    </center>
+
+    <pre>${stacktrace}</pre>
+
+    <center>
+      <hr />
+      <img width="600" src="/static/img/500/eve500error.png" />
+    </center>
+
+  </blockquote>
+
+</div>
+<!-- solarsystem_info_wrapper -->
+
+<%include file="footer.html"/>

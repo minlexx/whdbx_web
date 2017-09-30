@@ -54,6 +54,33 @@ def error_page_404(status, message, traceback, version):
     return te.render('404.html')
 
 
+def error_page_500(status, message, traceback, version):
+    siteconfig = SiteConfig()
+    te = TemplateEngine(siteconfig)
+    te.assign('title', '500 - WHDBX')  # default title
+    te.assign('error_comment', '')  # should be always defined!
+    te.assign('MODE', 'error500')  # current page identifier
+    te.assign('sitecfg', siteconfig)
+    # assign EVE-SSO data defaults
+    te.assign('HAVE_SSO_LOGIN', False)
+    te.assign('SSO_TOKEN_EXPIRE_DT', '')
+    te.assign('SSO_LOGIN_URL', '')
+    te.assign('SSO_CHAR_ID', '')
+    te.assign('SSO_CHAR_NAME', '')
+    te.assign('SSO_CORP_ID', '')
+    te.assign('SSO_CORP_NAME', '')
+    te.assign('SSO_SHIP_ID', '')
+    te.assign('SSO_SHIP_NAME', '')
+    te.assign('SSO_SHIP_TITLE', '')
+    te.assign('SSO_SOLARSYSTEM_ID', '')
+    te.assign('SSO_SOLARSYSTEM_NAME', '')
+    te.assign('SSO_ONLINE', '')
+    te.assign('last_visited_systems', list())  # empty list
+    # stack trace
+    te.assign('stacktrace', str(traceback))
+    return te.render('500.html')
+
+
 class WhdbxApp:
 
     class CustomDispatcher(Dispatcher):
@@ -134,7 +161,8 @@ class WhdbxApp:
                 'tools.sessions.storage_path': session_storage_path,
                 'tools.sessions.timeout': self.cfg.SESSION_TIME_MINUTES,
                 'tools.staticdir.root': self.rootdir,
-                'error_page.404': error_page_404
+                'error_page.404': error_page_404,
+                'error_page.500': error_page_500
             },
             '/static': {
                 'tools.staticdir.on': True,
