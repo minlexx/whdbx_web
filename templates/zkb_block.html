@@ -165,7 +165,7 @@
         % if atk['corporationName'] != '':
           [${atk['corporationName']}]
         % endif
-        % if atk['allianceName'] != '':
+        % if (atk['allianceName'] != '') and (atk['allianceID'] > 0):
            &lt;${atk['allianceName']}&gt;
         % endif
         </span>
