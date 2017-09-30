@@ -452,7 +452,11 @@ class ZKB:
                         if 'ship_type_id' in atk:
                             atk['shipTypeID'] = atk['ship_type_id']
                         if 'faction_id' in atk:
+                            # this is an NPC kill
                             atk['factionID'] = atk['faction_id']
+                            # NPC is not a character, zero out char name/id
+                            atk['characterID'] = 0
+                            atk['characterName'] = ''
                     finalBlow_attacker = dict()
                     for atk in a_kill['attackers']:
                         if atk['final_blow'] == True:
