@@ -114,3 +114,58 @@ def alliances_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
     if error_str != '':
         raise ESIException(error_str)
     return ret
+
+
+def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
+    ret = {
+        'error': '',
+        'char_id': char_id,
+        'char_name': '',
+        'corp_id': 0,
+        'corp_name': '',
+        'corp_ticker': '',
+        'corp_member_count': 0,
+        'ally_id': 0
+    }
+    try:
+        # We need to send 2 requests, first get corpiration_id from character info,
+        #   next - get corporation name by corporation_id. Both of these calls do
+        #   not require authentication in ESI scopes.
+
+        # 1. first request for character public details
+        # https://esi.tech.ccp.is/latest/#!/Character/get_characters_character_id
+        # This route is cached for up to 3600 seconds
+        url = '{}/characters/{}/'.format(cfg.ESI_BASE_URL, char_id)
+        r = requests.get(url, headers={'User-Agent': cfg.SSO_USER_AGENT}, timeout=10)
+        obj = json.loads(r.text)
+        if r.status_code == 200:
+            details = json.loads(r.text)
+        else:
+            if 'error' in obj:
+                ret['error'] = 'ESI error: {}'.format(obj['error'])
+            else:
+                ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+
+        # 2. second request for corporation public details
+        # https://esi.tech.ccp.is/latest/#!/Corporation/get_corporations_corporation_id
+        # This route is cached for up to 3600 seconds
+        url = '{}/corporations/{}/'.format(cfg.ESI_BASE_URL, ret['corp_id'])
+        r = requests.get(url, headers={'User-Agent': cfg.SSO_USER_AGENT}, timeout=10)
+        obj = json.loads(r.text)
+        if r.status_code == 200:
+            details = json.loads(r.text)
+            ret['corp_name'] = str(details['corporation_name'])
+            ret['corp_ticker'] = str(details['ticker'])
+            ret['corp_member_count'] = str(details['member_count'])
+            if 'alliance_id' in details:  # it may be not present
+                ret['ally_id'] = str(details['alliance_id'])
+        else:
+            if 'error' in obj:
+                ret['error'] = 'ESI error: {}'.format(obj['error'])
+            else:
+                ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+    except requests.exceptions.RequestException as e:
+        ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
+    except json.JSONDecodeError:
+        ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
+    return ret
