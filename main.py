@@ -20,7 +20,7 @@ import requests.exceptions
 from classes.sitecfg import SiteConfig
 from classes.template_engine import TemplateEngine
 from classes.database import SiteDb, WHClass, get_ss_security_color
-from classes.resolver import EveNamesDb
+from classes.eve_names_resolver import EveNamesDb
 from classes.sleeper import WHSleeper
 from classes.signature import WHSignature
 from classes.zkillboard import ZKB
@@ -371,6 +371,8 @@ class WhdbxApp:
             whsys_row = self.db.query_wormholesystem_new(a_kill['solarSystemID'])
             if whsys_row is not None:
                 a_kill['solarSystemWhClass'] = WHClass.to_string(int(whsys_row[0]))
+        # resolve characters, corporations, alliances names from their IDs
+        kills = self.names_db.fill_names_in_zkb_kills(kills)
         return kills
 
     @cherrypy.expose()
