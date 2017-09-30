@@ -5,7 +5,7 @@ import urllib.parse
 
 
 class SiteConfig:
-    def __init__(self, cfg_filename='whdbx_config.ini'):
+    def __init__(self):
         self.DEBUG = False
         self.EMULATE = False
 
@@ -35,47 +35,76 @@ class SiteConfig:
         self.SSO_CALLBACK_URL = ''
         self.SSO_USER_AGENT = ''
 
-        self.load(cfg_filename)
+        self.load('whdbx_config.ini')
+        self.load('whdbx_config_local.ini')
 
-    def load(self, cfg_filename='whdbx_config.ini'):
+    def load(self, cfg_filename: str):
         cfg = configparser.ConfigParser(allow_no_value=True)
         read_files = cfg.read(cfg_filename)
         if cfg_filename not in read_files:
             return
 
         if cfg.has_section('general'):
-            self.DEBUG = cfg['general'].getboolean('DEBUG')
-            self.EMULATE = cfg['general'].getboolean('EMULATE')
+            if 'DEBUG' in cfg['general']:
+                self.DEBUG = cfg['general'].getboolean('DEBUG')
+            if 'EMULATE' in cfg['general']:
+                self.EMULATE = cfg['general'].getboolean('EMULATE')
+
             # template vars
-            self.TEMPLATE_DIR = cfg['general']['template_dir']
-            self.TEMPLATE_CACHE_DIR = cfg['general']['template_cache_dir']
+            if 'template_dir' in cfg['general']:
+                self.TEMPLATE_DIR = cfg['general']['template_dir']
+            if 'template_cache_dir' in cfg['general']:
+                self.TEMPLATE_CACHE_DIR = cfg['general']['template_cache_dir']
+
             # session vars
-            self.SESSION_TYPE = str(cfg['general']['session_storage_type'])
-            self.SESSION_TIME_MINUTES = int(cfg['general']['session_time_minutes'])
-            self.SESSION_FILES_DIR = str(cfg['general']['session_files_dir'])
+            if 'session_storage_type' in cfg['general']:
+                self.SESSION_TYPE = str(cfg['general']['session_storage_type'])
+            if 'session_time_minutes' in cfg['general']:
+                self.SESSION_TIME_MINUTES = int(cfg['general']['session_time_minutes'])
+            if 'session_files_dir' in cfg['general']:
+                self.SESSION_FILES_DIR = str(cfg['general']['session_files_dir'])
+
         # sqlite
         if cfg.has_section('sqlite'):
-            self.EVEDB = cfg['sqlite']['evedb']
-            self.ROUTES_CACHE_DIR = cfg['sqlite']['routes_cache_dir']
+            if 'evedb' in cfg['sqlite']:
+                self.EVEDB = cfg['sqlite']['evedb']
+            if 'routes_cache_dir' in cfg['sqlite']:
+                self.ROUTES_CACHE_DIR = cfg['sqlite']['routes_cache_dir']
+
         # zkb
         if cfg.has_section('zkillboard'):
-            self.ZKB_CACHE_TYPE = cfg['zkillboard']['cache_type']
-            self.ZKB_CACHE_TIME = int(cfg['zkillboard']['cache_time'])
-            self.ZKB_CACHE_DIR = cfg['zkillboard']['cache_dir']
-            self.ZKB_CACHE_SQLITE = cfg['zkillboard']['cache_sqlite']
-            self.ZKB_USE_EVEKILL = cfg['zkillboard'].getboolean('use_evekill')
+            if 'cache_type' in cfg['zkillboard']:
+                self.ZKB_CACHE_TYPE = cfg['zkillboard']['cache_type']
+            if 'cache_time' in cfg['zkillboard']:
+                self.ZKB_CACHE_TIME = int(cfg['zkillboard']['cache_time'])
+            if 'cache_dir' in cfg['zkillboard']:
+                self.ZKB_CACHE_DIR = cfg['zkillboard']['cache_dir']
+            if 'cache_sqlite' in cfg['zkillboard']:
+                self.ZKB_CACHE_SQLITE = cfg['zkillboard']['cache_sqlite']
+            if 'use_evekill' in cfg['zkillboard']:
+                self.ZKB_USE_EVEKILL = cfg['zkillboard'].getboolean('use_evekill')
+
         # eve-central
         if cfg.has_section('evecentral'):
-            self.EVECENTRAL_CACHE_DIR = cfg['evecentral']['evecentral_cache_dir']
-            self.EVECENTRAL_CACHE_HOURS = int(cfg['evecentral']['evecentral_cache_hours'])
+            if 'evecentral_cache_dir' in cfg['evecentral']:
+                self.EVECENTRAL_CACHE_DIR = cfg['evecentral']['evecentral_cache_dir']
+            if 'evecentral_cache_hours' in cfg['evecentral']:
+                self.EVECENTRAL_CACHE_HOURS = int(cfg['evecentral']['evecentral_cache_hours'])
+
         # eve-sso
         if cfg.has_section('sso'):
-            self.ESI_BASE_URL = str(cfg['sso']['esi_base_url'])
-            self.SSO_CLIENT_ID = str(cfg['sso']['client_id'])
-            self.SSO_SECRET_KEY = str(cfg['sso']['secret_key'])
-            self.SSO_SCOPES = str(cfg['sso']['scopes'])
-            self.SSO_CALLBACK_URL = str(cfg['sso']['callback_url'])
-            self.SSO_USER_AGENT = str(cfg['sso']['user_agent'])
+            if 'esi_base_url' in cfg['sso']:
+                self.ESI_BASE_URL = str(cfg['sso']['esi_base_url'])
+            if 'client_id' in cfg['sso']:
+                self.SSO_CLIENT_ID = str(cfg['sso']['client_id'])
+            if 'secret_key' in cfg['sso']:
+                self.SSO_SECRET_KEY = str(cfg['sso']['secret_key'])
+            if 'scopes' in cfg['sso']:
+                self.SSO_SCOPES = str(cfg['sso']['scopes'])
+            if 'callback_url' in cfg['sso']:
+                self.SSO_CALLBACK_URL = str(cfg['sso']['callback_url'])
+            if 'user_agent' in cfg['sso']:
+                self.SSO_USER_AGENT = str(cfg['sso']['user_agent'])
 
     def sso_login_url(self, optional_state: str = ''):
         url = 'https://login.eveonline.com/oauth/authorize'
