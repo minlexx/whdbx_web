@@ -18,6 +18,7 @@ class SiteConfig:
 
         self.EVEDB = ''
         self.ROUTES_CACHE_DIR = '.'
+        self.NAMES_DB = ''
 
         self.ZKB_CACHE_TYPE = 'file'
         self.ZKB_CACHE_TIME = 1200
@@ -70,6 +71,8 @@ class SiteConfig:
                 self.EVEDB = cfg['sqlite']['evedb']
             if 'routes_cache_dir' in cfg['sqlite']:
                 self.ROUTES_CACHE_DIR = cfg['sqlite']['routes_cache_dir']
+            if 'names_db' in cfg['sqlite']:
+                self.NAMES_DB = cfg['sqlite']['names_db']
 
         # zkb
         if cfg.has_section('zkillboard'):
