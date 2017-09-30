@@ -4,6 +4,7 @@ from classes.utils import js_escape
 %>
 
 % if HAVE_SSO_LOGIN:
+
 var HAVE_SSO_LOGIN = true;
 var SSO_TOKEN_EXPIRE_DT = new Date('${SSO_TOKEN_EXPIRE_DT}'); // in UTC
 var SSO_CHAR_ID = '${SSO_CHAR_ID}';
@@ -18,7 +19,10 @@ var SSO_SOLARSYSTEM_NAME = '${SSO_SOLARSYSTEM_NAME|js_escape}';
 var SSO_IS_DOCKED = false;
 var SSO_IS_ONLINE = false;
 window.setTimeout(evesso_refresher, 2000);
+
 % else:
+
 var HAVE_SSO_LOGIN = false;
 var SSO_TOKEN_EXPIRE_DT = new Date(new Date().getTime()); // current time in UTC
+
 %endif
