@@ -1085,7 +1085,7 @@ class WhdbxApp:
 
 
 if __name__ == '__main__':
-    # maybe we have som ecommand-line arguments?
+    # maybe we have some command-line arguments?
     ap = argparse.ArgumentParser(description='WHDBX web application launcher',
                                  add_help=True, allow_abbrev=False)
     ap.add_argument('--host', action='store', default='127.0.0.1', type=str, metavar='BIND_HOST',
