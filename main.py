@@ -225,7 +225,8 @@ class WhdbxApp:
     def adm_reload_config(self, **params):
         if not self.is_ip_admin():
             return self.debugprint('Access denied', show_config=False, show_env=False)
-        self.cfg.load()
+        self.cfg.load('whdbx_config.ini')
+        self.cfg.load('whdbx_config_local.ini')
         # enable cherrypy logging to console only in DEBUG
         cherrypy.log.screen = self.cfg.DEBUG
         # reload also ZKB options
