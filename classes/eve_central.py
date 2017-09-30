@@ -14,7 +14,7 @@ class EveCentral:
         self.api_url_base = 'http://api.eve-central.com/api/'
         self._cache_dir = config.EVECENTRAL_CACHE_DIR
         self._cache_time = config.EVECENTRAL_CACHE_HOURS * 3600
-        self._debug = False
+        self._debug = config.DEBUG
         # solarsystem IDs
         self.JITA_ID = 30000142
         self.AMARR_ID = 30002187
@@ -79,11 +79,27 @@ class EveCentral:
                 print(str(e))
 
     def _load_price_from_cache(self, typeid: int, solarsystem: int, ignore_time: bool=False) -> str:
-        ret = ''
+        contents = ''
         if typeid < 0:
-            return ret
+            return contents
         cache_file = self._cache_dir + '/' + str(typeid) + '_' + str(solarsystem) + '.json'
-        return self._load_cache_file(cache_file, ignore_time)
+        contents = self._load_cache_file(cache_file, ignore_time)
+        # test that string loaded from file is a valid JSON
+        # only if file shoudl be loaded anyways, independently of time
+        if ignore_time:
+            try:
+                json.loads(contents)
+            except json.JSONDecodeError:
+                # not a valid JSON, return empty string and delete an invalid cached file
+                if self._debug:
+                    print('EveCentral: cache file "{}" does not contain a valid JSON and '
+                          'ignore_time is set, it will be removed.'.format(cache_file))
+                contents = ''
+                try:
+                    os.remove(cache_file)
+                except IOError:
+                    pass
+        return contents
 
     def _save_price_to_cache(self, data: str, typeid: int, solarsystem: int):
         if typeid < 0:
@@ -112,7 +128,15 @@ class EveCentral:
         url += str(typeid)
         if solarsystem > 0:
             url += '&usesystem=' + str(solarsystem)
-        return self._load_url(url)
+        contents = self._load_url(url)
+        # Eve-Central: test that returned result is a valid JSON, skip invalid replies
+        try:
+            json.loads(contents)
+        except json.JSONDecodeError:
+            contents = ''  # not a valid JSON, looks like an error with EVE-Central
+            if self._debug:
+                print('EveCentral: Loading price from eve-central failed, not a valid JSON!')
+        return contents
 
     def marketstat(self, typeid: int, solarsystem: int=0, ignore_time: bool=False):
         ret = self._load_price_from_cache(typeid, solarsystem)
