@@ -20,6 +20,7 @@ import requests.exceptions
 from classes.sitecfg import SiteConfig
 from classes.template_engine import TemplateEngine
 from classes.database import SiteDb, WHClass, get_ss_security_color
+from classes.resolver import EveNamesDb
 from classes.sleeper import WHSleeper
 from classes.signature import WHSignature
 from classes.zkillboard import ZKB
@@ -115,6 +116,7 @@ class WhdbxApp:
         self.cfg = SiteConfig()
         self.tmpl = TemplateEngine(self.cfg)
         self.db = SiteDb(self.cfg)
+        self.names_db = EveNamesDb(self.cfg)
 
         # options for zkillboard helper
         self.zkb_options = {
