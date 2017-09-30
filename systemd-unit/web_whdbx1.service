@@ -1,0 +1,15 @@
+[Unit]
+Description=WHDBX Web Application Server
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+Environment="PYTHONIOENCODING=UTF-8"
+WorkingDirectory=/home/whdbx
+ExecStart=/home/whdbx/main.py --host 127.0.0.1 --port 8881
+KillMode=process
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
