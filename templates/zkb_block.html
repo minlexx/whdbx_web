@@ -1,11 +1,4 @@
 ## -*- coding: utf-8 -*-
-<%def name="td_class(odd, losekill)">
-  % if losekill != '':
-  zkb_table_${losekill}_${odd}
-  % else:
-  zkb_table_${odd}
-  % endif
-</%def>
 
 <br />
 
@@ -68,8 +61,7 @@
       % endif
     </td>
     <!-- ship icon -->
-    ##<td class="zkb_table_${loop.odd}">
-    <td class="${td_class(loop.odd, akill['our_corp'])}">
+    <td class="zkb_table_${loop.odd}">
       <center>
         <a href="#" onclick="showTypeInfo(${akill['victim']['shipTypeID']}); return false;"
                    onmouseover="Tip('${akill['victim']['shipTypeName']}');"
