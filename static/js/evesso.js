@@ -18,7 +18,7 @@
 
 // variables used in this script:
 var evesso_errors_count = 0;
-var evesso_max_errors = 10;
+var evesso_max_errors = 20;
 // Limit ship refreshing time to once a minute, despite it is cached only for 5 seconds on API side;
 //        we are not that interested in ship anyway.
 var evesso_last_ship_refresh_time = 0; // timestamp in milliseconds
@@ -291,7 +291,8 @@ function evesso_request_location() {
         } else {
             console.log('evesso_request_location: JSON request was OK, but returned error :(');
             console.log('evesso_request_location:      data.error: ' + data.error);
-            $("#character_info_location_name_block").html('Error');
+            // do not change HTML content in case of request error
+            //$("#character_info_location_name_block").html('Error');
             if (evesso_check_errors_and_logout()) return;
             // still can retry
             window.setTimeout(evesso_refresher, 15000);
@@ -350,4 +351,24 @@ function evesso_refresher() {
     // evesso_request_location() will set us timeouts.
     // if (HAVE_SSO_LOGIN) window.setTimeout(evesso_refresher, 15000);
     return;
+}
+
+
+function showTypeInfo(type_id) {
+    console.log('showTypeInfo: type_id=' + type_id);
+}
+
+
+function showCharInfo(char_id) {
+    console.log('showCharInfo: char_id=' + char_id);
+}
+
+
+function showCorpInfo(corp_id) {
+    console.log('showCorpInfo: corp_id=' + corp_id);
+}
+
+
+function showAllianceInfo(ally_id) {
+    console.log('showAllianceInfo: ally_id=' + ally_id);
 }
