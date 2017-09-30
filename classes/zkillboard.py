@@ -411,13 +411,13 @@ class ZKB:
                     a_kill['days_ago'] = delta.days
                     # convert to integers (zkillboard sends strings) and also initialize all keys used by templates
                     a_kill['victim']['characterID'] = 0
-                    a_kill['victim']['characterName'] = 'unknown'
+                    a_kill['victim']['characterName'] = ''
                     a_kill['victim']['corporationID'] = 0
-                    a_kill['victim']['corporationName'] = 'unknown'
+                    a_kill['victim']['corporationName'] = ''
                     a_kill['victim']['allianceID'] = 0
-                    a_kill['victim']['allianceName'] = 'unknown'
+                    a_kill['victim']['allianceName'] = ''
                     a_kill['victim']['shipTypeID'] = 0
-                    a_kill['victim']['shipTypeName'] = 'unknown'
+                    a_kill['victim']['shipTypeName'] = ''
                     # fix character_id => characterID
                     if 'character_id' in a_kill['victim']:
                         a_kill['victim']['characterID'] = int(a_kill['victim']['character_id'])
@@ -433,13 +433,13 @@ class ZKB:
                     # process attackers
                     for atk in a_kill['attackers']:
                         atk['characterID'] = 0
-                        atk['characterName'] = 'unknown'
+                        atk['characterName'] = ''
                         atk['corporationID'] = 0
-                        atk['corporationName'] = 'unknown'
+                        atk['corporationName'] = ''
                         atk['allianceID'] = 0
-                        atk['allianceName'] = 'unknown'
+                        atk['allianceName'] = ''
                         atk['shipTypeID'] = 0
-                        atk['shipTypeName'] = 'unknown'
+                        atk['shipTypeName'] = ''
                         atk['finalBlow'] = atk['final_blow']
                         atk['factionID'] = 0
                         atk['factionName'] = ''
