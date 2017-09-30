@@ -411,9 +411,13 @@ class ZKB:
                     a_kill['days_ago'] = delta.days
                     # convert to integers (zkillboard sends strings) and also initialize all keys used by templates
                     a_kill['victim']['characterID'] = 0
-                    a_kill['victim']['allianceID'] = 0
+                    a_kill['victim']['characterName'] = 'unknown'
                     a_kill['victim']['corporationID'] = 0
+                    a_kill['victim']['corporationName'] = 'unknown'
+                    a_kill['victim']['allianceID'] = 0
+                    a_kill['victim']['allianceName'] = 'unknown'
                     a_kill['victim']['shipTypeID'] = 0
+                    a_kill['victim']['shipTypeName'] = 'unknown'
                     # fix character_id => characterID
                     if 'character_id' in a_kill['victim']:
                         a_kill['victim']['characterID'] = int(a_kill['victim']['character_id'])
@@ -427,23 +431,36 @@ class ZKB:
                     if 'ship_type_id' in a_kill['victim']:
                         a_kill['victim']['shipTypeID'] = int(a_kill['victim']['ship_type_id'])
                     # process attackers
+                    for atk in a_kill['attackers']:
+                        atk['characterID'] = 0
+                        atk['characterName'] = 'unknown'
+                        atk['corporationID'] = 0
+                        atk['corporationName'] = 'unknown'
+                        atk['allianceID'] = 0
+                        atk['allianceName'] = 'unknown'
+                        atk['shipTypeID'] = 0
+                        atk['shipTypeName'] = 'unknown'
+                        atk['finalBlow'] = atk['final_blow']
+                        atk['factionID'] = 0
+                        atk['factionName'] = ''
+                        if 'character_id' in atk:
+                            atk['characterID'] = atk['character_id']
+                        if 'alliance_id' in atk:
+                            atk['allianceID'] = atk['alliance_id']
+                        if 'corporation_id' in atk:
+                            atk['corporationID'] = atk['corporation_id']
+                        if 'ship_type_id' in atk:
+                            atk['shipTypeID'] = atk['ship_type_id']
+                        if 'faction_id' in atk:
+                            atk['factionID'] = atk['faction_id']
                     finalBlow_attacker = dict()
                     for atk in a_kill['attackers']:
                         if atk['final_blow'] == True:
                             finalBlow_attacker = atk
                     a_kill['finalBlowAttacker'] = finalBlow_attacker
-                    a_kill['finalBlowAttacker']['characterID'] = 0
-                    a_kill['finalBlowAttacker']['allianceID'] = 0
-                    a_kill['finalBlowAttacker']['corporationID'] = 0
-                    a_kill['finalBlowAttacker']['shipTypeID'] = 0
-                    if 'character_id' in a_kill['finalBlowAttacker']:
-                        a_kill['finalBlowAttacker']['characterID'] = int(a_kill['finalBlowAttacker']['character_id'])
-                    if 'alliance_id' in a_kill['finalBlowAttacker']:
-                        a_kill['finalBlowAttacker']['allianceID'] = int(a_kill['finalBlowAttacker']['alliance_id'])
-                    if 'corporation_id' in a_kill['finalBlowAttacker']:
-                        a_kill['finalBlowAttacker']['corporationID'] = int(a_kill['finalBlowAttacker']['corporation_id'])
-                    if 'ship_type_id' in a_kill['finalBlowAttacker']:
-                        a_kill['finalBlowAttacker']['shipTypeID'] = int(a_kill['finalBlowAttacker']['ship_type_id'])
+                    # fix solar system id
+                    a_kill['solarSystemID'] = a_kill['solar_system_id']
+                    # kill price in ISK
                     if 'zkb' in a_kill:
                         if 'totalValue' in a_kill['zkb']:
                             a_kill['zkb']['totalValueM'] = round(float(a_kill['zkb']['totalValue']) / 1000000.0)
