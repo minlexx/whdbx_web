@@ -287,3 +287,47 @@ def location_ship(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> d
     except json.JSONDecodeError:
         ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
     return ret
+
+
+def location_location(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> dict:
+    ret = {
+        'error': '',
+        'solarsystem_id': 0,
+        'solarsystem_name': '',
+        'is_whsystem': False,
+        'is_docked': False,
+        'structure_id': 0,
+        'station_id': 0
+    }
+    try:
+        # https://esi.tech.ccp.is/latest/#!/Location/get_characters_character_id_location
+        # Information about the characters current location. Returns the current solar system id,
+        # #    and also the current station or structure ID if applicable.
+        # This route is cached for up to 5 seconds
+        url = '{}/characters/{}/location/'.format(cfg.ESI_BASE_URL, char_id)
+        r = requests.get(url,
+                         headers={
+                             'Authorization': 'Bearer ' + access_token,
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
+                         timeout=10)
+        obj = json.loads(r.text)
+        if r.status_code == 200:
+            details = json.loads(r.text)
+            ret['solarsystem_id'] = int(details['solar_system_id'])
+            if 'structure_id' in details:
+                ret['is_docked'] = True
+                ret['structure_id'] = details['structure_id']
+            if 'station_id' in details:
+                ret['is_docked'] = True
+                ret['station_id'] = details['station_id']
+        else:
+            if 'error' in obj:
+                ret['error'] = 'ESI error: {}'.format(obj['error'])
+            else:
+                ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+    except requests.exceptions.RequestException as e:
+        ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
+    except json.JSONDecodeError:
+        ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
+    return ret
