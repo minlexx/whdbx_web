@@ -811,57 +811,24 @@ class WhdbxApp:
             'sso_expire_dt_utc': ''
         }
         refresh_token = cherrypy.session['sso_refresh_token']
-        if refresh_token != '':
-            try:
-                r = requests.post('https://login.eveonline.com/oauth/token',
-                                  auth=(self.cfg.SSO_CLIENT_ID, self.cfg.SSO_SECRET_KEY),
-                                  headers={
-                                      'Content-Type': 'application/x-www-form-urlencoded',
-                                      'User-Agent': self.cfg.SSO_USER_AGENT
-                                  },
-                                  data={
-                                      'grant_type': 'refresh_token',
-                                      'refresh_token': refresh_token
-                                  },
-                                  timeout=10)
-                if (r.status_code >= 200) and (r.status_code < 300):
-                    response_text = r.text
-                    details = json.loads(response_text)
-                    # get data from JSON reply
-                    access_token = details['access_token']
-                    refresh_token = details['refresh_token']
-                    expires_in = int(details['expires_in'])
-                    # calculate expire datetime
-                    td = datetime.timedelta(seconds=expires_in)
-                    dt_now = datetime.datetime.now()
-                    dt_utcnow = datetime.datetime.utcnow()
-                    dt_expire = dt_now + td
-                    dt_utcexpire = dt_utcnow + td
-                    # save those in session
-                    cherrypy.session['sso_token'] = access_token
-                    cherrypy.session['sso_refresh_token'] = refresh_token
-                    cherrypy.session['sso_expire_dt'] = dt_expire
-                    cherrypy.session['sso_expire_dt_utc'] = dt_utcexpire
-                    self.debuglog('ajax: sso_refresh_token: success')
-                    # form reply JSON
-                    res['sso_expire_dt_utc'] = dt_utcexpire.strftime('%Y-%m-%dT%H:%M:%SZ')
-                else:
-                    # some SSO error
-                    self.debuglog('ajax: sso_refresh_token: failed to refresh'
-                                 ' (HTTP error={}), logout'.format(r.status_code))
-                    self.sso_session_cleanup()
-                    res['error'] = 'Error during communication to login.eveonline.com ' \
-                                   '(refresh token)'
-            except requests.exceptions.RequestException as req_e:
-                self.debuglog('ajax: sso_refresh_token: failed to refresh, logout')
-                self.sso_session_cleanup()
-                res['error'] = 'Error during communication to login.eveonline.com ' \
-                               '(refresh token): ' + str(req_e)
-            except json.JSONDecodeError as json_e:
-                res['error'] = 'Error decoding server response from ' \
-                               'login.eveonline.com! (refresh token)' + str(json_e)
-        else:
+        if refresh_token == '':
             res['error'] = 'Not found refresh_token in saved session!'
+            return res
+
+        res = esi_calls.do_refresh_token(self.cfg, refresh_token)
+        if res['error'] != '':
+            self.debuglog('ajax: sso_refresh_token: error during refresh!')
+            self.debuglog('      error: ' + res['error'])
+            self.sso_session_cleanup()
+            return res
+
+        self.debuglog('ajax: sso_refresh_token: success')
+        # save tokens in session
+        cherrypy.session['sso_token']          = res['del']['sso_token']
+        cherrypy.session['sso_refresh_token'] = res['del']['sso_refresh_token']
+        cherrypy.session['sso_expire_dt']     = res['del']['sso_expire_dt']
+        cherrypy.session['sso_expire_dt_utc'] = res['sso_expire_dt_utc']
+        del res['del']  # these values should not go exposed
         return res
 
     def ajax_esi_call_public_data(self) -> dict:
