@@ -903,6 +903,7 @@ class WhdbxApp:
         if 'sso_token' not in cherrypy.session:
             ret['error'] = 'SSO access_token is not defined in session!'
             return ret
+        self.debuglog('ajax: ajax_esi_call_location_online: success')
         char_id = cherrypy.session['sso_char_id']
         access_token = cherrypy.session['sso_token']
         ret = esi_calls.location_online(self.cfg, char_id, access_token)
@@ -915,7 +916,9 @@ class WhdbxApp:
             'solarsystem_id': 0,
             'solarsystem_name': '',
             'is_whsystem': False,
-            'is_docked': False
+            'is_docked': False,
+            'structure_id': 0,
+            'station_id': 0
         }
         if 'sso_char_id' not in cherrypy.session:
             ret['error'] = 'sso_char_id is not defined in session!'

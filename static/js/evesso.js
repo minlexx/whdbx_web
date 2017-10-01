@@ -263,6 +263,8 @@ function evesso_request_location() {
             console.log('evesso_request_location:   solarsystem_name: ' + data.solarsystem_name);
             console.log('evesso_request_location:   is_docked:        ' + data.is_docked);
             console.log('evesso_request_location:   is_whsystem:      ' + data.is_whsystem);
+            console.log('evesso_request_location:   structure_id:     ' + data.structure_id);
+            console.log('evesso_request_location:   station_id:       ' + data.station_id);
             // update
             SSO_SOLARSYSTEM_ID = data.solarsystem_id;
             SSO_SOLARSYSTEM_NAME = data.solarsystem_name;
