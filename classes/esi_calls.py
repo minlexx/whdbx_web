@@ -184,9 +184,6 @@ def do_refresh_token(self, cfg: sitecfg.SiteConfig, refresh_token: str) -> dict:
             'sso_expire_dt': ''
         }
     }
-    if refresh_token == '':
-        res['error'] = 'Not found refresh_token in saved session!'
-        return res
     try:
         r = requests.post('https://login.eveonline.com/oauth/token',
                           auth = (cfg.SSO_CLIENT_ID, cfg.SSO_SECRET_KEY),
