@@ -905,7 +905,7 @@ class WhdbxApp:
             return ret
         char_id = cherrypy.session['sso_char_id']
         access_token = cherrypy.session['sso_token']
-        ret = esi_calls.location_online(char_id, access_token)
+        ret = esi_calls.location_online(self.cfg, char_id, access_token)
         return ret
 
     def ajax_esi_call_location_location(self) -> dict:
