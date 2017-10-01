@@ -237,7 +237,7 @@ class WhdbxApp:
     def dump_session(self, **params):
         if not self.is_ip_admin():
             return self.debugprint('Access denied', show_config=False, show_env=False)
-        text = '\n'
+        text = 'Session dump:\n'
         keys = cherrypy.session.keys()
         for key in keys:
             value = str(cherrypy.session[key])
