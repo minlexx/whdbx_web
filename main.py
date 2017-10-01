@@ -878,37 +878,16 @@ class WhdbxApp:
             return ret
         char_id = cherrypy.session['sso_char_id']
         access_token = cherrypy.session['sso_token']
-        try:
-            # https://esi.tech.ccp.is/latest/#!/Location/get_characters_character_id_ship
-            # This route is cached for up to 5 seconds
-            url = '{}/characters/{}/ship/'.format(self.cfg.ESI_BASE_URL, char_id)
-            r = requests.get(url,
-                             headers={
-                                 'Authorization': 'Bearer ' + access_token,
-                                 'User-Agent': self.cfg.SSO_USER_AGENT
-                             },
-                             timeout=10)
-            obj = json.loads(r.text)
-            if r.status_code == 200:
-                details = json.loads(r.text)
-                ret['ship_name'] = str(details['ship_name'])
-                ret['ship_type_id'] = int(details['ship_type_id'])
-                typeinfo = self.db.find_typeid(ret['ship_type_id'])
-                if typeinfo is not None:
-                    ret['ship_type_name'] = typeinfo['name']
-                cherrypy.session['sso_ship_id'] = ret['ship_type_id']
-                cherrypy.session['sso_ship_name'] = ret['ship_type_name']
-                cherrypy.session['sso_ship_title'] = ret['ship_name']
-                self.debuglog('ajax: ajax_esi_call_location_ship: success')
-            else:
-                if 'error' in obj:
-                    ret['error'] = 'ESI error: {}'.format(obj['error'])
-                else:
-                    ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
-        except requests.exceptions.RequestException as e:
-            ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
-        except json.JSONDecodeError:
-            ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
+        ret = esi_calls.location_ship(self.cfg, char_id, access_token)
+        if ret['error'] != '':
+            return ret
+        typeinfo = self.db.find_typeid(ret['ship_type_id'])
+        if typeinfo is not None:
+            ret['ship_type_name'] = typeinfo['name']
+        cherrypy.session['sso_ship_id'] = ret['ship_type_id']
+        cherrypy.session['sso_ship_name'] = ret['ship_type_name']
+        cherrypy.session['sso_ship_title'] = ret['ship_name']
+        self.debuglog('ajax: ajax_esi_call_location_ship: success')
         return ret
 
     def ajax_esi_call_location_online(self) -> dict:
