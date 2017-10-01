@@ -827,7 +827,7 @@ class WhdbxApp:
         cherrypy.session['sso_token']          = res['del']['sso_token']
         cherrypy.session['sso_refresh_token'] = res['del']['sso_refresh_token']
         cherrypy.session['sso_expire_dt']     = res['del']['sso_expire_dt']
-        cherrypy.session['sso_expire_dt_utc'] = res['sso_expire_dt_utc']
+        cherrypy.session['sso_expire_dt_utc'] = res['del']['sso_expire_dt_utc']
         del res['del']  # these values should not go exposed
         return res
 

@@ -181,7 +181,8 @@ def do_refresh_token(cfg: sitecfg.SiteConfig, refresh_token: str) -> dict:
         'del': {
             'sso_token': '',
             'sso_refresh_token': '',
-            'sso_expire_dt': ''
+            'sso_expire_dt': '',
+            'sso_expire_dt_utc': ''
         }
     }
     try:
@@ -207,10 +208,11 @@ def do_refresh_token(cfg: sitecfg.SiteConfig, refresh_token: str) -> dict:
             dt_expire = dt_now + td
             dt_utcexpire = dt_utcnow + td
             # form reply dict
+            res['sso_expire_dt_utc'] = dt_utcexpire.strftime('%Y-%m-%dT%H:%M:%SZ')
             res['del']['sso_token'] = details['access_token']
             res['del']['sso_refresh_token'] = details['refresh_token']
             res['del']['sso_expire_dt'] = dt_expire
-            res['sso_expire_dt_utc'] = dt_utcexpire.strftime('%Y-%m-%dT%H:%M:%SZ')
+            res['del']['sso_expire_dt_utc'] = dt_utcexpire
         else:
             # some SSO error
             res['error'] = 'Error during communication to login.eveonline.com ' \
