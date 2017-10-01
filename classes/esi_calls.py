@@ -141,6 +141,7 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
         if r.status_code == 200:
             details = json.loads(r.text)
             ret['char_name'] = details['name']
+            ret['corp_id'] = details['corporation_id']
         else:
             if 'error' in obj:
                 ret['error'] = 'ESI error: {}'.format(obj['error'])
