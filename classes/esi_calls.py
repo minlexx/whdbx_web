@@ -222,3 +222,35 @@ def do_refresh_token(cfg: sitecfg.SiteConfig, refresh_token: str) -> dict:
         res['error'] = 'Error decoding server response from ' \
                        'login.eveonline.com! (refresh token)' + str(json_e)
     return res
+
+
+def location_online(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> dict:
+    ret = {
+        'error': '',
+        'is_online': False
+    }
+    try:
+        # https://esi.tech.ccp.is/latest/#!/Location/get_characters_character_id_online
+        # This route is cached for up to 60 seconds
+        url = '{}/characters/{}/online/'.format(cfg.ESI_BASE_URL, char_id)
+        r = requests.get(url,
+                         headers = {
+                             'Authorization': 'Bearer ' + access_token,
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
+                         timeout = 10)
+        response_text = r.text
+        if r.status_code == 200:
+            if str(response_text).lower() == 'true':
+                ret['is_online'] = True
+        else:
+            obj = json.loads(r.text)
+            if 'error' in obj:
+                ret['error'] = 'ESI error: {}'.format(obj['error'])
+            else:
+                ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+    except requests.exceptions.RequestException as e:
+        ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
+    except json.JSONDecodeError:
+        ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
+    return ret
