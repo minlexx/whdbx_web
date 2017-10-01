@@ -26,6 +26,7 @@ from classes.signature import WHSignature
 from classes.zkillboard import ZKB
 from classes.whsystem import WHSystem
 from classes.utils import dump_object, is_whsystem_name
+from classes import esi_calls
 
 
 def error_page_404(status, message, traceback, version):
@@ -865,8 +866,9 @@ class WhdbxApp:
 
     def ajax_esi_call_public_data(self) -> dict:
         self.debuglog('ajax: esi_call_public_data: start')
+        # AJAX JSON return structure
         ret = {
-            'error': '',
+            'error': '', # if this member is not an empty string, other fields are ignored
             'char_id': 0,
             'char_name': '',
             'corp_id': 0,
@@ -881,57 +883,15 @@ class WhdbxApp:
         if 'sso_char_name' not in cherrypy.session:
             ret['error'] = 'sso_char_name is not defined in session!'
             return ret
+        # read session data
         char_id = cherrypy.session['sso_char_id']
-        ret['char_id'] = char_id
-        ret['char_name'] = cherrypy.session['sso_char_name']
-        try:
-            # We need to send 2 requests, first get corpiration_id from character info,
-            #   next - get corporation name by corporation_id. Both of these calls do
-            #   not require authentication in ESI scopes.
-
-            # 1. first request for character public details
-            # https://esi.tech.ccp.is/latest/#!/Character/get_characters_character_id
-            # This route is cached for up to 3600 seconds
-            url = '{}/characters/{}/'.format(self.cfg.ESI_BASE_URL, char_id)
-            r = requests.get(url, headers={'User-Agent': self.cfg.SSO_USER_AGENT}, timeout=10)
-            obj = json.loads(r.text)
-            if r.status_code == 200:
-                details = json.loads(r.text)
-                ret['corp_id'] = str(details['corporation_id'])
-            else:
-                if 'error' in obj:
-                    ret['error'] = 'ESI error: {}'.format(obj['error'])
-                else:
-                    ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
-
-            # 2. second request for corporation public details
-            # https://esi.tech.ccp.is/latest/#!/Corporation/get_corporations_corporation_id
-            # This route is cached for up to 3600 seconds
-            url = '{}/corporations/{}/'.format(self.cfg.ESI_BASE_URL, ret['corp_id'])
-            r = requests.get(url, headers={'User-Agent': self.cfg.SSO_USER_AGENT}, timeout=10)
-            obj = json.loads(r.text)
-            if r.status_code == 200:
-                details = json.loads(r.text)
-                ret['corp_name'] = str(details['corporation_name'])
-                ret['corp_ticker'] = str(details['ticker'])
-                ret['corp_member_count'] = str(details['member_count'])
-                if 'alliance_id' in details:  # it may be not present
-                    ret['ally_id'] = str(details['alliance_id'])
-            else:
-                if 'error' in obj:
-                    ret['error'] = 'ESI error: {}'.format(obj['error'])
-                else:
-                    ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
-
-            # save data in session
+        ret = esi_calls.public_data(self.cfg, char_id)
+        if ret['error'] == '':
+            # no error, ok, update session data
             cherrypy.session['sso_corp_id'] = ret['corp_id']
             cherrypy.session['sso_corp_name'] = ret['corp_name']
             cherrypy.session['sso_ally_id'] = ret['ally_id']
             self.debuglog('ajax: esi_call_public_data: success')
-        except requests.exceptions.RequestException as e:
-            ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
-        except json.JSONDecodeError:
-            ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
         return ret
 
     def ajax_esi_call_location_ship(self) -> dict:
