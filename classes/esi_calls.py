@@ -174,7 +174,7 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
     return ret
 
 
-def do_refresh_token(self, cfg: sitecfg.SiteConfig, refresh_token: str) -> dict:
+def do_refresh_token(cfg: sitecfg.SiteConfig, refresh_token: str) -> dict:
     res = {
         'error': '',
         'sso_expire_dt_utc': '',
