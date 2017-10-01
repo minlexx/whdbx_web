@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 import json
 
 import requests
@@ -171,3 +172,56 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
     except json.JSONDecodeError:
         ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
     return ret
+
+
+def do_refresh_token(self, cfg: sitecfg.SiteConfig, refresh_token: str) -> dict:
+    res = {
+        'error': '',
+        'sso_expire_dt_utc': '',
+        'del': {
+            'sso_token': '',
+            'sso_refresh_token': '',
+            'sso_expire_dt': ''
+        }
+    }
+    if refresh_token == '':
+        res['error'] = 'Not found refresh_token in saved session!'
+        return res
+    try:
+        r = requests.post('https://login.eveonline.com/oauth/token',
+                          auth = (cfg.SSO_CLIENT_ID, cfg.SSO_SECRET_KEY),
+                          headers = {
+                              'Content-Type': 'application/x-www-form-urlencoded',
+                              'User-Agent': cfg.SSO_USER_AGENT
+                          },
+                          data = {
+                              'grant_type': 'refresh_token',
+                              'refresh_token': refresh_token
+                          },
+                          timeout=10)
+        if (r.status_code >= 200) and (r.status_code < 300):
+            response_text = r.text
+            details = json.loads(response_text)
+            # calculate expire datetime
+            expires_in = int(details['expires_in'])
+            td = datetime.timedelta(seconds=expires_in)
+            dt_now = datetime.datetime.now()
+            dt_utcnow = datetime.datetime.utcnow()
+            dt_expire = dt_now + td
+            dt_utcexpire = dt_utcnow + td
+            # form reply dict
+            res['del']['sso_token'] = details['access_token']
+            res['del']['sso_refresh_token'] = details['refresh_token']
+            res['del']['sso_expire_dt'] = dt_expire
+            res['sso_expire_dt_utc'] = dt_utcexpire.strftime('%Y-%m-%dT%H:%M:%SZ')
+        else:
+            # some SSO error
+            res['error'] = 'Error during communication to login.eveonline.com ' \
+                           '(refresh token), HTTP error={}'.format(r.status_code)
+    except requests.exceptions.RequestException as req_e:
+        res['error'] = 'Error during communication to login.eveonline.com ' \
+                       '(refresh token): ' + str(req_e)
+    except json.JSONDecodeError as json_e:
+        res['error'] = 'Error decoding server response from ' \
+                       'login.eveonline.com! (refresh token)' + str(json_e)
+    return res
