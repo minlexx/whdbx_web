@@ -254,3 +254,36 @@ def location_online(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) ->
     except json.JSONDecodeError:
         ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
     return ret
+
+
+def location_ship(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> dict:
+    ret = {
+        'error': '',
+        'ship_name': '',
+        'ship_type_id': 0
+    }
+    try:
+        # https://esi.tech.ccp.is/latest/#!/Location/get_characters_character_id_ship
+        # This route is cached for up to 5 seconds
+        url = '{}/characters/{}/ship/'.format(cfg.ESI_BASE_URL, char_id)
+        r = requests.get(url,
+                         headers = {
+                             'Authorization': 'Bearer ' + access_token,
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
+                         timeout = 10)
+        obj = json.loads(r.text)
+        if r.status_code == 200:
+            details = json.loads(r.text)
+            ret['ship_name'] = str(details['ship_name'])
+            ret['ship_type_id'] = int(details['ship_type_id'])
+        else:
+            if 'error' in obj:
+                ret['error'] = 'ESI error: {}'.format(obj['error'])
+            else:
+                ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+    except requests.exceptions.RequestException as e:
+        ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
+    except json.JSONDecodeError:
+        ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
+    return ret
