@@ -929,43 +929,20 @@ class WhdbxApp:
             return ret
         char_id = cherrypy.session['sso_char_id']
         access_token = cherrypy.session['sso_token']
-        try:
-            # https://esi.tech.ccp.is/latest/#!/Location/get_characters_character_id_location
-            # Information about the characters current location. Returns the current solar system id,
-            # #    and also the current station or structure ID if applicable.
-            # This route is cached for up to 5 seconds
-            url = '{}/characters/{}/location/'.format(self.cfg.ESI_BASE_URL, char_id)
-            r = requests.get(url,
-                             headers={
-                                 'Authorization': 'Bearer ' + access_token,
-                                 'User-Agent': self.cfg.SSO_USER_AGENT
-                             },
-                             timeout=10)
-            obj = json.loads(r.text)
-            if r.status_code == 200:
-                details = json.loads(r.text)
-                ret['solarsystem_id'] = int(details['solar_system_id'])
-                if 'structure_id' in details:
-                    ret['is_docked'] = True
-                if 'station_id' in details:
-                    ret['is_docked'] = True
-                ss_info = self.db.find_ss_by_id(ret['solarsystem_id'])
-                if ss_info is not None:
-                    ret['solarsystem_name'] = ss_info['name']
-                    if is_whsystem_name(ret['solarsystem_name']):
-                        ret['is_whsystem'] = True
-                cherrypy.session['sso_solarsystem_id'] = ret['solarsystem_id']
-                cherrypy.session['sso_solarsystem_name'] = ret['solarsystem_name']
-                self.debuglog('ajax: ajax_esi_call_location_location: success')
-            else:
-                if 'error' in obj:
-                    ret['error'] = 'ESI error: {}'.format(obj['error'])
-                else:
-                    ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
-        except requests.exceptions.RequestException as e:
-            ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
-        except json.JSONDecodeError:
-            ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
+
+        ret = esi_calls.location_location(self.cfg, char_id, access_token)
+        if ret['error'] != '':
+            return ret
+
+        ss_info = self.db.find_ss_by_id(ret['solarsystem_id'])
+        if ss_info is not None:
+            ret['solarsystem_name'] = ss_info['name']
+            if is_whsystem_name(ret['solarsystem_name']):
+                ret['is_whsystem'] = True
+        # save in session
+        cherrypy.session['sso_solarsystem_id'] = ret['solarsystem_id']
+        cherrypy.session['sso_solarsystem_name'] = ret['solarsystem_name']
+        self.debuglog('ajax: ajax_esi_call_location_location: success')
         return ret
 
 
