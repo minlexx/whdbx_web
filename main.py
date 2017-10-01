@@ -926,31 +926,7 @@ class WhdbxApp:
             return ret
         char_id = cherrypy.session['sso_char_id']
         access_token = cherrypy.session['sso_token']
-        try:
-            # https://esi.tech.ccp.is/latest/#!/Location/get_characters_character_id_online
-            # This route is cached for up to 60 seconds
-            url = '{}/characters/{}/online/'.format(self.cfg.ESI_BASE_URL, char_id)
-            r = requests.get(url,
-                             headers={
-                                 'Authorization': 'Bearer ' + access_token,
-                                 'User-Agent': self.cfg.SSO_USER_AGENT
-                             },
-                             timeout=10)
-            response_text = r.text
-            if r.status_code == 200:
-                if str(response_text).lower() == 'true':
-                    ret['is_online'] = True
-                self.debuglog('ajax: ajax_esi_call_location_online: success')
-            else:
-                obj = json.loads(r.text)
-                if 'error' in obj:
-                    ret['error'] = 'ESI error: {}'.format(obj['error'])
-                else:
-                    ret['error'] = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
-        except requests.exceptions.RequestException as e:
-            ret['error'] = 'Error connection to ESI server: {}'.format(str(e))
-        except json.JSONDecodeError:
-            ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
+        ret = esi_calls.location_online(char_id, access_token)
         return ret
 
     def ajax_esi_call_location_location(self) -> dict:
