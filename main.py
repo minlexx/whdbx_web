@@ -653,6 +653,10 @@ class WhdbxApp:
                 res = self.ajax_esi_call_location_online()
             elif call_type == 'location':
                 res = self.ajax_esi_call_location_location()
+            elif call_type == 'ui_open_window_information':
+                if 'target_id' in params:
+                    target_id = int(params['target_id'])
+                    res = self.ajax_esi_call_ui_open_window_information(target_id)
             ret_print = json.dumps(res)
         return ret_print
 
@@ -943,6 +947,23 @@ class WhdbxApp:
         cherrypy.session['sso_solarsystem_id'] = ret['solarsystem_id']
         cherrypy.session['sso_solarsystem_name'] = ret['solarsystem_name']
         self.debuglog('ajax: ajax_esi_call_location_location: success')
+        return ret
+
+    def ajax_esi_call_ui_open_window_information(self, target_id: int) -> dict:
+        self.debuglog('ajax: ajax_esi_call_ui_open_window_information: {} start'.format(target_id))
+        ret = {
+            'error': ''
+        }
+        if not 'sso_token' in cherrypy.session:
+            ret['error'] = 'SSO access_token is not defined in session!'
+            return ret
+        access_token = cherrypy.session['sso_token']
+        try:
+            result = esi_calls.ui_open_window_information(self.cfg, target_id, access_token)
+            if result == False:
+                ret['error'] = 'open window information: Request failed!'
+        except esi_calls.ESIException as ex:
+            ret['error'] = ex.error_string()
         return ret
 
 
