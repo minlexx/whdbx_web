@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
 import json
+import os
+import os.path
 
 import requests
 
@@ -13,6 +15,32 @@ class ESIException(Exception):
 
     def error_string(self) -> str:
         return self.msg
+
+
+def analyze_esi_response_headers(headers: dict) -> None:
+    """
+    Keep track of ESI headers: watch for deprecated endpoints
+    and error rate limiting
+    :param headers: requests's resonse headers dict
+    :return:
+    """
+    lines_to_log = []
+    for key in headers:
+        if key == 'warning':
+            lines_to_log.append('warning header: {}'.format(headers[key]))
+        if key == '':
+            pass
+    if len(lines_to_log) < 1:
+        return
+    try:
+        # auto-create logs subdir
+        if not os.path.isdir('logs'):
+            os.mkdir('logs')
+        fn = './logs/esi-warnings.log'
+        with open(fn, mode='at', encoding='utf-8') as f:
+            f.writelines(lines_to_log)
+    except IOError:
+        pass
 
 
 def characters_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
@@ -40,6 +68,7 @@ def characters_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
         response_text = r.text
         if r.status_code == 200:
             ret = json.loads(response_text)
+            analyze_esi_response_headers(r.headers)
         else:
             obj = json.loads(response_text)
             if 'error' in obj:
@@ -80,6 +109,7 @@ def corporations_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
         response_text = r.text
         if r.status_code == 200:
             ret = json.loads(response_text)
+            analyze_esi_response_headers(r.headers)
         else:
             obj = json.loads(response_text)
             if 'error' in obj:
@@ -167,6 +197,7 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
             details = json.loads(r.text)
             ret['char_name'] = details['name']
             ret['corp_id'] = details['corporation_id']
+            analyze_esi_response_headers(r.headers)
         else:
             if 'error' in obj:
                 ret['error'] = 'ESI error: {}'.format(obj['error'])
@@ -192,6 +223,7 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
             ret['corp_member_count'] = str(details['member_count'])
             if 'alliance_id' in details:  # it may be not present
                 ret['ally_id'] = str(details['alliance_id'])
+            analyze_esi_response_headers(r.headers)
         else:
             if 'error' in obj:
                 ret['error'] = 'ESI error: {}'.format(obj['error'])
@@ -277,6 +309,7 @@ def location_online(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) ->
         if r.status_code == 200:
             if str(response_text).lower() == 'true':
                 ret['is_online'] = True
+            analyze_esi_response_headers(r.headers)
         else:
             obj = json.loads(r.text)
             if 'error' in obj:
@@ -313,6 +346,7 @@ def location_ship(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> d
             details = json.loads(r.text)
             ret['ship_name'] = str(details['ship_name'])
             ret['ship_type_id'] = int(details['ship_type_id'])
+            analyze_esi_response_headers(r.headers)
         else:
             if 'error' in obj:
                 ret['error'] = 'ESI error: {}'.format(obj['error'])
@@ -359,6 +393,7 @@ def location_location(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) 
             if 'station_id' in details:
                 ret['is_docked'] = True
                 ret['station_id'] = details['station_id']
+            analyze_esi_response_headers(r.headers)
         else:
             if 'error' in obj:
                 ret['error'] = 'ESI error: {}'.format(obj['error'])
@@ -398,6 +433,7 @@ def ui_open_window_information(cfg: sitecfg.SiteConfig, target_id: int, access_t
         # only check return code. 204 is "reqeust accepted"
         if (r.status_code >= 200) and (r.status_code <= 299):
             ret = True
+            analyze_esi_response_headers(r.headers)
         else:
             error_str = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
     except requests.exceptions.RequestException as e:
