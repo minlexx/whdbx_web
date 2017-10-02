@@ -863,6 +863,8 @@ class WhdbxApp:
             cherrypy.session['sso_corp_name'] = ret['corp_name']
             cherrypy.session['sso_ally_id'] = ret['ally_id']
             self.debuglog('ajax: esi_call_public_data: success')
+        else:
+            self.debuglog('ajax: esi_call_public_data: error:' + ret['error'])
         return ret
 
     def ajax_esi_call_location_ship(self) -> dict:
@@ -884,6 +886,7 @@ class WhdbxApp:
         access_token = cherrypy.session['sso_token']
         ret = esi_calls.location_ship(self.cfg, char_id, access_token)
         if ret['error'] != '':
+            self.debuglog('ajax: ajax_esi_call_location_ship: error:' + ret['error'])
             return ret
         typeinfo = self.db.find_typeid(ret['ship_type_id'])
         if typeinfo is not None:
@@ -907,10 +910,13 @@ class WhdbxApp:
         if 'sso_token' not in cherrypy.session:
             ret['error'] = 'SSO access_token is not defined in session!'
             return ret
-        self.debuglog('ajax: ajax_esi_call_location_online: success')
         char_id = cherrypy.session['sso_char_id']
         access_token = cherrypy.session['sso_token']
         ret = esi_calls.location_online(self.cfg, char_id, access_token)
+        if ret['error'] == '':
+            self.debuglog('ajax: ajax_esi_call_location_online: success')
+        else:
+            self.debuglog('ajax: ajax_esi_call_location_online: error: ' + ret['error'])
         return ret
 
     def ajax_esi_call_location_location(self) -> dict:
@@ -936,6 +942,7 @@ class WhdbxApp:
 
         ret = esi_calls.location_location(self.cfg, char_id, access_token)
         if ret['error'] != '':
+            self.debuglog('ajax: ajax_esi_call_location_location: error' + ret['error'])
             return ret
 
         ss_info = self.db.find_ss_by_id(ret['solarsystem_id'])
@@ -964,6 +971,10 @@ class WhdbxApp:
                 ret['error'] = 'open window information: Request failed!'
         except esi_calls.ESIException as ex:
             ret['error'] = ex.error_string()
+        if ret['error'] == '':
+            self.debuglog('ajax: ajax_esi_call_ui_open_window_information: success')
+        else:
+            self.debuglog('ajax: ajax_esi_call_ui_open_window_information: error: {}'.format(ret['error']))
         return ret
 
 
