@@ -333,3 +333,36 @@ def location_location(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) 
     except json.JSONDecodeError:
         ret['error'] = 'Failed to parse response JSON from CCP ESI server!'
     return ret
+
+
+def ui_open_window_information(cfg: sitecfg.SiteConfig, target_id: int, access_token: str) -> bool:
+    """
+    Open the information window for a character, corporation or alliance inside the client
+    :param cfg: configuration
+    :param target_id: can be character_id, corporation_id, alliance_id
+    :return: true - request received, on error ESIExceprtion is thrown
+    """
+    ret = False
+    error_str = ''
+    if target_id < 0: return False
+    try:
+        # https://esi.tech.ccp.is/latest/#!/User32Interface/post_ui_openwindow_information
+        url = '{}/ui/openwindow/information/'.format(cfg.ESI_BASE_URL)
+        r = requests.post(url, data={'target_id': target_id},
+                         headers={
+                             'Authorization': 'Bearer ' + access_token,
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
+                         timeout=20)
+        # only check return code. 204 is "reqeust accepted"
+        if (r.status_code >= 200) and (r.status_code <= 299):
+            ret = True
+        else:
+            error_str = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+    except requests.exceptions.RequestException as e:
+        error_str = 'Error connection to ESI server: {}'.format(str(e))
+    except json.JSONDecodeError:
+        error_str = 'Failed to parse response JSON from CCP ESI server!'
+    if error_str != '':
+        raise ESIException(error_str)
+    return ret
