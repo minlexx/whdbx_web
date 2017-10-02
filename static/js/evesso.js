@@ -219,8 +219,10 @@ function evesso_request_location_online() {
             // update html
             if (SSO_IS_ONLINE) {
                 $('#character_info_online_img').attr('src', '/static/img/online.png');
+                $('#character_info_online_img').attr('onmouseover', 'Tip(\'Online\');');
             } else {
                 $('#character_info_online_img').attr('src', '/static/img/offline.png');
+                $('#character_info_online_img').attr('onmouseover', 'Tip(\'Offline\');');
             }
             // restart refresher
             window.setTimeout(evesso_refresher, 3000);
