@@ -18,18 +18,24 @@ class ESIException(Exception):
 def characters_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
     ret = []
     error_str = ''
-    if len(ids_list) < 0: return ret
+    if len(ids_list) < 0:
+        return ret
     try:
         # https://esi.tech.ccp.is/latest/#!/Character/get_characters_names
         # This route is cached for up to 3600 seconds
         url = '{}/characters/names/'.format(cfg.ESI_BASE_URL)
         ids_str = ''
         for an_id in set(ids_list):
-            if len(ids_str) > 0: ids_str += ','
+            if len(ids_str) > 0:
+                ids_str += ','
             ids_str += str(an_id)
         r = requests.get(url,
                          params={'character_ids': ids_str},
-                         headers={'User-Agent': cfg.SSO_USER_AGENT},
+                         headers={
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
                          timeout=20)
         response_text = r.text
         if r.status_code == 200:
@@ -52,18 +58,24 @@ def characters_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
 def corporations_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
     ret = []
     error_str = ''
-    if len(ids_list) < 0: return ret
+    if len(ids_list) < 0:
+        return ret
     try:
         # https://esi.tech.ccp.is/latest/#!/Corporation/get_corporations_names
         # This route is cached for up to 3600 seconds
         url = '{}/corporations/names/'.format(cfg.ESI_BASE_URL)
         ids_str = ''
         for an_id in set(ids_list):
-            if len(ids_str) > 0: ids_str += ','
+            if len(ids_str) > 0:
+                ids_str += ','
             ids_str += str(an_id)
         r = requests.get(url,
                          params={'corporation_ids': ids_str},
-                         headers={'User-Agent': cfg.SSO_USER_AGENT},
+                         headers={
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
                          timeout=20)
         response_text = r.text
         if r.status_code == 200:
@@ -86,18 +98,24 @@ def corporations_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
 def alliances_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
     ret = []
     error_str = ''
-    if len(ids_list) < 0: return ret
+    if len(ids_list) < 0:
+        return ret
     try:
         # https://esi.tech.ccp.is/latest/#!/Alliance/get_alliances_names
         # This route is cached for up to 3600 seconds
         url = '{}/alliances/names/'.format(cfg.ESI_BASE_URL)
         ids_str = ''
         for an_id in set(ids_list):
-            if len(ids_str) > 0: ids_str += ','
+            if len(ids_str) > 0:
+                ids_str += ','
             ids_str += str(an_id)
         r = requests.get(url,
                          params={'alliance_ids': ids_str},
-                         headers={'User-Agent': cfg.SSO_USER_AGENT},
+                         headers={
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
                          timeout=20)
         response_text = r.text
         if r.status_code == 200:
@@ -137,7 +155,13 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
         # https://esi.tech.ccp.is/latest/#!/Character/get_characters_character_id
         # This route is cached for up to 3600 seconds
         url = '{}/characters/{}/'.format(cfg.ESI_BASE_URL, char_id)
-        r = requests.get(url, headers={'User-Agent': cfg.SSO_USER_AGENT}, timeout=10)
+        r = requests.get(url,
+                         headers={
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
+                         timeout=10)
         obj = json.loads(r.text)
         if r.status_code == 200:
             details = json.loads(r.text)
@@ -153,7 +177,13 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
         # https://esi.tech.ccp.is/latest/#!/Corporation/get_corporations_corporation_id
         # This route is cached for up to 3600 seconds
         url = '{}/corporations/{}/'.format(cfg.ESI_BASE_URL, ret['corp_id'])
-        r = requests.get(url, headers={'User-Agent': cfg.SSO_USER_AGENT}, timeout=10)
+        r = requests.get(url,
+                         headers={
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
+                         timeout=10)
         obj = json.loads(r.text)
         if r.status_code == 200:
             details = json.loads(r.text)
@@ -187,12 +217,12 @@ def do_refresh_token(cfg: sitecfg.SiteConfig, refresh_token: str) -> dict:
     }
     try:
         r = requests.post('https://login.eveonline.com/oauth/token',
-                          auth = (cfg.SSO_CLIENT_ID, cfg.SSO_SECRET_KEY),
-                          headers = {
+                          auth=(cfg.SSO_CLIENT_ID, cfg.SSO_SECRET_KEY),
+                          headers={
                               'Content-Type': 'application/x-www-form-urlencoded',
                               'User-Agent': cfg.SSO_USER_AGENT
                           },
-                          data = {
+                          data={
                               'grant_type': 'refresh_token',
                               'refresh_token': refresh_token
                           },
@@ -236,11 +266,13 @@ def location_online(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) ->
         # This route is cached for up to 60 seconds
         url = '{}/characters/{}/online/'.format(cfg.ESI_BASE_URL, char_id)
         r = requests.get(url,
-                         headers = {
+                         headers={
                              'Authorization': 'Bearer ' + access_token,
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
-                         timeout = 10)
+                         timeout=10)
         response_text = r.text
         if r.status_code == 200:
             if str(response_text).lower() == 'true':
@@ -269,11 +301,13 @@ def location_ship(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> d
         # This route is cached for up to 5 seconds
         url = '{}/characters/{}/ship/'.format(cfg.ESI_BASE_URL, char_id)
         r = requests.get(url,
-                         headers = {
+                         headers={
                              'Authorization': 'Bearer ' + access_token,
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
-                         timeout = 10)
+                         timeout=10)
         obj = json.loads(r.text)
         if r.status_code == 200:
             details = json.loads(r.text)
@@ -310,6 +344,8 @@ def location_location(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) 
         r = requests.get(url,
                          headers={
                              'Authorization': 'Bearer ' + access_token,
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
                          timeout=10)
@@ -340,20 +376,25 @@ def ui_open_window_information(cfg: sitecfg.SiteConfig, target_id: int, access_t
     Open the information window for a character, corporation or alliance inside the client
     :param cfg: configuration
     :param target_id: can be character_id, corporation_id, alliance_id
+    :param access_token: SSO access token string
     :return: true - request received, on error ESIExceprtion is thrown
     """
     ret = False
     error_str = ''
-    if target_id < 0: return False
+    if target_id < 0:
+        return False
     try:
         # https://esi.tech.ccp.is/latest/#!/User32Interface/post_ui_openwindow_information
         url = '{}/ui/openwindow/information/'.format(cfg.ESI_BASE_URL)
-        r = requests.post(url, data={'target_id': target_id},
-                         headers={
-                             'Authorization': 'Bearer ' + access_token,
-                             'User-Agent': cfg.SSO_USER_AGENT
-                         },
-                         timeout=20)
+        r = requests.post(url,
+                          params={'target_id': target_id},
+                          headers={
+                              'Authorization': 'Bearer ' + access_token,
+                              'Content-Type': 'application/json',
+                              'Accept': 'application/json',
+                              'User-Agent': cfg.SSO_USER_AGENT
+                          },
+                          timeout=10)
         # only check return code. 204 is "reqeust accepted"
         if (r.status_code >= 200) and (r.status_code <= 299):
             ret = True
