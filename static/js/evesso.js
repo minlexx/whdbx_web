@@ -359,6 +359,8 @@ function evesso_refresher() {
 
 
 function evesso_request_open_window_information(target_id) {
+    // do not send request to open window in client, if the character is offline
+    if (!SSO_IS_ONLINE) return;
     // simple ajax request, no data is received, only OK/fail status
     jQuery.ajax({
         'url': '/ajax',
