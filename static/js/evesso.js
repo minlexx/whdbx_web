@@ -356,21 +356,49 @@ function evesso_refresher() {
 }
 
 
+function evesso_request_open_window_information(target_id) {
+    // simple ajax request, no data is received, only OK/fail status
+    jQuery.ajax({
+        'url': '/ajax',
+        'data': {'esi_call': 'ui_open_window_information', 'target_id': target_id},
+        'method': 'GET',
+        'timeout': 15000,
+        'dataType': 'json',
+        'cache': false
+    })
+    .done(function(data, textStatus, jqXHR) {
+        if (data.error == '') {
+            console.log('evesso_request_open_window_information:  OK');
+        } else {
+            console.log('evesso_request_open_window_information: JSON request was OK, but returned error :(');
+            console.log('evesso_request_open_window_information:      data.error: ' + data.error);
+        }
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        console.log('evesso_request_open_window_information: failed: [' + textStatus + ']');
+    });
+}
+
+
 function showTypeInfo(type_id) {
     console.log('showTypeInfo: type_id=' + type_id);
+    // ESI call 'open window informtaion' is not implemented for type IDs :(
 }
 
 
 function showCharInfo(char_id) {
     console.log('showCharInfo: char_id=' + char_id);
+    evesso_request_open_window_information(char_id);
 }
 
 
 function showCorpInfo(corp_id) {
     console.log('showCorpInfo: corp_id=' + corp_id);
+    evesso_request_open_window_information(corp_id);
 }
 
 
 function showAllianceInfo(ally_id) {
     console.log('showAllianceInfo: ally_id=' + ally_id);
+    evesso_request_open_window_information(ally_id);
 }
