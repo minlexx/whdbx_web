@@ -5,7 +5,7 @@ check version:
 python3 --version
 ```
 If you already have python3.6, skip python installation and go directly to
-[INSTALL.md#install-whdbx]
+[Install WHDBX section](INSTALL.md#install-whdbx).
 
 If it does not say 3.6, you can try to install it:
 ```
