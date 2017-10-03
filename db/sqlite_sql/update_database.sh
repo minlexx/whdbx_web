@@ -4,7 +4,7 @@
 # path/command of sqlite3 executable
 SQLITE3_EXE=sqlite3
 # database file name to update
-DB_FILENAME=eve.db
+DB_FILENAME=../eve.db
 # list of SQL scripts to execute
 SQL_FILES=( \
 	"effects_new.sql" \
