@@ -261,7 +261,7 @@ class SiteDb:
             'loot_nna': int(row[21]),
             'loot_sdl': int(row[22]),
             'loot_sdai': int(row[23]),
-            'ability': str(row[24])
+            'ability': row[24]  # may be None, let it be None, not 'None'
         }
         return ret
 
