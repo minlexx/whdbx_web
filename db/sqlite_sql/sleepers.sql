@@ -61,7 +61,7 @@ INSERT INTO sleepers VALUES (18, 30205, '3,4', 'cruiser', 'Awakened Preserver', 
 INSERT INTO sleepers VALUES (19, 30212, '3,4', 'frigate', 'Emergent Defender',  35,2160,6500,15000, 0,1400,700, 60,60,60,60, 6,6,6,6, 0,2,2,0, 'web');
 INSERT INTO sleepers VALUES (20, 30213, '3,4', 'frigate', 'Emergent Upholder',  35,2400,5000,15000, 0,1120,560, 50,50,50,50, 3,3,6,6, 0,2,2,0, 'neut,rr');
 INSERT INTO sleepers VALUES (21, 30214, '3,4', 'frigate', 'Emergent Preserver', 35,2600,5000,15000, 0,840,420, 40,40,40,40, 7,7,9,9, 0,2,2,0, 'web,neut,dis');
-INSERT INTO sleepers VALUES (22, 30461, '3,4', 'sentry', 'Wakeful Sentry Tower', 50,0,0,250000, 0,7000,3500, 40,40,40,40, 250000, 37,37,0,0, 0,0,0,0, NULL);
+INSERT INTO sleepers VALUES (22, 30461, '3,4', 'sentry', 'Wakeful Sentry Tower', 50,0,0,250000, 0,7000,3500, 40,40,40,40,  37,37,0,0, 0,0,0,0, NULL);
 
 -- class 5 and class 6 sleepers
 INSERT INTO sleepers VALUES (23, 30196, '5,6', 'battleship', 'Sleepless Sentinel', 400,1125,19000,75000, 0,44000,22000, 65,65,65,65, 101,101,105,105, 3,2,2,2, 'web,neut,dis');
@@ -74,4 +74,4 @@ INSERT INTO sleepers VALUES (29, 30208, '5,6', 'cruiser', 'Awakened Warden',   1
 INSERT INTO sleepers VALUES (30, 30215, '5,6', 'frigate', 'Emergent Sentinel', 35,2610,6500,15000, 0,2200,1100, 60,60,60,60, 8,8,8,8, 0,4,4,0, 'web,dis');
 INSERT INTO sleepers VALUES (31, 30216, '5,6', 'frigate', 'Emergent Keeper',   35,2880,5000,15000, 0,1760,880,  45,45,45,45, 4,4,8,8, 0,4,4,0, 'neut,rr');
 INSERT INTO sleepers VALUES (32, 30217, '5,6', 'frigate', 'Emergent Warden',   35,3150,5000,15000, 0,1320,660,  40,40,40,40, 9,9,12,12, 0,4,4,0, 'web,neut,dis');
-INSERT INTO sleepers VALUES (33, 30462, '5,6', 'sentry', 'Restless Sentry Tower', 50,0,0,250000, 11000,5500, 40,40,40,40, 47,47,0,0, 0,0,0,0, NULL);
+INSERT INTO sleepers VALUES (33, 30462, '5,6', 'sentry', 'Restless Sentry Tower', 50,0,0,250000, 0,11000,5500, 40,40,40,40, 47,47,0,0, 0,0,0,0, NULL);
