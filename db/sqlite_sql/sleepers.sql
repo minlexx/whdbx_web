@@ -2,37 +2,48 @@ DROP TABLE IF EXISTS sleepers;
 
 CREATE TABLE sleepers (
    id int NOT NULL primary key,
+   typeid int,
    wh_class text,
-   sz text,
+   icon text,
    name text,
+   --
    signature int,
    maxspeed int,
    orbit int,
+   optimal int,
+   --
+   shield int,
    armor int,
    hull int,
+   --
    res_em int,
    res_therm int,
    res_kin int,
    res_exp int,
-   optimal int,
+   --
    dps_em int,
    dps_therm int,
    dps_kin int,
    dps_exp int,
+   --
    loot_acd int,
    loot_nna int,
    loot_sdl int,
    loot_sdai int,
+   --
    ability text default null
 );
 
+-- http://playground.schildwall.info/basics/npcattributes/
+-- http://playground.schildwall.info/basics/types/types.php?typeID=30201  "Details for Awakened Watchman"
+
 -- class 1 and class 2 sleepers
-INSERT INTO sleepers VALUES (1,  '1,2', 'battleship', 'Sleepless Patroller', 400, 735, 19000, 20000, 10000, 75,75,75,75, 45000, 56,56,59,59, 0,2,7,0, NULL);
-INSERT INTO sleepers VALUES (2,  '1,2', 'battleship', 'Sleepless Watchman',  400, 630, 65000, 12000, 6000, 65,65,65,65, 5000, 136,136,17,17, 0,2,7,0, NULL);
-INSERT INTO sleepers VALUES (3,  '1,2', 'battleship', 'Sleepless Escort',    400, 875, 55000, 16000, 8000, 70,70,70,70, 55000, 16,16,75,75, 0,2,7,0, NULL);
-INSERT INTO sleepers VALUES (4,  '1,2', 'battleship', 'Sleepless Outguard',  400, 1050, 15000, 25000, 12500, 75,75,75,75, 35000, 88,88,84,84, 1,2,2,0, 'neut');
-INSERT INTO sleepers VALUES (5,  '1,2', 'cruiser', 'Awakened Patroller', 150, 1190, 15000, 5000, 2500, 70,70,70,70, 30000, 10,10,10,10, 0,0,2,0, NULL);
-INSERT INTO sleepers VALUES (6,  '1,2', 'cruiser', 'Awakened Watchman',  150, 1400, 30000, 3500, 1750, 50,50,50,50, 55000, 10,10,5,5, 0,0,2,0, NULL);
+INSERT INTO sleepers VALUES (1,  30188, '1,2', 'battleship', 'Sleepless Patroller', 400,735,19000,45000,   0,20000,10000, 75,75,75,75, 56,56,59,59,   0,2,7,0, NULL);
+INSERT INTO sleepers VALUES (2,  30189, '1,2', 'battleship', 'Sleepless Watchman',  400,630,65000,105000,  0,12000,6000,  65,65,65,65, 136,136,17,17, 0,2,7,0, NULL);
+INSERT INTO sleepers VALUES (3,  30190, '1,2', 'battleship', 'Sleepless Escort',    400,875,55000,75000,   0,16000,8000,  70,70,70,70, 16,16,75,75,   0,2,7,0, NULL);
+INSERT INTO sleepers VALUES (4,  30191, '1,2', 'battleship', 'Sleepless Outguard',  400,1050,15000,135000, 0,25000,12500, 75,75,75,75, 88,88,84,84,  1,2,2,0, 'neut');
+INSERT INTO sleepers VALUES (5,  30200, '1,2', 'cruiser', 'Awakened Patroller',  150,1190,15000,30000,  0,5000,2500, 70,70,70,70, 10,10,10,10, 0,0,2,0, NULL);
+INSERT INTO sleepers VALUES (6,  30201, '1,2', 'cruiser', 'Awakened Watchman',   150,1400,30000,52500,  0,3500,1750, 50,50,50,50, 10,10,5,5,   0,0,2,0, 'neut');
 INSERT INTO sleepers VALUES (7,  '1,2', 'cruiser', 'Awakened Escort',    150, 980,  45000, 4000, 2000, 60,60,60,60, 67500, 22,22,5,5, 0,0,2,0, NULL);
 INSERT INTO sleepers VALUES (8,  '1,2', 'frigate', 'Emergent Patroller', 35, 1750,  8139, 1000, 500, 60,60,60,60, 15000, 4,4,5,5, 0,2,0,0, NULL);
 INSERT INTO sleepers VALUES (9,  '1,2', 'frigate', 'Emergent Watchman',  35, 1925,  5162, 800, 400, 50,50,50,50, 15000, 2,2,5,5, 0,2,0,0, 'neut');

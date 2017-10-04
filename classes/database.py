@@ -221,30 +221,64 @@ class SiteDb:
             ret.append(s)
         return ret
 
-    def query_sleeper_by_id(self, sleeper_id: int) -> tuple:
+    def query_sleeper_by_id(self, sleeper_id: int) -> dict:
         sleeper_query = (
-            'SELECT id, wh_class,sz,name,signature,maxspeed,orbit,'
-            ' armor,hull,res_em,res_therm,res_kin,res_exp,'
-            ' optimal,dps_em,dps_therm,dps_kin,dps_exp,'
-            ' loot_acd,loot_nna,loot_sdl,loot_sdai,ability '
+            'SELECT id, typeid, wh_class, icon, name,'    # 0..4
+            ' signature, maxspeed, orbit, optimal, '      # 5..8
+            ' shield, armor, hull, '                        # 9..11
+            ' res_em, res_therm, res_kin, res_exp, '      # 12..15
+            ' dps_em, dps_therm, dps_kin, dps_exp,'       # 16..19
+            ' loot_acd, loot_nna, loot_sdl, loot_sdai, '  # 20..23
+            ' ability '                                      # 24
             'FROM sleepers WHERE id = ?')
         cursor = self._conn.cursor()
         cursor.execute(sleeper_query, (sleeper_id,))
         row = cursor.fetchone()
-        return row
+        if row is None:
+            return None
+        ret = {
+            'id': int(row[0]),
+            'typeid': int(row[1]),
+            'wh_class': str(row[2]),
+            'icon': str(row[3]),
+            'name': str(row[4]),
+            'signature': int(row[5]),
+            'maxspeed': int(row[6]),
+            'orbit': int(row[7]),
+            'optimal': int(row[8]),
+            'shield': int(row[9]),
+            'armor': int(row[10]),
+            'hull': int(row[11]),
+            'res_em': int(row[12]),
+            'res_therm': int(row[13]),
+            'res_kin': int(row[14]),
+            'res_exp': int(row[15]),
+            'dps_em': int(row[16]),
+            'dps_therm': int(row[17]),
+            'dps_kin': int(row[18]),
+            'dps_exp': int(row[19]),
+            'loot_acd': int(row[20]),
+            'loot_nna': int(row[21]),
+            'loot_sdl': int(row[22]),
+            'loot_sdai': int(row[23]),
+            'ability': str(row[24])
+        }
+        return ret
 
     def query_sleeper_by_class(self, class_str: str) -> list:
         ret = []
         sleeper_query = (
-            'SELECT id,wh_class,sz,name FROM sleepers WHERE wh_class = ?')
+            'SELECT id, typeid, wh_class, icon, name FROM sleepers WHERE wh_class = ?')
         cur = self._conn.cursor()
         cur.execute(sleeper_query, (class_str,))
         for row in cur:
-            sl = dict()
-            sl['id'] = int(row[0])
-            sl['wh_class_str'] = row[1]
-            sl['size'] = row[2]
-            sl['name'] = row[3]
+            sl = {
+                'id': int(row[0]),
+                'typeid': int(row[1]),
+                'wh_class_str': str(row[2]),
+                'size': str(row[3]),
+                'name': str(row[4])
+            }
             ret.append(sl)
         return ret
 

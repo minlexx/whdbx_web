@@ -6,6 +6,7 @@ from . import loot_prices
 class WHSleeper:
     def __init__(self):
         self.id = 0
+        self.typeid = 0
         self.name = ''
         self.icon = ''
         self.size = ''
@@ -14,6 +15,7 @@ class WHSleeper:
         self.signature = 0
         self.maxspeed = 0
         self.orbit = 0
+        self.shield = 0
         self.armor = 0
         self.hull = 0
         self.res_em = 0
@@ -63,32 +65,34 @@ class WHSleeper:
         self.id = int(sleeper_id)
         if self.id == 0:
             return
-        row = db.query_sleeper_by_id(self.id)
-        if row is None:
+        ret = db.query_sleeper_by_id(self.id)
+        if ret is None:
             self.id = 0
             return
-        self.wh_class_str = row[1]
-        self.size = row[2]
-        self.name = row[3]
-        self.signature = int(row[4])
-        self.maxspeed = int(row[5])
-        self.orbit = int(row[6])
-        self.armor = int(row[7])
-        self.hull = int(row[8])
-        self.res_em = int(row[9])
-        self.res_therm = int(row[10])
-        self.res_kin = int(row[11])
-        self.res_exp = int(row[12])
-        self.optimal = int(row[13])
-        self.dps_em = int(row[14])
-        self.dps_therm = int(row[15])
-        self.dps_kin = int(row[16])
-        self.dps_exp = int(row[17])
-        self.loot_acd = int(row[18])
-        self.loot_nna = int(row[19])
-        self.loot_sdl = int(row[20])
-        self.loot_sdai = int(row[21])
-        self.ability_str = row[22]
+        self.typeid       = ret['typeid']
+        self.wh_class_str = ret['wh_class']
+        self.size         = ret['icon']
+        self.name         = ret['name']
+        self.signature    = ret['signature']
+        self.maxspeed     = ret['maxspeed']
+        self.orbit        = ret['orbit']
+        self.optimal      = ret['optimal']
+        self.shield       = ret['shield']
+        self.armor        = ret['armor']
+        self.hull         = ret['hull']
+        self.res_em       = ret['res_em']
+        self.res_therm    = ret['res_therm']
+        self.res_kin      = ret['res_kin']
+        self.res_exp      = ret['res_exp']
+        self.dps_em       = ret['dps_em']
+        self.dps_therm    = ret['dps_therm']
+        self.dps_kin      = ret['dps_kin']
+        self.dps_exp      = ret['dps_exp']
+        self.loot_acd     = ret['loot_acd']
+        self.loot_nna     = ret['loot_nna']
+        self.loot_sdl     = ret['loot_sdl']
+        self.loot_sdai    = ret['loot_sdai']
+        self.ability_str  = ret['ability']
         # parse
         self.wh_classes = []
         whcs = self.wh_class_str.split(',')
@@ -98,10 +102,11 @@ class WHSleeper:
             self.abilities = self.ability_str.split(',')
         self.icon = self.name.lower() + '.png'
         # calc
+        # TODO: include shield resists? none in database yet :(
         self.dps_total = self.dps_em + self.dps_therm + self.dps_kin + self.dps_exp
         armor_average_resist = (self.res_em + self.res_therm + self.res_kin + self.res_exp) / 4
         armor_ehp = round(self.armor / (1 - armor_average_resist/100))
-        self.ehp_total = armor_ehp + self.hull
+        self.ehp_total = armor_ehp + self.hull + self.shield
         # loot
         self.loot_total = self.loot_acd * loot_prices.ACD_PRICE
         self.loot_total += self.loot_nna * loot_prices.NNA_PRICE
