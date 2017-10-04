@@ -75,3 +75,6 @@ INSERT INTO sleepers VALUES (30, 30215, '5,6', 'frigate', 'Emergent Sentinel', 3
 INSERT INTO sleepers VALUES (31, 30216, '5,6', 'frigate', 'Emergent Keeper',   35,2880,5000,15000, 0,1760,880,  45,45,45,45, 4,4,8,8, 0,4,4,0, 'neut,rr');
 INSERT INTO sleepers VALUES (32, 30217, '5,6', 'frigate', 'Emergent Warden',   35,3150,5000,15000, 0,1320,660,  40,40,40,40, 9,9,12,12, 0,4,4,0, 'web,neut,dis');
 INSERT INTO sleepers VALUES (33, 30462, '5,6', 'sentry', 'Restless Sentry Tower', 50,0,0,250000, 0,11000,5500, 40,40,40,40, 47,47,0,0, 0,0,0,0, NULL);
+
+-- Drifter (TODO: shield resists, drop list, dps?)
+INSERT INTO sleepers VALUES (100, 37473, '5,6', 'drifter_battleship', 'Drifter Response Battleship', 25000,6000,40000,75000, 800000,12000000,150000, 0,50,50,50, 300,300,300,300, 0,0,0,0, 'web,neut,dis');
