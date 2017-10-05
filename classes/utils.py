@@ -25,6 +25,8 @@ def dump_object(o):
 
 
 def dotted_number(n_s: str) -> str:
+    if n_s == '0':
+        return '0'
     ret = ''
     n = int(n_s)
     nc = n
