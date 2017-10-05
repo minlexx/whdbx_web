@@ -40,9 +40,16 @@
               <td valign="top">
               <p>Defense:</p>
               <ul>
+                  <li><img src="/static/img/sleepers/icons/shield.png" />Shield: <b>${sleeper.shield | dotted_number}</b></li>
                   <li><img src="/static/img/sleepers/icons/armor_hp.png" />Armor: <b>${sleeper.armor | dotted_number}</b></li>
                   <li><img src="/static/img/sleepers/icons/hull_hp.png" />Hull: <b>${sleeper.hull | dotted_number}</b></li>
-                  <li><img src="/static/img/sleepers/icons/armor_resists.png" />Resists:
+                  <li><img src="/static/img/sleepers/icons/shield_resists.png" />Shield resists:
+                      <img src="/static/img/sleepers/icons/res_em.jpg" /> ${sleeper.shield_res_em}
+                      <img src="/static/img/sleepers/icons/res_therm.jpg" /> ${sleeper.shield_res_therm}
+                      <img src="/static/img/sleepers/icons/res_kin.jpg" /> ${sleeper.shield_res_kin}
+                      <img src="/static/img/sleepers/icons/res_exp.jpg" /> ${sleeper.shield_res_exp}
+                  </li>
+                  <li><img src="/static/img/sleepers/icons/armor_resists.png" />Armor resists:
                       <img src="/static/img/sleepers/icons/res_em.jpg" /> ${sleeper.armor_res_em}
                       <img src="/static/img/sleepers/icons/res_therm.jpg" /> ${sleeper.armor_res_therm}
                       <img src="/static/img/sleepers/icons/res_kin.jpg" /> ${sleeper.armor_res_kin}
@@ -55,7 +62,7 @@
               <td valign="top">
               <p>Offense:</p>
               <ul>
-                  <li><img src="/static/img/sleepers/icons/optimal.jpg" />Optimal: <b>${sleeper.optimal | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/optimal.jpg" />Attack range: <b>${sleeper.optimal | dotted_number}</b></li>
                   <li><img src="/static/img/sleepers/icons/dps_total.png" />
                       DPS <img src="/static/img/sleepers/icons/dps_laser.png" />:
                       <img src="/static/img/sleepers/icons/dps_em.jpg" /> ${sleeper.dps_em}
