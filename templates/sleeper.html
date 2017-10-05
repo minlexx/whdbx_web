@@ -9,12 +9,12 @@
   <table border="0">
     <tr>
       <td class="sleeper_info1">
-        <img src="/static/img/sleepers/${sleeper.icon}" />
+        <img src="/static/img/sleepers/${sleeper.icon_file}" />
       </td>
       <td class="sleeper_info2">
         <h1>
-        &nbsp;<img src="/static/img/sleepers/icons/${sleeper.size}.png" />&nbsp;&nbsp;
-        ${sleeper.name}, ${sleeper.size}, classes: ${sleeper.wh_class_str}</h1>
+        &nbsp;<img src="/static/img/sleepers/icons/${sleeper.icon}.png" />&nbsp;&nbsp;
+        ${sleeper.name}, ${sleeper.icon}, classes: ${sleeper.wh_class_str}</h1>
 
           <p>Abilities:
               % if len(sleeper.abilities) == 0:
@@ -31,7 +31,7 @@
               <td valign="top">
               <p>Navigation:</p>
               <ul>
-                  <li><img src="/static/img/sleepers/icons/signature.jpg" />Signature: <b>${sleeper.signature}</b> m</li>
+                  <li><img src="/static/img/sleepers/icons/signature.jpg" />Signature: <b>${sleeper.signature | dotted_number}</b> m</li>
                   <li><img src="/static/img/sleepers/icons/max_speed.png" />Max. speed: <b>${sleeper.maxspeed | dotted_number}</b> m/s</li>
                   <li><img src="/static/img/sleepers/icons/orbit2.png" />Orbit: <b>${sleeper.orbit | dotted_number}</b> m</li>
               </ul>
@@ -43,10 +43,10 @@
                   <li><img src="/static/img/sleepers/icons/armor_hp.png" />Armor: <b>${sleeper.armor | dotted_number}</b></li>
                   <li><img src="/static/img/sleepers/icons/hull_hp.png" />Hull: <b>${sleeper.hull | dotted_number}</b></li>
                   <li><img src="/static/img/sleepers/icons/armor_resists.png" />Resists:
-                      <img src="/static/img/sleepers/icons/res_em.jpg" /> ${sleeper.res_em}
-                      <img src="/static/img/sleepers/icons/res_therm.jpg" /> ${sleeper.res_therm}
-                      <img src="/static/img/sleepers/icons/res_kin.jpg" /> ${sleeper.res_kin}
-                      <img src="/static/img/sleepers/icons/res_exp.jpg" /> ${sleeper.res_exp}
+                      <img src="/static/img/sleepers/icons/res_em.jpg" /> ${sleeper.armor_res_em}
+                      <img src="/static/img/sleepers/icons/res_therm.jpg" /> ${sleeper.armor_res_therm}
+                      <img src="/static/img/sleepers/icons/res_kin.jpg" /> ${sleeper.armor_res_kin}
+                      <img src="/static/img/sleepers/icons/res_exp.jpg" /> ${sleeper.armor_res_exp}
                   </li>
                   <li><img src="/static/img/sleepers/icons/ehp2.png" />EHP: <b>${sleeper.ehp_total | dotted_number}</b></li>
               </ul>
@@ -75,7 +75,7 @@
                     <ul>
                     % for s1 in class_sleepers:
                         <li>
-                            <img src="/static/img/sleepers/icons/${s1['size']}.png" />
+                            <img src="/static/img/sleepers/icons/${s1['icon']}.png" />
                             <a href="/sleepers/${s1['id']}/">${s1['name']}</a><br />
                         </li>
                     % endfor
@@ -112,7 +112,7 @@
     <ul>
         % for a_sl in sl_list:
         <li>
-            <img src="/static/img/sleepers/icons/${a_sl['size']}.png" />
+            <img src="/static/img/sleepers/icons/${a_sl['icon']}.png" />
             <a href="/sleepers/${a_sl['id']}/">${a_sl['name']}</a><br />
         </li>
         % endfor

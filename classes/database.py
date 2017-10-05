@@ -226,10 +226,11 @@ class SiteDb:
             'SELECT id, typeid, wh_class, icon, name,'    # 0..4
             ' signature, maxspeed, orbit, optimal, '      # 5..8
             ' shield, armor, hull, '                        # 9..11
-            ' res_em, res_therm, res_kin, res_exp, '      # 12..15
-            ' dps_em, dps_therm, dps_kin, dps_exp,'       # 16..19
-            ' loot_acd, loot_nna, loot_sdl, loot_sdai, '  # 20..23
-            ' ability '                                      # 24
+            ' shield_res_em, shield_res_therm, shield_res_kin, shield_res_exp, '  # 12..15
+            ' armor_res_em, armor_res_therm, armor_res_kin, armor_res_exp, '      # 16..19
+            ' dps_em, dps_therm, dps_kin, dps_exp,'       # 20..23
+            ' loot_acd, loot_nna, loot_sdl, loot_sdai, '  # 24..27
+            ' ability '                                      # 28
             'FROM sleepers WHERE id = ?')
         cursor = self._conn.cursor()
         cursor.execute(sleeper_query, (sleeper_id,))
@@ -249,19 +250,23 @@ class SiteDb:
             'shield': int(row[9]),
             'armor': int(row[10]),
             'hull': int(row[11]),
-            'res_em': int(row[12]),
-            'res_therm': int(row[13]),
-            'res_kin': int(row[14]),
-            'res_exp': int(row[15]),
-            'dps_em': int(row[16]),
-            'dps_therm': int(row[17]),
-            'dps_kin': int(row[18]),
-            'dps_exp': int(row[19]),
-            'loot_acd': int(row[20]),
-            'loot_nna': int(row[21]),
-            'loot_sdl': int(row[22]),
-            'loot_sdai': int(row[23]),
-            'ability': row[24]  # may be None, let it be None, not 'None'
+            'shield_res_em': int(row[12]),
+            'shield_res_therm': int(row[13]),
+            'shield_res_kin': int(row[14]),
+            'shield_res_exp': int(row[15]),
+            'armor_res_em': int(row[16]),
+            'armor_res_therm': int(row[17]),
+            'armor_res_kin': int(row[18]),
+            'armor_res_exp': int(row[19]),
+            'dps_em': int(row[20]),
+            'dps_therm': int(row[21]),
+            'dps_kin': int(row[22]),
+            'dps_exp': int(row[23]),
+            'loot_acd': int(row[24]),
+            'loot_nna': int(row[25]),
+            'loot_sdl': int(row[26]),
+            'loot_sdai': int(row[27]),
+            'ability': row[28]  # may be None, let it be None, not 'None'
         }
         return ret
 
@@ -276,7 +281,7 @@ class SiteDb:
                 'id': int(row[0]),
                 'typeid': int(row[1]),
                 'wh_class_str': str(row[2]),
-                'size': str(row[3]),
+                'icon': str(row[3]),
                 'name': str(row[4])
             }
             ret.append(sl)

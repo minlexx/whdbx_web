@@ -8,8 +8,8 @@ class WHSleeper:
         self.id = 0
         self.typeid = 0
         self.name = ''
+        self.icon_file = ''
         self.icon = ''
-        self.size = ''
         self.wh_class_str = ''
         self.wh_classes = []
         self.signature = 0
@@ -18,10 +18,14 @@ class WHSleeper:
         self.shield = 0
         self.armor = 0
         self.hull = 0
-        self.res_em = 0
-        self.res_therm = 0
-        self.res_kin = 0
-        self.res_exp = 0
+        self.shield_res_em = 0
+        self.shield_res_therm = 0
+        self.shield_res_kin = 0
+        self.shield_res_exp = 0
+        self.armor_res_em = 0
+        self.armor_res_therm = 0
+        self.armor_res_kin = 0
+        self.armor_res_exp = 0
         self.optimal = 0
         self.dps_em = 0
         self.dps_therm = 0
@@ -45,8 +49,8 @@ class WHSleeper:
         s = 'Sleeper'
         if self.name != '':
             s = self.name
-        if self.size != '':
-            s += ' (' + self.size + ')'
+        if self.icon != '':
+            s += ' (' + self.icon + ')'
         if len(self.abilities) > 0:
             s += ' ['
             for ability in self.abilities:
@@ -57,7 +61,7 @@ class WHSleeper:
         return s
 
     def is_valid(self):
-        if (self.id> 0) and (self.name != '') and (self.size != ''):
+        if (self.id > 0) and (self.name != '') and (self.icon != ''):
             return True
         return False
 
@@ -69,30 +73,34 @@ class WHSleeper:
         if ret is None:
             self.id = 0
             return
-        self.typeid       = ret['typeid']
+        self.typeid = ret['typeid']
         self.wh_class_str = ret['wh_class']
-        self.size         = ret['icon']
-        self.name         = ret['name']
-        self.signature    = ret['signature']
-        self.maxspeed     = ret['maxspeed']
-        self.orbit        = ret['orbit']
-        self.optimal      = ret['optimal']
-        self.shield       = ret['shield']
-        self.armor        = ret['armor']
-        self.hull         = ret['hull']
-        self.res_em       = ret['res_em']
-        self.res_therm    = ret['res_therm']
-        self.res_kin      = ret['res_kin']
-        self.res_exp      = ret['res_exp']
-        self.dps_em       = ret['dps_em']
-        self.dps_therm    = ret['dps_therm']
-        self.dps_kin      = ret['dps_kin']
-        self.dps_exp      = ret['dps_exp']
-        self.loot_acd     = ret['loot_acd']
-        self.loot_nna     = ret['loot_nna']
-        self.loot_sdl     = ret['loot_sdl']
-        self.loot_sdai    = ret['loot_sdai']
-        self.ability_str  = ret['ability']
+        self.icon = ret['icon']
+        self.name = ret['name']
+        self.signature = ret['signature']
+        self.maxspeed = ret['maxspeed']
+        self.orbit = ret['orbit']
+        self.optimal = ret['optimal']
+        self.shield = ret['shield']
+        self.armor = ret['armor']
+        self.hull = ret['hull']
+        self.shield_res_em = ret['shield_res_em']
+        self.shield_res_therm = ret['shield_res_therm']
+        self.shield_res_kin = ret['shield_res_kin']
+        self.shield_res_exp = ret['shield_res_exp']
+        self.armor_res_em = ret['armor_res_em']
+        self.armor_res_therm = ret['armor_res_therm']
+        self.armor_res_kin = ret['armor_res_kin']
+        self.armor_res_exp = ret['armor_res_exp']
+        self.dps_em = ret['dps_em']
+        self.dps_therm = ret['dps_therm']
+        self.dps_kin = ret['dps_kin']
+        self.dps_exp = ret['dps_exp']
+        self.loot_acd = ret['loot_acd']
+        self.loot_nna = ret['loot_nna']
+        self.loot_sdl = ret['loot_sdl']
+        self.loot_sdai = ret['loot_sdai']
+        self.ability_str = ret['ability']
         # parse
         self.wh_classes = []
         whcs = self.wh_class_str.split(',')
@@ -100,13 +108,16 @@ class WHSleeper:
             self.wh_classes.append(int(c))
         if self.ability_str is not None:
             self.abilities = self.ability_str.split(',')
-        self.icon = self.name.lower() + '.png'
+        # icon file
+        self.icon_file = self.name.lower() + '.png'
         # calc
-        # TODO: include shield resists? none in database yet :(
         self.dps_total = self.dps_em + self.dps_therm + self.dps_kin + self.dps_exp
-        armor_average_resist = (self.res_em + self.res_therm + self.res_kin + self.res_exp) / 4
+        # calc EHP
+        armor_average_resist = (self.armor_res_em + self.armor_res_therm + self.armor_res_kin + self.armor_res_exp) / 4
+        shield_average_resist = (self.shield_res_em + self.shield_res_therm + self.shield_res_kin + self.shield_res_exp) / 4
         armor_ehp = round(self.armor / (1 - armor_average_resist/100))
-        self.ehp_total = armor_ehp + self.hull + self.shield
+        shield_ehp = round(self.shield / (1 - shield_average_resist / 100))
+        self.ehp_total = shield_ehp + armor_ehp + self.hull
         # loot
         self.loot_total = self.loot_acd * loot_prices.ACD_PRICE
         self.loot_total += self.loot_nna * loot_prices.NNA_PRICE
