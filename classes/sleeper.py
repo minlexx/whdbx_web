@@ -5,8 +5,8 @@ from . import loot_prices
 
 class WHSleeper:
     def __init__(self):
-        self.id = 0
-        self.typeid = 0
+        self.id = 0  # primary key in sleepers table
+        self.typeid = 0  # eve typeID
         self.name = ''
         self.icon_file = ''
         self.icon = ''
@@ -37,6 +37,19 @@ class WHSleeper:
         self.loot_sdai = 0
         self.ability_str = ''
         self.abilities = []
+        # ewar stats
+        self.neut_range = 0
+        self.neut_amount = 0
+        self.neut_duration = 0
+        self.dis_range = 0
+        self.dis_strength = 0
+        self.web_range = 0
+        self.web_strength = 0
+        self.rr_range = 0
+        self.rr_amount = 0
+        self.rr_duration = 0
+        self.extra_comment = ''
+        # for wave in signature
         self.is_trigger = False
         self.count = 0
         # calculatable
@@ -44,6 +57,8 @@ class WHSleeper:
         self.ehp_total = 0
         self.loot_total = 0
         self.isk_per_ehp = 0
+        self.neut_per_second = 0
+        self.rr_per_second = 0
 
     def __str__(self):
         s = 'Sleeper'
@@ -101,6 +116,18 @@ class WHSleeper:
         self.loot_sdl = ret['loot_sdl']
         self.loot_sdai = ret['loot_sdai']
         self.ability_str = ret['ability']
+        # ewar abilities stats
+        self.neut_range = ret['neut_range']
+        self.neut_amount = ret['neut_amount']
+        self.neut_duration=  ret['neut_duration']
+        self.dis_range = ret['dis_range']
+        self.dis_strength = ret['dis_strength']
+        self.web_range = ret['web_range']
+        self.web_strength = ret['web_strength']
+        self.rr_range = ret['rr_range']
+        self.rr_amount = ret['rr_amount']
+        self.rr_duration = ret['rr_duration']
+        self.extra_comment = ret['extra_comment']
         # parse
         self.wh_classes = []
         whcs = self.wh_class_str.split(',')
@@ -124,6 +151,11 @@ class WHSleeper:
         self.loot_total += self.loot_sdl * loot_prices.SDL_PRICE
         self.loot_total += self.loot_sdai * loot_prices.SDAI_PRICE
         self.isk_per_ehp = self.loot_total / self.ehp_total
+        # ewar stats
+        if self.neut_duration > 0:
+            self.neut_per_second = round(self.neut_amount / self.neut_duration)
+        if self.rr_duration > 0:
+            self.rr_per_second = round(self.rr_amount / self.rr_duration)
 
     def set_abilities_from_wave(self, abilities_code: str):
         """

@@ -230,7 +230,12 @@ class SiteDb:
             ' armor_res_em, armor_res_therm, armor_res_kin, armor_res_exp, '      # 16..19
             ' dps_em, dps_therm, dps_kin, dps_exp,'       # 20..23
             ' loot_acd, loot_nna, loot_sdl, loot_sdai, '  # 24..27
-            ' ability '                                      # 28
+            ' ability, '                                      # 28
+            ' neut_range, neut_amount, neut_duration, '   # 29..31
+            ' dis_range, dis_strength, '                   # 32, 33
+            ' web_range, web_strength, '                  # 34, 35
+            ' rr_range, rr_amount, rr_duration, '       # 36..38
+            ' extra_comment '                            # 39
             'FROM sleepers WHERE id = ?')
         cursor = self._conn.cursor()
         cursor.execute(sleeper_query, (sleeper_id,))
@@ -266,7 +271,18 @@ class SiteDb:
             'loot_nna': int(row[25]),
             'loot_sdl': int(row[26]),
             'loot_sdai': int(row[27]),
-            'ability': row[28]  # may be None, let it be None, not 'None'
+            'ability': row[28],  # may be None, let it be None, not 'None'
+            'neut_range': int(row[29]),
+            'neut_amount': int(row[30]),
+            'neut_duration': int(row[31]),
+            'dis_range': int(row[32]),
+            'dis_strength': int(row[33]),
+            'web_range': int(row[34]),
+            'web_strength': int(row[35]),
+            'rr_range': int(row[36]),
+            'rr_amount': int(row[37]),
+            'rr_duration': int(row[38]),
+            'extra_comment': str(row[39])
         }
         return ret
 
