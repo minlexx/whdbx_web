@@ -92,6 +92,25 @@
             </tr>
           </table>
 
+          % if len(sleeper.abilities) > 0:
+          <p>EWAR Abilities:
+            <ul>
+            % if 'neut' in sleeper.abilities:
+            <li><img src="/static/img/sleepers/icons/neut.png" /> Energy Neutralizing: <b>${sleeper.neut_range | dotted_number}</b> m, <b>${sleeper.neut_amount | dotted_number}</b> GJ / <b>${sleeper.neut_duration}</b> sec</li>
+            % endif
+            % if 'dis' in sleeper.abilities:
+            <li><img src="/static/img/sleepers/icons/dis.png" /> Warp disruption: <b>${sleeper.dis_range | dotted_number}</b> m, strength: <b>${sleeper.dis_strength | dotted_number}</b></li>
+            % endif
+            % if 'web' in sleeper.abilities:
+            <li><img src="/static/img/sleepers/icons/web.png" /> Stasis Webifier: <b>${sleeper.web_range | dotted_number}</b> m, strength: <b>${sleeper.web_strength | dotted_number}%</b></li>
+            % endif
+            % if 'rr' in sleeper.abilities:
+            <li><img src="/static/img/sleepers/icons/rr.png" /> Remote armor repair: <b>${sleeper.rr_range | dotted_number}</b> m, <b>${sleeper.rr_amount | dotted_number}</b> HP / <b>${sleeper.rr_duration}</b> sec</li>
+            % endif
+            </ul>
+          </p>
+          % endif
+
           <p>Loot:</p>
           <ul>
               <li>${sleeper.loot_acd} x <img src="/static/img/sleepers/icons/sinka.png" /> Ancient Coordinates Database</li>
