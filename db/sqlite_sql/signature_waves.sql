@@ -16,10 +16,10 @@ INSERT INTO signature_waves VALUES (1, 2, 0, '7:2:t,8:3');
 INSERT INTO signature_waves VALUES (1, 3, 0, '5:2,7:2');
 -- 2 - Perimeter Camp
 INSERT INTO signature_waves VALUES (2, 1, 0, '11:2,9:2:nt,8:4');
-INSERT INTO signature_waves VALUES (2, 2, 0, '9:3:n,8:4,5:1:t');
+INSERT INTO signature_waves VALUES (2, 2, 0, '9:3:n,8:5,5:1:t');
 INSERT INTO signature_waves VALUES (2, 3, 0, '8:2,5:2,6:1:n');
 -- 3 - Phase Catalyst Node
-INSERT INTO signature_waves VALUES (3, 1, 0, '11:4,10:2:wt');
+INSERT INTO signature_waves VALUES (3, 1, 0, '11:4,9:4,10:2:wt');
 INSERT INTO signature_waves VALUES (3, 2, 0, '5:2,7:1:t');
 INSERT INTO signature_waves VALUES (3, 3, 0, '8:6,9:3:n');
 -- 4 - The Line
@@ -40,7 +40,7 @@ INSERT INTO signature_waves VALUES (7, 2, 0, '9:3:n,7:3:t');
 INSERT INTO signature_waves VALUES (7, 3, 0, '7:2,6:2:n');
 -- 8 - Unsecured Perimeter Information Center
 INSERT INTO signature_waves VALUES (8, 1, 0, '8:3,9:1:n,5:1:t');
-INSERT INTO signature_waves VALUES (8, 2, 0, '10:1:w,5:3:t');
+INSERT INTO signature_waves VALUES (8, 2, 0, '9:1,5:3:t');
 INSERT INTO signature_waves VALUES (8, 3, 0, '5:2,6:3:n,8:2');
 
 -- class 2 sigs
