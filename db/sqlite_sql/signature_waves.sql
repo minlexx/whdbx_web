@@ -45,9 +45,9 @@ INSERT INTO signature_waves VALUES (8, 3, 0, '5:2,6:3:n,8:2');
 
 -- class 2 sigs
 -- 9 - Perimeter Checkpoint
-INSERT INTO signature_waves VALUES (9, 1, 0, '11:2,5:2:t,8:2');
-INSERT INTO signature_waves VALUES (9, 2, 0, '5:2:t,10:2:w');
-INSERT INTO signature_waves VALUES (9, 3, 0, '1:1,8:3');
+INSERT INTO signature_waves VALUES (9, 1, 0, '11:2,5:3:t,8:2');
+INSERT INTO signature_waves VALUES (9, 2, 0, '5:2:t,7:2:w');
+INSERT INTO signature_waves VALUES (9, 3, 0, '1:1,8:2');
 -- 10 - Perimeter Hangar
 INSERT INTO signature_waves VALUES (10, 1, 0, '5:3:t,9:2:n');
 INSERT INTO signature_waves VALUES (10, 2, 0, '2:1,7:2:t');
@@ -58,7 +58,7 @@ INSERT INTO signature_waves VALUES (11, 2, 0, '5:5:t,9:1:n');
 INSERT INTO signature_waves VALUES (11, 3, 0, '3:1');
 -- 12 - Sleeper Data Sanctuary
 INSERT INTO signature_waves VALUES (12, 1, 0, '11:3,7:2:t,8:3');
-INSERT INTO signature_waves VALUES (12, 2, 0, '3:1:t,10:4:w');
+INSERT INTO signature_waves VALUES (12, 2, 0, '3:1:t,10:5:w');
 INSERT INTO signature_waves VALUES (12, 3, 0, '3:1:t');
 INSERT INTO signature_waves VALUES (12, 4, 0, '4:1:n');
 -- 13 - Forgotten Perimeter Gateway
@@ -71,7 +71,7 @@ INSERT INTO signature_waves VALUES (14, 2, 0, '5:4:t,10:4:w');
 INSERT INTO signature_waves VALUES (14, 3, 0, '1:1:t,10:4:w,8:4');
 INSERT INTO signature_waves VALUES (14, 4, 0, '2:1,5:1,7:2,10:3:w');
 -- 15 - Unsecured Perimeter Comms Relay
-INSERT INTO signature_waves VALUES (15, 1, 0, '5:3,6:2:nt,4:1:n');
+INSERT INTO signature_waves VALUES (15, 1, 0, '5:2,6:2:nt,4:1:n');
 INSERT INTO signature_waves VALUES (15, 2, 0, '1:1:t,9:2:n');
 INSERT INTO signature_waves VALUES (15, 3, 0, '2:1,3:1,8:2');
 -- 16 - Unsecured Perimeter Transponder Farm
