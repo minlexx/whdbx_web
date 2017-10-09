@@ -115,7 +115,7 @@ INSERT INTO signature_waves VALUES (23, 4, 0, '13:2:n,17:3:wn,21:2:wnd');
 -- 24 - Unsecured Frontier Receiver
 INSERT INTO signature_waves VALUES (24, 1, 0, '19:5:w,18:3:rt');
 INSERT INTO signature_waves VALUES (24, 2, 0, '16:3,18:1:rt,17:3:wn');
-INSERT INTO signature_waves VALUES (24, 3, 0, '20:4:nrt,12:1:wt');
+INSERT INTO signature_waves VALUES (24, 3, 0, '20:4:nr,12:1:wt');
 INSERT INTO signature_waves VALUES (24, 4, 0, '19:4:w,14:2:r');
 
 -- class 4 sigs
