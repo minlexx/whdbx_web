@@ -7,3 +7,5 @@ _caches/routes/*.json
 _caches/templates/*.py
 _caches/zkb/*.json
 reported_statics.txt
+whdbx_config_local.ini
+db/*.db
