@@ -164,11 +164,9 @@ class WhdbxApp:
                 'tools.sessions.storage_class': session_storage_class,
                 'tools.sessions.storage_path': session_storage_path,
                 'tools.sessions.timeout': self.cfg.SESSION_TIME_MINUTES,
-                # TODO: make configurable
-                'tools.sessions.redis_host': 'localhost',
-                'tools.sessions.redis_port': 6379,
-                'tools.sessions.redis_db': 0,
-                # end TODO
+                'tools.sessions.redis_host': self.cfg.SESSION_REDIS_HOST,
+                'tools.sessions.redis_port': self.cfg.SESSION_REDIS_PORT,
+                'tools.sessions.redis_db': self.cfg.SESSION_REDIS_DB,
                 'tools.staticdir.root': self.rootdir,
                 'error_page.404': error_page_404,
                 'error_page.500': error_page_500
