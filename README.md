@@ -11,3 +11,4 @@ Maybe will work with 3.4
 * cherrypy
 * requests
 * mako
+* (optional) redispy - for sessions storage in Redis
