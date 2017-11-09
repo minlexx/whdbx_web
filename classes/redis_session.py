@@ -26,11 +26,11 @@ class WhdbxRedisSession(cherrypy.lib.sessions.Session):
         self.redis_port = 6379
         # get params from kwargs
         if 'host' in kwargs:
-            self.redis_host = kwargs['host']
+            self.redis_host = kwargs['redis_host']
         if 'port' in kwargs:
-            self.redis_port = kwargs['port']
+            self.redis_port = kwargs['redis_port']
         if 'db' in kwargs:
-            self.redis_db = kwargs['db']
+            self.redis_db = kwargs['redis_db']
 
         cherrypy.lib.sessions.Session.__init__(self, id=id, **kwargs)
 
