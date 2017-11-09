@@ -15,6 +15,9 @@ class SiteConfig:
         self.SESSION_TYPE = 'memory'
         self.SESSION_TIME_MINUTES = 60
         self.SESSION_FILES_DIR = '.'
+        self.SESSION_REDIS_HOST = 'localhost'
+        self.SESSION_REDIS_PORT = 6379
+        self.SESSION_REDIS_DB = 0
 
         self.EVEDB = ''
         self.ROUTES_CACHE_DIR = '.'
@@ -64,6 +67,12 @@ class SiteConfig:
                 self.SESSION_TIME_MINUTES = int(cfg['general']['session_time_minutes'])
             if 'session_files_dir' in cfg['general']:
                 self.SESSION_FILES_DIR = str(cfg['general']['session_files_dir'])
+            if 'session_redis_host' in cfg['general']:
+                self.SESSION_REDIS_HOST = str(cfg['general']['session_redis_host'])
+            if 'session_redis_port' in cfg['general']:
+                self.SESSION_REDIS_PORT = str(cfg['general']['session_redis_port'])
+            if 'session_redis_db' in cfg['general']:
+                self.SESSION_REDIS_DB = str(cfg['general']['session_redis_db'])
 
         # sqlite
         if cfg.has_section('sqlite'):
