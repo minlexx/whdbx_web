@@ -151,8 +151,9 @@ class WhdbxApp:
                 os.makedirs(session_storage_path)
         elif self.cfg.SESSION_TYPE == 'memcache':
             session_storage_class = cherrypy.lib.sessions.MemcachedSession
-        # elif self.cfg.SESSION_TYPE == 'redis':  # not done yet
-        #    session_class = WhdbxRedisSession
+        elif self.cfg.SESSION_TYPE == 'redis':  # not completely done yet
+            from classes.redis_session import WhdbxRedisSession
+            session_storage_class = WhdbxRedisSession
         else:
             cherrypy.log('Unknown value for session_storage_type: "{}"; using memory session.'.format(
                 self.cfg.SESSION_TYPE), self.tag, logging.WARNING)
