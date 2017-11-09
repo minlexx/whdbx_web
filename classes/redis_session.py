@@ -32,10 +32,19 @@ class WhdbxRedisSession(cherrypy.lib.sessions.Session):
         if 'redis_db' in kwargs:
             self.redis_db = kwargs['redis_db']
 
-        cherrypy.lib.sessions.Session.__init__(self, id=id, **kwargs)
-
         self._redis = redis.StrictRedis(self.redis_host, self.redis_port, self.redis_db)
         self.SESSION_PREFIX = 'cpsession_'
+
+        cherrypy.lib.sessions.Session.__init__(self, id=id, **kwargs)
+
+    @classmethod
+    def setup(cls, **kwargs):
+        """
+        This should only be called once per process; this will be done
+        automatically when using sessions.init (as the built-in Tool does).
+        """
+        for k, v in kwargs.items():
+            setattr(cls, k, v)
 
     def clean_up(self):
         """Clean up expired sessions."""
@@ -49,7 +58,7 @@ class WhdbxRedisSession(cherrypy.lib.sessions.Session):
         # return value is assigned to _data member in a base class
         val = self._redis.get(self.SESSION_PREFIX + str(self.id))
         if val is not None:
-            return pickle.loads(val)
+            return pickle.loads(val)  # should return a tuple of (data, expiration_time)
         return None
 
     def _save(self, expiration_time: datetime.datetime):
@@ -59,9 +68,10 @@ class WhdbxRedisSession(cherrypy.lib.sessions.Session):
         :return: None
         """
         expires_in_timedelta = expiration_time - datetime.datetime.now()
-        expires_in_seconds = expires_in_timedelta.total_seconds()
+        expires_in_seconds = int(expires_in_timedelta.total_seconds())
         # cherrypy session base classs stores all info in _data member
-        val = pickle.dumps(self._data)
+        to_save = (self._data, expiration_time)  # save as tuple, as required by base class
+        val = pickle.dumps(to_save)
         # Save pickled value in Redis, together with its expiration time
         # 'ex' sets an expire flag on key for ex seconds.
         self._redis.set(self.SESSION_PREFIX + str(self.id), val, ex=expires_in_seconds)
