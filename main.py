@@ -151,7 +151,7 @@ class WhdbxApp:
                 os.makedirs(session_storage_path)
         elif self.cfg.SESSION_TYPE == 'memcache':
             session_storage_class = cherrypy.lib.sessions.MemcachedSession
-        elif self.cfg.SESSION_TYPE == 'redis':  # not completely done yet
+        elif self.cfg.SESSION_TYPE == 'redis':
             from classes.redis_session import WhdbxRedisSession
             session_storage_class = WhdbxRedisSession
         else:
@@ -164,6 +164,11 @@ class WhdbxApp:
                 'tools.sessions.storage_class': session_storage_class,
                 'tools.sessions.storage_path': session_storage_path,
                 'tools.sessions.timeout': self.cfg.SESSION_TIME_MINUTES,
+                # TODO: make configurable
+                'tools.sessions.redis_host': 'localhost',
+                'tools.sessions.redis_port': 6379,
+                'tools.sessions.redis_db': 0,
+                # end TODO
                 'tools.staticdir.root': self.rootdir,
                 'error_page.404': error_page_404,
                 'error_page.500': error_page_500
