@@ -126,3 +126,70 @@ cd ../../
 ```
 
 Now go to your http://ip_address:8080/ and test.
+
+# Install nginx
+```
+sudo apt-get install nginx
+```
+Configuring nginx is a bit out of scope for this guide.
+
+## Configure nginx as reverse-proxy
+This guide from CherryPy (deploy section) is pretty good:
+http://docs.cherrypy.org/en/latest/deploy.html#id4
+
+## Configure SSL hosting and letsencrypt certificate
+You need to install certbot and do:
+```
+certbot --nginx
+```
+
+### My final nginx site config looks like this:
+```
+upstream apps {
+        server 127.0.0.1:8081;
+}
+
+
+server {
+        listen 80;
+        listen 443 ssl;
+        server_name wh.minlexx.ru;
+
+        access_log /home/whdbx/whdbx_web/logs/access.log combined;
+        error_log /home/whdbx/whdbx_web/logs/error.log;
+
+        location ^~ /static/ {
+                root /home/whdbx/whdbx_web/;
+        }
+
+        location / {
+                proxy_pass http://apps;
+                proxy_redirect off;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Host $server_name;
+        }
+
+        location ~ /\.ht {
+                deny all;
+        }
+
+        ssl_certificate /etc/letsencrypt/live/wh.minlexx.ru/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/wh.minlexx.ru/privkey.pem; # managed by Certbot
+        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+        if ($scheme != "https") {
+                return 301 https://$host$request_uri;
+        } # managed by Certbot
+}
+```
+
+# (Optional) install redis, redis-py and configure sessions
+```
+sudo apt-get install redis-server
+/usr/local/bin/python3 -m pip install redispy
+```
+Edit `whdbx_config_local.ini`: set `session_storage_type = redis`.
+Default values should be enough to work.
