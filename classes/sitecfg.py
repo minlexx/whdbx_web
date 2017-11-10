@@ -29,6 +29,7 @@ class SiteConfig:
         self.ZKB_CACHE_SQLITE = ''
         self.ZKB_USE_EVEKILL = False
 
+        self.PRICE_RESOLVER = 'esi'
         self.EVECENTRAL_CACHE_DIR = ''
         self.EVECENTRAL_CACHE_HOURS = 24
 
@@ -98,6 +99,8 @@ class SiteConfig:
 
         # eve-central
         if cfg.has_section('evecentral'):
+            if 'price_resolver' in cfg['evecentral']:
+                self.PRICE_RESOLVER = cfg['evecentral']['price_resolver']
             if 'evecentral_cache_dir' in cfg['evecentral']:
                 self.EVECENTRAL_CACHE_DIR = cfg['evecentral']['evecentral_cache_dir']
             if 'evecentral_cache_hours' in cfg['evecentral']:
