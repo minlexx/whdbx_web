@@ -407,6 +407,50 @@ def location_location(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) 
     return ret
 
 
+def market_region_orders(cfg: sitecfg.SiteConfig, region_id: int, order_type: str, optional_type_id: int = None) -> list:
+    ret = []
+    error_str = ''
+    if region_id < 0:
+        return ret
+    if order_type not in ['buy', 'sell', 'all']:
+        raise ValueError('order_type must be one of: "buy", "sell", "all"')
+    try:
+        # https://esi.tech.ccp.is/latest/#!/Market/get_markets_region_id_orders
+        # This route is cached for up to 300 seconds
+        # example request URL: https://esi.tech.ccp.is/latest/markets/10000002/orders/?order_type=sell&type_id=30377
+        url = '{}/markets/{}/orders/'.format(cfg.ESI_BASE_URL, region_id)
+        get_params = {
+            'order_type': order_type
+        }
+        if optional_type_id is not None:
+            get_params['type_id'] = optional_type_id
+        r = requests.get(url,
+                         params=get_params,
+                         headers={
+                             'Content-Type': 'application/json',
+                             'Accept': 'application/json',
+                             'User-Agent': cfg.SSO_USER_AGENT
+                         },
+                         timeout=20)
+        response_text = r.text
+        if r.status_code == 200:
+            ret = json.loads(response_text)
+            analyze_esi_response_headers(r.headers)
+        else:
+            obj = json.loads(response_text)
+            if 'error' in obj:
+                error_str = 'ESI error: {}'.format(obj['error'])
+            else:
+                error_str = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+    except requests.exceptions.RequestException as e:
+        error_str = 'Error connection to ESI server: {}'.format(str(e))
+    except json.JSONDecodeError:
+        error_str = 'Failed to parse response JSON from CCP ESI server!'
+    if error_str != '':
+        raise ESIException(error_str)
+    return ret
+
+
 def ui_open_window_information(cfg: sitecfg.SiteConfig, target_id: int, access_token: str) -> bool:
     """
     Open the information window for a character, corporation or alliance inside the client
