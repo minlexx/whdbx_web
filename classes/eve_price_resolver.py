@@ -228,4 +228,5 @@ def get_resolver(cfg: sitecfg.SiteConfig) -> EvePriceResolver:
     if cfg.PRICE_RESOLVER == 'esi':
         ret = EsiPriceResolver(cfg)
         return ret
-    raise ValueError('resolver_factory: unknown PRICE_RESOLVER supplied: {}; use one of "esi", "evecentral"'.format(cfg.PRICE_RESOLVER))
+    raise ValueError('resolver_factory: unknown PRICE_RESOLVER set in whdbx_config.ini: {};'
+                     ' use one of "esi", "evecentral"'.format(cfg.PRICE_RESOLVER))
