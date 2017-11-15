@@ -200,9 +200,6 @@ class EveCentralPriceResolver(EvePriceResolver):
         return self.marketstat_buy_max(typeid, self.JITA_SSID, ignore_time)
 
 
-#def epr_price_key_extractor(single_order: dict) -> float:
-#    return single_order['price']
-
 class EsiPriceResolver(EvePriceResolver):
     def __init__(self, cfg: sitecfg.SiteConfig):
         self._cfg = cfg
@@ -212,7 +209,6 @@ class EsiPriceResolver(EvePriceResolver):
 
     def Jita_sell_min(self, typeid: int, ignore_time: bool=False) -> float:
         orders = esi_calls.market_region_orders(self._cfg, self.THE_FORGE_REGIONID, 'sell', typeid)
-        # orders = sorted(orders, key=epr_price_key_extractor, reverse=False)
         if len(orders) < 1:
             return 0.0
         min_price = orders[0]['price']
