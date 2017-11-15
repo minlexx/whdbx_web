@@ -7,6 +7,7 @@ import requests
 import requests.exceptions
 
 from . import sitecfg
+from . import esi_calls
 
 
 class EvePriceResolver:
@@ -199,20 +200,38 @@ class EveCentralPriceResolver(EvePriceResolver):
         return self.marketstat_buy_max(typeid, self.JITA_SSID, ignore_time)
 
 
+#def epr_price_key_extractor(single_order: dict) -> float:
+#    return single_order['price']
+
 class EsiPriceResolver(EvePriceResolver):
     def __init__(self, cfg: sitecfg.SiteConfig):
+        self._cfg = cfg
         self._cache_dir = cfg.EVECENTRAL_CACHE_DIR
         self._cache_time = cfg.EVECENTRAL_CACHE_HOURS * 3600
         self._debug = cfg.DEBUG
 
-    # example req url:
-    # https://esi.tech.ccp.is/latest/markets/10000002/orders/?order_type=sell&page=1&type_id=30377
-
     def Jita_sell_min(self, typeid: int, ignore_time: bool=False) -> float:
-        return 0.0
+        orders = esi_calls.market_region_orders(self._cfg, self.THE_FORGE_REGIONID, 'sell', typeid)
+        # orders = sorted(orders, key=epr_price_key_extractor, reverse=False)
+        if len(orders) < 1:
+            return 0.0
+        min_price = orders[0]['price']
+        for order in orders:
+            cur_price = order['price']
+            if cur_price < min_price:
+                min_price = cur_price
+        return min_price
 
     def Jita_buy_max(self, typeid: int, ignore_time: bool=False) -> float:
-        return 0.0
+        orders = esi_calls.market_region_orders(self._cfg, self.THE_FORGE_REGIONID, 'buy', typeid)
+        if len(orders) < 1:
+            return 0.0
+        max_price = orders[0]['price']
+        for order in orders:
+            cur_price = order['price']
+            if cur_price > max_price:
+                max_price = cur_price
+        return max_price
 
 
 
