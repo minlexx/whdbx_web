@@ -44,6 +44,13 @@ class PriceCacheFileLoader:
         self._cache_time_secs = cfg.EVECENTRAL_CACHE_HOURS * 3600
         self._cache_dir = cfg.EVECENTRAL_CACHE_DIR
 
+    def remove_cache_file(self, fn: str):
+        fn = self._cache_dir + '/' + fn
+        try:
+            os.remove(fn)
+        except IOError:
+            pass
+
     def load_file_contents(self, fn: str, ignore_time: bool=False) -> str:
         ret = ''
         # prepend cache directory
@@ -132,10 +139,7 @@ class EveCentralPriceResolver(EvePriceResolver):
                     print('EveCentral: cache file "{}" does not contain a valid JSON and '
                           'ignore_time is set, it will be removed.'.format(cache_file))
                 contents = ''
-                try:
-                    os.remove(cache_file)
-                except IOError:
-                    pass
+                self._cache.remove_cache_file(cache_file)
         return contents
 
     def _save_price_to_cache(self, data: str, typeid: int, solarsystem: int):
@@ -222,7 +226,25 @@ class EsiPriceResolver(EvePriceResolver):
         self._debug = cfg.DEBUG
 
     def Jita_sell_min(self, typeid: int, ignore_time: bool=False) -> float:
-        orders = esi_calls.market_region_orders(self._cfg, self.THE_FORGE_REGIONID, 'sell', typeid)
+        orders = []
+        cache_fn = 'esi_{}_region_{}_sell_min.json'.format(str(typeid), str(self.THE_FORGE_REGIONID))
+        contents = self._cache.load_file_contents(cache_fn, ignore_time)
+        if contents == '':  # not in cache
+            if self._debug:
+                print('EsiPriceResolver: sell_min: {} not in cache, requesting'.format(typeid))
+            orders = esi_calls.market_region_orders(self._cfg, self.THE_FORGE_REGIONID, 'sell', typeid)
+            if len(orders) > 0:
+                self._cache.save_file_contents(cache_fn, json.dumps(orders))
+        else:
+            # loaded from cache
+            try:
+                orders = json.loads(contents)
+                if self._debug:
+                    print('EsiPriceResolver: sell_min: {} loaded from cache'.format(typeid))
+            except json.JSONDecodeError:
+                if self._debug:
+                    print('EsiPriceResolver: ERROR: sell_min: {} invalid JSON in cache!'.format(typeid))
+                pass
         if len(orders) < 1:
             return 0.0
         min_price = orders[0]['price']
@@ -233,7 +255,21 @@ class EsiPriceResolver(EvePriceResolver):
         return min_price
 
     def Jita_buy_max(self, typeid: int, ignore_time: bool=False) -> float:
-        orders = esi_calls.market_region_orders(self._cfg, self.THE_FORGE_REGIONID, 'buy', typeid)
+        orders = []
+        cache_fn = 'esi_{}_region_{}_buy_max.json'.format(str(typeid), str(self.THE_FORGE_REGIONID))
+        contents = self._cache.load_file_contents(cache_fn, ignore_time)
+        if contents == '':  # not in cache
+            if self._debug:
+                print('EsiPriceResolver: buy_max: {} not in cache, requesting'.format(typeid))
+            orders = esi_calls.market_region_orders(self._cfg, self.THE_FORGE_REGIONID, 'buy', typeid)
+            if len(orders) > 0:
+                self._cache.save_file_contents(cache_fn, json.dumps(orders))
+        else:
+            try:
+                orders = json.loads(contents)
+                print('EsiPriceResolver: buy_max: {} loaded from cache'.format(typeid))
+            except json.JSONDecodeError:
+                pass
         if len(orders) < 1:
             return 0.0
         max_price = orders[0]['price']
