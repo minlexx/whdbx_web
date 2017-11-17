@@ -38,53 +38,53 @@ class EvePriceResolver:
         return 0.0
 
 
-class EveCentralPriceResolver(EvePriceResolver):
-    def __init__(self, config: sitecfg.SiteConfig):
-        self.api_url_base = 'http://api.eve-central.com/api/'
-        self._cache_dir = config.EVECENTRAL_CACHE_DIR
-        self._cache_time = config.EVECENTRAL_CACHE_HOURS * 3600
-        self._debug = config.DEBUG
-        # HTTP headers
-        self._headers = dict()
-        self._headers['accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-        self._headers['accept-language'] = 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
-        self._headers['accept-encoding'] = 'gzip, deflate'
-        self._headers['user-agent'] = 'WHDBX/EVE-Central agent, alexey.min@gmail.com'
+class PriceCacheFileLoader:
+    def __init__(self, cfg: sitecfg.SiteConfig):
+        self._debug = cfg.DEBUG
+        self._cache_time_secs = cfg.EVECENTRAL_CACHE_HOURS * 3600
+        self._cache_dir = cfg.EVECENTRAL_CACHE_DIR
 
-    def _load_cache_file(self, cache_file: str, ignore_time: bool=False) -> str:
+    def load_file_contents(self, fn: str, ignore_time: bool=False) -> str:
         ret = ''
-        if os.path.isfile(cache_file) and os.access(cache_file, os.R_OK):
+        # prepend cache directory
+        fn = self._cache_dir + '/' + fn
+        if os.path.isfile(fn) and os.access(fn, os.R_OK):
             # check if cache file is too old for now
             # get file modification time
-            st = os.stat(cache_file)
+            st = os.stat(fn)
             dt_cache = datetime.datetime.fromtimestamp(st.st_mtime)
             # get current time
             dt_now = datetime.datetime.now()
             # compare deltas
             delta = dt_now - dt_cache
             delta_secs = delta.total_seconds()
-            if (delta_secs < self._cache_time) or (ignore_time is True):
+            if (delta_secs < self._cache_time_secs) or (ignore_time is True):
                 if self._debug:
-                    print('EveCentral: Loading from cache file: [{0}]'.format(cache_file))
+                    print('CacheFileLoader: Loading from cache file: [{0}]'.format(fn))
                 try:
-                    f = open(cache_file, 'rt')
+                    f = open(fn, 'rt')
                     ret = f.read()
                     f.close()
                 except IOError as e:
                     if self._debug:
-                        print('EveCentral: failed to read cache data from file: [{0}]'.format(cache_file))
+                        print('CacheFileLoader: failed to read cache '
+                              'data from file: [{0}]'.format(fn))
                         print(str(e))
             else:
                 if self._debug:
-                    print('EveCentral: Cache file [{0}] skipped, too old: {1} secs. (limit was: {2})'.
-                          format(cache_file, delta_secs, self._cache_time))
-                # Do not delete cache file, it will be just overwritten
-                #  in case of successful request, or left to live otherwise
-                #  this will allow to get at least any old data in the case of failure
-                # os.remove(cache_file)
+                    print('CacheFileLoader: Cache file [{0}] skipped, '
+                          'too old: {1} secs. (limit was: {2})'.
+                          format(fn, delta_secs, self._cache_time_secs))
+                    # Do not delete cache file, it will be just overwritten
+                    #  in case of successful request, or left to live otherwise
+                    #  this will allow to get at least any old data in the case of failure
+                    # os.remove(cache_file)
         return ret
 
-    def _save_to_cache_file(self, cache_file: str, data: str):
+    def save_file_contents(self, fn: str, contents: str) -> bool:
+        save_ok = True
+        # prepend cache directory
+        fn = self._cache_dir + '/' + fn
         # auto-create cache dir if not exists
         if not os.path.isdir(self._cache_dir):
             try:
@@ -92,20 +92,35 @@ class EveCentralPriceResolver(EvePriceResolver):
             except OSError:
                 pass
         try:
-            f = open(cache_file, 'wt')  # probably may overwrite old cached file for this request
-            f.write(data)
+            f = open(fn, 'wt')  # probably may overwrite old cached file
+            f.write(contents)
             f.close()
         except IOError as e:
             if self._debug:
-                print("EveCentral: Can't store reply to cache file [{0}]:".format(cache_file))
+                save_ok = False
+                print("CacheFileLoader: Can't write to cache file [{0}]:".format(fn))
                 print(str(e))
+        return save_ok
+
+
+class EveCentralPriceResolver(EvePriceResolver):
+    def __init__(self, cfg: sitecfg.SiteConfig):
+        self.api_url_base = 'http://api.eve-central.com/api/'
+        self._debug = cfg.DEBUG
+        self._cache = PriceCacheFileLoader(cfg)
+        # HTTP headers
+        self._headers = dict()
+        self._headers['accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+        self._headers['accept-language'] = 'ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3'
+        self._headers['accept-encoding'] = 'gzip, deflate'
+        self._headers['user-agent'] = 'WHDBX/EVE-Central agent, alexey.min@gmail.com'
 
     def _load_price_from_cache(self, typeid: int, solarsystem: int, ignore_time: bool=False) -> str:
         contents = ''
         if typeid < 0:
             return contents
-        cache_file = self._cache_dir + '/' + str(typeid) + '_' + str(solarsystem) + '.json'
-        contents = self._load_cache_file(cache_file, ignore_time)
+        cache_file = str(typeid) + '_' + str(solarsystem) + '.json'
+        contents = self._cache.load_file_contents(cache_file, ignore_time)
         # test that string loaded from file is a valid JSON
         # only if file shoudl be loaded anyways, independently of time
         if ignore_time:
@@ -126,8 +141,8 @@ class EveCentralPriceResolver(EvePriceResolver):
     def _save_price_to_cache(self, data: str, typeid: int, solarsystem: int):
         if typeid < 0:
             return
-        cache_file = self._cache_dir + '/' + str(typeid) + '_' + str(solarsystem) + '.json'
-        self._save_to_cache_file(cache_file, data)
+        cache_file = str(typeid) + '_' + str(solarsystem) + '.json'
+        self._cache.save_file_contents(cache_file, data)
 
     def _load_url(self, url: str) -> str:
         ret = ''
@@ -200,19 +215,14 @@ class EveCentralPriceResolver(EvePriceResolver):
         return self.marketstat_buy_max(typeid, self.JITA_SSID, ignore_time)
 
 
-#def epr_price_key_extractor(single_order: dict) -> float:
-#    return single_order['price']
-
 class EsiPriceResolver(EvePriceResolver):
     def __init__(self, cfg: sitecfg.SiteConfig):
         self._cfg = cfg
-        self._cache_dir = cfg.EVECENTRAL_CACHE_DIR
-        self._cache_time = cfg.EVECENTRAL_CACHE_HOURS * 3600
+        self._cache = PriceCacheFileLoader(cfg)
         self._debug = cfg.DEBUG
 
     def Jita_sell_min(self, typeid: int, ignore_time: bool=False) -> float:
         orders = esi_calls.market_region_orders(self._cfg, self.THE_FORGE_REGIONID, 'sell', typeid)
-        # orders = sorted(orders, key=epr_price_key_extractor, reverse=False)
         if len(orders) < 1:
             return 0.0
         min_price = orders[0]['price']
@@ -232,7 +242,6 @@ class EsiPriceResolver(EvePriceResolver):
             if cur_price > max_price:
                 max_price = cur_price
         return max_price
-
 
 
 def get_resolver(cfg: sitecfg.SiteConfig) -> EvePriceResolver:
