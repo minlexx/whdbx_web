@@ -2,7 +2,7 @@
 
 from .database import SiteDb, WHClass, get_ss_security_color
 from . import sitecfg
-from . import eve_central
+from .eve_price_resolver import get_resolver
 
 
 class WHStatic:
@@ -254,29 +254,33 @@ class WHSystem:
             self.reg_name = row[5]
             self.const_name = row[6]
 
-    def query_trade_routes(self, config: sitecfg.SiteConfig):
-        # find routes to popular trade hubs:
-        if not self.is_wh:
-            ec = eve_central.EveCentral(config)
-            self.route_jita = ec.route(self.name, 'Jita')
-            self.route_amarr = ec.route(self.name, 'Amarr')
-            self.route_dodixie = ec.route(self.name, 'Dodixie')
-            self.route_hek = ec.route(self.name, 'Hek')
-            self.route_rens = ec.route(self.name, 'Rens')
-            # process
-            self.process_route_sec_colors(self.route_jita)
-            self.process_route_sec_colors(self.route_amarr)
-            self.process_route_sec_colors(self.route_dodixie)
-            self.process_route_sec_colors(self.route_hek)
-            self.process_route_sec_colors(self.route_rens)
-
-    def process_route_sec_colors(self, route):
-        if not isinstance(route, list):
-            return
-        if len(route) < 1:
-            return
-        for jump in route:
-            sec = float(jump['to']['security'])
-            jump['to']['sec_color'] = get_ss_security_color(sec)
-            sec = float(jump['from']['security'])
-            jump['from']['sec_color'] = get_ss_security_color(sec)
+#
+#   With Eve-Central dead, we have no easy way to get trade routes,
+#        so this all is commented for a while
+#
+#    def query_trade_routes(self, config: sitecfg.SiteConfig):
+#        # find routes to popular trade hubs:
+#        if not self.is_wh:
+#            ec = eve_central.EveCentral(config)
+#            self.route_jita = ec.route(self.name, 'Jita')
+#            self.route_amarr = ec.route(self.name, 'Amarr')
+#            self.route_dodixie = ec.route(self.name, 'Dodixie')
+#            self.route_hek = ec.route(self.name, 'Hek')
+#            self.route_rens = ec.route(self.name, 'Rens')
+#            # process
+#            self.process_route_sec_colors(self.route_jita)
+#            self.process_route_sec_colors(self.route_amarr)
+#            self.process_route_sec_colors(self.route_dodixie)
+#            self.process_route_sec_colors(self.route_hek)
+#            self.process_route_sec_colors(self.route_rens)
+#
+#    def process_route_sec_colors(self, route):
+#        if not isinstance(route, list):
+#            return
+#        if len(route) < 1:
+#            return
+#        for jump in route:
+#            sec = float(jump['to']['security'])
+#            jump['to']['sec_color'] = get_ss_security_color(sec)
+#            sec = float(jump['from']['security'])
+#            jump['from']['sec_color'] = get_ss_security_color(sec)

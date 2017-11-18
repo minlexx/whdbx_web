@@ -527,7 +527,8 @@ class WhdbxApp:
         whsys.query_info(ssid)
         if whsys.name != '':
             self.tmpl.assign('title', whsys.name + ' - WHDBX')
-            whsys.query_trade_routes(self.cfg)
+            # whsys.query_trade_routes(self.cfg)
+            # ^^ With Eve-Central dead, we have no easy way to get trade routes
         #
         # zkillboard
         zkb = ZKB(self.zkb_options)
