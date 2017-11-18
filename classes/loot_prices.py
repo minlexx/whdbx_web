@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import sitecfg
-from . import eve_central
+from .eve_price_resolver import get_resolver
 
 
 # Sleepers blue loot
@@ -35,13 +35,13 @@ class GasPrices:
         self.FULLERITE_C540_PRICE = 0
 
     def load_prices(self, config: sitecfg.SiteConfig):
-        evecentral = eve_central.EveCentral(config)
-        self.FULLERITE_C28_PRICE = evecentral.Jita_sell_min(self.FULLERITE_C28_ID, True)
-        self.FULLERITE_C32_PRICE = evecentral.Jita_sell_min(self.FULLERITE_C32_ID, True)
-        self.FULLERITE_C50_PRICE = evecentral.Jita_sell_min(self.FULLERITE_C50_ID, True)
-        self.FULLERITE_C60_PRICE = evecentral.Jita_sell_min(self.FULLERITE_C60_ID, True)
-        self.FULLERITE_C70_PRICE = evecentral.Jita_sell_min(self.FULLERITE_C70_ID, True)
-        self.FULLERITE_C72_PRICE = evecentral.Jita_sell_min(self.FULLERITE_C72_ID, True)
-        self.FULLERITE_C84_PRICE = evecentral.Jita_sell_min(self.FULLERITE_C84_ID, True)
-        self.FULLERITE_C320_PRICE = evecentral.Jita_sell_min(self.FULLERITE_C320_ID, True)
-        self.FULLERITE_C540_PRICE = evecentral.Jita_sell_min(self.FULLERITE_C540_ID, True)
+        eveprice = get_resolver(config)
+        self.FULLERITE_C28_PRICE = eveprice.Jita_sell_min(self.FULLERITE_C28_ID, True)
+        self.FULLERITE_C32_PRICE = eveprice.Jita_sell_min(self.FULLERITE_C32_ID, True)
+        self.FULLERITE_C50_PRICE = eveprice.Jita_sell_min(self.FULLERITE_C50_ID, True)
+        self.FULLERITE_C60_PRICE = eveprice.Jita_sell_min(self.FULLERITE_C60_ID, True)
+        self.FULLERITE_C70_PRICE = eveprice.Jita_sell_min(self.FULLERITE_C70_ID, True)
+        self.FULLERITE_C72_PRICE = eveprice.Jita_sell_min(self.FULLERITE_C72_ID, True)
+        self.FULLERITE_C84_PRICE = eveprice.Jita_sell_min(self.FULLERITE_C84_ID, True)
+        self.FULLERITE_C320_PRICE = eveprice.Jita_sell_min(self.FULLERITE_C320_ID, True)
+        self.FULLERITE_C540_PRICE = eveprice.Jita_sell_min(self.FULLERITE_C540_ID, True)
