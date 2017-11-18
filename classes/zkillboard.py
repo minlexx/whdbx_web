@@ -393,7 +393,7 @@ class ZKB:
                     # fix new keys format to old format, becuase templates use old keys
                     a_kill['killID'] = a_kill['killmail_id']
                     # init a kill datetime with an empty date
-                    a_kill['kill_dt'] = datetime.datetime.fromtimestamp(0)
+                    a_kill['kill_dt'] = datetime.datetime(1970, 1, 1, 0, 0, 0)
                     a_kill['killTime'] = a_kill['killmail_time']  # compatibility with old API
                     # guess time format, ZKB has changed it over time
                     # ValueError: time data '2015.07.08 01:11:00' does not match format '%Y-%m-%d %H:%M:%S'
