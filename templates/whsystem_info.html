@@ -54,11 +54,11 @@
 <div class="solarsystem_info">
 
 
-<span class="infoblock_header_text">Солнечная система:
+<span class="infoblock_header_text">WH-система:
 % if whsys.is_valid():
-  <a href="#" onclick="javascript:CCPEVE.showInfo(5, ${whsys.ssys_id}); return false;">${whsys.name}</a>
-  &lt; <a href="#" onclick="javascript:CCPEVE.showInfo(4, ${whsys.const_id}); return false;">${whsys.const_name}</a>
-  &lt; <a href="#" onclick="javascript:CCPEVE.showInfo(3, ${whsys.reg_id}); return false;">${whsys.reg_name}</a>
+  <span class="whsys_name">${whsys.name}</span> &lt;
+  <span class="whsys_name">${whsys.const_name}</span> &lt;
+  <span class="whsys_name">${whsys.reg_name}</span>
 % endif
 </span>
 
@@ -152,40 +152,13 @@
 % endif
 
 % if whsys.is_valid():
- <!-- общие для всех систем свойства -->
+ <!-- common properties for all types of systems -->
  Уровень безопасности: <span style="color: ${whsys.sec_color}; font-weight:bold;">${whsys.security}</span><br />
  Радиус: <span class="info_hl">${whsys.radius_ae} AE</span> (орбита посл. планеты)<br />
- Поделиться ссылкой: <a href="/${whsys.name}" target="_blank">${whsys.name}</a><br />
-% endif
-
-<%def name="print_route(ss, ssid, route)">
-  Маршрут до <a href="#" onclick="javascript:CCPEVE.showInfo(5, ${ssid}); return false;">${ss}</a>:
-    % if route is not None:
-        ${len(route)} прыгов
-    % else:
-        не найден
-    % endif
-  [ <a href="#" onclick="showhide('route_${ssid}'); return false;">Показать</a> |
-  <a href="#" onclick="CCPEVE.setDestination(${ssid}); return false;">Задать</a> |
-  <a href="#" onclick="CCPEVE.showRouteTo(${ssid}); return false;">На карте</a> ]
-    <div id="route_${ssid}" class="ss_route_block" style="display: none">
-    % for jump in route:
-    <span style="color: ${jump['from']['sec_color']}">${jump['from']['name']}</span> -
-    % endfor
-    % if len(route) > 0:
-    <span style="color: ${route[len(route)-1]['to']['sec_color']}">${route[len(route)-1]['to']['name']}</span>
-    % endif
-    </div>
-</%def>
-
-% if whsys.is_valid() and whsys.is_wh == False:
- <!-- empire only - route to hubs -->
- <br />
- ${print_route('Jita', whsys.JITA_ID, whsys.route_jita)}<br />
- ${print_route('Amarr', whsys.AMARR_ID, whsys.route_amarr)}<br />
- ${print_route('Dodixie', whsys.DODIXIE_ID, whsys.route_dodixie)}<br />
- ${print_route('Hek', whsys.HEK_ID, whsys.route_hek)}<br />
- ${print_route('Rens', whsys.RENS_ID, whsys.route_rens)}<br />
+ ##Поделиться ссылкой: <a href="/${whsys.name}" target="_blank">${whsys.name}</a><br />
+ Система на: <a href="http://anoik.is/systems/${whsys.name}">Anoik.is</a>,
+             <a href="http://www.ellatha.com/eve/WormholeSystemview.asp?key=${whsys.number_name}">Ellatha.com</a>,
+             <a href="https://zkillboard.com/system/${whsys.ssys_id}/">ZKB</a><br />
 % endif
 
 </blockquote>

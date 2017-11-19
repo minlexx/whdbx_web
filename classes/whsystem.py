@@ -127,7 +127,8 @@ class WHSystem:
         # data
         self.is_wh = False
         self.ssys_id = 0
-        self.name = ''
+        self.name = ''        # J170122
+        self.number_name = ''  # 170122
         self.wh_class = 0  # [-6..-1]-shat., [1..6]-normal, 7-hisec, 8-low, 9-null, 12-Thera, 13-frig, 14-18 drifters
         self.wh_star = ''
         self.wh_planets = 0
@@ -243,6 +244,8 @@ class WHSystem:
             ssec = float(row[1])
             sradius = float(row[2])
             self.name = row[0]
+            if len(self.name) > 1:
+                self.number_name = self.name[1:]
             self.ssys_id = ssys_id
             self.security = str(round(ssec*10) / 10.0)  # 0.830615 => '0.8'
             self.security_full = ssec
