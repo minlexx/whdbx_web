@@ -16,6 +16,7 @@ SQL_FILES=( \
 	"wormholeclassifications.sql" \
 	"wormholesystems_new.sql" \
 	"user_reported_statics.sql" \
+	"shattered_statics.sql" \
 )
 
 # ===== do not edit below this line =====
