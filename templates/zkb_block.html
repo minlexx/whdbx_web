@@ -203,3 +203,35 @@
   </tr>
 % endfor
 </table>
+
+
+## TODO: implement
+##<h2>Приблизительная сводка активности корпораций в системе на основе последних 30 киллов:</h2>
+##
+##<table class="zkb_corpstats_table">
+##    <tr>
+##        <th>Корпорация</th>
+##        <th>Побед</th>
+##        <th>Потерь</th>
+##        <th>Корп. борда</th>
+##    </tr>
+##% for corp_idx in most_often_corps_sorted:
+##    % if (most_often_corps[corp_idx]['kills'] > 0) or (most_often_corps[corp_idx]['losses'] > 0):
+##    <tr>
+##        <td>
+##            ${most_often_corps[corp_idx]['name']}
+##        </td>
+##        <td class="zkb_corpstats_kills">
+##            <center>${most_often_corps[corp_idx]['kills']}</center>
+##        </td>
+##        <td class="zkb_corpstats_losses">
+##            <center>${most_often_corps[corp_idx]['losses']}</center>
+##        </td>
+##        <td>
+##            <a href="https://beta.eve-kill.net/corporation/${corp_idx}/" target="_blank">EVEKILL</a> |
+##            <a href="https://zkillboard.com/corporation/${corp_idx}/" target="_blank">ZKB</a>
+##        </td>
+##    </tr>
+##    % endif
+##% endfor
+##</table>
