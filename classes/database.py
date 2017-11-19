@@ -769,8 +769,7 @@ class SiteDb:
             ret['bph'] = int(row[4])
         return ret
 
-# <a href="#" onclick="javascript:CCPEVE.showInfo(5, 30003067);">Huola</a>
-# <a href="#" onclick="javascript:CCPEVE.showInfo(5, 31001947);">J170122</a>.<br />
+
 # <loc><url=showinfo:5//30002187>Amarr</url>
 # <loc><url=showinfo:5//30000142>Jita</url>
 # <loc><url=showinfo:5//30002659>Dodixie</url>
