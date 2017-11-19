@@ -141,7 +141,7 @@ def main():
         #     break
         time.sleep(10)
 
-    with open('../db/sqlite_sql/shattered_statics.sql', mode='wt', encoding='utf-8') as f:
+    with open('../db/sqlite_sql/ellatha_statics.sql', mode='wt', encoding='utf-8') as f:
         cur_dt = datetime.datetime.utcnow()
         f.write('-- Shattered WHs statics data, gathered from ellatha.com at {} UTC\n'.format(str(cur_dt)))
         f.writelines(to_update)
