@@ -87,7 +87,7 @@
         % for gas in sig.gas_clouds:
             <li>
                 <img src="https://imageserver.eveonline.com/Type/${gas.typeid}_32.png" />
-                <b><a href="#" onclick="javascript:CCPEVE.showInfo(${gas.typeid}); return false;">${gas.friendlyName}</a></b>
+                <b><a href="#" onclick="showTypeInfo(${gas.typeid}); return false;">${gas.friendlyName}</a></b>
                 * <span class="sig_ehp">${gas.count}</span>,
                 всего <span class="sig_isk">${gas.total_price | dotted_number}</span> ISK
                 (<span class="sig_isk">${round(gas.price1piece) | dotted_number}</span> ISK/единица)<br />
@@ -101,8 +101,8 @@
         Полный выхлоп с облаков: <span class="sig_isk">${sig.total_isk_oregas | dotted_number}</span> ISK<br />
         (обновление цен с EVE-Central раз в сутки, продажная в Jita)<br />
         (Время заполнения вентуры с 2 x
-        <a href="#" onclick="javascript:CCPEVE.showInfo(25812); return false;">Gas Cloud Harvester II</a>,
-        <a href="#" onclick="javascript:CCPEVE.showInfo(32918); return false;">Mining Frigate V</a>,
+        <a href="#" onclick="showTypeInfo(25812); return false;">Gas Cloud Harvester II</a>,
+        <a href="#" onclick="showTypeInfo(32918); return false;">Mining Frigate V</a>,
         без бонусов = <span class="sig_ehp">31</span> мин.)<br />
     % elif sig.is_ore():
         Рудные астероиды:<br/>
@@ -110,7 +110,7 @@
         % for ore in sig.ore_rocks:
             <li>
                 <img src="https://imageserver.eveonline.com/Type/${ore.typeid}_32.png" />
-                <b><a href="#" onclick="javascript:CCPEVE.showInfo(${ore.typeid}); return false;">${ore.name}</a></b>
+                <b><a href="#" onclick="showTypeInfo(${ore.typeid}); return false;">${ore.name}</a></b>
                 * <span class="sig_ehp">${ore.count}</span>
             </li>
         % endfor
