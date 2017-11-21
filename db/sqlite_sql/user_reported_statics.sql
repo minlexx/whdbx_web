@@ -5,3 +5,5 @@ UPDATE wormholesystems_new SET statics='U210,K346'      WHERE solarsystemid=3100
 
 -- line below has wrong solarsystem_id :(
 -- UPDATE wormholesystems_new SET statics='C247,K346,X877' WHERE solarsystemid=31002599;
+
+UPDATE wormholesystems_new SET statics='M001,Q003'      WHERE solarsystemid=31002595; -- J000685
