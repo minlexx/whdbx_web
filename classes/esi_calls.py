@@ -219,7 +219,7 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
         obj = json.loads(r.text)
         if r.status_code == 200:
             details = json.loads(r.text)
-            ret['corp_name'] = str(details['corporation_name'])
+            ret['corp_name'] = str(details['name'])
             ret['corp_ticker'] = str(details['ticker'])
             ret['corp_member_count'] = str(details['member_count'])
             if 'alliance_id' in details:  # it may be not present
