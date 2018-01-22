@@ -94,9 +94,9 @@ INSERT INTO signature_waves VALUES (19, 1, 0, '17:1:wn,21:1:wndt,12:1:wR');
 INSERT INTO signature_waves VALUES (19, 2, 0, '17:1:wn,16:3,19:2:w,20:2:nrt');
 INSERT INTO signature_waves VALUES (19, 3, 0, '14:1:rZ,12:1:w,16:2');
 -- 20 - The Oruze Construct
-INSERT INTO signature_waves VALUES (20, 1, 0, '22:2,18:1:r,17:4:wnt');
+INSERT INTO signature_waves VALUES (20, 1, 0, '22:2,18:1:rR,17:4:wnt');
 INSERT INTO signature_waves VALUES (20, 2, 0, '12:1:wt,19:4:w');
-INSERT INTO signature_waves VALUES (20, 3, 0, '13:1:n,18:2:rRZ');
+INSERT INTO signature_waves VALUES (20, 3, 0, '13:1:n,18:2:rZ');
 -- 21 - Forgotten Frontier Quarantine Outpost
 INSERT INTO signature_waves VALUES (21, 1, 0, '18:3:rt,19:6:w');
 INSERT INTO signature_waves VALUES (21, 2, 0, '17:2:wn,16:3:t,18:2:r');
