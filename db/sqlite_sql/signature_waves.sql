@@ -207,57 +207,47 @@ INSERT INTO signature_waves VALUES (41, 1, 0, '31:3:nr,30:3:wd,32:3:wnd,28:4:wnd
 INSERT INTO signature_waves VALUES (41, 2, 0, '31:8:nr,23:3:wnd,25:2:rt');
 INSERT INTO signature_waves VALUES (41, 3, 0, '31:8:nr,24:3:n,25:3:rt');
 INSERT INTO signature_waves VALUES (41, 4, 0, '31:6:nr,26:6:wnd');
---INSERT INTO signature_waves VALUES (41, 1, 1, '26:6:r'); -- Wardens ???
---INSERT INTO signature_waves VALUES (41, 2, 1, '26:8:r');
-INSERT INTO signature_waves VALUES (41, 1, 1, '26:6:wndt'); -- Guardians !
-INSERT INTO signature_waves VALUES (41, 2, 1, '26:8:wndt');
+INSERT INTO signature_waves VALUES (41, 1, 1, '101:4:wnd');
 -- 42 - Core Bastion
 INSERT INTO signature_waves VALUES (42, 1, 0, '33:3,23:2:wnd,27:3:w,29:3:r,28:3:wnd,30:3:wd,31:3:nrt');
 INSERT INTO signature_waves VALUES (42, 2, 0, '27:4:w,29:4:rt,24:4:n');
 INSERT INTO signature_waves VALUES (42, 3, 0, '32:6:wnd,29:5:r,26:4:wnd');
 INSERT INTO signature_waves VALUES (42, 4, 0, '23:4:wnd,26:2:wnd');
-INSERT INTO signature_waves VALUES (42, 1, 1, '26:6:wndt');
-INSERT INTO signature_waves VALUES (42, 2, 1, '26:8:wndt');
+INSERT INTO signature_waves VALUES (42, 1, 1, '101:4:wnd');
 -- 43 - Strange Energy Readings
 INSERT INTO signature_waves VALUES (43, 1, 0, '29:5:rt,31:5:nr,24:2:nd');
 INSERT INTO signature_waves VALUES (43, 2, 0, '28:6:wnd,26:3:wndt');
 INSERT INTO signature_waves VALUES (43, 3, 0, '31:6:nr,29:4:r,24:5:nd');
-INSERT INTO signature_waves VALUES (43, 1, 1, '26:6:wndt');
-INSERT INTO signature_waves VALUES (43, 2, 1, '26:8:wndt');
+INSERT INTO signature_waves VALUES (43, 1, 1, '101:4:wnd');
 -- 44 - The Mirror
 INSERT INTO signature_waves VALUES (44, 1, 0, '33:6,23:2:wnd,25:3:rt,29:4:r,32:6:wnd');
 INSERT INTO signature_waves VALUES (44, 2, 0, '30:6:wd,24:2:n,26:3:wndt');
 INSERT INTO signature_waves VALUES (44, 3, 0, '31:4:nr,32:4:wnd,28:4:wnd,29:4:r,24:4:n');
-INSERT INTO signature_waves VALUES (44, 1, 1, '26:6:wndt');
-INSERT INTO signature_waves VALUES (44, 2, 1, '26:8:wndt');
+INSERT INTO signature_waves VALUES (44, 1, 1, '101:4:wnd');
 -- 45 - Forgotten Core Assembly Hall
 INSERT INTO signature_waves VALUES (45, 1, 0, '33:6,30:5:wd,24:3:n,23:3:wnd,25:3:rt');
 INSERT INTO signature_waves VALUES (45, 2, 0, '28:6:wnd,24:3:n,23:2:wnd,25:1:rt');
 INSERT INTO signature_waves VALUES (45, 3, 0, '29:6:r,24:3:n,23:2:wnd');
 INSERT INTO signature_waves VALUES (45, 4, 0, '25:2:r,30:10:wd,27:6:w,26:6:wnd');
-INSERT INTO signature_waves VALUES (45, 1, 1, '26:6:wndt');
-INSERT INTO signature_waves VALUES (45, 2, 1, '26:8:wndt');
+INSERT INTO signature_waves VALUES (45, 1, 1, '101:4:wnd');
 -- 46 - Forgotten Core Circuitry Disassembler
 INSERT INTO signature_waves VALUES (46, 1, 0, '22:3,33:4,30:9:wd,31:9:nr,32:9:wndt,26:1:wnd');
 INSERT INTO signature_waves VALUES (46, 2, 0, '32:4:wnd,27:7:w,28:7:wnd,29:7:rt');
 INSERT INTO signature_waves VALUES (46, 3, 0, '30:5:wd,23:3:wnd,24:3:n,25:3:r,26:1:wndt');
 INSERT INTO signature_waves VALUES (46, 4, 0, '30:4:wd,31:4:nr,27:4:w,28:4:wnd,29:4:r,23:2:wnd,24:2:n,25:2:r,26:3:wnd');
-INSERT INTO signature_waves VALUES (46, 1, 1, '26:6:wndt');
-INSERT INTO signature_waves VALUES (46, 2, 1, '26:8:wndt');
+INSERT INTO signature_waves VALUES (46, 1, 1, '101:4:wnd');
 -- 47 - Unsecured Core Backup Array
 INSERT INTO signature_waves VALUES (47, 1, 0, '22:3,33:3,30:10:wd,24:3:n,23:2:wnd,25:2:rt');
 INSERT INTO signature_waves VALUES (47, 2, 0, '28:6:wnd,23:3:wnd,24:3:n,25:2:rt');
 INSERT INTO signature_waves VALUES (47, 3, 0, '29:4:r,23:3:wnd,24:3:n,25:3:rt');
 INSERT INTO signature_waves VALUES (47, 4, 0, '30:10:wd,27:8:w,26:6:wnd');
-INSERT INTO signature_waves VALUES (47, 1, 1, '26:6:wndt');
-INSERT INTO signature_waves VALUES (47, 2, 1, '26:8:wndt');
+INSERT INTO signature_waves VALUES (47, 1, 1, '101:4:wnd');
 -- 48 - Unsecured Core Emergence
 INSERT INTO signature_waves VALUES (48, 1, 0, '22:4,33:4,30:9:wd,31:9:nr,32:9:wndt,26:1:wnd');
 INSERT INTO signature_waves VALUES (48, 2, 0, '32:4:wnd,27:7:w,28:7:wnd,29:7:rt');
 INSERT INTO signature_waves VALUES (48, 3, 0, '30:5:wd,23:3:wnd,24:3:n,25:3:r,26:1:wndt');
 INSERT INTO signature_waves VALUES (48, 4, 0, '30:4:wd,31:4:nr,27:4:w,28:4:wnd,29:4:r,23:2:wnd,24:2:n,25:2:r');
-INSERT INTO signature_waves VALUES (48, 1, 1, '26:6:wndt');
-INSERT INTO signature_waves VALUES (48, 2, 1, '26:8:wndt');
+INSERT INTO signature_waves VALUES (48, 1, 1, '101:4:wnd');
 
 -- ore sites
 INSERT INTO signature_waves VALUES (49, 1, 0, '5:1,8:3'); -- Average Frontier Deposit
