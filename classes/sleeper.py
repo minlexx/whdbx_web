@@ -51,6 +51,9 @@ class WHSleeper:
         self.extra_comment = ''
         # for wave in signature
         self.is_trigger = False
+        self.is_random_spawn = False
+        self.is_anomaly_despawn_trigger = False
+        self.is_decloaked_container_trigger = False
         self.count = 0
         # calculatable
         self.dps_total = 0
@@ -163,8 +166,15 @@ class WHSleeper:
         """
         Sets sleepers abilities from coded str:
         :param abilities_code: 'wndrt'-like string,
-               'w' - web, 'n' - neut, 'd' - warp disruptor,
-               'r' - remote rep, 't' - next wave trigger
+               'w' - web,
+               'n' - neut,
+               'd' - warp disruptor,
+               's' - warp scrambler
+               'r' - remote rep,
+               't' - next wave trigger,
+               'R' - random spawn,
+               'Z' - anomaly despawn trigger,
+               'D' - decloaked container trigger
         :return: None
         """
         if abilities_code is None:
@@ -185,11 +195,20 @@ class WHSleeper:
             elif c == 'd':
                 self.ability_str += 'dis,'
                 self.abilities.append('dis')
+            elif c == 's':
+                self.ability_str += 'scram,'
+                self.abilities.append('scram')
             elif c == 'r':
                 self.ability_str += 'rr,'
                 self.abilities.append('rr')
             elif c == 't':
                 self.is_trigger = True
+            elif c == 'R':
+                self.is_random_spawn = True
+            elif c == 'Z':
+                self.is_anomaly_despawn_trigger = True
+            elif c == 'D':
+                self.is_decloaked_container_trigger = True
         return True
 
     def set_count(self, c: int):
