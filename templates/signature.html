@@ -137,6 +137,9 @@
         <li>
             Total: <img src="/static/img/sigs/wreck.png" width="20" />
             <span class="sig_isk">${sig.total_isk | dotted_number}</span> ISK
+            % if sig.has_capital_waves:
+            (без кап. дореспов)
+            % endif
         </li>
         <li>
             Total: <img src="/static/img/sigs/ehp2.png" width="22" />
