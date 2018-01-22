@@ -84,19 +84,19 @@ INSERT INTO signature_waves VALUES (16, 4, 0, '5:5,7:3,10:4:w');
 -- 17 - Fortification Frontier Stronghold
 INSERT INTO signature_waves VALUES (17, 1, 0, '16:2:t,19:2:w');
 INSERT INTO signature_waves VALUES (17, 2, 0, '17:2:wnt,16:2');
-INSERT INTO signature_waves VALUES (17, 3, 0, '13:1:n,16:2,17:1:wn,18:1:r');
+INSERT INTO signature_waves VALUES (17, 3, 0, '13:1:n,16:2,17:1:wn,18:1:rZ');
 -- 18 - Outpost Frontier Stronghold
 INSERT INTO signature_waves VALUES (18, 1, 0, '22:3,12:1:wt');
 INSERT INTO signature_waves VALUES (18, 2, 0, '16:4:t');
-INSERT INTO signature_waves VALUES (18, 3, 0, '19:4:w,12:2:w');
+INSERT INTO signature_waves VALUES (18, 3, 0, '19:4:w,12:2:wZ');
 -- 19 - Solar Cell
 INSERT INTO signature_waves VALUES (19, 1, 0, '17:1:wn,21:1:wndt,12:1:wR');
 INSERT INTO signature_waves VALUES (19, 2, 0, '17:1:wn,16:3,19:2:w,20:2:nrt');
-INSERT INTO signature_waves VALUES (19, 3, 0, '14:1:r,12:1:w,16:2');
+INSERT INTO signature_waves VALUES (19, 3, 0, '14:1:rZ,12:1:w,16:2');
 -- 20 - The Oruze Construct
 INSERT INTO signature_waves VALUES (20, 1, 0, '22:2,18:1:r,17:4:wnt');
 INSERT INTO signature_waves VALUES (20, 2, 0, '12:1:wt,19:4:w');
-INSERT INTO signature_waves VALUES (20, 3, 0, '13:1:n,18:2:rR');
+INSERT INTO signature_waves VALUES (20, 3, 0, '13:1:n,18:2:rRZ');
 -- 21 - Forgotten Frontier Quarantine Outpost
 INSERT INTO signature_waves VALUES (21, 1, 0, '18:3:rt,19:6:w');
 INSERT INTO signature_waves VALUES (21, 2, 0, '17:2:wn,16:3:t,18:2:r');
