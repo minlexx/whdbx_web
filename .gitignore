@@ -9,3 +9,5 @@ _caches/zkb/*.json
 reported_statics.txt
 whdbx_config_local.ini
 db/*.db
+_caches/
+db/eve.db.bz2
