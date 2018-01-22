@@ -26,6 +26,15 @@
             % if sl.is_trigger:
             <font color="#FF2222"><b>TRIGGER</b></font>
             % endif
+            % if sl.is_random_spawn:
+            <font color="#2222FF"><b>RANDOM</b></font>
+            % endif
+            % if sl.is_anomaly_despawn_trigger:
+            <font color="#22FF22"><b>ANOMALY_DESPAWN</b></font>
+            % endif
+            % if sl.is_decloaked_container_trigger:
+            <font color="#222222"><b>SPAWN_DECLOAKED</b></font>
+            % endif
         </li>
         % endfor
     </ul>
