@@ -6,6 +6,9 @@
 
 <%def name="print_wave(wave)">
   % if wave.is_capital:
+    % if wave.wave_id == 1:
+    Кап. доресп волна спавнится на приварп каждого капитала.<br /><br />
+    % endif
   Кап. доресп волна ${wave.wave_id}:
   % else:
   Волна ${wave.wave_id}:
