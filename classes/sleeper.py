@@ -119,7 +119,7 @@ class WHSleeper:
         # ewar abilities stats
         self.neut_range = ret['neut_range']
         self.neut_amount = ret['neut_amount']
-        self.neut_duration=  ret['neut_duration']
+        self.neut_duration = ret['neut_duration']
         self.dis_range = ret['dis_range']
         self.dis_strength = ret['dis_strength']
         self.web_range = ret['web_range']
@@ -140,8 +140,10 @@ class WHSleeper:
         # calc
         self.dps_total = self.dps_em + self.dps_therm + self.dps_kin + self.dps_exp
         # calc EHP
-        armor_average_resist = (self.armor_res_em + self.armor_res_therm + self.armor_res_kin + self.armor_res_exp) / 4
-        shield_average_resist = (self.shield_res_em + self.shield_res_therm + self.shield_res_kin + self.shield_res_exp) / 4
+        armor_average_resist = (self.armor_res_em + self.armor_res_therm +
+                                self.armor_res_kin + self.armor_res_exp) / 4
+        shield_average_resist = (self.shield_res_em + self.shield_res_therm +
+                                 self.shield_res_kin + self.shield_res_exp) / 4
         armor_ehp = round(self.armor / (1 - armor_average_resist/100))
         shield_ehp = round(self.shield / (1 - shield_average_resist / 100))
         self.ehp_total = shield_ehp + armor_ehp + self.hull
