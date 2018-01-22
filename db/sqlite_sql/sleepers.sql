@@ -99,4 +99,4 @@ INSERT INTO sleepers VALUES (33, 30462, '5,6', 'sentry', 'Restless Sentry Tower'
 
 -- Drifter Battleship
 INSERT INTO sleepers VALUES (100, 37473, '5,6', 'drifter_battleship', 'Drifter Response Battleship', 25000,6000,40000,75000, 800000,1200000,150000, 49,20,49,49, 0,50,50,50, 400,400,400,400, 36,30,30,45, 'web,neut,dis', 100000,2000,10, 100000,20, 100000,60, 0,0,0, 'Warp core strength: +3');
-INSERT INTO sleepers VALUES (101, 37472, '5,6', 'battleship', 'Upgraded Avenger', 30000,3000,20000,320000, 0,250000,150000, 0,0,0,0, 75,80,75,75, 320,320,320,320, 0,0,0,0, 'web,neut,dis', 100000,1500,20, 100000,15, 100000,50, 0,0,0, 'Capital Escalation Battleship');
+INSERT INTO sleepers VALUES (101, 37472, '5,6', 'battleship', 'Upgraded Avenger', 30000,3000,20000,320000, 0,250000,150000, 0,0,0,0, 75,80,75,75, 320,320,320,320, 1,2,2,2, 'web,neut,dis', 100000,1500,20, 100000,15, 100000,50, 0,0,0, 'Capital Escalation Battleship');
