@@ -90,13 +90,13 @@ INSERT INTO signature_waves VALUES (18, 1, 0, '22:3,12:1:wt');
 INSERT INTO signature_waves VALUES (18, 2, 0, '16:4:t');
 INSERT INTO signature_waves VALUES (18, 3, 0, '19:4:w,12:2:w');
 -- 19 - Solar Cell
-INSERT INTO signature_waves VALUES (19, 1, 0, '17:1:wn,21:1:wndt,12:1:w');
+INSERT INTO signature_waves VALUES (19, 1, 0, '17:1:wn,21:1:wndt,12:1:wR');
 INSERT INTO signature_waves VALUES (19, 2, 0, '17:1:wn,16:3,19:2:w,20:2:nrt');
 INSERT INTO signature_waves VALUES (19, 3, 0, '14:1:r,12:1:w,16:2');
 -- 20 - The Oruze Construct
 INSERT INTO signature_waves VALUES (20, 1, 0, '22:2,18:1:r,17:4:wnt');
 INSERT INTO signature_waves VALUES (20, 2, 0, '12:1:wt,19:4:w');
-INSERT INTO signature_waves VALUES (20, 3, 0, '13:1:n,18:2:r');
+INSERT INTO signature_waves VALUES (20, 3, 0, '13:1:n,18:2:rR');
 -- 21 - Forgotten Frontier Quarantine Outpost
 INSERT INTO signature_waves VALUES (21, 1, 0, '18:3:rt,19:6:w');
 INSERT INTO signature_waves VALUES (21, 2, 0, '17:2:wn,16:3:t,18:2:r');
@@ -156,7 +156,7 @@ INSERT INTO signature_waves VALUES (32, 3, 0, '12:2:w,14:2:r');
 -- Core Garrrison --
 INSERT INTO signature_waves VALUES (33, 1, 0, '33:3,30:5:wd,27:5:wt');
 INSERT INTO signature_waves VALUES (33, 2, 0, '31:6:nrt,23:3:wnd');
-INSERT INTO signature_waves VALUES (33, 3, 0, '27:5:w,28:3:wnd,23:3:wndt');
+INSERT INTO signature_waves VALUES (33, 3, 0, '27:5:wD,28:3:wnd,23:3:wndt');
 INSERT INTO signature_waves VALUES (33, 4, 0, '32:3:wnd,27:2:w,24:2:n');
 INSERT INTO signature_waves VALUES (33, 1, 1, '101:3:wns');
 -- Core Stronghold --
@@ -166,7 +166,7 @@ INSERT INTO signature_waves VALUES (34, 3, 0, '32:6:wnd,27:7:wt');
 INSERT INTO signature_waves VALUES (34, 4, 0, '29:4:r,24:2:n,25:3:r');
 INSERT INTO signature_waves VALUES (34, 1, 1, '101:3:wns');
 -- Oruze Osobnyk --
-INSERT INTO signature_waves VALUES (35, 1, 0, '30:4:wd,24:1:n,23:3:wndt');
+INSERT INTO signature_waves VALUES (35, 1, 0, '30:4:wd,24:1:nR,23:3:wndt');
 INSERT INTO signature_waves VALUES (35, 2, 0, '27:6:w,26:1:wndt');
 INSERT INTO signature_waves VALUES (35, 3, 0, '31:4:nr,32:2:wnd,29:3:r');
 INSERT INTO signature_waves VALUES (35, 1, 1, '101:3:wns');
@@ -183,7 +183,7 @@ INSERT INTO signature_waves VALUES (37, 3, 0, '32:5:wnd,24:2:nt,23:2:wnd');
 INSERT INTO signature_waves VALUES (37, 4, 0, '28:2:wnd,29:2:r,24:2:n,25:2:r');
 INSERT INTO signature_waves VALUES (37, 1, 1, '101:3:wns');
 -- Forgotten Core Information Pen --
-INSERT INTO signature_waves VALUES (38, 1, 0, '24:3:nt');
+INSERT INTO signature_waves VALUES (38, 1, 0, '24:3:nt,24:1:nR');
 INSERT INTO signature_waves VALUES (38, 2, 0, '31:4:nr,29:4:r,24:2:n');
 INSERT INTO signature_waves VALUES (38, 3, 0, '31:3:nr,32:3:wnd,27:3:w,29:4:rt,24:3:n');
 INSERT INTO signature_waves VALUES (38, 4, 0, '32:4:wnd,28:4:wnd,24:5:n');
