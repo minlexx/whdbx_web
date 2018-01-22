@@ -27,6 +27,7 @@ from classes.zkillboard import ZKB
 from classes.whsystem import WHSystem
 from classes.utils import dump_object, is_whsystem_name
 from classes import esi_calls
+from classes import tr_support
 
 
 def error_page_404(status, message, traceback, version):
@@ -139,6 +140,12 @@ class WhdbxApp:
         # logging setup
         self.tag = 'WHDBX'
         cherrypy.log.screen = self.cfg.DEBUG  # enable cherrypy logging to console only in DEBUG
+
+        # translations setup
+        self.translations_dir = self.rootdir + '/locales'
+        self.translator = tr_support.get_translator(self.translations_dir)
+        self.translator.install()  # install _() function into a program's builtin namepace
+        self.debuglog('Init gettext translations dir: {}. Test: {}'.format(self.translations_dir, _('test')))
 
         # options for cherrypy application
         session_storage_class = cherrypy.lib.sessions.RamSession
