@@ -25,7 +25,7 @@ from classes.utils import js_escape, length_limit_20
     <a href="#" onclick="showCharInfo(${SSO_CHAR_ID}); return false;"
        title="Show info: ${SSO_CHAR_NAME}">${SSO_CHAR_NAME}</a>
     <br />
-    [ <a href="/logout">Выход</a> ]
+    [ <a href="/logout">${tr.gettext('Logout')}</a> ]
   </div>
 
   <div class="character_info_inline" id="character_info_corp_block">
@@ -98,7 +98,7 @@ from classes.utils import js_escape, length_limit_20
       <img border="0" src="/static/img/EVE_SSO_Login_Buttons_Small_Black.png" /></a>
   </div>
   <div id="sso_help_button" style="display: inline; padding-left: 10px;">
-    <a href="/eve_sso_help/">Зачем?</a>
+    <a href="/eve_sso_help/">${tr.gettext('Why?')}</a>
   </div>
   <%include file="fast_search_block_v2.html"/>
 </div>
