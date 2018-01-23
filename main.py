@@ -244,6 +244,19 @@ class WhdbxApp:
             return True
         return False
 
+    def get_client_language(self) -> str:
+        ret = 'en'
+        # Accept-Language: de
+        # Accept-Language: de-CH
+        # Accept-Language: en-US,en;q=0.5
+        if 'accept-language' in cherrypy.request.headers:
+            accept_language = cherrypy.request.headers['accept-language']
+            ret = accept_language[0:2]
+            self.debuglog('detected language: {}'.format(ret))
+        else:
+            self.debuglog('cannot detect language!')
+        return ret
+
     @cherrypy.expose()
     def dump_session(self, **params):
         if not self.is_ip_admin():
@@ -342,6 +355,10 @@ class WhdbxApp:
         # TODO: self.fill_last_visited_systems()
         # this can be used in every page with zkb_block, so set it here
         self.tmpl.assign('zkb_block_title', '')
+
+    def setup_locale(self):
+        # accept_language = self.get_client_language()
+        pass
 
     def postprocess_zkb_kills(self, kills: list) -> list:
         """
