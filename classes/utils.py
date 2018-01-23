@@ -66,9 +66,3 @@ def js_escape(s: str) -> str:
 def length_limit_20(s: str) -> str:
     s = s[:20]
     return s
-
-
-def tr(s: str) -> str:
-    translator = tr_support.get_translator()
-    s = translator.gettext(s)
-    return s
