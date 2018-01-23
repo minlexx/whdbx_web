@@ -143,10 +143,8 @@ class WhdbxApp:
 
         # translations setup
         self.translations_dir = self.rootdir + '/locales'
-        self.translator = tr_support.get_translator(self.translations_dir)
-        self.translator.install()  # install _() function into a program's builtin namepace
-        self.debuglog('Init gettext translations dir: [{}]. Test: {} {}'.
-                      format(self.translations_dir, self.translator.gettext('test'), _('test')))
+        self.tr = tr_support.MultiLangTranslator(self.translations_dir, 'whdbx')
+        self.tr.init_translations()
 
         # options for cherrypy application
         session_storage_class = cherrypy.lib.sessions.RamSession
@@ -186,6 +184,7 @@ class WhdbxApp:
         }
 
         self.debuglog('started, rootdir=[{}]'.format(self.rootdir))
+        self.debuglog('loaded locales: {}'.format(self.tr.supported_locales))
 
     def get_cherrypy_app_config(self) -> dict:
         return self.cherrypy_config
