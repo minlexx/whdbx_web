@@ -130,12 +130,15 @@ class WhdbxApp:
         }
 
         # session vars declaration
-        self.needed_sso_vars = ['sso_token', 'sso_refresh_token',
-                                'sso_expire_dt', 'sso_expire_dt_utc',
-                                'sso_char_id', 'sso_char_name',
-                                'sso_corp_id', 'sso_corp_name', 'sso_ally_id',
-                                'sso_ship_id', 'sso_ship_name', 'sso_ship_title',
-                                'sso_solarsystem_id', 'sso_solarsystem_name']
+        self.needed_session_vars = [
+            'sso_token', 'sso_refresh_token',
+            'sso_expire_dt', 'sso_expire_dt_utc',
+            'sso_char_id', 'sso_char_name',
+            'sso_corp_id', 'sso_corp_name', 'sso_ally_id',
+            'sso_ship_id', 'sso_ship_name', 'sso_ship_title',
+            'sso_solarsystem_id', 'sso_solarsystem_name',
+            'configured_locale'
+        ]
 
         # logging setup
         self.tag = 'WHDBX'
@@ -221,12 +224,12 @@ class WhdbxApp:
             cherrypy.session['sso_state'] = new_state
             self.debuglog('Generated new sso_state = {}'.format(new_state))
         # auto-create missing session vars as empty strings
-        for var_name in self.needed_sso_vars:
+        for var_name in self.needed_session_vars:
             if var_name not in cherrypy.session:
                 cherrypy.session[var_name] = ''
 
     def sso_session_cleanup(self):
-        for var_name in self.needed_sso_vars:
+        for var_name in self.needed_session_vars:
             cherrypy.session[var_name] = ''
         del cherrypy.session['sso_state']
         self.debuglog('session cleaned')
@@ -244,11 +247,15 @@ class WhdbxApp:
             return True
         return False
 
-    def get_client_language(self) -> str:
-        ret = 'en'
-        # Accept-Language: de
-        # Accept-Language: de-CH
-        # Accept-Language: en-US,en;q=0.5
+    def parse_client_accept_language(self) -> str:
+        """
+        Parse HTTP header Accept-Language, which can be in form:
+        - Accept-Language: de
+        - Accept-Language: de-CH
+        - Accept-Language: en-US,en;q=0.5
+        :return: first 2 letters of header, or empty string if no header found.
+        """
+        ret = ''
         if 'accept-language' in cherrypy.request.headers:
             accept_language = cherrypy.request.headers['accept-language']
             ret = accept_language[0:2]
@@ -256,6 +263,39 @@ class WhdbxApp:
         else:
             self.debuglog('cannot detect language!')
         return ret
+
+    def get_selected_locale_code(self) -> str:
+        """
+        Determine what locale to use to translate user-visible sstrings
+        for *current* client request. Try to look for preconfigured value in
+        session, or try to parse Accept-Language HTTP header. In case of
+        no locale can be determined, or locale unsupported, return 'en'
+        :return: string, 'en', 'ru', etc. Always returns valid value
+        """
+        selected_locale = 'en'
+        # first, check that user has configured language. Then don't autodetect
+        if 'configured_locale' in cherrypy.session:
+            if cherrypy.session['configured_locale'] != '':
+                configured_locale = cherrypy.session['configured_locale']
+                if configured_locale in self.tr.supported_locales:
+                    selected_locale = configured_locale
+        # no user-configured locale, try to autodetect
+        accept_language = self.parse_client_accept_language()
+        if accept_language != '':
+            selected_locale = accept_language
+        return selected_locale
+
+    def gettext(self, msg) -> str:
+        """
+        Translate msg using current request's locale
+        :param msg:
+        :return: translated msg, if locale is supported; otherwise return original msg
+        """
+        lc = self.get_selected_locale_code()
+        tr = self.tr.get_translator(lc)
+        if tr is None:
+            return msg
+        return tr.gettext(msg)
 
     @cherrypy.expose()
     def dump_session(self, **params):
@@ -355,10 +395,12 @@ class WhdbxApp:
         # TODO: self.fill_last_visited_systems()
         # this can be used in every page with zkb_block, so set it here
         self.tmpl.assign('zkb_block_title', '')
+        self.setup_locale()
 
     def setup_locale(self):
-        # accept_language = self.get_client_language()
-        pass
+        selected_locale = self.get_selected_locale_code()
+        self.tmpl.assign('LOCALE', selected_locale)
+        self.tmpl.assign('tr', self.tr.get_translator(selected_locale))
 
     def postprocess_zkb_kills(self, kills: list) -> list:
         """
