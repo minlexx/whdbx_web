@@ -11,6 +11,7 @@ class MultiLangTranslator:
         self.localesdir = localesdir
         self.supported_locales = []
         self.translators = dict()  # List[gettext.GNUTranslations]
+        self.null_translator = gettext.NullTranslations(fp=None)
 
     def init_translations(self):
         p = pathlib.Path(self.localesdir)
@@ -31,13 +32,14 @@ class MultiLangTranslator:
                     pass
         print(self.supported_locales)
 
-    def get_translator(self, locale_name: str) -> Optional[gettext.GNUTranslations]:
+    def get_translator(self, locale_name: str) -> Optional[gettext.NullTranslations]:
         """
         Get translator object of type gettext.GNUTranslations for supported locale
         :param locale_name: 2-letter locale code, like 'en', 'ru'
-        :return: valid translator object with loaded translations, or None if the
-        corrssponding translation is not suppported or was not loaded.
+        :return: valid translator object with loaded translations, or
+        gettext.NullTranslations() if the corrssponding translation is
+        not suppported or was not loaded.
         """
         if locale_name in self.translators:
             return self.translators[locale_name]
-        return None
+        return self.null_translator
