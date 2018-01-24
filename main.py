@@ -27,61 +27,8 @@ from classes.zkillboard import ZKB
 from classes.whsystem import WHSystem
 from classes.utils import dump_object, is_whsystem_name
 from classes import esi_calls
+from classes import error_pages
 from classes import tr_support
-
-
-def error_page_404(status, message, traceback, version):
-    # outputs: "Error 404 Not Found - Well, I'm very sorry but you haven't paid!"
-    # return "Error %s - Well, I'm very sorry but you haven't paid!" % status
-    siteconfig = SiteConfig()
-    te = TemplateEngine(siteconfig)
-    te.assign('title', '404 - WHDBX')  # default title
-    te.assign('error_comment', '')  # should be always defined!
-    te.assign('MODE', 'error404')  # current page identifier
-    te.assign('sitecfg', siteconfig)
-    # assign EVE-SSO data defaults
-    te.assign('HAVE_SSO_LOGIN', False)
-    te.assign('SSO_TOKEN_EXPIRE_DT', '')
-    te.assign('SSO_LOGIN_URL', '')
-    te.assign('SSO_CHAR_ID', '')
-    te.assign('SSO_CHAR_NAME', '')
-    te.assign('SSO_CORP_ID', '')
-    te.assign('SSO_CORP_NAME', '')
-    te.assign('SSO_SHIP_ID', '')
-    te.assign('SSO_SHIP_NAME', '')
-    te.assign('SSO_SHIP_TITLE', '')
-    te.assign('SSO_SOLARSYSTEM_ID', '')
-    te.assign('SSO_SOLARSYSTEM_NAME', '')
-    te.assign('SSO_ONLINE', '')
-    te.assign('last_visited_systems', list())  # empty list
-    return te.render('404.html')
-
-
-def error_page_500(status, message, traceback, version):
-    siteconfig = SiteConfig()
-    te = TemplateEngine(siteconfig)
-    te.assign('title', '500 - WHDBX')  # default title
-    te.assign('error_comment', '')  # should be always defined!
-    te.assign('MODE', 'error500')  # current page identifier
-    te.assign('sitecfg', siteconfig)
-    # assign EVE-SSO data defaults
-    te.assign('HAVE_SSO_LOGIN', False)
-    te.assign('SSO_TOKEN_EXPIRE_DT', '')
-    te.assign('SSO_LOGIN_URL', '')
-    te.assign('SSO_CHAR_ID', '')
-    te.assign('SSO_CHAR_NAME', '')
-    te.assign('SSO_CORP_ID', '')
-    te.assign('SSO_CORP_NAME', '')
-    te.assign('SSO_SHIP_ID', '')
-    te.assign('SSO_SHIP_NAME', '')
-    te.assign('SSO_SHIP_TITLE', '')
-    te.assign('SSO_SOLARSYSTEM_ID', '')
-    te.assign('SSO_SOLARSYSTEM_NAME', '')
-    te.assign('SSO_ONLINE', '')
-    te.assign('last_visited_systems', list())  # empty list
-    # stack trace
-    te.assign('stacktrace', str(traceback))
-    return te.render('500.html')
 
 
 class WhdbxApp:
@@ -177,8 +124,8 @@ class WhdbxApp:
                 'tools.sessions.redis_port': self.cfg.SESSION_REDIS_PORT,
                 'tools.sessions.redis_db': self.cfg.SESSION_REDIS_DB,
                 'tools.staticdir.root': self.rootdir,
-                'error_page.404': error_page_404,
-                'error_page.500': error_page_500
+                'error_page.404': error_pages.page_404,
+                'error_page.500': error_pages.page_500
             },
             '/static': {
                 'tools.staticdir.on': True,
