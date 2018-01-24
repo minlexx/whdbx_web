@@ -11,7 +11,7 @@
     % endif
   ${tr.gettext('Cap. escalation wave')} ${wave.wave_id}:
   % else:
-  Волна ${wave.wave_id}:
+   ${tr.gettext('Wave')} ${wave.wave_id}:
  % endif
   <img src="/static/img/sigs/dps.png" width="22" />
   <span class="sig_dps">${wave.total_dps}</span> DPS,
@@ -73,7 +73,7 @@
     </div>
     % endif
 
-    <h2><img src="/static/img/sigs/${sig.sig_type}_site.png" />${sig.name}, ${sig.sig_type}
+    <h2><img src="/static/img/sigs/${sig.sig_type}_site.png" />${sig.name}, ${tr.gettext(sig.sig_type)}
     % if sig.wh_class == 12:
         , Thera
     % elif sig.wh_class == 13:
@@ -173,7 +173,7 @@
 </%def>
 
 <%def name="print_sigs_for_class(sigs_list, whclass)">
-    <span class="infoblock_header_text">Сигнатуры и аномалии ${whclass} класса:</span><br />
+    <span class="infoblock_header_text">${tr.gettext('Signatues and anomalies')} ${whclass}${tr.gettext('th class')}:</span><br />
     ${print_sigs_list(sigs_list)}
 </%def>
 
@@ -190,15 +190,15 @@
     </tr>
     <tr>
         <td valign="top">
-            <span class="infoblock_header_text">Рудные аномальки / Ore sites:</span><br />
+            <span class="infoblock_header_text">${tr.gettext('Ore sites')}:</span><br />
             ${print_sigs_list(sigs_ore)}
         </td>
         <td valign="top">
-            <span class="infoblock_header_text">Газы / Gas sites:</span><br />
+            <span class="infoblock_header_text">${tr.gettext('Gas sites')}:</span><br />
             ${print_sigs_list(sigs_gas)}
         </td>
         <td valign="top">
-            <span class="infoblock_header_text">Аномалии в Thera:</span><br />
+            <span class="infoblock_header_text">${tr.gettext('Thera anomalies')}:</span><br />
             ${print_sigs_list(sigs_thera)}
         </td>
     </tr>
