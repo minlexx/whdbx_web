@@ -23,8 +23,14 @@ class TemplateEngine:
         self._args[vname] = vvalue
 
     def is_set(self, vname: str) -> bool:
-        if vname in self._args: return True
+        if vname in self._args:
+            return True
         return False
+
+    def value(self, vname: str):
+        if vname in self._args:
+            return self._args[vname]
+        return None
 
     def unassign(self, vname: str):
         if vname in self._args:
@@ -46,7 +52,7 @@ class TemplateEngine:
         # MAKO exceptions handler
         try:
             rendered = self.render(tname)
-            print(rendered)  # python IO encoding mut be set to utf-8 (see ../index.py header for details)
+            print(rendered)  # python IO encoding mut be set to utf-8 (see ../main.py header for details)
             # print(os.environ)
             # print(locale.getpreferredencoding())
             # print(type(rendered))
