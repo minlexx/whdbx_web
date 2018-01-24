@@ -30,7 +30,6 @@ class MultiLangTranslator:
                     self.translators[sub_p.name] = translator
                 except IOError:
                     pass
-        print(self.supported_locales)
 
     def get_translator(self, locale_name: str) -> Optional[gettext.NullTranslations]:
         """
