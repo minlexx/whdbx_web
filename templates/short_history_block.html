@@ -25,10 +25,10 @@
       <td>
         ${tr['ts']}
         % if tr['minutes_ago'] < 60:
-        <span class="zkb_time_hl">${tr['minutes_ago']} мин.</span>
+        <span class="zkb_time_hl">${tr['minutes_ago']} ${tr.gettext('min.')}</span>
         % endif
         % if (tr['hours_ago'] >= 1) and (tr['hours_ago'] < 24):
-        <span class="zkb_time_hl">${tr['hours_ago']} ч.</span>
+        <span class="zkb_time_hl">${tr['hours_ago']} ${tr.gettext('h.')}</span>
         % endif
       </td>
     </tr>
