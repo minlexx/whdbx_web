@@ -413,15 +413,17 @@ class WhdbxApp:
     def effects(self):
         self.init_session()
         self.setup_template_vars('effects')
+        translator = self.tr.get_translator(self.get_selected_locale_code())
         effs = self.db.select_all_effects()
         self.tmpl.assign('effects', effs)
-        self.tmpl.assign('title', 'Эффекты - WHDBX')
+        self.tmpl.assign('title', translator.gettext('Effects') + ' - WHDBX')
         return self.tmpl.render('effects.html')
 
     @cherrypy.expose()
     def sleepers(self, **params):
         self.init_session()
         self.setup_template_vars('sleepers')
+        translator = self.tr.get_translator(self.get_selected_locale_code())
         sleeper = WHSleeper()
         self.tmpl.assign('sleeper', sleeper)
         if 'id' in params:
@@ -434,7 +436,7 @@ class WhdbxApp:
             self.tmpl.assign('sleepers_c34', list())
             self.tmpl.assign('sleepers_c56', list())
         else:
-            self.tmpl.assign('title', 'Слиперы - WHDBX')
+            self.tmpl.assign('title', translator.gettext('Sleepers') + ' - WHDBX')
             self.tmpl.assign('class_sleepers', list())
             self.tmpl.assign('sleepers_c12', self.db.query_sleeper_by_class('1,2'))
             self.tmpl.assign('sleepers_c34', self.db.query_sleeper_by_class('3,4'))
@@ -445,7 +447,8 @@ class WhdbxApp:
     def signatures(self, **params):
         self.init_session()
         self.setup_template_vars('signatures')
-        self.tmpl.assign('title', 'Сигнатурки - WHDBX')
+        translator = self.tr.get_translator(self.get_selected_locale_code())
+        self.tmpl.assign('title', translator.gettext('Signatures') + ' - WHDBX')
         #
         sig_id = -1
         if 'id' in params:
@@ -499,7 +502,8 @@ class WhdbxApp:
     def whdb(self):
         self.init_session()
         self.setup_template_vars('whdb')
-        self.tmpl.assign('title', 'База ВХ - WHDBX')
+        translator = self.tr.get_translator(self.get_selected_locale_code())
+        self.tmpl.assign('title', translator.gettext('WH Database') +  ' - WHDBX')
         return self.tmpl.render('whdb.html')
 
     @cherrypy.expose()
