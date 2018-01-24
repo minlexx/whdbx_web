@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-24 17:08+0300\n"
-"PO-Revision-Date: 2018-01-24 17:08+0300\n"
+"POT-Creation-Date: 2018-01-24 17:11+0300\n"
+"PO-Revision-Date: 2018-01-24 17:12+0300\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,3 +79,11 @@ msgstr "Приложите нижеследующую техническую и�
 #: templates/failure.html:6
 msgid "Sorry, error happened"
 msgstr "Увы и ах, возникла ошибка"
+
+#: templates/report_statics_form.html:5
+msgid "Report statics!"
+msgstr "Сообщить статики!"
+
+#: templates/report_statics_form.html:8
+msgid "Write statics names, <br /> separating with commas:"
+msgstr "Перечислите названия статиков, <br /> разделяя запятыми:"

@@ -2,11 +2,10 @@
 
               <!-- REPORT STATICS FORM -->
               <a href="#" onclick="javascript:showhide('report_statics_form');">
-                Сообщить статики!
+                ${tr.gettext('Report statics!')}
               </a>
               <div id="report_statics_form" style="display: none">
-                Перечислите названия статиков, <br />
-                разделяя запятыми:
+                ${tr.gettext('Write statics names, <br /> separating with commas:')}
                 <input type="text" id="new_statics" name="new_statics" size="15"
                     value="${whsys.wh_statics_str}" />
                 <input type="button" value="Обновить"
