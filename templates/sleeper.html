@@ -5,6 +5,7 @@
 <%include file="header.html"/>
 
 % if sleeper.is_valid():
+## single sleeper info
 <div class="sleeper_info">
   <table border="0">
     <tr>
@@ -14,11 +15,11 @@
       <td class="sleeper_info2">
         <h1>
         &nbsp;<img src="/static/img/sleepers/icons/${sleeper.icon}.png" />&nbsp;&nbsp;
-        ${sleeper.name}, ${sleeper.icon}, classes: ${sleeper.wh_class_str}</h1>
+        ${sleeper.name}, ${sleeper.icon}, ${tr.gettext('classes:')} ${sleeper.wh_class_str}</h1>
 
-          <p>Abilities:
+          <p>${tr.gettext('Abilities')}:
               % if len(sleeper.abilities) == 0:
-              none
+              ${tr.gettext('none')}
               % else:
               % for ability in sleeper.abilities:
               <img src="/static/img/sleepers/icons/${ability}.png" />
@@ -29,27 +30,27 @@
           <table border="0" cellpadding="0" cellspacing="0">
             <tr>
               <td valign="top">
-              <p>Navigation:</p>
+              <p>${tr.gettext('Navigation')}:</p>
               <ul>
-                  <li><img src="/static/img/sleepers/icons/signature.jpg" />Signature: <b>${sleeper.signature | dotted_number}</b> m</li>
-                  <li><img src="/static/img/sleepers/icons/max_speed.png" />Max. speed: <b>${sleeper.maxspeed | dotted_number}</b> m/s</li>
-                  <li><img src="/static/img/sleepers/icons/orbit2.png" />Orbit: <b>${sleeper.orbit | dotted_number}</b> m</li>
+                  <li><img src="/static/img/sleepers/icons/signature.jpg" />${tr.gettext('Signature radius')}: <b>${sleeper.signature | dotted_number}</b> m</li>
+                  <li><img src="/static/img/sleepers/icons/max_speed.png" />${tr.gettext('Max. speed')}: <b>${sleeper.maxspeed | dotted_number}</b> m/s</li>
+                  <li><img src="/static/img/sleepers/icons/orbit2.png" />${tr.gettext('Orbit')}: <b>${sleeper.orbit | dotted_number}</b> m</li>
               </ul>
               </td>
 
               <td valign="top">
-              <p>Defense:</p>
+              <p>${tr.gettext('Defense')}:</p>
               <ul>
-                  <li><img src="/static/img/sleepers/icons/shield.png" />Shield: <b>${sleeper.shield | dotted_number}</b></li>
-                  <li><img src="/static/img/sleepers/icons/armor_hp.png" />Armor: <b>${sleeper.armor | dotted_number}</b></li>
-                  <li><img src="/static/img/sleepers/icons/hull_hp.png" />Hull: <b>${sleeper.hull | dotted_number}</b></li>
-                  <li><img src="/static/img/sleepers/icons/shield_resists.png" />Shield resists:
+                  <li><img src="/static/img/sleepers/icons/shield.png" />${tr.gettext('Shield')}: <b>${sleeper.shield | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/armor_hp.png" />${tr.gettext('Armor')}: <b>${sleeper.armor | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/hull_hp.png" />${tr.gettext('Hull')}: <b>${sleeper.hull | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/shield_resists.png" />${tr.gettext('Shield resists')}:
                       <img src="/static/img/sleepers/icons/res_em.jpg" /> ${sleeper.shield_res_em}
                       <img src="/static/img/sleepers/icons/res_therm.jpg" /> ${sleeper.shield_res_therm}
                       <img src="/static/img/sleepers/icons/res_kin.jpg" /> ${sleeper.shield_res_kin}
                       <img src="/static/img/sleepers/icons/res_exp.jpg" /> ${sleeper.shield_res_exp}
                   </li>
-                  <li><img src="/static/img/sleepers/icons/armor_resists.png" />Armor resists:
+                  <li><img src="/static/img/sleepers/icons/armor_resists.png" />${tr.gettext('Armor resists')}:
                       <img src="/static/img/sleepers/icons/res_em.jpg" /> ${sleeper.armor_res_em}
                       <img src="/static/img/sleepers/icons/res_therm.jpg" /> ${sleeper.armor_res_therm}
                       <img src="/static/img/sleepers/icons/res_kin.jpg" /> ${sleeper.armor_res_kin}
@@ -60,9 +61,9 @@
               </td>
 
               <td valign="top">
-              <p>Offense:</p>
+              <p>${tr.gettext('Offense')}:</p>
               <ul>
-                  <li><img src="/static/img/sleepers/icons/optimal.jpg" />Attack range: <b>${sleeper.optimal | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/optimal.jpg" />${tr.gettext('Attack range')}: <b>${sleeper.optimal | dotted_number}</b></li>
                   <li><img src="/static/img/sleepers/icons/dps_total.png" />
                       DPS <img src="/static/img/sleepers/icons/dps_laser.png" />:
                       <img src="/static/img/sleepers/icons/dps_em.jpg" /> ${sleeper.dps_em}
@@ -73,12 +74,12 @@
                       <img src="/static/img/sleepers/icons/dps_kin.jpg" /> ${sleeper.dps_kin}
                       <img src="/static/img/sleepers/icons/dps_exp.jpg" /> ${sleeper.dps_exp}
                   </li>
-                  <li><img src="/static/img/sleepers/icons/dps_total.png" />Total DPS: <b>${sleeper.dps_total | dotted_number}</b></li>
+                  <li><img src="/static/img/sleepers/icons/dps_total.png" />${tr.gettext('Total')} DPS: <b>${sleeper.dps_total | dotted_number}</b></li>
               </ul>
               </td>
               <td valign="top">
                 % if len(class_sleepers)>0:
-                    <span class="infoblock_header_text">Слиперы ${sleeper.wh_class_str} класса:</span><br />
+                    <span class="infoblock_header_text">${tr.gettext('Sleepers')} ${sleeper.wh_class_str}${tr.gettext('th class')}:</span><br />
                     <ul>
                     % for s1 in class_sleepers:
                         <li>
@@ -93,31 +94,34 @@
           </table>
 
           % if len(sleeper.abilities) > 0:
-          <p>EWAR Abilities:
+          <p>${tr.gettext('EWAR Abilities')}:
             <ul>
             % if 'neut' in sleeper.abilities:
-            <li><img src="/static/img/sleepers/icons/neut.png" /> Energy Neutralizing: <b>${sleeper.neut_range | dotted_number}</b> m, <b>${sleeper.neut_amount | dotted_number}</b> GJ / <b>${sleeper.neut_duration}</b> sec</li>
+            <li><img src="/static/img/sleepers/icons/neut.png" /> ${tr.gettext('Energy Neutralizing')}: <b>${sleeper.neut_range | dotted_number}</b> m, <b>${sleeper.neut_amount | dotted_number}</b> GJ / <b>${sleeper.neut_duration}</b> sec</li>
             % endif
             % if 'dis' in sleeper.abilities:
-            <li><img src="/static/img/sleepers/icons/dis.png" /> Warp disruption: <b>${sleeper.dis_range | dotted_number}</b> m, strength: <b>${sleeper.dis_strength | dotted_number}</b></li>
+            <li><img src="/static/img/sleepers/icons/dis.png" /> ${tr.gettext('Warp disruption')}: <b>${sleeper.dis_range | dotted_number}</b> m, strength: <b>${sleeper.dis_strength | dotted_number}</b></li>
+            % endif
+            % if 'scram' in sleeper.abilities:
+            <li><img src="/static/img/sleepers/icons/scram.png" /> ${tr.gettext('Warp scrambler')}: <b>${sleeper.dis_range | dotted_number}</b> m, strength: <b>${sleeper.dis_strength | dotted_number}</b></li>
             % endif
             % if 'web' in sleeper.abilities:
-            <li><img src="/static/img/sleepers/icons/web.png" /> Stasis Webifier: <b>${sleeper.web_range | dotted_number}</b> m, strength: <b>${sleeper.web_strength | dotted_number}%</b></li>
+            <li><img src="/static/img/sleepers/icons/web.png" /> ${tr.gettext('Stasis Webifier')}: <b>${sleeper.web_range | dotted_number}</b> m, strength: <b>${sleeper.web_strength | dotted_number}%</b></li>
             % endif
             % if 'rr' in sleeper.abilities:
-            <li><img src="/static/img/sleepers/icons/rr.png" /> Remote armor repair: <b>${sleeper.rr_range | dotted_number}</b> m, <b>${sleeper.rr_amount | dotted_number}</b> HP / <b>${sleeper.rr_duration}</b> sec</li>
+            <li><img src="/static/img/sleepers/icons/rr.png" /> ${tr.gettext('Remote armor repair')}: <b>${sleeper.rr_range | dotted_number}</b> m, <b>${sleeper.rr_amount | dotted_number}</b> HP / <b>${sleeper.rr_duration}</b> sec</li>
             % endif
             </ul>
           </p>
           % endif
 
-          <p>Loot:</p>
+          <p>${tr.gettext('Loot')}:</p>
           <ul>
               <li>${sleeper.loot_acd} x <img src="/static/img/sleepers/icons/sinka.png" /> Ancient Coordinates Database</li>
               <li>${sleeper.loot_nna} x <img src="/static/img/sleepers/icons/sinka.png" /> Neural Network Analyzer</li>
               <li>${sleeper.loot_sdl} x <img src="/static/img/sleepers/icons/sinka.png" /> Sleeper Data Library</li>
               <li>${sleeper.loot_sdai} x <img src="/static/img/sleepers/icons/sinka.png" /> Sleeper Drone AI Nexus</li>
-              <li>Total: <img src="/static/img/sleepers/icons/wreck.png" /> ${sleeper.loot_total | dotted_number} ISK</li>
+              <li>${tr.gettext('Total')}: <img src="/static/img/sleepers/icons/wreck.png" /> ${sleeper.loot_total | dotted_number} ISK</li>
               <li>ISK/EHP: <img src="/static/img/sleepers/icons/isk.png" /> <b>~${round(sleeper.isk_per_ehp)}</b></li>
           </ul>
       </td>
@@ -126,15 +130,10 @@
 </div>
 
 % else:
-##<%include file="failure.html"/>
-##<blockquote>
-##    <h3>Нет такого слипера :(</h3>
-##</blockquote>
-##
 ## All sleepers display mode
 
 <%def name="print_sleepers_for_class(sl_list, classStr)">
-    <span class="infoblock_header_text">Слиперы ${classStr} классов:</span><br />
+    <span class="infoblock_header_text">${tr.gettext('Sleepers from')} ${classStr} ${tr.gettext('classes')}:</span><br />
     <ul>
         % for a_sl in sl_list:
         <li>

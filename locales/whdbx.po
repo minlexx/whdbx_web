@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-24 21:57+0300\n"
-"PO-Revision-Date: 2018-01-24 21:57+0300\n"
+"POT-Creation-Date: 2018-01-24 23:32+0300\n"
+"PO-Revision-Date: 2018-01-24 23:32+0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -124,7 +124,7 @@ msgstr "Сигнатуры и аномалии"
 
 #: templates/signature.html:58 templates/signature.html:60
 #: .\templates\signature.html:58 .\templates\signature.html:60
-#: .\templates\signature.html:176
+#: .\templates\signature.html:176 .\templates\sleeper.html:82
 msgid "th class"
 msgstr "-го класса"
 
@@ -205,6 +205,8 @@ msgid "without cap. escalations"
 msgstr "без кап. дореспов"
 
 #: templates/signature.html:145 .\templates\signature.html:145
+#: .\templates\sleeper.html:77 .\templates\sleeper.html:121
+#: .\templates\sleeper.html:124
 msgid "Total"
 msgstr "Всего"
 
@@ -238,3 +240,103 @@ msgstr "газ"
 #: .\templates\signature.html:14
 msgid "Wave"
 msgstr "Волна"
+
+#: .\templates\sleeper.html:20
+msgid "Abilities"
+msgstr "Способности"
+
+#: .\templates\sleeper.html:22
+msgid "none"
+msgstr "нет"
+
+#: .\templates\sleeper.html:33
+msgid "Navigation"
+msgstr "Навигация"
+
+#: .\templates\sleeper.html:35
+msgid "Signature radius"
+msgstr "Радиус сигнатуры"
+
+#: .\templates\sleeper.html:36
+msgid "Max. speed"
+msgstr "Макс. скорость"
+
+#: .\templates\sleeper.html:37
+msgid "Orbit"
+msgstr "Орбита"
+
+#: .\templates\sleeper.html:44
+msgid "Shield"
+msgstr "Щит"
+
+#: .\templates\sleeper.html:45
+msgid "Armor"
+msgstr "Броня"
+
+#: .\templates\sleeper.html:46
+msgid "Hull"
+msgstr "Корпус"
+
+#: .\templates\sleeper.html:47
+msgid "Shield resists"
+msgstr "Резисты щита"
+
+#: .\templates\sleeper.html:53
+msgid "Armor resists"
+msgstr "Резисты брони"
+
+#: .\templates\sleeper.html:66
+msgid "Attack range"
+msgstr "Радиус атаки"
+
+#: .\templates\sleeper.html:82
+msgid "Sleepers"
+msgstr "Слиперы"
+
+#: .\templates\sleeper.html:97
+msgid "EWAR Abilities"
+msgstr "РЭБ способности"
+
+#: .\templates\sleeper.html:100
+msgid "Energy Neutralizing"
+msgstr "Нейтрики"
+
+#: .\templates\sleeper.html:103
+msgid "Warp disruption"
+msgstr "Дизраптор"
+
+#: .\templates\sleeper.html:106 .\templates\sleeper.html:109
+msgid "Stasis Webifier"
+msgstr "Сетка"
+
+#: .\templates\sleeper.html:109 .\templates\sleeper.html:112
+msgid "Remote armor repair"
+msgstr "Удаленная откачка брони"
+
+#: .\templates\sleeper.html:115 .\templates\sleeper.html:118
+msgid "Loot"
+msgstr "Дроп"
+
+#: .\templates\sleeper.html:133 .\templates\sleeper.html:136
+msgid "Sleepers from"
+msgstr "Слеперы"
+
+#: .\templates\sleeper.html:133 .\templates\sleeper.html:136
+msgid "classes"
+msgstr "классов"
+
+#: .\templates\sleeper.html:106
+msgid "Warp scrambler"
+msgstr "Скрамблер"
+
+#: .\templates\sleeper.html:42
+msgid "Defense"
+msgstr "Защита"
+
+#: .\templates\sleeper.html:64
+msgid "Offense"
+msgstr "Атака"
+
+#: .\templates\sleeper.html:18
+msgid "classes:"
+msgstr "классы:"
