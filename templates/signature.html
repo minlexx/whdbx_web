@@ -7,9 +7,9 @@
 <%def name="print_wave(wave)">
   % if wave.is_capital:
     % if wave.wave_id == 1:
-    Кап. доресп волна спавнится на приварп капитала, по одной на каждого.<br /><br />
+    ${tr.gettext('Capital escalation wave is spawned for each capital ship warp-in.')}<br /><br />
     % endif
-  Кап. доресп волна ${wave.wave_id}:
+  ${tr.gettext('Cap. escalation wave')} ${wave.wave_id}:
   % else:
   Волна ${wave.wave_id}:
  % endif
@@ -51,15 +51,15 @@
     <div class="whsys_signatures_info">
         <span class="infoblock_header_text">
             % if sig.wh_class == 12:
-            Сигнатуры и аномалии Теры:
+            ${tr.gettext('Thera signatures and anomalies:')}
             % elif sig.wh_class == 13:
-            Сигнатуры и аномалии фриг-ВХ:
+            ${tr.gettext('Signatues and anomalies of frig-WH:')}
             % elif (sig.wh_class >= 1) and (sig.wh_class <= 6):
-            Сигнатуры и аномалии ${sig.wh_class} класса:
+            ${tr.gettext('Signatues and anomalies')} ${sig.wh_class}${tr.gettext('th class')}:
             % elif (sig.wh_class >= -6) and (sig.wh_class <= -1):
-            Сигнатуры и аномалии ${(-1) * sig.wh_class} класса:
+            ${tr.gettext('Signatues and anomalies')} ${(-1) * sig.wh_class}${tr.gettext('th class')}:
             % else:
-            Другие сигнатуры того же типа:
+            ${tr.gettext('Other signatures of the same type:')}
             % endif
         </span><br />
         <ul>
@@ -77,16 +77,16 @@
     % if sig.wh_class == 12:
         , Thera
     % elif sig.wh_class == 13:
-        , frig-shattered
+        , ${tr.gettext('frig-shattered')}
     % elif (sig.wh_class >= 1) and (sig.wh_class <= 6):
-        , class ${sig.wh_class}
+        , ${tr.gettext('class')} ${sig.wh_class}
     % elif (sig.wh_class >= -6) and (sig.wh_class <= -1):
-        , class ${(-1) * sig.wh_class} shattered
+        , ${tr.gettext('class')} ${(-1) * sig.wh_class} ${tr.gettext('shattered')}
     % endif
     </h2>
 
     % if sig.is_oregas():
-    <p>Слиперы появляются примерно через 20 минут после активации сигнатуры.</p>
+    <p>${tr.gettext('Sleepers appear approximately in 20 minutes after signature activation.')}</p>
     % endif
 
     % for wave in sig.waves:
@@ -94,7 +94,7 @@
     % endfor
 
     % if sig.is_gas():
-        Газовые облака:<br/>
+        ${tr.gettext('Gas clouds')}:<br/>
         <ul>
         % for gas in sig.gas_clouds:
             <li>
@@ -102,22 +102,22 @@
                 <b><a href="#" onclick="showTypeInfo(${gas.typeid}); return false;">${gas.friendlyName}</a></b>
                 * <span class="sig_ehp">${gas.count}</span>,
                 всего <span class="sig_isk">${gas.total_price | dotted_number}</span> ISK
-                (<span class="sig_isk">${round(gas.price1piece) | dotted_number}</span> ISK/единица)<br />
-                Полная вентура: <span class="sig_isk">${gas.full_venture_price | dotted_number}</span> ISK
-                (<b>${gas.volume1piece}</b> m3 единица, <b>${gas.num_pcs_in_venture}</b> единиц всего)
+                (<span class="sig_isk">${round(gas.price1piece) | dotted_number}</span> ISK/${tr.gettext('unit')})<br />
+                ${tr.gettext('Full Venture:')} <span class="sig_isk">${gas.full_venture_price | dotted_number}</span> ISK
+                (<b>${gas.volume1piece}</b> m3 ${tr.gettext('unit')}, <b>${gas.num_pcs_in_venture}</b> ${tr.gettext('total units')})
                 <br />
-                Копка на вентуре: <span class="sig_isk">${gas.isk_per_hour_venture | dotted_number}</span> ISK/час.
+                ${tr.gettext('Harvesting in a Venture')}: <span class="sig_isk">${gas.isk_per_hour_venture | dotted_number}</span> ISK/${tr.gettext('hour')}.
             </li>
         % endfor
         </ul>
-        Полный выхлоп с облаков: <span class="sig_isk">${sig.total_isk_oregas | dotted_number}</span> ISK<br />
-        (обновление цен с EVE-Central раз в сутки, продажная в Jita)<br />
-        (Время заполнения вентуры с 2 x
+        ${tr.gettext('Full profit from gas clouds')}: <span class="sig_isk">${sig.total_isk_oregas | dotted_number}</span> ISK<br />
+        (${tr.gettext('Jita sell price, updates once a day')})<br />
+        (${tr.gettext('Time to fill a Venture with')} 2 x
         <a href="#" onclick="showTypeInfo(25812); return false;">Gas Cloud Harvester II</a>,
         <a href="#" onclick="showTypeInfo(32918); return false;">Mining Frigate V</a>,
-        без бонусов = <span class="sig_ehp">31</span> мин.)<br />
+        ${tr.gettext('without mining bonuses')} = <span class="sig_ehp">31</span> ${tr.gettext('minutes')}.)<br />
     % elif sig.is_ore():
-        Рудные астероиды:<br/>
+        ${tr.gettext('Ore asteroids')}:<br/>
         <ul>
         % for ore in sig.ore_rocks:
             <li>
@@ -138,22 +138,22 @@
             Total: <img src="/static/img/sigs/wreck.png" width="20" />
             <span class="sig_isk">${sig.total_isk | dotted_number}</span> ISK
             % if sig.has_capital_waves:
-            (без кап. дореспов)
+            (${tr.gettext('without cap. escalations')})
             % endif
         </li>
         <li>
-            Total: <img src="/static/img/sigs/ehp2.png" width="22" />
+            ${tr.gettext('Total')}: <img src="/static/img/sigs/ehp2.png" width="22" />
             <span class="sig_ehp">${sig.total_ehp | dotted_number}</span> EHP</li>
         <li>
             ISK/EHP: <b>${sig.isk_per_ehp | dotted_number}</b>
         </li>
         <li>
             <img src="/static/img/sigs/dps.png" width="22" />100 dps:
-            <span class="sig_isk">${sig.isk_per_hour_per_100dps | dotted_number}</span> ISK/hour
+            <span class="sig_isk">${sig.isk_per_hour_per_100dps | dotted_number}</span> ISK/${tr.gettext('hour')}
         </li>
         <li>
             <img src="/static/img/sigs/dps.png" width="22" />500 dps:
-            <span class="sig_isk">${sig.isk_per_hour_per_500dps | dotted_number}</span> ISK/hour
+            <span class="sig_isk">${sig.isk_per_hour_per_500dps | dotted_number}</span> ISK/${tr.gettext('hour')}
         </li>
     </ul>
 </div>

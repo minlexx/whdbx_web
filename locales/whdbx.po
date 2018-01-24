@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-24 17:13+0300\n"
-"PO-Revision-Date: 2018-01-24 17:14+0300\n"
+"POT-Creation-Date: 2018-01-24 18:59+0300\n"
+"PO-Revision-Date: 2018-01-24 18:59+0300\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,3 +95,104 @@ msgstr "мин."
 #: templates/short_history_block.html:31
 msgid "h."
 msgstr "ч."
+
+#: templates/signature.html:10
+msgid "Capital escalation wave is spawned for each capital ship warp-in."
+msgstr "Кап. доресп волна спавнится на приварп капитала, по одной на каждого."
+
+#: templates/signature.html:12
+msgid "Cap. escalation wave"
+msgstr "Кап. доресп волна"
+
+#: templates/signature.html:54
+msgid "Thera signatures and anomalies:"
+msgstr "Сигнатуры и аномалии Теры:"
+
+#: templates/signature.html:56
+msgid "Signatues and anomalies of frig-WH:"
+msgstr "Сигнатуры и аномалии фриг-ВХ:"
+
+#: templates/signature.html:58 templates/signature.html:60
+msgid "Signatues and anomalies"
+msgstr "Сигнатуры и аномалии"
+
+#: templates/signature.html:58 templates/signature.html:60
+msgid "th class"
+msgstr "класса"
+
+#: templates/signature.html:62
+msgid "Other signatures of the same type:"
+msgstr "Другие сигнатуры того же типа:"
+
+#: templates/signature.html:80
+msgid "frig-shattered"
+msgstr "фриг-разломанная"
+
+#: templates/signature.html:82 templates/signature.html:84
+msgid "class"
+msgstr "класс"
+
+#: templates/signature.html:84
+msgid "shattered"
+msgstr "разлом"
+
+#: templates/signature.html:89
+msgid "Sleepers appear approximately in 20 minutes after signature activation."
+msgstr "Слиперы появляются примерно через 20 минут после активации сигнатуры."
+
+#: templates/signature.html:97
+msgid "Gas clouds"
+msgstr "Газовые облака"
+
+#: templates/signature.html:105 templates/signature.html:107
+msgid "unit"
+msgstr "единица"
+
+#: templates/signature.html:106
+msgid "Full Venture:"
+msgstr "Полная Вентура:"
+
+#: templates/signature.html:107
+msgid "total units"
+msgstr "всего единиц"
+
+#: templates/signature.html:109
+msgid "Harvesting in a Venture"
+msgstr "Добыча Вентурой"
+
+#: templates/signature.html:109 templates/signature.html:152
+#: templates/signature.html:156
+msgid "hour"
+msgstr "час"
+
+#: templates/signature.html:113
+msgid "Full profit from gas clouds"
+msgstr "Полный выхлоп с облаков"
+
+#: templates/signature.html:114
+msgid "Jita sell price, updates once a day"
+msgstr "Цена продажи в Jita, обновление раз в сутки"
+
+#: templates/signature.html:115
+msgid "Time to fill a Venture with"
+msgstr "Время заполнения Вентуры с"
+
+#: templates/signature.html:118
+msgid "without mining bonuses"
+msgstr "без бонусов на копку"
+
+#: templates/signature.html:118
+msgid "minutes"
+msgstr "минут"
+
+#: templates/signature.html:120
+msgid "Ore asteroids"
+msgstr "Рудные астероиды"
+
+#: templates/signature.html:141
+msgid "without cap. escalations"
+msgstr "без кап. дореспов"
+
+#: templates/signature.html:145
+msgid "Total"
+msgstr "Всего"
