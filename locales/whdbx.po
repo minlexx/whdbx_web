@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-25 13:30+0300\n"
-"PO-Revision-Date: 2018-01-25 13:30+0300\n"
+"PO-Revision-Date: 2018-01-25 13:44+0300\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -657,3 +657,39 @@ msgstr "Система на:"
 #: templates/whsystem_info.html:97
 msgid "frig-WH, classes 1-3, effect from C6"
 msgstr "фриг-ВХ, классы 1-3, эффект от C6"
+
+msgid "High-sec"
+msgstr "Хай-сек"
+
+msgid "Low-sec"
+msgstr "Лоу-сек"
+
+msgid "Null-sec"
+msgstr "Нуль-сек"
+
+msgid "frig shattered"
+msgstr "фриг разлом"
+
+msgid "C1 shattered"
+msgstr "С1 разлом"
+
+msgid "C2 shattered"
+msgstr "С2 разлом"
+
+msgid "C3 shattered"
+msgstr "С3 разлом"
+
+msgid "C4 shattered"
+msgstr "С4 разлом"
+
+msgid "C5 shattered"
+msgstr "С5 разлом"
+
+msgid "C6 shattered"
+msgstr "С6 разлом"
+
+msgid "frig shattered, class 1-3, effect class 6"
+msgstr "фриг разлом, класс 1-3, эффект из класса 6"
+
+msgid "drifters wh, effect class 2"
+msgstr "дрифтерская ВХ, эффект из класса 2"

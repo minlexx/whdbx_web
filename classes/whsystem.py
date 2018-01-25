@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from .database import SiteDb, WHClass, get_ss_security_color
-from . import sitecfg
-from .eve_price_resolver import get_resolver
 
 
 class WHStatic:
@@ -31,11 +29,11 @@ class WHStatic:
             self.mass_regen = row[4]
         if self.in_class != 0:
             if self.in_class == WHClass.HISEC_WH_CLASS:
-                self.in_class_str = 'High sec'
+                self.in_class_str = 'High-sec'
             if self.in_class == WHClass.LOW_WH_CLASS:
-                self.in_class_str = 'Low sec'
+                self.in_class_str = 'Low-sec'
             if self.in_class == WHClass.NULL_WH_CLASS:
-                self.in_class_str = 'Null sec'
+                self.in_class_str = 'Null-sec'
             if (self.in_class >= 1) and (self.in_class <= 6):
                 self.in_class_str = 'C' + str(self.in_class)
             if (self.in_class >= -6) and (self.in_class <= -1):
