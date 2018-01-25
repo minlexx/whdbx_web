@@ -219,7 +219,7 @@ class WhdbxApp:
         no locale can be determined, or locale unsupported, return 'en'
         :return: string, 'en', 'ru', etc. Always returns valid value
         """
-        selected_locale = 'en'
+        selected_locale = ''
         # first, check that user has configured language. Then don't autodetect
         if 'configured_locale' in cherrypy.session:
             if cherrypy.session['configured_locale'] != '':
@@ -227,9 +227,13 @@ class WhdbxApp:
                 if configured_locale in self.tr.supported_locales:
                     selected_locale = configured_locale
         # no user-configured locale, try to autodetect
-        accept_language = self.parse_client_accept_language()
-        if accept_language != '':
-            selected_locale = accept_language
+        if selected_locale == '':
+            accept_language = self.parse_client_accept_language()
+            if accept_language != '':
+                selected_locale = accept_language
+        # fallback to english
+        if selected_locale == '':
+            selected_locale = 'en'
         return selected_locale
 
     def gettext(self, msg) -> str:
@@ -659,6 +663,8 @@ class WhdbxApp:
             ret_print = 'ERROR'
             if wh is not None:
                 ret_print = json.dumps(wh)
+        if 'set_language' in params:
+            ret_print = self.ajax_set_language(**params)
         if 'whdb' in params:
             res = self.ajax_whdb_query(**params)
             ret_print = json.dumps(res)
@@ -726,6 +732,14 @@ class WhdbxApp:
                     if WHClass.is_drifters(wh['in_class']):
                         wh['in_class_str'] = 'Drifters WH'
         return wh
+
+    def ajax_set_language(self, **params) -> str:
+        newlang = str(params['set_language'])
+        newlang = newlang[0:2]  # 2-letter code
+        if newlang in self.tr.supported_locales:
+            cherrypy.session['configured_locale'] = newlang
+            return 'OK'
+        return 'ERROR: Unsupported locale'
 
     def ajax_whdb_query(self, **params) -> dict:
         # QUERY_PARAMS= {'whdb': ['1'], 'class': ['5', '6', 'shattered', 'frigwr']}
