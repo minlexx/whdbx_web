@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-25 00:19+0300\n"
-"PO-Revision-Date: 2018-01-25 00:21+0300\n"
+"PO-Revision-Date: 2018-01-25 10:49+0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: templates/char_info.html:101 .\templates\char_info.html:101
 msgid "Why?"
@@ -353,24 +353,105 @@ msgstr "Сигнатуры"
 msgid "WH Database"
 msgstr "База ВХ"
 
-msgid "Missile velocity"
-msgstr "Скорость ракет"
+#: .\templates\effects.html:41
+msgid "effect"
+msgstr "эффект"
 
-msgid "Missile Explosion Velocity"
-msgstr "Скорость взрыва ракет"
+msgid "Armor HP"
+msgstr "ХП Брони"
 
-msgid "Ship velocity"
-msgstr "Скорость корабля"
+msgid "Armor Resists"
+msgstr "Резисты брони"
 
-msgid "Stasis Webifier Strength"
-msgstr "Сила сеток"
+msgid "Bomb Damage"
+msgstr "Урон бомб"
+
+msgid "Capacitor capacity"
+msgstr "Ёмкость накопителя"
+
+msgid "Capacitor recharge"
+msgstr "Реген накопителя"
+
+msgid "Capacitor recharge time"
+msgstr "Время регена накопителя"
+
+msgid "Damage"
+msgstr "Урон"
+
+msgid "Drone Tracking"
+msgstr "Трекинг дронов"
+
+msgid "Heat Damage"
+msgstr "Урон от перегрева"
 
 msgid "Inertia"
 msgstr "Инерция"
 
-msgid "Targeting range"
-msgstr "Дальность прицеливания"
+msgid "Local armor repair amount"
+msgstr "Локальная откачка брони"
 
-#: .\templates\effects.html:41
-msgid "effect"
-msgstr "эффект"
+msgid "Local shield boost amount"
+msgstr "Локальная откачка щита"
+
+msgid "Missile Explosion Velocity"
+msgstr "Скрость взрывной волны"
+
+msgid "Missile explosion radius"
+msgstr "Радиус взрыва"
+
+msgid "Missile velocity"
+msgstr "Скорость ракет"
+
+msgid "NOS / Neut Drain Amount"
+msgstr "Сила носф / нейтриков"
+
+msgid "Overload Bonus"
+msgstr "Бонус от перегрева"
+
+msgid "Remote Capacitor Transmitter amount"
+msgstr "Удаленная накачка нокопителя"
+
+msgid "Remote repair amount"
+msgstr "Удаленная накачка брони"
+
+msgid "Shield HP"
+msgstr "ХП щита"
+
+msgid "Shield Resist"
+msgstr "Резисты щита"
+
+msgid "Shield transfer amount"
+msgstr "Удаленная накачка щита"
+
+msgid "Ship velocity"
+msgstr "Скорость корабля"
+
+msgid "Signature"
+msgstr "Радиус сигнатуры"
+
+msgid "Signature Size"
+msgstr "Радиус сигнатуры"
+
+msgid "Small Weapon Damage"
+msgstr "Урон мальнький орудий"
+
+msgid "Smart Bomb Damage"
+msgstr "Урон смарт-бомб"
+
+msgid "Smart Bomb Range"
+msgstr "Радиус смарт-бомб"
+
+msgid "Stasis Webifier Strength"
+msgstr "Сила сеток"
+
+msgid "Target Painter Strength"
+msgstr "Сила подсветки пейнтером"
+
+msgid "Targeting Range"
+msgstr "Радиус прицеливания"
+
+msgid "Targeting range"
+msgstr "Радиус прицеливания"
+
+msgid "Tracking Speed"
+msgstr "Скорость наводки орудий"
