@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-25 11:26+0300\n"
-"PO-Revision-Date: 2018-01-25 11:27+0300\n"
+"POT-Creation-Date: 2018-01-25 13:30+0300\n"
+"PO-Revision-Date: 2018-01-25 13:30+0300\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -141,11 +141,12 @@ msgstr "фриг-разломанная"
 #: .\templates\signature.html:82 .\templates\signature.html:84
 #: templates/whdb.html:102 templates/whdb.html:104 templates/whdb.html:106
 #: templates/whdb.html:108 templates/whdb.html:110 templates/whdb.html:112
+#: templates/whsystem_info.html:37
 msgid "class"
 msgstr "класс"
 
 #: templates/signature.html:84 .\templates\signature.html:84
-#: templates/whdb.html:114
+#: templates/whdb.html:114 templates/whsystem_info.html:107
 msgid "shattered"
 msgstr "разлом"
 
@@ -483,7 +484,7 @@ msgstr "дрифтерская ВХ"
 msgid "With effect"
 msgstr "С эффектом"
 
-#: templates/whdb.html:125
+#: templates/whdb.html:125 templates/whsystem_info.html:49
 msgid "No effect"
 msgstr "Без эффекта"
 
@@ -511,3 +512,148 @@ msgstr "в Хайсек"
 #: templates/whdb.html:95
 msgid "Find all systems:"
 msgstr "Найти все системы:"
+
+#: templates/whsystem_info.html:8
+msgid "high-sec"
+msgstr "хай-сек"
+
+#: templates/whsystem_info.html:10
+msgid "low-sec"
+msgstr "лоу-сек"
+
+#: templates/whsystem_info.html:12
+msgid "null-sec"
+msgstr "нуль-сек"
+
+#: templates/whsystem_info.html:28
+msgid "no effect"
+msgstr "нет эффекта"
+
+#: templates/whsystem_info.html:57
+msgid "WH-system"
+msgstr "ВХ-система"
+
+#: templates/whsystem_info.html:67
+msgid "Signatures and anomalies"
+msgstr "Сигнатуры и аномалии"
+
+#: templates/whsystem_info.html:83
+msgid "No information."
+msgstr "Нет информации."
+
+#: templates/whsystem_info.html:88 templates/whsystem_info.html:97
+#: templates/whsystem_info.html:107 templates/whsystem_info.html:118
+#: templates/whsystem_info.html:125 templates/whsystem_info.html:117
+#: templates/whsystem_info.html:124
+msgid "WH class"
+msgstr "Класс ВХ"
+
+#: templates/whsystem_info.html:91
+msgid ""
+"Thera can have signatures from classes 3-4,<br />all gas/ore anoms from "
+"higher classes.<br />"
+msgstr ""
+"Тера может иметь сигнатуры из 3-4 классов,<br />все газы/руды из высших "
+"классов.<br />"
+
+#: templates/whsystem_info.html:92
+msgid ""
+"<b>8</b> statics - <b>2</b> to high-sec, <b>3</b> to low-sec, <b>3</b> to "
+"nullsec."
+msgstr ""
+"<b>8</b> статиков - <b>2</b> в хайсек, <b>3</b> в лоусек, <b>3</b> в нули."
+
+msgid "Leads into"
+msgstr "Ведет в"
+
+msgid "Mass"
+msgstr "Масса"
+
+msgid "Jump mass"
+msgstr "Масса на прыг"
+
+msgid "Life time"
+msgstr "Время жизни"
+
+msgid "mil. kg"
+msgstr "млн. кг"
+
+#: templates/whsystem_info.html:97
+msgid "firg-WH, classes 1-3, effect from C6"
+msgstr "фриг-ВХ, классы 1-3, эффект от C6"
+
+#: templates/whsystem_info.html:101
+msgid "All statics are frig-sized holes."
+msgstr "Все статики тоже фригодырки."
+
+#: templates/whsystem_info.html:111
+msgid ""
+"These are new systems, statics info <br />may be incorrect or missing. "
+"Please report errors!<br />"
+msgstr ""
+"Т.к. это новые системы, инфа о статиках может <br />быть неточной или "
+"отсутствовать. Сообщайте об ошибках!"
+
+#: templates/whsystem_info.html:117
+msgid "drifters"
+msgstr "дрифтерская"
+
+#: templates/whsystem_info.html:120
+msgid ""
+"Effect from C2, no statics info.<br />Usually has many holes to k-space "
+"systems."
+msgstr ""
+"Эффект от С2, информаци о статиках нет.<br />Обычно имеет много дырок в к-"
+"спейс."
+
+#: templates/whsystem_info.html:128 templates/whsystem_info.html:132
+msgid "Statics"
+msgstr "Статики"
+
+#: templates/whsystem_info.html:128
+msgid "unknown"
+msgstr "неизвестно"
+
+#: templates/whsystem_info.html:130
+msgid "Static"
+msgstr "Статик"
+
+#: templates/whsystem_info.html:141
+msgid "Effect"
+msgstr "Эффект"
+
+#: templates/whsystem_info.html:142
+msgid "Planets"
+msgstr "Планеты"
+
+#: templates/whsystem_info.html:143
+msgid "Moons"
+msgstr "Луны"
+
+#: templates/whsystem_info.html:144
+msgid "Star"
+msgstr "Звезда"
+
+#: templates/whsystem_info.html:148
+msgid "is not a WH system. It is"
+msgstr "это не ВХ-система. Это"
+
+#: templates/whsystem_info.html:154
+msgid "Security level"
+msgstr "Уровень безопасности"
+
+#: templates/whsystem_info.html:155
+msgid "Radius"
+msgstr "Радиус"
+
+#: templates/whsystem_info.html:155
+msgid "last planet orbit"
+msgstr "орбита последней планеты"
+
+#: templates/whsystem_info.html:157
+msgid "See system on:"
+msgstr "Система на:"
+
+#: templates/whsystem_info.html:97
+msgid "frig-WH, classes 1-3, effect from C6"
+msgstr "фриг-ВХ, классы 1-3, эффект от C6"

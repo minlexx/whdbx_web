@@ -5,27 +5,27 @@
 
 <%def name="print_sec_info(sec)">
   % if sec >= 0.5:
-    хайсек
+    ${tr.gettext('high-sec')}
   % elif (sec > 0) and (sec < 0.5):
-    лоусек
+    ${tr.gettext('low-sec')}
   % else:
-    нули
+    ${tr.gettext('null-sec')}
   % endif
 </%def>
 
 <%def name="print_static_info(s)">
   <span class="static_name" onmouseover="Tip(''+
-  'Ведет в: <b>${s.in_class_str}</b><br />'
-   + 'Масса: <b>${s.max_mass_tt}</b> тыс.тонн<br />'
-   + 'Масса на прыг: <b>${s.max_jump_mass_tt}</b> тыс.тонн<br />'
-   + 'Время жизни: <b>${s.lifetime_hr}</b>ч.<br />'
+  '${tr.gettext('Leads into')}: <b>${s.in_class_str}</b><br />'
+   + '${tr.gettext('Mass')}: <b>${s.max_mass_tt}</b> ${tr.gettext('mil. kg')}<br />'
+   + '${tr.gettext('Jump mass')}: <b>${s.max_jump_mass_tt}</b> ${tr.gettext('mil. kg')}<br />'
+   + '${tr.gettext('Life time')}: <b>${s.lifetime_hr}</b>${tr.gettext('h.')}<br />'
    + '');"
   onmouseout="UnTip();">${s.name} ${s.in_class_str}</span>
 </%def>
 
 <%def name="print_effect(e)">
   % if e == None:
-  <span class="info_hl">нет</span>
+  <span class="info_hl">${tr.gettext('no effect')}</span>
   % else:
   <span class="static_name" onmouseover="Tip(document.getElementById('current_effect_html').innerHTML);" onmouseout="UnTip();">${e.name}</span>
   % endif
@@ -34,19 +34,19 @@
 
 <div style="display: none; border: 1px" id="current_effect_html">
 % if whsys.wh_effect:
-    <b>${whsys.wh_effect.name}</b>, class <b>${whsys.wh_effect.hole_class_str}</b>:<br />
+    <b>${whsys.wh_effect.name}</b>, ${tr.gettext('class')} <b>${whsys.wh_effect.hole_class_str}</b>:<br />
     <table border="0" cellpadding="5"><tr>
         <td><img src="/static/img/effect_icons/${whsys.wh_effect.effect_icon}" /></td>
         <td>
   % for erow in whsys.wh_effect.effects:
 ## ('Missile velocity', 'missile velocity.png', '36%')
             <img src="/static/img/effect_icons/${erow[1]}" class="effect_icon" /> &nbsp;&nbsp;&nbsp;
-            ${erow[0]}: <span class="effect_value">${erow[2]}</span><br />
+            ${tr.gettext(erow[0])}: <span class="effect_value">${erow[2]}</span><br />
   % endfor
         </td>
     </tr></table>
 % else:
-    <b>Нет эффекта</b>
+    <b>{$tr.gettext('No effect')}</b>
 % endif
 </div>
 
@@ -54,7 +54,7 @@
 <div class="solarsystem_info">
 
 
-<span class="infoblock_header_text">WH-система:
+<span class="infoblock_header_text">${tr.gettext('WH-system')}:
 % if whsys.is_valid():
   <span class="whsys_name">${whsys.name}</span> &lt;
   <span class="whsys_name">${whsys.const_name}</span> &lt;
@@ -64,7 +64,7 @@
 
     % if whsys.is_valid() and whsys.is_wh:
     <div class="whsys_signatures_info">
-    <span class="infoblock_header_text">Сигнатуры и аномалии:</span><br />
+    <span class="infoblock_header_text">${tr.gettext('Signatures and anomalies')}:</span><br />
     <blockquote>
     % for sig in sigs:
         <img src="/static/img/sigs/${sig['sig_type']}_site.png" width="20" />
@@ -80,58 +80,56 @@
 
 % if not whsys.is_valid():
 
-    Нет информации.<br />
+    ${tr.gettext('No information.')}<br />
 
 % elif whsys.is_wh:
 
     % if whsys.is_thera():
-        Класс ВХ: <span class="info_hl">Thera</span><br />
+        ${tr.gettext('WH class')}: <span class="info_hl">Thera</span><br />
         <ul>
         <li><span class="newwh_comment">
-            Тера может иметь аномалии 3-4 класса,<br />
-            все газы/руды из старших классов.<br />
-            <b>8</b> статиков - <b>2</b> в хайсек, <b>3</b> в лоу, <b>3</b> в нули.
+            ${tr.gettext('Thera can have signatures from classes 3-4,<br />all gas/ore anoms from higher classes.<br />')}
+            ${tr.gettext('<b>8</b> statics - <b>2</b> to high-sec, <b>3</b> to low-sec, <b>3</b> to nullsec.')}
             </span>
         </li>
         </ul>
     % elif whsys.is_frig_shattered():
-        Класс ВХ: <span class="info_hl">фриго-ВХ (класс от 1 до 3, эффект из с6)</span><br />
+        ${tr.gettext('WH class')}: <span class="info_hl">${tr.gettext('frig-WH, classes 1-3, effect from C6')}</span><br />
         <ul>
           <li>
             <span class="newwh_comment">
-              Статиками являются фригодырки.<br />
+              ${tr.gettext('All statics are frig-sized holes.')}<br />
               ##<%include file="report_statics_form.html"/>
             </span>
           </li>
         </ul>
     % elif whsys.is_shattered():
-        Класс ВХ: <span class="info_hl">С${(whsys.wh_class * (-1))} (shattered)</span><br />
+        ${tr.gettext('WH class')}: <span class="info_hl">С${(whsys.wh_class * (-1))} (${tr.gettext('shattered')})</span><br />
         <ul>
           <li>
             <span class="newwh_comment">
-              Т.к. это новые системы, информация о статиках<br />
-              может быть неверной. Сообщайте об ошибках!<br />
+              ${tr.gettext('These are new systems, statics info <br />may be incorrect or missing. Please report errors!<br />')}
               ##<%include file="report_statics_form.html"/>
             </span>
           </li>
         </ul>
     % elif whsys.is_drifters():
-        Класс ВХ: <span class="info_hl">С${whsys.wh_class} (drifters)</span><br />
+        ${tr.gettext('WH class')}: <span class="info_hl">С${whsys.wh_class} (${tr.gettext('drifters')})</span><br />
         <ul>
-            <li><span class="newwh_comment">Эффект от с2, информации о статиках нет.
-              Обычно имеет соединения между различными системами k-space.
+            <li><span class="newwh_comment">
+              ${tr.gettext('Effect from C2, no statics info.<br />Usually has many holes to k-space systems.')}
             </span></li>
         </ul>
     % else:
-        Класс ВХ: <span class="info_hl">С${whsys.wh_class}</span><br />
+        ${tr.gettext('WH class')}: <span class="info_hl">С${whsys.wh_class}</span><br />
     % endif
 
 % if len(whsys.wh_statics) == 0:
-  Статики: <span class="info_hl">неизвестно</span>,
+  ${tr.gettext('Statics')}: <span class="info_hl">${tr.gettext('unknown')}</span>
 % elif len(whsys.wh_statics) == 1:
-  Статик: ${print_static_info(whsys.wh_statics[0])}
+  ${tr.gettext('Static')}: ${print_static_info(whsys.wh_statics[0])}
 % else:
-  Статики:
+  ${tr.gettext('Statics')}:
   % for a_static in whsys.wh_statics:
     ${print_static_info(a_static)}
     % if not loop.last:
@@ -140,23 +138,23 @@
   % endfor
 % endif
 <br />
-Эффект: ${print_effect(whsys.wh_effect)}<br />
-Планет: <span class="info_hl">${whsys.wh_planets}</span><br />
-Лун: <span class="info_hl">${whsys.wh_moons}</span><br />
-Звезда: <span class="info_hl">${whsys.wh_star}</span><br />
+${tr.gettext('Effect')}: ${print_effect(whsys.wh_effect)}<br />
+${tr.gettext('Planets')}: <span class="info_hl">${whsys.wh_planets}</span><br />
+${tr.gettext('Moons')}: <span class="info_hl">${whsys.wh_moons}</span><br />
+${tr.gettext('Star')}: <span class="info_hl">${whsys.wh_star}</span><br />
 
 % else:
 
- <b>${whsys.name}</b> не является WH системой. Это ${print_sec_info(whsys.security_full)}.<br />
+ <b>${whsys.name}</b> ${tr.gettext('is not a WH system. It is')} ${print_sec_info(whsys.security_full)}.<br />
 
 % endif
 
 % if whsys.is_valid():
  <!-- common properties for all types of systems -->
- Уровень безопасности: <span style="color: ${whsys.sec_color}; font-weight:bold;">${whsys.security}</span><br />
- Радиус: <span class="info_hl">${whsys.radius_ae} AE</span> (орбита посл. планеты)<br />
+ ${tr.gettext('Security level')}: <span style="color: ${whsys.sec_color}; font-weight:bold;">${whsys.security}</span><br />
+ ${tr.gettext('Radius')}: <span class="info_hl">${whsys.radius_ae} AE</span> (${tr.gettext('last planet orbit')})<br />
  ##Поделиться ссылкой: <a href="/${whsys.name}" target="_blank">${whsys.name}</a><br />
- Система на: <a href="http://anoik.is/systems/${whsys.name}">Anoik.is</a>,
+ ${tr.gettext('See system on:')} <a href="http://anoik.is/systems/${whsys.name}">Anoik.is</a>,
              <a href="http://www.ellatha.com/eve/WormholeSystemview.asp?key=${whsys.number_name}">Ellatha.com</a>,
              <a href="https://zkillboard.com/system/${whsys.ssys_id}/">ZKB</a><br />
 % endif
