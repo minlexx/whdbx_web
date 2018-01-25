@@ -14,21 +14,21 @@
 % if zkb_block_title != '':
   <span class="infoblock_header_text">${zkb_block_title}</span><br />
 % else:
-  <span class="infoblock_header_text">PVP-активность системы с
+  <span class="infoblock_header_text">${tr.gettext('PVP-activity for system from')}
     <a href="http://zkillboard.com/" target="_blank">zKillboard.com</a></span><br />
 % endif
 
 <table class="zkb_table">
   <tr>
-    <td width="40">ссылка</td>
-    <td width="90">Место</td>
-    <td>Время</td>
+    <td width="40">${tr.gettext('Link')}</td>
+    <td width="90">${tr.gettext('System')}</td>
+    <td>${tr.gettext('Time')}</td>
     <td width="40">&nbsp;</td> <!-- ship icon -->
-    <td>Корабль</td>
+    <td>${tr.gettext('Ship')}</td>
     <td width="32">&nbsp;</td> <!-- corp logo -->
-    <td width="200">Жертва</td>
+    <td width="200">${tr.gettext('Victim')}</td>
     <td width="32">&nbsp;</td> <!-- corp logo -->
-    <td>Последний выстрел, атакующие</td>
+    <td>${tr.gettext('Attackers, final blow')}</td>
   </tr>
 % for akill in zkb_kills:
   <tr>
@@ -53,11 +53,11 @@
       </span>
       <br />
       % if akill['days_ago'] == 0:
-      <span class="zkb_time_hl">Сегодня</span>
+      <span class="zkb_time_hl">${tr.gettext('Today')}</span>
       % elif akill['days_ago'] == 1:
-      <span class="zkb_time_hl">Вчера</span>
+      <span class="zkb_time_hl">${tr.gettext('Yesterday')}</span>
       % elif akill['days_ago'] <= 7:
-      <span class="zkb_time_hl">${akill['days_ago']} дн. назад</span>
+      <span class="zkb_time_hl">${akill['days_ago']} ${tr.gettext('days ago')}</span>
       % endif
     </td>
     <!-- ship icon -->
@@ -71,7 +71,7 @@
                     <img src="https://imageserver.eveonline.com/Type/${akill['victim']['shipTypeID']}_32.png" />
         </a>
         % if 'zkb' in akill:
-        <span class="zkb_totalvalue">${akill['zkb']['totalValueM']}m</span>
+        <span class="zkb_totalvalue">${akill['zkb']['totalValueM']} mil</span>
         % endif
       </center>
     </td>
@@ -206,14 +206,14 @@
 
 
 ## TODO: implement
-##<h2>Приблизительная сводка активности корпораций в системе на основе последних 30 киллов:</h2>
+##<h2>${tr.gettext('Approximate corporations activity chart in this system, based on kills')}:</h2>
 ##
 ##<table class="zkb_corpstats_table">
 ##    <tr>
-##        <th>Корпорация</th>
-##        <th>Побед</th>
-##        <th>Потерь</th>
-##        <th>Корп. борда</th>
+##        <th>${tr.gettext('Corporation')}</th>
+##        <th>${tr.gettext('Wins')}</th>
+##        <th>${tr.gettext('Losses')}</th>
+##        <th>${tr.gettext('Corp. killboard')}</th>
 ##    </tr>
 ##% for corp_idx in most_often_corps_sorted:
 ##    % if (most_often_corps[corp_idx]['kills'] > 0) or (most_often_corps[corp_idx]['losses'] > 0):
@@ -228,7 +228,6 @@
 ##            <center>${most_often_corps[corp_idx]['losses']}</center>
 ##        </td>
 ##        <td>
-##            <a href="https://beta.eve-kill.net/corporation/${corp_idx}/" target="_blank">EVEKILL</a> |
 ##            <a href="https://zkillboard.com/corporation/${corp_idx}/" target="_blank">ZKB</a>
 ##        </td>
 ##    </tr>
