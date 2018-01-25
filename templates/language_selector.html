@@ -5,7 +5,7 @@
 %>
 <div class="language_selector_block">
     <!-- curent request locale is: ${LOCALE}  -->
-    Language:
+    ${tr.gettext('Language')}:
     <select id="lang_select" onchange="do_select_language(this.value);">
         % for lc in SUPPORTED_LOCALES:
         <option value="${lc}"
