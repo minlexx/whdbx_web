@@ -347,6 +347,7 @@ class WhdbxApp:
     def setup_locale(self):
         selected_locale = self.get_selected_locale_code()
         self.tmpl.assign('LOCALE', selected_locale)
+        self.tmpl.assign('SUPPORTED_LOCALES', self.tr.supported_locales)
         self.tmpl.assign('tr', self.tr.get_translator(selected_locale))
 
     def postprocess_zkb_kills(self, kills: list) -> list:

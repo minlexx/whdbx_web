@@ -60,6 +60,7 @@ def error_page_create_template_engine(title: str, mode: str) -> TemplateEngine:
     tr.init_translations()
     request_locale = erro_page_detect_request_locale(tr)
     te.assign('LOCALE', request_locale)
+    te.assign('SUPPORTED_LOCALES', tr.supported_locales)
     te.assign('tr', tr.get_translator(request_locale))
     return te
 
