@@ -2,7 +2,7 @@
 
 
 function myajax(url, handler) {
-    if(g_xmlhttp == null) {
+    if (g_xmlhttp == null) {
         g_xmlhttp = new XMLHttpRequest();
     }
     g_xmlhttp.onreadystatechange = handler;
@@ -12,14 +12,14 @@ function myajax(url, handler) {
 
 
 function hole_search_handler() {
-    if( g_xmlhttp == null ) return false;
+    if (g_xmlhttp == null) return false;
     var res_div = document.getElementById('fast_search_result');
-    if( !res_div ) return false;
+    if (!res_div) return false;
     var resp = '';
-    if( g_xmlhttp.readyState==4 && g_xmlhttp.status==200 ) {
+    if ((g_xmlhttp.readyState == 4) && (g_xmlhttp.status == 200)) {
         resp = g_xmlhttp.responseText;
     }
-    if( (resp != '') && (resp != 'ERROR') ) {
+    if ((resp != '') && (resp != 'ERROR')) {
         // res_div.innerHTML = '[' + resp + ']';
         var obj = JSON.parse(resp);
         // { "maxJumpMass": 300000000, "maxStableMass": 3000000000,
@@ -56,14 +56,14 @@ function hole_search_handler() {
 
 
 function jsystem_search_handler() {
-    if( g_xmlhttp == null ) return false;
+    if (g_xmlhttp == null) return false;
     var res_div = document.getElementById('fast_search_result');
-    if( !res_div ) return false;
+    if (!res_div) return false;
     var resp = '';
-    if( g_xmlhttp.readyState==4 && g_xmlhttp.status==200 ) {
+    if ((g_xmlhttp.readyState == 4) && (g_xmlhttp.status == 200)) {
         resp = g_xmlhttp.responseText;
     }
-    if( (resp != '') && (resp != 'ERROR') ) {
+    if ((resp != '') && (resp != 'ERROR')) {
         res_div.innerHTML = 'Redirect...'; // 'id=[' + resp + ']';
         window.location = '/' + resp;
     }
@@ -118,20 +118,40 @@ function fast_search_system() {
 }
 
 
+function do_select_language(lang_code) {
+    if (lang_code == null || lang_code === undefined || lang_code == '') return;
+    myajax('./ajax/?set_language=' + lang_code, function() {
+        if (g_xmlhttp == null) return;
+        var response = '';
+        if ((g_xmlhttp.readyState == 4) && (g_xmlhttp.status == 200)) {
+            response = g_xmlhttp.responseText;
+        } else {
+            return false;
+        }
+        if (response == 'OK') {
+            console.log('Language changed OK; need to reload current page.');
+            window.location.reload();
+            return true;
+        }
+        console.log('Language change ERROR: ' + response);
+        return true;
+    });
+}
+
+
 function reportstatic_search_handler() {
-    if( g_xmlhttp == null ) return false;
+    if (g_xmlhttp == null) return false;
     var res_div = document.getElementById('new_statics_report_result');
-    if( !res_div ) return false;
+    if (!res_div) return false;
     var resp = '';
-    if( g_xmlhttp.readyState==4 && g_xmlhttp.status==200 ) {
+    if ((g_xmlhttp.readyState == 4) && (g_xmlhttp.status == 200)) {
         resp = g_xmlhttp.responseText;
     }
     if (resp == 'OK') {
         res_div.innerHTML = resp;
         window.location.reload();
     } else {
-        res_div.innerHTML = '<span class=\"sec_color_0\">'
-            + resp + '</span>';
+        res_div.innerHTML = '<span class=\"sec_color_0\">' + resp + '</span>';
     }
 }
 

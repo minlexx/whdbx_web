@@ -27,9 +27,3 @@ var SSO_IS_ONLINE = false;
 var SSO_TOKEN_EXPIRE_DT = new Date(new Date().getTime()); // current time in UTC
 
 %endif
-
-function do_select_language(lang_code) {
-    if (lang_code == null || lang_code === undefined) return;
-    var url = './ajax/?set_language=' + lang_code;
-    console.log('url=' + url);
-}
