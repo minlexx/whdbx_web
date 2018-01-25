@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-25 00:19+0300\n"
-"PO-Revision-Date: 2018-01-25 10:49+0300\n"
+"POT-Creation-Date: 2018-01-25 11:26+0300\n"
+"PO-Revision-Date: 2018-01-25 11:27+0300\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: ru\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
 #: templates/char_info.html:101 .\templates\char_info.html:101
@@ -118,13 +118,14 @@ msgstr "Сигнатуры и аномалии фриг-ВХ:"
 
 #: templates/signature.html:58 templates/signature.html:60
 #: .\templates\signature.html:58 .\templates\signature.html:60
-#: .\templates\signature.html:176
+#: .\templates\signature.html:176 templates/signature.html:176
 msgid "Signatues and anomalies"
 msgstr "Сигнатуры и аномалии"
 
 #: templates/signature.html:58 templates/signature.html:60
 #: .\templates\signature.html:58 .\templates\signature.html:60
 #: .\templates\signature.html:176 .\templates\sleeper.html:82
+#: templates/signature.html:176 templates/sleeper.html:82
 msgid "th class"
 msgstr "-го класса"
 
@@ -138,10 +139,13 @@ msgstr "фриг-разломанная"
 
 #: templates/signature.html:82 templates/signature.html:84
 #: .\templates\signature.html:82 .\templates\signature.html:84
+#: templates/whdb.html:102 templates/whdb.html:104 templates/whdb.html:106
+#: templates/whdb.html:108 templates/whdb.html:110 templates/whdb.html:112
 msgid "class"
 msgstr "класс"
 
 #: templates/signature.html:84 .\templates\signature.html:84
+#: templates/whdb.html:114
 msgid "shattered"
 msgstr "разлом"
 
@@ -206,19 +210,20 @@ msgstr "без кап. дореспов"
 
 #: templates/signature.html:145 .\templates\signature.html:145
 #: .\templates\sleeper.html:77 .\templates\sleeper.html:121
-#: .\templates\sleeper.html:124
+#: .\templates\sleeper.html:124 templates/sleeper.html:77
+#: templates/sleeper.html:124
 msgid "Total"
 msgstr "Всего"
 
-#: .\templates\signature.html:193
+#: .\templates\signature.html:193 templates/signature.html:193
 msgid "Ore sites"
 msgstr "Рудные сигнатуры"
 
-#: .\templates\signature.html:197
+#: .\templates\signature.html:197 templates/signature.html:197
 msgid "Gas sites"
 msgstr "Газовые сигнатуры"
 
-#: .\templates\signature.html:201
+#: .\templates\signature.html:201 templates/signature.html:201
 msgid "Thera anomalies"
 msgstr "Аномалии в Thera"
 
@@ -237,119 +242,125 @@ msgstr "руда"
 msgid "gas"
 msgstr "газ"
 
-#: .\templates\signature.html:14
+#: .\templates\signature.html:14 templates/signature.html:14
 msgid "Wave"
 msgstr "Волна"
 
-#: .\templates\sleeper.html:20
+#: .\templates\sleeper.html:20 templates/sleeper.html:20
 msgid "Abilities"
 msgstr "Способности"
 
-#: .\templates\sleeper.html:22
+#: .\templates\sleeper.html:22 templates/sleeper.html:22
 msgid "none"
 msgstr "нет"
 
-#: .\templates\sleeper.html:33
+#: .\templates\sleeper.html:33 templates/sleeper.html:33
 msgid "Navigation"
 msgstr "Навигация"
 
-#: .\templates\sleeper.html:35
+#: .\templates\sleeper.html:35 templates/sleeper.html:35
 msgid "Signature radius"
 msgstr "Радиус сигнатуры"
 
-#: .\templates\sleeper.html:36
+#: .\templates\sleeper.html:36 templates/sleeper.html:36
 msgid "Max. speed"
 msgstr "Макс. скорость"
 
-#: .\templates\sleeper.html:37
+#: .\templates\sleeper.html:37 templates/sleeper.html:37
 msgid "Orbit"
 msgstr "Орбита"
 
-#: .\templates\sleeper.html:44
+#: .\templates\sleeper.html:44 templates/sleeper.html:44
 msgid "Shield"
 msgstr "Щит"
 
-#: .\templates\sleeper.html:45
+#: .\templates\sleeper.html:45 templates/sleeper.html:45
 msgid "Armor"
 msgstr "Броня"
 
-#: .\templates\sleeper.html:46
+#: .\templates\sleeper.html:46 templates/sleeper.html:46
 msgid "Hull"
 msgstr "Корпус"
 
-#: .\templates\sleeper.html:47
+#: .\templates\sleeper.html:47 templates/sleeper.html:47
 msgid "Shield resists"
 msgstr "Резисты щита"
 
-#: .\templates\sleeper.html:53
+#: .\templates\sleeper.html:53 templates/sleeper.html:53
 msgid "Armor resists"
 msgstr "Резисты брони"
 
-#: .\templates\sleeper.html:66
+#: .\templates\sleeper.html:66 templates/sleeper.html:66
 msgid "Attack range"
 msgstr "Радиус атаки"
 
-#: .\templates\sleeper.html:82 .\main.py:439
+#: .\templates\sleeper.html:82 .\main.py:439 templates/sleeper.html:82
+#: main.py:439
 msgid "Sleepers"
 msgstr "Слиперы"
 
-#: .\templates\sleeper.html:97
+#: .\templates\sleeper.html:97 templates/sleeper.html:97
 msgid "EWAR Abilities"
 msgstr "РЭБ способности"
 
-#: .\templates\sleeper.html:100
+#: .\templates\sleeper.html:100 templates/sleeper.html:100
 msgid "Energy Neutralizing"
 msgstr "Нейтрики"
 
-#: .\templates\sleeper.html:103
+#: .\templates\sleeper.html:103 templates/sleeper.html:103
 msgid "Warp disruption"
 msgstr "Дизраптор"
 
 #: .\templates\sleeper.html:106 .\templates\sleeper.html:109
+#: templates/sleeper.html:109
 msgid "Stasis Webifier"
 msgstr "Сетка"
 
 #: .\templates\sleeper.html:109 .\templates\sleeper.html:112
+#: templates/sleeper.html:112
 msgid "Remote armor repair"
 msgstr "Удаленная откачка брони"
 
 #: .\templates\sleeper.html:115 .\templates\sleeper.html:118
+#: templates/sleeper.html:118
 msgid "Loot"
 msgstr "Дроп"
 
 #: .\templates\sleeper.html:133 .\templates\sleeper.html:136
+#: templates/sleeper.html:136
 msgid "Sleepers from"
 msgstr "Слеперы"
 
 #: .\templates\sleeper.html:133 .\templates\sleeper.html:136
+#: templates/sleeper.html:136
 msgid "classes"
 msgstr "классов"
 
-#: .\templates\sleeper.html:106
+#: .\templates\sleeper.html:106 templates/sleeper.html:106
 msgid "Warp scrambler"
 msgstr "Скрамблер"
 
-#: .\templates\sleeper.html:42
+#: .\templates\sleeper.html:42 templates/sleeper.html:42
 msgid "Defense"
 msgstr "Защита"
 
-#: .\templates\sleeper.html:64
+#: .\templates\sleeper.html:64 templates/sleeper.html:64
 msgid "Offense"
 msgstr "Атака"
 
-#: .\templates\sleeper.html:18
+#: .\templates\sleeper.html:18 templates/sleeper.html:18
 msgid "classes:"
 msgstr "классы:"
 
-#: .\main.py:419
+#: .\main.py:419 main.py:419
 msgid "Effects"
 msgstr "Эффекты"
 
-#: .\main.py:451
+#: .\main.py:451 main.py:451
 msgid "Signatures"
 msgstr "Сигнатуры"
 
-#: .\main.py:506
+#: .\main.py:506 main.py:506 templates/whdb.html:94
 msgid "WH Database"
 msgstr "База ВХ"
 
@@ -455,3 +466,48 @@ msgstr "Радиус прицеливания"
 
 msgid "Tracking Speed"
 msgstr "Скорость наводки орудий"
+
+#: templates/whdb.html:99
+msgid "Select class:"
+msgstr "Класс:"
+
+#: templates/whdb.html:116
+msgid "frig-WH"
+msgstr "фриг-ВХ"
+
+#: templates/whdb.html:118
+msgid "drifters-WH"
+msgstr "дрифтерская ВХ"
+
+#: templates/whdb.html:122
+msgid "With effect"
+msgstr "С эффектом"
+
+#: templates/whdb.html:125
+msgid "No effect"
+msgstr "Без эффекта"
+
+#: templates/whdb.html:141
+msgid "With static"
+msgstr "Со статиком"
+
+#: templates/whdb.html:144 templates/whdb.html:146 templates/whdb.html:148
+#: templates/whdb.html:150 templates/whdb.html:152 templates/whdb.html:154
+msgid "to class"
+msgstr "в класс"
+
+#: templates/whdb.html:156
+msgid "to Null-sec"
+msgstr "в Нулльсек"
+
+#: templates/whdb.html:158
+msgid "to Low-sec"
+msgstr "в Лоусек"
+
+#: templates/whdb.html:160
+msgid "to High-sec"
+msgstr "в Хайсек"
+
+#: templates/whdb.html:95
+msgid "Find all systems:"
+msgstr "Найти все системы:"

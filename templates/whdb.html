@@ -91,38 +91,38 @@ function whdb_search_handler() {
 </script>
 
 <div class="solarsystem_info_wrapper" align="center">
-    <h1>База WH</h1>
-    <p class="infoblock_header_text">Найти все системы:</p>
+    <h1>${tr.gettext('WH Database')}</h1>
+    <p class="infoblock_header_text">${tr.gettext('Find all systems:')}</p>
     <form>
         <table>
             <tr>
-                <td>Класса:</td>
+                <td>${tr.gettext('Select class:')}</td>
                 <td>
                     <input type="checkbox" id="c1" name="class" value="1" />
-                    <label for="c1">class 1</label>
+                    <label for="c1">${tr.gettext('class')} 1</label>
                     <input type="checkbox" id="c2" name="class" value="2" />
-                    <label for="c2">class 2</label>
+                    <label for="c2">${tr.gettext('class')} 2</label>
                     <input type="checkbox" id="c3" name="class" value="3" />
-                    <label for="c3">class 3</label>
+                    <label for="c3">${tr.gettext('class')} 3</label>
                     <input type="checkbox" id="c4" name="class" value="4" />
-                    <label for="c4">class 4</label>
+                    <label for="c4">${tr.gettext('class')} 4</label>
                     <input type="checkbox" id="c5" name="class" value="5" />
-                    <label for="c5">class 5</label>
+                    <label for="c5">${tr.gettext('class')} 5</label>
                     <input type="checkbox" id="c6" name="class" value="6" />
-                    <label for="c6">class 6</label>
+                    <label for="c6">${tr.gettext('class')} 6</label>
                     <input type="checkbox" id="shattered" name="class" value="shattered" />
-                    <label for="shattered">разломанные</label>
+                    <label for="shattered">${tr.gettext('shattered')}</label>
                     <input type="checkbox" id="frigwr" name="class" value="frigwr" />
-                    <label for="frigwr">фриг-WH</label>
+                    <label for="frigwr">${tr.gettext('frig-WH')}</label>
                     <input type="checkbox" id="drifters" name="class" value="drifters" />
-                    <label for="drifters">drifters</label>
+                    <label for="drifters">${tr.gettext('drifters-WH')}</label>
                 </td>
             </tr>
             <tr>
-                <td>С эффектом:</td>
+                <td>${tr.gettext('With effect')}:</td>
                 <td>
                     <input type="checkbox" id="noeffect" name="effect" value="noeffect" />
-                    <label for="noeffect">Без эффекта</label>
+                    <label for="noeffect">${tr.gettext('No effect')}</label>
                     <input type="checkbox" id="bh" name="effect" value="bh" />
                     <label for="bh">Black Hole</label>
                     <input type="checkbox" id="cv" name="effect" value="cv" />
@@ -138,30 +138,30 @@ function whdb_search_handler() {
                 </td>
             </tr>
             <tr>
-                <td>Со статиком:</td>
+                <td>${tr.gettext('With static')}:</td>
                 <td>
                     <input type="checkbox" id="in_c1" name="in_class" value="1" />
-                    <label for="in_c1">в класс 1</label>
+                    <label for="in_c1">${tr.gettext('to class')} 1</label>
                     <input type="checkbox" id="in_c2" name="in_class" value="2" />
-                    <label for="in_c2">в класс 2</label>
+                    <label for="in_c2">${tr.gettext('to class')} 2</label>
                     <input type="checkbox" id="in_c3" name="in_class" value="3" />
-                    <label for="in_c3">в класс 3</label>
+                    <label for="in_c3">${tr.gettext('to class')} 3</label>
                     <input type="checkbox" id="in_c4" name="in_class" value="4" />
-                    <label for="in_c4">в класс 4</label>
+                    <label for="in_c4">${tr.gettext('to class')} 4</label>
                     <input type="checkbox" id="in_c5" name="in_class" value="5" />
-                    <label for="in_c5">в класс 5</label>
+                    <label for="in_c5">${tr.gettext('to class')} 5</label>
                     <input type="checkbox" id="in_c6" name="in_class" value="6" />
-                    <label for="in_c6">в класс 6</label>
+                    <label for="in_c6">${tr.gettext('to class')} 6</label>
                     <input type="checkbox" id="in_null" name="in_class" value="9" />
-                    <label for="in_null">в Null-sec</label>
+                    <label for="in_null">${tr.gettext('to Null-sec')}</label>
                     <input type="checkbox" id="in_low" name="in_class" value="8" />
-                    <label for="in_low">в Low-sec</label>
+                    <label for="in_low">${tr.gettext('to Low-sec')}</label>
                     <input type="checkbox" id="in_high" name="in_class" value="7" />
-                    <label for="in_high">в High-sec</label>
+                    <label for="in_high">${tr.gettext('to High-sec')}</label>
                 </td>
             </tr>
         </table>
-        <input type="button" onclick="send_find();" value="Поиск!" />
+        <input type="button" onclick="send_find();" value="${tr.gettext('Search!')}" />
     </form>
 
     <div id="jsystem_search_results">
