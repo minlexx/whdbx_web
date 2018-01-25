@@ -96,6 +96,15 @@ a:active {
     font-size: 13px;
 }
 
+.language_selector_block {
+    /* border: 0px solid green; */
+    padding: 5px;
+    display: block;
+    float: right;
+}
+
+.language_selector_block select { font-size: 12px; }
+
 .corp_menu_block {
     border: 0px solid #550099;
     padding: 2px;
