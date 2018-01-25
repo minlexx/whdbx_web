@@ -3,9 +3,9 @@
 from classes.utils import js_escape, length_limit_20
 %>
 
-% if HAVE_SSO_LOGIN:
-
 <div class="character_info">
+
+% if HAVE_SSO_LOGIN:
 
   <div class="character_info_inline">
     <img src="/static/img/offline.png" width="20" id="character_info_online_img"
@@ -84,15 +84,13 @@ from classes.utils import js_escape, length_limit_20
     <%include file="fast_search_block_v2.html"/>
   </div>
 
-  ## <!-- TODO: Not done yet -->
+  ## <!-- TODO: short_history_block not done yet -->
   ##<div class="character_info_inline">
   ##  <%include file="short_history_block.html"/>
   ##</div>
-</div>
 
 % else:
 
-<div class="character_info">
   <div style="display: inline">
     <a href="${SSO_LOGIN_URL}">
       <img border="0" src="/static/img/EVE_SSO_Login_Buttons_Small_Black.png" /></a>
@@ -101,6 +99,9 @@ from classes.utils import js_escape, length_limit_20
     <a href="/eve_sso_help/">${tr.gettext('Why?')}</a>
   </div>
   <%include file="fast_search_block_v2.html"/>
-</div>
 
 % endif
+
+  <%include file="language_selector.html"/>
+
+</div><!-- /charactrer_info -->

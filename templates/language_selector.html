@@ -1,0 +1,18 @@
+## -*- coding: utf-8 -*-
+<%!
+    def toupper(msg):
+        return msg.upper()
+%>
+<div class="language_selector_block">
+    <!-- curent request locale is: ${LOCALE}  -->
+    Language:
+    <select id="lang_select" onchange="do_select_language(this.value);">
+        % for lc in SUPPORTED_LOCALES:
+        <option value="${lc}"
+                % if LOCALE==lc:
+                selected="selected"
+                % endif
+        >${lc|toupper}</option>
+        % endfor
+    </select>
+</div>
