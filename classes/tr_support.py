@@ -9,7 +9,7 @@ class MultiLangTranslator:
         if domain is not None:
             self.domain = domain
         self.localesdir = localesdir
-        self.supported_locales = []
+        self.supported_locales = ['en']  # English - supported by default
         self.translators = dict()  # List[gettext.GNUTranslations]
         self.null_translator = gettext.NullTranslations(fp=None)
 
