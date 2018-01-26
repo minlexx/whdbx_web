@@ -5,64 +5,9 @@
 
   <blockquote class="helptext">
 
-    <span class="infoblock_header_text">О проекте, история</span><br />
+    <span class="infoblock_header_text">${tr.gettext('О проекте, история')}</span><br />
 
-    <p><b>WHDBX</b> (<b>W</b>orm<b>h</b>ole <b>D</b>ata<b>b</b>ase E<b>x</b>tended) -
-      база данных о червоточинах, ВХ-системах, слиперах и всех
-      типах аномалек/комплексов в них. Разработка началась приблизительно
-      в 2015 году, идеологически основанная на проекте
-      <a href="http://evedb.no-ip.org">evedb.no-ip.org</a> (кто-то, может быть,
-      помнит), автором которого был ЦЕО моей тогдашней корпорации -
-      <a href="https://forums.eveonline.com/profile/Determiniks">Determiniks</a> /
-      <a href="https://evewho.com/pilot/AkselMJ">AkselMJ</a>. Изначальная база
-      по ВХ-системам, дыркам и аномалькам - вся оттуда. Со временем,
-      конечно, по ходу обновлений игры, база пополнялась, однако история
-      помнит, откуда всё пошло.</p>
-
-    <p>Идеей нового проекта стала тесная интеграция с ingame-браузером
-      клиента (да, был такой), чтобы сайт можно было очень эффективно
-      использовать прямо из игры с минимумом телодвижений. IGB имел
-      встроенный <b>javascript API</b> (объект <b>CCPEVE</b>), который позволял
-      (при наличии разрешений) автоматически определять текущую систему
-      пилота, корабль, персонажа и копорацию. Все это позволяло, установив
-      стартовой страницей ингейм-браузера этот сайт, просто нажать на
-      иконку запуска браузера на панельке и получить сразу всю информацию
-      по текущей системе - класс, статики, эффект, ссылки на описания
-      аномалек, последние киллы в системе - <b>без единого клика мышкой</b>.
-      Все ссылки на внутриигровые предметы, корабли, корпорации, на
-      персонажей - открывались в стандартном окошечке информации EVE
-      клиента. Поскольку ингейм-браузер был не быстр (тормозил, прямо скажем),
-      весь дизайн был сделан как можно "легче" - минимум эффектов,
-      анимаций, минимум картинок, минимум кликов мышкой.
-    </p>
-
-    <p>Затем случилось непоправимое - в 2016 году CCP в очередном апдейте решило
-      <a href="https://community.eveonline.com/news/dev-blogs/bidding-farewell-to-the-in-game-browser/">
-        удалить из игры ingame-браузер</a>, сославшись на сложность поддержки,
-      списав тем самым плоды все моих усилий и стараний на НЕТ. Часть
-      функциональности появилась в новом API - Crest, но увы, далеко не вся
-      и не так. Определение положения персонажа "лагало" на несколько минут,
-      никаких тебе открытия окошек с инфой в клиенте, и т.д. Таким образом,
-      сайт оставался, конечно, рабочим из обычного браузера, но с половиной
-      функционала попросту обрезанным. Ещё и я тогда стал уделять меньше
-      времени игре, выехал из ВХ, и сайт остался без поддержки и обновлений...
-    </p>
-
-    <p>И вот, лето 2017 года, предпринимается попытка "воскресить" былое величие,
-      актуализировать данные по последним обновлениям в области червоточин.
-      Будет попытка использовать очередной новый API от CCP (когда они уже
-      устаканят?) - <a href="https://community.eveonline.com/news/dev-blogs/introducing-esi/">
-        EVE Swaager Interface</a>. Вроде как он предлагает более тесную интеграцию,
-      нелагучие обновления информации.
-    </p>
-
-    <p>
-      На случай если я когда-нибудь всё-таки вконец заброшу EVE Online, все это
-      не должно пропасть. Поэтому весь исходный код проекта выложен в открытый
-      доступ на GitHub - <a href="https://github.com/minlexx/whdbx_web">github.com/minlexx/whdbx_web</a>.
-      Pull requests welcome, как говорится. ISK donations слать на персонажа <a
-      href="https://evewho.com/pilot/Lexx+Min">Lexx Min</a> :)
-    </p>
+    ${tr.gettext('<p><b>WHDBX</b> (<b>W</b>orm<b>h</b>ole <b>D</b>ata<b>b</b>ase E<b>x</b>tended) - database of wormholes, wormhole systems, sleepers and all types of anomalies and signatures inside. Development was started in year 2015, and it was based on <a href="http://evedb.no-ip.org">evedb.no-ip.org</a> (someone might remember it), authored by CEO of my former corporation - <a href="https://evewho.com/pilot/AkselMJ">AkselMJ</a>. Initial database of WH-systems, holes and signatures was taken from it. Over the time, with game updates, the database was extended and populated more and more, but history remembers the source.</p>  <p>The idea for a new project was thight integration with ingame-browser (yeah, there was in-game web browser in a client), so website could be used very effectively directly from the game with minimum efforts. IGB had integrated <b>javascript API</b> (<b>CCPEVE</b> object), which allowed (given permissions) automatically detect current solar system, pilot name, current ship and corporation. If you had this website as default home page set, you could just click browser panel icon once and get all information about the current WH system - class, statics, effect, links to signatures, latest kills - all this <b>with one single mouse click</b>. All links to ingame items, ships, corporations, characters were opened directly in client in standard information window.  Because in-game browser was not very fast, the whole UI design of website was made very light and easy for rendering - minimum effects, minimum animations, minimum mouse clicks. </p> <p>Then horrible, irreparable happened - in 2016 year in ine of the updates CCP decided to <a href="https://community.eveonline.com/news/dev-blogs/bidding-farewell-to-the-in-game-browser/"> remove ingame browser</a>, blaming complicated maintenance, multiplying all my efforts by zero. Part of that functionality appeared in a new API - Crest, but not all and not completely. Detecting location "lagged" by few minutes, we could not open any information windows in client, etc. Thus, website remained in working state from a usual desktop browser, but with half of functionality missing. During that time I made a break playing EVE, left from WH space, and project was left in discontinued state... </p> <p>And some time in summer 2017, I tried to "revive" former glory, renew data to keep up with latest updates in WH world. CCP released a new EVE API - <a href="https://community.eveonline.com/news/dev-blogs/introducing-esi/">EVE Swaager Interface</a>. It provides a way for tighter integration, location detection not lagging, ways to open windows in client. </p> <p>In the case I quit EVE some time, all this work should not be left forgotten. So, all the source code was opened to public and shared on GitHub - <a href="https://github.com/minlexx/whdbx_web">github.com/minlexx/whdbx_web</a>. Pull requests welcome, as they say. ISK donations welcomed to character <a href="https://evewho.com/pilot/Lexx+Min">Lexx Min</a> :) </p>')}
   </blockquote>
 
 </div>
