@@ -515,14 +515,16 @@ class WhdbxApp:
     def about(self):
         self.init_session()
         self.setup_template_vars('about')
-        self.tmpl.assign('title', 'О проекте - WHDBX')
+        tr = self.tr.get_translator(self.get_selected_locale_code())
+        self.tmpl.assign('title', tr.gettext('About project') + ' - WHDBX')
         return self.tmpl.render('about.html')
 
     @cherrypy.expose()
     def eve_sso_help(self):
         self.init_session()
         self.setup_template_vars('eve_sso_help')
-        self.tmpl.assign('title', 'O EVE-SSO - WHDBX')
+        tr = self.tr.get_translator(self.get_selected_locale_code())
+        self.tmpl.assign('title', tr.gettext('About EVE-SSO') + ' - WHDBX')
         return self.tmpl.render('eve_sso_help.html')
 
     @cherrypy.expose()
