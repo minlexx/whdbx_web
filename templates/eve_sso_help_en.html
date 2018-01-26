@@ -1,0 +1,83 @@
+## -*- coding: utf-8 -*-
+<%include file="header.html"/>
+
+<div class="solarsystem_info_wrapper">
+  <blockquote class="helptext">
+
+    <br />
+    <span class="infoblock_header_text">Information about EVE-SSO</span><br />
+
+    <p>
+      <b>EVE SSO (Single Sign-On)</b> - unified EVE Online authorizaation system,
+      using (<a href="https://ru.wikipedia.org/wiki/OAuth" target="_blank">OAuth2 protocol</a>).
+      Aimed to simplify character identification on all websites about EVE-Online.
+      Any 3rd-party site can use this mechanism to authorize users.
+    </p>
+
+    <p>
+      The point is that all account information (login, password) is entered only
+      on secure site <a href="https://login.eveonline.com">login.eveonline.com</a>
+      using encrypted HTTPS protocol, and not on 3rd-prty site itself.
+      Thus, all you account data is kept safe, and 3rd-party website cannot access
+      this information.
+    </p>
+
+    <p>
+      When you click "LOG IN with EVE Online" button, you will be redirected to
+      CCP login page, where website requests for some permissions.
+      You can enter your login, password and select which character
+      to authorize. On successful authorization, and confirming permissions,
+      3rd-party website receives a key (token), which can be used to identify
+      your character, request information about your character and
+      perform some actions on your behalf. Token is valid only for 20 minutes
+      and after that period can be renewed automatically.
+    </p>
+
+    <table border="0" width="100%">
+      <tr>
+        <td valign="top">
+          <b>WHDBX</b> is requesting for the following permissions:<br />
+          <ul>
+            <li><b>read_location</b> - allows to query for you character current location.
+                This allows to automatically display information about current solar system;</li>
+            <li><b>read_ship_type</b> - if you are not docked, allows to display your current
+                ship and its name;</li>
+            <li><b>open_window</b> - allows to open information windows directly in your
+                client while clicking links on the page;</li>
+            <li><b>read_online</b> - allows site to know if you are online in game (is it worth
+                to try query for your location/ship or try to open windows in client or not).</li>
+          </ul>
+
+          <br />
+          <span class="infoblock_header_text">Controlling access for 3rd party applications</span><br />
+
+          <p>
+            CCP have provided the ability to control granted tokens and revoke access
+            form resources if you wish. To do it, login to support center and choose
+            "Third party applications" menu (or just use link:
+            <a href="https://community.eveonline.com/support/third-party-applications/">
+              https://community.eveonline.com/support/third-party-applications/</a>).
+          </p>
+
+          <br />
+          <span class="infoblock_header_text">Links:</span><br />
+          <ul>
+            <li><a href="https://support.eveonline.com/hc/en-us/articles/205381192-Single-Sign-On-SSO-"
+                   target="_blank">Main information about SSO</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/OAuth" target="_blank">
+              OAuth Protocol (Wikipedia)</a></li>
+            <li><a href="https://community.eveonline.com/support/third-party-applications/" target="_blank">
+              Control access for 3rd party applications</a></li>
+            <li><a href="http://eveonline-third-party-documentation.readthedocs.io/en/latest/sso/" target="_blank">
+              EVE-SSO documentation for 3rd party developers</a></li>
+          </ul>
+
+        </td>
+        <td valign="top"><img border="0" src="/static/img/sso_help2.png" /></td>
+      </tr>
+    </table>
+
+  </blockquote>
+</div>
+
+<%include file="footer.html"/>
