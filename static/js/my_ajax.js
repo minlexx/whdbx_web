@@ -120,7 +120,7 @@ function fast_search_system() {
 
 function do_select_language(lang_code) {
     if (lang_code == null || lang_code === undefined || lang_code == '') return;
-    myajax('./ajax/?set_language=' + lang_code, function() {
+    myajax('/ajax/?set_language=' + lang_code, function() {
         if (g_xmlhttp == null) return;
         var response = '';
         if ((g_xmlhttp.readyState == 4) && (g_xmlhttp.status == 200)) {
