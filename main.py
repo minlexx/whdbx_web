@@ -524,9 +524,10 @@ class WhdbxApp:
     def eve_sso_help(self):
         self.init_session()
         self.setup_template_vars('eve_sso_help')
-        tr = self.tr.get_translator(self.get_selected_locale_code())
+        selected_locale = self.get_selected_locale_code()
+        tr = self.tr.get_translator(selected_locale)
         self.tmpl.assign('title', tr.gettext('About EVE-SSO') + ' - WHDBX')
-        return self.tmpl.render('eve_sso_help.html')
+        return self.tmpl.render('eve_sso_help_' + selected_locale + '.html')
 
     @cherrypy.expose()
     def logout(self):
