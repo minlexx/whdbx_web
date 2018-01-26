@@ -515,9 +515,10 @@ class WhdbxApp:
     def about(self):
         self.init_session()
         self.setup_template_vars('about')
-        tr = self.tr.get_translator(self.get_selected_locale_code())
+        selected_locale = self.get_selected_locale_code()
+        tr = self.tr.get_translator(selected_locale)
         self.tmpl.assign('title', tr.gettext('About project') + ' - WHDBX')
-        return self.tmpl.render('about.html')
+        return self.tmpl.render('about_' + selected_locale + '.html')
 
     @cherrypy.expose()
     def eve_sso_help(self):
