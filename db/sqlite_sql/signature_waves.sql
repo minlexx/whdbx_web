@@ -163,17 +163,17 @@ INSERT INTO signature_waves VALUES (33, 1, 1, '101:3:wns');
 INSERT INTO signature_waves VALUES (34, 1, 0, '33:6,30:4:wdt');
 INSERT INTO signature_waves VALUES (34, 2, 0, '24:2:n,25:2:rt');
 INSERT INTO signature_waves VALUES (34, 3, 0, '32:6:wnd,27:7:wt');
-INSERT INTO signature_waves VALUES (34, 4, 0, '29:4:r,24:2:n,25:3:r');
+INSERT INTO signature_waves VALUES (34, 4, 0, '29:4:r,24:2:nD,25:3:r');
 INSERT INTO signature_waves VALUES (34, 1, 1, '101:3:wns');
 -- Oruze Osobnyk --
 INSERT INTO signature_waves VALUES (35, 1, 0, '30:4:wd,24:1:nR,23:3:wndt');
 INSERT INTO signature_waves VALUES (35, 2, 0, '27:6:w,26:1:wndt');
-INSERT INTO signature_waves VALUES (35, 3, 0, '31:4:nr,32:2:wnd,29:3:r');
+INSERT INTO signature_waves VALUES (35, 3, 0, '31:4:nrD,32:2:wnd,29:3:r');
 INSERT INTO signature_waves VALUES (35, 1, 1, '101:3:wns');
 -- Quarantine Area --
 INSERT INTO signature_waves VALUES (36, 1, 0, '33:4,10:3:w,28:2:wnd,23:1:wnd');
 INSERT INTO signature_waves VALUES (36, 2, 0, '27:4:w,23:2:wnd');
-INSERT INTO signature_waves VALUES (36, 3, 0, '30:5:wd,29:3:r,24:2:n');
+INSERT INTO signature_waves VALUES (36, 3, 0, '30:5:wd,29:3:r,24:2:nD');
 INSERT INTO signature_waves VALUES (36, 1, 1, '101:3:wns');
 
 -- Forgotten Core Data Field --
