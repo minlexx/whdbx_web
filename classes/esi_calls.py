@@ -25,12 +25,13 @@ def analyze_esi_response_headers(headers: dict) -> None:
     :return:
     """
     lines_to_log = []
+    dt_now_str = str(datetime.datetime.utcnow()) + ' UTC: '  # '2018-03-09 11:16:11.178443 UTC: '
     if 'warning' in headers:
-        lines_to_log.append('warning header: {}'.format(headers['warning']))
+        lines_to_log.append(dt_now_str + 'warning header: {}'.format(headers['warning']))
     if 'X-ESI-Error-Limit-Remain' in headers:
         errors_remain = int(headers['X-ESI-Error-Limit-Remain'])
-        if errors_remain < 10:
-            lines_to_log.append('X-ESI-Error-Limit-Remain < {} !!!'.format(errors_remain))
+        if errors_remain < 100:
+            lines_to_log.append(dt_now_str + 'X-ESI-Error-Limit-Remain < {} !!!\n'.format(errors_remain))
     if len(lines_to_log) < 1:
         return
     try:
