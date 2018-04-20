@@ -507,6 +507,7 @@ def pretty_print_kill(kill):
 # kill[solarSystemID] -> 31000707
 # kill[moonID] -> 0
 
+
 if __name__ == '__main__':
     zkb_options_file = {
         'debug': True,
