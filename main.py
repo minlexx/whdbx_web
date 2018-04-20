@@ -405,7 +405,9 @@ class WhdbxApp:
         # ZKB
         zkb = ZKB(self.zkb_options)
         zkb.add_wspace()
-        zkb.add_limit(30)
+        # zkb.add_limit(30) # Zkillboard has disabled 'limit' parameter for all users:
+        # '{"error":"Due to abuse of the limit parameter to avoid caches
+        #  the ability to modify limit has been revoked for all users"}'
         wspace_kills = zkb.go()
         wspace_kills = self.postprocess_zkb_kills(wspace_kills)
         self.tmpl.assign('zkb_kills', wspace_kills)
@@ -559,7 +561,9 @@ class WhdbxApp:
         # zkillboard
         zkb = ZKB(self.zkb_options)
         zkb.add_solarSystem(ssid)
-        zkb.add_limit(30)
+        # zkb.add_limit(30) # Zkillboard has disabled 'limit' parameter for all users:
+        # '{"error":"Due to abuse of the limit parameter to avoid caches
+        #  the ability to modify limit has been revoked for all users"}'
         zkb_kills = zkb.go()
         zkb_kills = self.postprocess_zkb_kills(zkb_kills)
         #
