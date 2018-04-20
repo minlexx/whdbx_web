@@ -30,7 +30,7 @@ def analyze_esi_response_headers(headers: dict) -> None:
         lines_to_log.append(dt_now_str + 'warning header: {}'.format(headers['warning']))
     if 'X-ESI-Error-Limit-Remain' in headers:
         errors_remain = int(headers['X-ESI-Error-Limit-Remain'])
-        if errors_remain < 100:
+        if errors_remain < 50:
             lines_to_log.append(dt_now_str + 'X-ESI-Error-Limit-Remain < {} !!!\n'.format(errors_remain))
     if len(lines_to_log) < 1:
         return
