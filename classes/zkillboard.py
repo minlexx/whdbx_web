@@ -390,6 +390,10 @@ class ZKB:
             utcnow = datetime.datetime.utcnow()
             try:
                 for a_kill in zkb_kills:
+                    # a_kill should be a dict object.
+                    # Sometimes ZKB can return 'error' key as string, we can parse only dicts
+                    if type(a_kill) != dict:
+                        continue
                     # fix new keys format to old format, becuase templates use old keys
                     a_kill['killID'] = a_kill['killmail_id']
                     # init a kill datetime with an empty date
