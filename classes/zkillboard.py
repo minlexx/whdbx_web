@@ -214,6 +214,7 @@ class ZKB:
         self._use_evekill = False
         self.request_count = 0
         self.max_requests = 0
+        self.kills_on_page = 0
         self.clear_url()
         # parse options
         if options:
@@ -232,6 +233,8 @@ class ZKB:
                     self._cache = ZKBCacheSqlite(options)
                 else:
                     raise IndexError('ZKB: Unknown cache_type in options: ' + cache_type)
+            if 'kills_on_page' in options:
+                self.kills_on_page = options['kills_on_page']
 
     def clear_url(self):
         self._url = self._BASE_URL_ZKB
@@ -382,6 +385,7 @@ class ZKB:
                     self._cache.save_json(self._modifiers, ret)
         # parse response JSON, if we have one
         if (ret is not None) and (ret != ''):
+            zkb_kills = []
             try:
                 zkb_kills = json.loads(ret)
             except ValueError:
@@ -389,6 +393,9 @@ class ZKB:
                 pass
             utcnow = datetime.datetime.utcnow()
             try:
+                if self.kills_on_page > 0:
+                    # manually limit number of kills to process
+                    zkb_kills = zkb_kills[0:self.kills_on_page]
                 for a_kill in zkb_kills:
                     # a_kill should be a dict object.
                     # Sometimes ZKB can return 'error' key as string, we can parse only dicts

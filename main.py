@@ -73,7 +73,8 @@ class WhdbxApp:
             'cache_time': self.cfg.ZKB_CACHE_TIME,
             'cache_type': self.cfg.ZKB_CACHE_TYPE,
             'cache_dir': self.cfg.ZKB_CACHE_DIR,
-            'use_evekill': self.cfg.ZKB_USE_EVEKILL
+            'use_evekill': self.cfg.ZKB_USE_EVEKILL,
+            'kills_on_page': self.cfg.ZKB_KILLS_ON_PAGE
         }
 
         # session vars declaration
@@ -281,7 +282,8 @@ class WhdbxApp:
             'cache_time': self.cfg.ZKB_CACHE_TIME,
             'cache_type': self.cfg.ZKB_CACHE_TYPE,
             'cache_dir': self.cfg.ZKB_CACHE_DIR,
-            'use_evekill': self.cfg.ZKB_USE_EVEKILL
+            'use_evekill': self.cfg.ZKB_USE_EVEKILL,
+            'kills_on_page': self.cfg.ZKB_KILLS_ON_PAGE
         }
         # output
         msg = '\n'

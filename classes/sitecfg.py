@@ -28,6 +28,7 @@ class SiteConfig:
         self.ZKB_CACHE_DIR = '.'
         self.ZKB_CACHE_SQLITE = ''
         self.ZKB_USE_EVEKILL = False
+        self.ZKB_KILLS_ON_PAGE = 30
 
         self.PRICE_RESOLVER = 'esi'
         self.EVECENTRAL_CACHE_DIR = ''
@@ -96,6 +97,8 @@ class SiteConfig:
                 self.ZKB_CACHE_SQLITE = cfg['zkillboard']['cache_sqlite']
             if 'use_evekill' in cfg['zkillboard']:
                 self.ZKB_USE_EVEKILL = cfg['zkillboard'].getboolean('use_evekill')
+            if 'kills_on_page' in cfg['zkillboard']:
+                self.ZKB_KILLS_ON_PAGE = int(cfg['zkillboard']['kills_on_page'])
 
         # eve-central
         if cfg.has_section('evecentral'):
