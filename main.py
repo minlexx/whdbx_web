@@ -575,7 +575,7 @@ class WhdbxApp:
         # WH signatures
         sigs = []
         if whsys.is_wh:
-            sigs = self.db.query_signatures_for_class(whsys.wh_class)
+            sigs = self.db.query_signatures_for_class(whsys.wh_class, True)
         #
         # assign template vars
         self.tmpl.assign('whsys', whsys)

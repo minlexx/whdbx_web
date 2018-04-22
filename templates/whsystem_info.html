@@ -68,7 +68,11 @@
     <blockquote>
     % for sig in sigs:
         <img src="/static/img/sigs/${sig['sig_type']}_site.png" width="20" />
-        <a href="/signatures/${sig['id']}/" target="_blank">${sig['sig_name']}</a><br />
+        <a href="/signatures/${sig['id']}/" target="_blank">${sig['sig_name']}</a>
+        % if sig['max_dps'] > 0:
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="sig_dps">${sig['max_dps']} dps</span>
+        % endif
+        <br />
     % endfor
     </blockquote>
     </div>
