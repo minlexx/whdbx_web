@@ -70,7 +70,7 @@ class ZKBCacheFile(ZKBCacheBase):
                 cache_dir = options['cache_dir']
                 # create dir if it does not exist
                 if not os.access(cache_dir, os.R_OK):
-                    os.mkdir(cache_dir)
+                    os.makedirs(cache_dir, exist_ok=True)
                 else:
                     if not os.path.isdir(cache_dir):
                         # already exists and is not a directory
