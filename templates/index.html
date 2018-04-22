@@ -3,11 +3,32 @@
 
 <div class="solarsystem_info_wrapper">
 
-  <blockquote>
-  <%include file="zkb_block.html"/>
+  <blockquote id="zkb_block_container">
+    ## removed, async AJAX loader will be used instead
+    ## <%include file="zkb_block.html"/>
+    <br /><br /><br />
+    <center>
+      <img src="/static/img/loading_gifs/loading03.gif" />
+    </center>
+    <br /><br /><br />
   </blockquote>
 
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+      jQuery.ajax({
+          'url': '/ajax',
+          'data': {'zkb_block': '', 'ssid': 'w-space'},
+          'method': 'GET',
+          'timeout': 15000,
+          'cache': false
+      })
+      .done(function(data, textStatus, jqXHR) {
+          $('#zkb_block_container').html(data);
+      });
+  });
+</script>
 
 <%include file="footer.html"/>
 ##% if sitecfg.DEBUG:

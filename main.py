@@ -402,17 +402,20 @@ class WhdbxApp:
     def index(self):
         self.init_session()
         self.setup_template_vars('index')
-        # ZKB
-        zkb = ZKB(self.zkb_options)
-        zkb.add_wspace()
+
+        # ZKB stuff removed, async AJAX loader will be used instead
+        #zkb = ZKB(self.zkb_options)
+        #zkb.add_wspace()
+
         # zkb.add_limit(30) # Zkillboard has disabled 'limit' parameter for all users:
         # '{"error":"Due to abuse of the limit parameter to avoid caches
         #  the ability to modify limit has been revoked for all users"}'
-        wspace_kills = zkb.go()
-        wspace_kills = self.postprocess_zkb_kills(wspace_kills)
-        self.tmpl.assign('zkb_kills', wspace_kills)
-        self.tmpl.assign('zkb_block_title', 'W-Space kills')
-        self.tmpl.assign('dbg_wspace_kills', dump_object(wspace_kills))
+        #wspace_kills = zkb.go()
+        #wspace_kills = self.postprocess_zkb_kills(wspace_kills)
+
+        #self.tmpl.assign('zkb_kills', wspace_kills)
+        #self.tmpl.assign('zkb_block_title', 'W-Space kills')
+        #self.tmpl.assign('dbg_wspace_kills', dump_object(wspace_kills))
         #
         return self.tmpl.render('index.html')
 
@@ -559,13 +562,13 @@ class WhdbxApp:
             # ^^ With Eve-Central dead, we have no easy way to get trade routes
         #
         # zkillboard
-        zkb = ZKB(self.zkb_options)
-        zkb.add_solarSystem(ssid)
+        #zkb = ZKB(self.zkb_options)
+        #zkb.add_solarSystem(ssid)
         # zkb.add_limit(30) # Zkillboard has disabled 'limit' parameter for all users:
         # '{"error":"Due to abuse of the limit parameter to avoid caches
         #  the ability to modify limit has been revoked for all users"}'
-        zkb_kills = zkb.go()
-        zkb_kills = self.postprocess_zkb_kills(zkb_kills)
+        #zkb_kills = zkb.go()
+        #zkb_kills = self.postprocess_zkb_kills(zkb_kills)
         #
         # WH signatures
         sigs = []
@@ -574,8 +577,8 @@ class WhdbxApp:
         #
         # assign template vars
         self.tmpl.assign('whsys', whsys)
-        self.tmpl.assign('zkb_kills', zkb_kills)
-        self.tmpl.assign('zkb_block_title', '')
+        #self.tmpl.assign('zkb_kills', zkb_kills)
+        #self.tmpl.assign('zkb_block_title', '')
         self.tmpl.assign('utcnow', datetime.datetime.utcnow())
         self.tmpl.assign('sigs', sigs)
         if self.cfg.DEBUG:
@@ -1036,7 +1039,7 @@ class WhdbxApp:
             zkb.add_wspace()
             self.tmpl.assign('zkb_block_title', 'W-Space kills')
         else:
-            zkb.add_solarSystem(ssid = int(ssid))
+            zkb.add_solarSystem(int(ssid))
             self.tmpl.assign('zkb_block_title', '')
         # zkb.add_limit(30) # Zkillboard has disabled 'limit' parameter for all users:
         # '{"error":"Due to abuse of the limit parameter to avoid caches
