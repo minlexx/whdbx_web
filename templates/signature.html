@@ -7,7 +7,7 @@
 <%def name="print_wave(wave)">
   % if wave.is_capital:
     % if wave.wave_id == 1:
-    ${tr.gettext('Capital escalation wave is spawned for each capital ship warp-in.')}<br /><br />
+    ${tr.gettext('Capital escalation wave is spawned for each capital ship type warp-in.')}<br /><br />
     % endif
   ${tr.gettext('Cap. escalation wave')} ${wave.wave_id}:
   % else:
