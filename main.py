@@ -664,22 +664,22 @@ class WhdbxApp:
     def ajax(self, **params):
         ret_print = ''  # this string will be returned as result
         if 'search_jsystem' in params:
-            # the only AJAX call that returns simple string; others return JSON strings.
+            # this AJAX call that returns simple string; others return JSON strings.
             ret_print = self.ajax_search_jsystem(**params)
-        if 'search_hole' in params:
+        elif 'search_hole' in params:
             wh = self.ajax_search_hole(**params)  # may return None
             ret_print = 'ERROR'
             if wh is not None:
                 ret_print = json.dumps(wh)
-        if 'set_language' in params:
+        elif 'set_language' in params:
             ret_print = self.ajax_set_language(**params)
-        if 'whdb' in params:
+        elif 'whdb' in params:
             res = self.ajax_whdb_query(**params)
             ret_print = json.dumps(res)
-        if 'sso_refresh_token' in params:
+        elif 'sso_refresh_token' in params:
             res = self.ajax_sso_call_refresh_token()
             ret_print = json.dumps(res)
-        if 'esi_call' in params:
+        elif 'esi_call' in params:
             res = {'error': 'Unknown esi_call!'}
             call_type = str(params['esi_call'])
             if call_type == 'public_data':
@@ -695,6 +695,8 @@ class WhdbxApp:
                     target_id = int(params['target_id'])
                     res = self.ajax_esi_call_ui_open_window_information(target_id)
             ret_print = json.dumps(res)
+        elif 'zkb_block' in params:
+            ret_print = self.ajax_zkb_block(**params)
         return ret_print
 
     def ajax_search_jsystem(self, **params) -> str:
@@ -1021,6 +1023,29 @@ class WhdbxApp:
         else:
             self.debuglog('ajax: ajax_esi_call_ui_open_window_information: error: {}'.format(ret['error']))
         return ret
+
+    def ajax_zkb_block(self, **params) -> str:
+        # return ready-to-render HTML block
+        ssid = str(params['ssid'])
+        # common init
+        self.init_session()
+        self.setup_template_vars('zkb_block')
+        # ZKB
+        zkb = ZKB(self.zkb_options)
+        if ssid == 'w-space':
+            zkb.add_wspace()
+            self.tmpl.assign('zkb_block_title', 'W-Space kills')
+        else:
+            zkb.add_solarSystem(ssid = int(ssid))
+            self.tmpl.assign('zkb_block_title', '')
+        # zkb.add_limit(30) # Zkillboard has disabled 'limit' parameter for all users:
+        # '{"error":"Due to abuse of the limit parameter to avoid caches
+        #  the ability to modify limit has been revoked for all users"}'
+        zkb_kills = zkb.go()
+        zkb_kills = self.postprocess_zkb_kills(zkb_kills)
+        self.tmpl.assign('zkb_kills', zkb_kills)
+        #
+        return self.tmpl.render('zkb_block.html')
 
 
 if __name__ == '__main__':
