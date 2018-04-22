@@ -66,7 +66,11 @@
         % for a_sig in sigs:
             <li>
                 <img src="/static/img/sigs/${a_sig['sig_type']}_site.png" width="20" />
-                <a href="/signatures/${a_sig['id']}/">${a_sig['sig_name']}</a><br />
+                <a href="/signatures/${a_sig['id']}/">${a_sig['sig_name']}</a>
+                % if a_sig['max_dps'] > 0:
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="sig_dps">${a_sig['max_dps']} dps</span>
+                % endif
+                <br />
             </li>
         % endfor
         </ul>
@@ -166,7 +170,11 @@
     % for a_sig in sigs_list:
         <li>
             <img src="/static/img/sigs/${a_sig['sig_type']}_site.png" width="20" />
-            <a href="/signatures/${a_sig['id']}/">${a_sig['sig_name']}</a><br />
+            <a href="/signatures/${a_sig['id']}/">${a_sig['sig_name']}</a>
+            % if a_sig['max_dps'] > 0:
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="sig_dps">${a_sig['max_dps']} dps</span>
+            % endif
+            <br />
         </li>
     % endfor
     </ul>

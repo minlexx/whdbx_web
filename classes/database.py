@@ -303,7 +303,41 @@ class SiteDb:
             ret.append(sl)
         return ret
 
-    def query_signatures_for_class(self, wh_class: int) -> list:
+    def postprocess_signatures_calc_max_dps(self, sigs_list: list) -> None:
+        # for each signature, get all waves
+        #  for each wave, parse sleepers line
+        #   for each sleeper get is dps
+        #   sum all sleepers dps in this wave
+        #   remember maximum wave dps
+        for sig in sigs_list:
+            max_dps = 0
+            waves = self.query_signature_waves(sig['id'])
+            for wave in waves:
+                total_wave_dps = 0
+                is_capital = int(wave[2])
+                if is_capital:  # skip capital waves
+                    continue
+                sleepers_str = str(wave[3])
+                # parse sleepers str
+                sl_defs = sleepers_str.split(',')
+                for sl_def in sl_defs:
+                    #  'sleeper_id:count:abilities' or 'sleeper_id:count'
+                    sl_def = sl_def.strip()
+                    sl_def_list = sl_def.split(':')
+                    sl_id = int(sl_def_list[0])
+                    if sl_id > 0:
+                        sl_count = int(sl_def_list[1])
+                        # we have sleeper ID and its count
+                        sl_info = self.query_sleeper_by_id(sl_id)
+                        if sl_info is not None:
+                            sleeper_dps = sl_info['dps_em'] + sl_info['dps_therm'] \
+                                          + sl_info['dps_kin'] + sl_info['dps_exp']
+                            total_wave_dps += sleeper_dps * sl_count
+                if total_wave_dps > max_dps:
+                    max_dps = total_wave_dps
+            sig['max_dps'] = max_dps
+
+    def query_signatures_for_class(self, wh_class: int, calc_max_dps: bool = False) -> list:
         ret = []
         q = 'SELECT id,wh_class,sig_type,sig_name FROM signatures WHERE wh_class = ?'
         cur = self._conn.cursor()
@@ -314,6 +348,7 @@ class SiteDb:
             sig['wh_class'] = int(row[1])
             sig['sig_type'] = row[2]
             sig['sig_name'] = row[3]
+            sig['max_dps'] = 0
             ret.append(sig)
         cur.close()
         # don't forget about shattered!
@@ -327,6 +362,7 @@ class SiteDb:
                 sig['wh_class'] = int(row[1])
                 sig['sig_type'] = row[2]
                 sig['sig_name'] = row[3]
+                sig['max_dps'] = 0
                 ret.append(sig)
             cur.close()
         # thera also has class 3/4 sigs
@@ -355,11 +391,14 @@ class SiteDb:
                 sig['wh_class'] = int(row[1])
                 sig['sig_type'] = row[2]
                 sig['sig_name'] = row[3]
+                sig['max_dps'] = 0
                 ret.append(sig)
             cur.close()
+        if calc_max_dps:
+            self.postprocess_signatures_calc_max_dps(ret)
         return ret
 
-    def query_gas_signatures(self) -> list:
+    def query_gas_signatures(self, calc_max_dps: bool = False) -> list:
         ret = []
         q = 'SELECT id,wh_class,sig_type,sig_name FROM signatures WHERE sig_type = ?'
         cur = self._conn.cursor()
@@ -370,10 +409,13 @@ class SiteDb:
             sig['wh_class'] = int(row[1])
             sig['sig_type'] = row[2]
             sig['sig_name'] = row[3]
+            sig['max_dps'] = 0
             ret.append(sig)
+        if calc_max_dps:
+            self.postprocess_signatures_calc_max_dps(ret)
         return ret
 
-    def query_ore_signatures(self) -> list:
+    def query_ore_signatures(self, calc_max_dps: bool = False) -> list:
         ret = []
         q = 'SELECT id,wh_class,sig_type,sig_name FROM signatures WHERE sig_type = ?'
         cur = self._conn.cursor()
@@ -384,7 +426,10 @@ class SiteDb:
             sig['wh_class'] = int(row[1])
             sig['sig_type'] = row[2]
             sig['sig_name'] = row[3]
+            sig['max_dps'] = 0
             ret.append(sig)
+        if calc_max_dps:
+            self.postprocess_signatures_calc_max_dps(ret)
         return ret
 
     def query_signature(self, sig_id: int) -> tuple:

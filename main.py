@@ -478,12 +478,12 @@ class WhdbxApp:
                 self.tmpl.assign('title', sig.name + ' - WHDBX')
                 self.tmpl.assign('MODE', 'single_signature')
                 if sig.wh_class != 0:
-                    self.tmpl.assign('sigs', self.db.query_signatures_for_class(sig.wh_class))
+                    self.tmpl.assign('sigs', self.db.query_signatures_for_class(sig.wh_class, True))
                 if sig.wh_class == 0:  # ore site or gas site
                     if sig.sig_type == 'gas':
-                        self.tmpl.assign('sigs', self.db.query_gas_signatures())
+                        self.tmpl.assign('sigs', self.db.query_gas_signatures(True))
                     elif sig.sig_type == 'ore':
-                        self.tmpl.assign('sigs', self.db.query_ore_signatures())
+                        self.tmpl.assign('sigs', self.db.query_ore_signatures(True))
             self.tmpl.assign('sigs_c1', list())
             self.tmpl.assign('sigs_c2', list())
             self.tmpl.assign('sigs_c3', list())
@@ -494,15 +494,15 @@ class WhdbxApp:
             self.tmpl.assign('sigs_ore', list())
             self.tmpl.assign('sigs_thera', list())
         else:
-            self.tmpl.assign('sigs_c1', self.db.query_signatures_for_class(1))
-            self.tmpl.assign('sigs_c2', self.db.query_signatures_for_class(2))
-            self.tmpl.assign('sigs_c3', self.db.query_signatures_for_class(3))
-            self.tmpl.assign('sigs_c4', self.db.query_signatures_for_class(4))
-            self.tmpl.assign('sigs_c5', self.db.query_signatures_for_class(5))
-            self.tmpl.assign('sigs_c6', self.db.query_signatures_for_class(6))
-            self.tmpl.assign('sigs_gas', self.db.query_gas_signatures())
-            self.tmpl.assign('sigs_ore', self.db.query_ore_signatures())
-            self.tmpl.assign('sigs_thera', self.db.query_signatures_for_class(WHClass.THERA_WH_CLASS))
+            self.tmpl.assign('sigs_c1', self.db.query_signatures_for_class(1, True))
+            self.tmpl.assign('sigs_c2', self.db.query_signatures_for_class(2, True))
+            self.tmpl.assign('sigs_c3', self.db.query_signatures_for_class(3, True))
+            self.tmpl.assign('sigs_c4', self.db.query_signatures_for_class(4, True))
+            self.tmpl.assign('sigs_c5', self.db.query_signatures_for_class(5, True))
+            self.tmpl.assign('sigs_c6', self.db.query_signatures_for_class(6, True))
+            self.tmpl.assign('sigs_gas', self.db.query_gas_signatures(True))
+            self.tmpl.assign('sigs_ore', self.db.query_ore_signatures(True))
+            self.tmpl.assign('sigs_thera', self.db.query_signatures_for_class(WHClass.THERA_WH_CLASS, True))
         # debug mode
         if self.cfg.DEBUG:
             self.tmpl.assign('sig_dbg', dump_object(sig))
