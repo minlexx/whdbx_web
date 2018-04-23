@@ -671,11 +671,8 @@ class WhdbxApp:
         if 'search_jsystem' in params:
             # this AJAX call that returns simple string; others return JSON strings.
             ret_print = self.ajax_search_jsystem(**params)
-        elif 'search_hole' in params:
-            wh = self.ajax_search_hole(**params)  # may return None
-            ret_print = 'ERROR'
-            if wh is not None:
-                ret_print = json.dumps(wh)
+        elif 'search_hole_v2' in params:
+            ret_print = self.ajax_search_hole_v2(**params)
         elif 'set_language' in params:
             ret_print = self.ajax_set_language(**params)
         elif 'whdb' in params:
@@ -721,9 +718,13 @@ class WhdbxApp:
                 ret = search_jsystem
         return ret
 
-    def ajax_search_hole(self, **params) -> dict:
-        wh = None
-        hole_name = str(params['search_hole'])
+    def ajax_search_hole_v2(self, **params) -> str:
+        # init locale translator
+        selected_locale = self.get_selected_locale_code()
+        tr = self.tr.get_translator(selected_locale)
+        ret = tr.gettext('Not found!')
+        # actually search hole
+        hole_name = str(params['search_hole_v2'])
         if hole_name != '':
             hole_name = hole_name.upper()
             wh = self.db.find_wormhole(hole_name)
@@ -746,7 +747,27 @@ class WhdbxApp:
                         wh['in_class_str'] = 'C' + str(wh['in_class']) + ' shattered'
                     if WHClass.is_drifters(wh['in_class']):
                         wh['in_class_str'] = 'Drifters WH'
-        return wh
+                # create reply
+                tip_str = ''
+                # mass
+                tip_str += tr.gettext('Mass:') + ' <b>'
+                tip_str += str(int(wh['maxStableMass'] / 1000000))
+                tip_str += '</b>  ' + tr.gettext('mil.kg') + '<br />'
+                # jump mass
+                tip_str += tr.gettext('Jump mass:') + ' <b>'
+                tip_str += str(int(wh['maxJumpMass'] / 1000000))
+                tip_str += '</b>  ' + tr.gettext('mil.kg') + '<br />'
+                # lifetime
+                tip_str += tr.gettext('Life time:') + ' <b>'
+                tip_str += str(int(wh['maxStableTime'] / 60))
+                tip_str += '</b>  ' + tr.gettext('hr.') + '<br />'
+                # element code
+                ret = '<span class=\"static_name\" onmouseover=\"Tip(\''
+                ret += tip_str
+                ret += '\');\" onmouseout=\"UnTip();\">'
+                ret += wh['name'] + ' ' + wh['in_class_str'];
+                ret += '</span>'
+        return ret
 
     def ajax_set_language(self, **params) -> str:
         newlang = str(params['set_language'])

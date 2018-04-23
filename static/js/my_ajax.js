@@ -11,7 +11,7 @@ function myajax(url, handler) {
 }
 
 
-function hole_search_handler() {
+function hole_search_handler_v2() {
     if (g_xmlhttp == null) return false;
     var res_div = document.getElementById('fast_search_result');
     if (!res_div) return false;
@@ -19,38 +19,8 @@ function hole_search_handler() {
     if ((g_xmlhttp.readyState == 4) && (g_xmlhttp.status == 200)) {
         resp = g_xmlhttp.responseText;
     }
-    if ((resp != '') && (resp != 'ERROR')) {
-        // res_div.innerHTML = '[' + resp + ']';
-        var obj = JSON.parse(resp);
-        // { "maxJumpMass": 300000000, "maxStableMass": 3000000000,
-        //   "in_class_str": "C5", "in_class": 5, "massRegeneration": 0,
-        //   "maxStableTime": 1440, "name": "H900", "id": 46 }
-        // tip string
-        var tip_str = '';
-        // mass
-        tip_str += 'Масса: <b>';
-        tip_str += obj.maxStableMass / 1000000;
-        tip_str += '</b>  тыс.тонн<br />';
-        // jump mass
-        tip_str += 'Масса на прыг: <b>';
-        tip_str += obj.maxJumpMass / 1000000;
-        tip_str += '</b>  тыс.тонн<br />';
-        // lifetime
-        tip_str += 'Время жизни: <b>';
-        tip_str += obj.maxStableTime / 60;
-        tip_str += '</b>  ч.<br />';
-        // element code
-        var s = '<span class=\"static_name\" onmouseover=\"Tip(\'';
-        s += tip_str;
-        s += '\');\" onmouseout=\"UnTip();\">';
-        s += obj.name;
-        s += ' ' + obj.in_class_str;
-        s += '</span>'
-        res_div.innerHTML = s;
-    }
-    if (resp == 'ERROR') {
-        res_div.innerHTML = 'Не найдено!';
-    }
+    // Translated text is fully generated on server side. Do not hardcode russian here
+    res_div.innerHTML = resp;
     return true;
 }
 
@@ -83,8 +53,8 @@ function fast_search_hole() {
     if( s_h.length == 4 ) {
         var msg = 'Поиск дыры: ' + s_h;
         res_div.innerHTML = msg;
-        var url = '/ajax/?search_hole=' + encodeURIComponent(s_h)
-        myajax(url, hole_search_handler)
+        var url = '/ajax/?search_hole_v2=' + encodeURIComponent(s_h)
+        myajax(url, hole_search_handler_v2)
     }
     return true;
 }
