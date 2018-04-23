@@ -7,18 +7,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-22 21:34+0300\n"
-"PO-Revision-Date: 2018-04-22 21:42+0300\n"
+"POT-Creation-Date: 2018-04-23 11:45+0300\n"
+"PO-Revision-Date: 2018-04-23 11:46+0300\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: ru\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
-#: templates/char_info.html:101 .\templates\char_info.html:101 templates/char_info.html:99
-#: .\templates\char_info.html:99
+#: templates/char_info.html:101 .\templates\char_info.html:101
+#: templates/char_info.html:99
 msgid "Why?"
 msgstr "Зачем?"
 
@@ -30,12 +30,14 @@ msgstr "Выход"
 msgid "Wormhole:"
 msgstr "Червоточина:"
 
-#: templates/fast_search_block_v2.html:11 .\templates\fast_search_block_v2.html:11
-#: templates/zkb_block.html:24 .\templates\zkb_block.html:15
+#: templates/fast_search_block_v2.html:11
+#: .\templates\fast_search_block_v2.html:11 .\templates\zkb_block.html:15
+#: templates/zkb_block.html:15
 msgid "System"
 msgstr "Система"
 
-#: templates/fast_search_block_v2.html:5 .\templates\fast_search_block_v2.html:5
+#: templates/fast_search_block_v2.html:5
+#: .\templates\fast_search_block_v2.html:5
 msgid "Wormhole"
 msgstr "Червоточина"
 
@@ -64,8 +66,11 @@ msgid "About project"
 msgstr "О проекте"
 
 #: templates/500.html:14 .\templates\500.html:14
-msgid "Oops! Something broke, send message ingame to <b>Lexx Min</b>, or file a bug on"
-msgstr "Ой! Что-то сломалось, срочно стучите в личку <b>Lexx Min</b>, или багрепорт в"
+msgid ""
+"Oops! Something broke, send message ingame to <b>Lexx Min</b>, or file a bug "
+"on"
+msgstr ""
+"Ой! Что-то сломалось, срочно стучите в личку <b>Lexx Min</b>, или багрепорт в"
 
 #: templates/500.html:15 .\templates\500.html:15
 msgid "github issues"
@@ -87,17 +92,21 @@ msgstr "Сообщить статики!"
 msgid "Write statics names, <br /> separating with commas:"
 msgstr "Перечислите названия статиков, <br /> разделяя запятыми:"
 
-#: templates/short_history_block.html:28 .\templates\short_history_block.html:28
+#: templates/short_history_block.html:28
+#: .\templates\short_history_block.html:28
 msgid "min."
 msgstr "мин."
 
-#: templates/short_history_block.html:31 .\templates\short_history_block.html:31
+#: templates/short_history_block.html:31
+#: .\templates\short_history_block.html:31
 msgid "h."
 msgstr "ч."
 
 #: templates/signature.html:10 .\templates\signature.html:10
 msgid "Capital escalation wave is spawned for each capital ship type warp-in."
-msgstr "Кап. доресп волна спавнится на приварп капитала, по одной на каждый тип капитала."
+msgstr ""
+"Кап. доресп волна спавнится на приварп капитала, по одной на каждый тип "
+"капитала."
 
 #: templates/signature.html:12 .\templates\signature.html:12
 msgid "Cap. escalation wave"
@@ -111,15 +120,16 @@ msgstr "Сигнатуры и аномалии Теры:"
 msgid "Signatues and anomalies of frig-WH:"
 msgstr "Сигнатуры и аномалии фриг-ВХ:"
 
-#: templates/signature.html:58 templates/signature.html:60 .\templates\signature.html:58
-#: .\templates\signature.html:60 .\templates\signature.html:176
-#: templates/signature.html:176
+#: templates/signature.html:58 templates/signature.html:60
+#: .\templates\signature.html:58 .\templates\signature.html:176
+#: templates/signature.html:184
 msgid "Signatues and anomalies"
 msgstr "Сигнатуры и аномалии"
 
-#: templates/signature.html:58 templates/signature.html:60 .\templates\signature.html:58
-#: .\templates\signature.html:60 .\templates\signature.html:176
-#: .\templates\sleeper.html:82 templates/signature.html:176 templates/sleeper.html:82
+#: templates/signature.html:58 templates/signature.html:60
+#: .\templates\signature.html:58 .\templates\signature.html:176
+#: templates/signature.html:176 templates/sleeper.html:82
+#: templates/signature.html:184
 msgid "th class"
 msgstr "-го класса"
 
@@ -128,98 +138,117 @@ msgid "Other signatures of the same type:"
 msgstr "Другие сигнатуры того же типа:"
 
 #: templates/signature.html:80 .\templates\signature.html:80
+#: templates/signature.html:84
 msgid "frig-shattered"
 msgstr "фриг-разломанная"
 
-#: templates/signature.html:82 templates/signature.html:84 .\templates\signature.html:82
-#: .\templates\signature.html:84 templates/whdb.html:102 templates/whdb.html:104
-#: templates/whdb.html:106 templates/whdb.html:108 templates/whdb.html:110
-#: templates/whdb.html:112 templates/whsystem_info.html:37 .\templates\whdb.html:102
-#: .\templates\whdb.html:104 .\templates\whdb.html:106 .\templates\whdb.html:108
-#: .\templates\whdb.html:110 .\templates\whdb.html:112 .\templates\whsystem_info.html:37
+#: templates/signature.html:82 templates/signature.html:84
+#: .\templates\signature.html:82 templates/whdb.html:102
+#: templates/whdb.html:104 templates/whdb.html:108 templates/whdb.html:110
+#: templates/whsystem_info.html:37 .\templates\whdb.html:102
+#: .\templates\whdb.html:104 .\templates\whdb.html:106
+#: .\templates\whdb.html:108 .\templates\whdb.html:112
+#: .\templates\whsystem_info.html:37 templates/signature.html:86
+#: templates/signature.html:88 templates/whdb.html:106 templates/whdb.html:112
 msgid "class"
 msgstr "класс"
 
-#: templates/signature.html:84 .\templates\signature.html:84 templates/whdb.html:114
-#: templates/whsystem_info.html:107 .\templates\whdb.html:114
-#: .\templates\whsystem_info.html:107
+#: templates/signature.html:84 .\templates\signature.html:84
+#: templates/whdb.html:114 .\templates\whdb.html:114
+#: templates/signature.html:88 templates/whsystem_info.html:111
 msgid "shattered"
 msgstr "разлом"
 
 #: templates/signature.html:89 .\templates\signature.html:89
+#: templates/signature.html:93
 msgid "Sleepers appear approximately in 20 minutes after signature activation."
 msgstr "Слиперы появляются примерно через 20 минут после активации сигнатуры."
 
 #: templates/signature.html:97 .\templates\signature.html:97
+#: templates/signature.html:101
 msgid "Gas clouds"
 msgstr "Газовые облака"
 
 #: templates/signature.html:105 templates/signature.html:107
 #: .\templates\signature.html:105 .\templates\signature.html:107
+#: templates/signature.html:109 templates/signature.html:111
 msgid "unit"
 msgstr "единица"
 
 #: templates/signature.html:106 .\templates\signature.html:106
+#: templates/signature.html:110
 msgid "Full Venture:"
 msgstr "Полная Вентура:"
 
 #: templates/signature.html:107 .\templates\signature.html:107
+#: templates/signature.html:111
 msgid "total units"
 msgstr "всего единиц"
 
 #: templates/signature.html:109 .\templates\signature.html:109
+#: templates/signature.html:113
 msgid "Harvesting in a Venture"
 msgstr "Добыча Вентурой"
 
-#: templates/signature.html:109 templates/signature.html:152 templates/signature.html:156
-#: .\templates\signature.html:109 .\templates\signature.html:152
-#: .\templates\signature.html:156
+#: templates/signature.html:109 templates/signature.html:152
+#: templates/signature.html:156 .\templates\signature.html:152
+#: templates/signature.html:113 templates/signature.html:160
 msgid "hour"
 msgstr "час"
 
 #: templates/signature.html:113 .\templates\signature.html:113
+#: templates/signature.html:117
 msgid "Full profit from gas clouds"
 msgstr "Полный выхлоп с облаков"
 
 #: templates/signature.html:114 .\templates\signature.html:114
+#: templates/signature.html:118
 msgid "Jita sell price, updates once a day"
 msgstr "Цена продажи в Jita, обновление раз в сутки"
 
 #: templates/signature.html:115 .\templates\signature.html:115
+#: templates/signature.html:119
 msgid "Time to fill a Venture with"
 msgstr "Время заполнения Вентуры с"
 
 #: templates/signature.html:118 .\templates\signature.html:118
+#: templates/signature.html:122
 msgid "without mining bonuses"
 msgstr "без бонусов на копку"
 
 #: templates/signature.html:118 .\templates\signature.html:118
+#: templates/signature.html:122
 msgid "minutes"
 msgstr "минут"
 
 #: templates/signature.html:120 .\templates\signature.html:120
+#: templates/signature.html:124
 msgid "Ore asteroids"
 msgstr "Рудные астероиды"
 
 #: templates/signature.html:141 .\templates\signature.html:141
+#: templates/signature.html:145
 msgid "without cap. escalations"
 msgstr "без кап. дореспов"
 
-#: templates/signature.html:145 .\templates\signature.html:145 .\templates\sleeper.html:77
-#: .\templates\sleeper.html:121 .\templates\sleeper.html:124 templates/sleeper.html:77
-#: templates/sleeper.html:124
+#: templates/signature.html:145 .\templates\signature.html:145
+#: .\templates\sleeper.html:77 .\templates\sleeper.html:124
+#: templates/sleeper.html:77 templates/sleeper.html:124
 msgid "Total"
 msgstr "Всего"
 
 #: .\templates\signature.html:193 templates/signature.html:193
+#: templates/signature.html:201
 msgid "Ore sites"
 msgstr "Рудные сигнатуры"
 
 #: .\templates\signature.html:197 templates/signature.html:197
+#: templates/signature.html:205
 msgid "Gas sites"
 msgstr "Газовые сигнатуры"
 
 #: .\templates\signature.html:201 templates/signature.html:201
+#: templates/signature.html:209
 msgid "Thera anomalies"
 msgstr "Аномалии в Thera"
 
@@ -290,8 +319,8 @@ msgstr "Резисты брони"
 msgid "Attack range"
 msgstr "Радиус атаки"
 
-#: .\templates\sleeper.html:82 .\main.py:439 templates/sleeper.html:82 main.py:439
-#: main.py:444 .\main.py:449
+#: .\templates\sleeper.html:82 .\main.py:439 templates/sleeper.html:82
+#: main.py:439
 msgid "Sleepers"
 msgstr "Слиперы"
 
@@ -307,23 +336,28 @@ msgstr "Нейтрики"
 msgid "Warp disruption"
 msgstr "Дизраптор"
 
-#: .\templates\sleeper.html:106 .\templates\sleeper.html:109 templates/sleeper.html:109
+#: .\templates\sleeper.html:106 .\templates\sleeper.html:109
+#: templates/sleeper.html:109
 msgid "Stasis Webifier"
 msgstr "Сетка"
 
-#: .\templates\sleeper.html:109 .\templates\sleeper.html:112 templates/sleeper.html:112
+#: .\templates\sleeper.html:109 .\templates\sleeper.html:112
+#: templates/sleeper.html:112
 msgid "Remote armor repair"
 msgstr "Удаленная откачка брони"
 
-#: .\templates\sleeper.html:115 .\templates\sleeper.html:118 templates/sleeper.html:118
+#: .\templates\sleeper.html:115 .\templates\sleeper.html:118
+#: templates/sleeper.html:118
 msgid "Loot"
 msgstr "Дроп"
 
-#: .\templates\sleeper.html:133 .\templates\sleeper.html:136 templates/sleeper.html:136
+#: .\templates\sleeper.html:133 .\templates\sleeper.html:136
+#: templates/sleeper.html:136
 msgid "Sleepers from"
 msgstr "Слеперы"
 
-#: .\templates\sleeper.html:133 .\templates\sleeper.html:136 templates/sleeper.html:136
+#: .\templates\sleeper.html:133 .\templates\sleeper.html:136
+#: templates/sleeper.html:136
 msgid "classes"
 msgstr "классов"
 
@@ -475,8 +509,8 @@ msgstr "дрифтерская ВХ"
 msgid "With effect"
 msgstr "С эффектом"
 
-#: templates/whdb.html:125 templates/whsystem_info.html:49 .\templates\whdb.html:125
-#: .\templates\whsystem_info.html:49
+#: templates/whdb.html:125 templates/whsystem_info.html:49
+#: .\templates\whdb.html:125
 msgid "No effect"
 msgstr "Без эффекта"
 
@@ -486,8 +520,9 @@ msgstr "Со статиком"
 
 #: templates/whdb.html:144 templates/whdb.html:146 templates/whdb.html:148
 #: templates/whdb.html:150 templates/whdb.html:152 templates/whdb.html:154
-#: .\templates\whdb.html:144 .\templates\whdb.html:146 .\templates\whdb.html:148
-#: .\templates\whdb.html:150 .\templates\whdb.html:152 .\templates\whdb.html:154
+#: .\templates\whdb.html:144 .\templates\whdb.html:146
+#: .\templates\whdb.html:148 .\templates\whdb.html:152
+#: .\templates\whdb.html:154
 msgid "to class"
 msgstr "в класс"
 
@@ -532,6 +567,7 @@ msgid "Signatures and anomalies"
 msgstr "Сигнатуры и аномалии"
 
 #: templates/whsystem_info.html:83 .\templates\whsystem_info.html:83
+#: templates/whsystem_info.html:87
 msgid "No information."
 msgstr "Нет информации."
 
@@ -541,19 +577,28 @@ msgstr "Нет информации."
 #: templates/whsystem_info.html:124 .\templates\whsystem_info.html:88
 #: .\templates\whsystem_info.html:97 .\templates\whsystem_info.html:107
 #: .\templates\whsystem_info.html:117 .\templates\whsystem_info.html:124
+#: templates/whsystem_info.html:92 templates/whsystem_info.html:101
+#: templates/whsystem_info.html:111 templates/whsystem_info.html:121
+#: templates/whsystem_info.html:128
 msgid "WH class"
 msgstr "Класс ВХ"
 
 #: templates/whsystem_info.html:91 .\templates\whsystem_info.html:91
+#: templates/whsystem_info.html:95
 msgid ""
-"Thera can have signatures from classes 3-4,<br />all gas/ore anoms from higher classes."
-"<br />"
+"Thera can have signatures from classes 3-4,<br />all gas/ore anoms from "
+"higher classes.<br />"
 msgstr ""
-"Тера может иметь сигнатуры из 3-4 классов,<br />все газы/руды из высших классов.<br />"
+"Тера может иметь сигнатуры из 3-4 классов,<br />все газы/руды из высших "
+"классов.<br />"
 
 #: templates/whsystem_info.html:92 .\templates\whsystem_info.html:92
-msgid "<b>8</b> statics - <b>2</b> to high-sec, <b>3</b> to low-sec, <b>3</b> to nullsec."
-msgstr "<b>8</b> статиков - <b>2</b> в хайсек, <b>3</b> в лоусек, <b>3</b> в нули."
+#: templates/whsystem_info.html:96
+msgid ""
+"<b>8</b> statics - <b>2</b> to high-sec, <b>3</b> to low-sec, <b>3</b> to "
+"nullsec."
+msgstr ""
+"<b>8</b> статиков - <b>2</b> в хайсек, <b>3</b> в лоусек, <b>3</b> в нули."
 
 msgid "Leads into"
 msgstr "Ведет в"
@@ -575,75 +620,96 @@ msgid "firg-WH, classes 1-3, effect from C6"
 msgstr "фриг-ВХ, классы 1-3, эффект от C6"
 
 #: templates/whsystem_info.html:101 .\templates\whsystem_info.html:101
+#: templates/whsystem_info.html:105
 msgid "All statics are frig-sized holes."
 msgstr "Все статики тоже фригодырки."
 
 #: templates/whsystem_info.html:111 .\templates\whsystem_info.html:111
+#: templates/whsystem_info.html:115
 msgid ""
-"These are new systems, statics info <br />may be incorrect or missing. Please report "
-"errors!<br />"
+"These are new systems, statics info <br />may be incorrect or missing. "
+"Please report errors!<br />"
 msgstr ""
-"Т.к. это новые системы, инфа о статиках может <br />быть неточной или отсутствовать. "
-"Сообщайте об ошибках!<br />"
+"Т.к. это новые системы, инфа о статиках может <br />быть неточной или "
+"отсутствовать. Сообщайте об ошибках!<br />"
 
 #: templates/whsystem_info.html:117 .\templates\whsystem_info.html:117
+#: templates/whsystem_info.html:121
 msgid "drifters"
 msgstr "дрифтерская"
 
 #: templates/whsystem_info.html:120 .\templates\whsystem_info.html:120
-msgid "Effect from C2, no statics info.<br />Usually has many holes to k-space systems."
-msgstr "Эффект от С2, информаци о статиках нет.<br />Обычно имеет много дырок в к-спейс."
+#: templates/whsystem_info.html:124
+msgid ""
+"Effect from C2, no statics info.<br />Usually has many holes to k-space "
+"systems."
+msgstr ""
+"Эффект от С2, информаци о статиках нет.<br />Обычно имеет много дырок в к-"
+"спейс."
 
 #: templates/whsystem_info.html:128 templates/whsystem_info.html:132
 #: .\templates\whsystem_info.html:128 .\templates\whsystem_info.html:132
+#: templates/whsystem_info.html:136
 msgid "Statics"
 msgstr "Статики"
 
 #: templates/whsystem_info.html:128 .\templates\whsystem_info.html:128
+#: templates/whsystem_info.html:132
 msgid "unknown"
 msgstr "неизвестно"
 
 #: templates/whsystem_info.html:130 .\templates\whsystem_info.html:130
+#: templates/whsystem_info.html:134
 msgid "Static"
 msgstr "Статик"
 
 #: templates/whsystem_info.html:141 .\templates\whsystem_info.html:141
+#: templates/whsystem_info.html:145
 msgid "Effect"
 msgstr "Эффект"
 
 #: templates/whsystem_info.html:142 .\templates\whsystem_info.html:142
+#: templates/whsystem_info.html:146
 msgid "Planets"
 msgstr "Планеты"
 
 #: templates/whsystem_info.html:143 .\templates\whsystem_info.html:143
+#: templates/whsystem_info.html:147
 msgid "Moons"
 msgstr "Луны"
 
 #: templates/whsystem_info.html:144 .\templates\whsystem_info.html:144
+#: templates/whsystem_info.html:148
 msgid "Star"
 msgstr "Звезда"
 
 #: templates/whsystem_info.html:148 .\templates\whsystem_info.html:148
+#: templates/whsystem_info.html:152
 msgid "is not a WH system. It is"
 msgstr "это не ВХ-система. Это"
 
 #: templates/whsystem_info.html:154 .\templates\whsystem_info.html:154
+#: templates/whsystem_info.html:158
 msgid "Security level"
 msgstr "Уровень безопасности"
 
 #: templates/whsystem_info.html:155 .\templates\whsystem_info.html:155
+#: templates/whsystem_info.html:159
 msgid "Radius"
 msgstr "Радиус"
 
 #: templates/whsystem_info.html:155 .\templates\whsystem_info.html:155
+#: templates/whsystem_info.html:159
 msgid "last planet orbit"
 msgstr "орбита последней планеты"
 
 #: templates/whsystem_info.html:157 .\templates\whsystem_info.html:157
+#: templates/whsystem_info.html:161
 msgid "See system on:"
 msgstr "Система на:"
 
 #: templates/whsystem_info.html:97 .\templates\whsystem_info.html:97
+#: templates/whsystem_info.html:101
 msgid "frig-WH, classes 1-3, effect from C6"
 msgstr "фриг-ВХ, классы 1-3, эффект от C6"
 
@@ -684,38 +750,47 @@ msgid "drifters wh, effect class 2"
 msgstr "дрифтерская ВХ, эффект из класса 2"
 
 #: templates/zkb_block.html:17 .\templates\zkb_block.html:8
+#: templates/zkb_block.html:8
 msgid "PVP-activity for system from"
 msgstr "ПВП-активность системы с"
 
 #: templates/zkb_block.html:23 .\templates\zkb_block.html:14
+#: templates/zkb_block.html:14
 msgid "Link"
 msgstr "Ссылка"
 
 #: templates/zkb_block.html:25 .\templates\zkb_block.html:16
+#: templates/zkb_block.html:16
 msgid "Time"
 msgstr "Время"
 
 #: templates/zkb_block.html:27 .\templates\zkb_block.html:18
+#: templates/zkb_block.html:18
 msgid "Ship"
 msgstr "Корабль"
 
 #: templates/zkb_block.html:29 .\templates\zkb_block.html:20
+#: templates/zkb_block.html:20
 msgid "Victim"
 msgstr "Жертва"
 
 #: templates/zkb_block.html:31 .\templates\zkb_block.html:22
+#: templates/zkb_block.html:22
 msgid "Attackers, final blow"
 msgstr "Атакующие, последний выстрел"
 
 #: templates/zkb_block.html:56 .\templates\zkb_block.html:47
+#: templates/zkb_block.html:47
 msgid "Today"
 msgstr "Сегодня"
 
 #: templates/zkb_block.html:58 .\templates\zkb_block.html:49
+#: templates/zkb_block.html:49
 msgid "Yesterday"
 msgstr "Вчера"
 
 #: templates/zkb_block.html:60 .\templates\zkb_block.html:51
+#: templates/zkb_block.html:51
 msgid "days ago"
 msgstr "дн. назад"
 
@@ -726,3 +801,27 @@ msgstr "Язык"
 #: .\main.py:534
 msgid "About EVE-SSO"
 msgstr "О EVE-SSO"
+
+#: main.py:757
+msgid "Not found!"
+msgstr "Не найдено!"
+
+#: main.py:785
+msgid "Mass:"
+msgstr "Масса:"
+
+#: main.py:787 main.py:791
+msgid "mil.kg"
+msgstr "тыс.тонн"
+
+#: main.py:789
+msgid "Jump mass:"
+msgstr "Масса на прыг:"
+
+#: main.py:793
+msgid "Life time:"
+msgstr "Время жизни:"
+
+#: main.py:795
+msgid "hr."
+msgstr "ч."
