@@ -9,6 +9,14 @@ import requests
 from . import sitecfg
 
 
+esi_proxies = None
+
+
+def set_esi_proxies(proxies: dict):
+    global esi_proxies
+    esi_proxies = proxies
+
+
 class ESIException(Exception):
     def __init__(self, msg: str = ''):
         self.msg = msg
@@ -46,6 +54,7 @@ def analyze_esi_response_headers(headers: dict) -> None:
 
 
 def characters_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
+    global esi_proxies
     ret = []
     error_str = ''
     if len(ids_list) < 0:
@@ -66,6 +75,7 @@ def characters_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
                              'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
+                         proxies=esi_proxies,
                          timeout=20)
         response_text = r.text
         if r.status_code == 200:
@@ -87,6 +97,7 @@ def characters_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
 
 
 def corporations_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
+    global esi_proxies
     ret = []
     error_str = ''
     if len(ids_list) < 0:
@@ -107,6 +118,7 @@ def corporations_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
                              'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
+                         proxies=esi_proxies,
                          timeout=20)
         response_text = r.text
         if r.status_code == 200:
@@ -128,6 +140,7 @@ def corporations_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
 
 
 def alliances_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
+    global esi_proxies
     ret = []
     error_str = ''
     if len(ids_list) < 0:
@@ -148,6 +161,7 @@ def alliances_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
                              'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
+                         proxies=esi_proxies,
                          timeout=20)
         response_text = r.text
         if r.status_code == 200:
@@ -168,6 +182,7 @@ def alliances_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
 
 
 def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
+    global esi_proxies
     ret = {
         'error': '',
         'char_id': char_id,
@@ -193,6 +208,7 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
                              'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
+                         proxies=esi_proxies,
                          timeout=10)
         obj = json.loads(r.text)
         if r.status_code == 200:
@@ -216,6 +232,7 @@ def public_data(cfg: sitecfg.SiteConfig, char_id: int) -> dict:
                              'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
+                         proxies=esi_proxies,
                          timeout=10)
         obj = json.loads(r.text)
         if r.status_code == 200:
@@ -291,6 +308,7 @@ def do_refresh_token(cfg: sitecfg.SiteConfig, refresh_token: str) -> dict:
 
 
 def location_online(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> dict:
+    global esi_proxies
     ret = {
         'error': '',
         'is_online': False
@@ -306,6 +324,7 @@ def location_online(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) ->
                              'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
+                         proxies=esi_proxies,
                          timeout=10)
         response_text = r.text
         if r.status_code == 200:
@@ -326,6 +345,7 @@ def location_online(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) ->
 
 
 def location_ship(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> dict:
+    global esi_proxies
     ret = {
         'error': '',
         'ship_name': '',
@@ -342,6 +362,7 @@ def location_ship(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> d
                              'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
+                         proxies=esi_proxies,
                          timeout=10)
         obj = json.loads(r.text)
         if r.status_code == 200:
@@ -362,6 +383,7 @@ def location_ship(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> d
 
 
 def location_location(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) -> dict:
+    global esi_proxies
     ret = {
         'error': '',
         'solarsystem_id': 0,
@@ -384,6 +406,7 @@ def location_location(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) 
                              'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
+                         proxies=esi_proxies,
                          timeout=10)
         obj = json.loads(r.text)
         if r.status_code == 200:
@@ -409,6 +432,7 @@ def location_location(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) 
 
 
 def market_region_orders(cfg: sitecfg.SiteConfig, region_id: int, order_type: str, optional_type_id: int = None) -> list:
+    global esi_proxies
     ret = []
     error_str = ''
     if region_id < 0:
@@ -432,6 +456,7 @@ def market_region_orders(cfg: sitecfg.SiteConfig, region_id: int, order_type: st
                              'Accept': 'application/json',
                              'User-Agent': cfg.SSO_USER_AGENT
                          },
+                         proxies=esi_proxies,
                          timeout=20)
         response_text = r.text
         if r.status_code == 200:
@@ -460,6 +485,7 @@ def ui_open_window_information(cfg: sitecfg.SiteConfig, target_id: int, access_t
     :param access_token: SSO access token string
     :return: true - request received, on error ESIExceprtion is thrown
     """
+    global esi_proxies
     ret = False
     error_str = ''
     if target_id < 0:
@@ -475,6 +501,7 @@ def ui_open_window_information(cfg: sitecfg.SiteConfig, target_id: int, access_t
                               'Accept': 'application/json',
                               'User-Agent': cfg.SSO_USER_AGENT
                           },
+                          proxies=esi_proxies,
                           timeout=10)
         # only check return code. 204 is "reqeust accepted"
         if (r.status_code >= 200) and (r.status_code <= 299):
