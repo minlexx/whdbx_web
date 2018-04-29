@@ -162,6 +162,22 @@ class WhdbxApp:
     def display_failure(self, comment: str = '') -> str:
         if not self.tmpl.is_set('title'):
             self.tmpl.assign('title', 'ERROR - WHDBX')
+        self.tmpl.assign('MODE', 'failure')  # current page identifier
+        # assign EVE-SSO data defaults
+        self.tmpl.assign('HAVE_SSO_LOGIN', False)
+        self.tmpl.assign('SSO_TOKEN_EXPIRE_DT', '')
+        self.tmpl.assign('SSO_LOGIN_URL', self.cfg.sso_login_url(cherrypy.session['sso_state']))
+        self.tmpl.assign('SSO_CHAR_ID', '')
+        self.tmpl.assign('SSO_CHAR_NAME', '')
+        self.tmpl.assign('SSO_CORP_ID', '')
+        self.tmpl.assign('SSO_CORP_NAME', '')
+        self.tmpl.assign('SSO_SHIP_ID', '')
+        self.tmpl.assign('SSO_SHIP_NAME', '')
+        self.tmpl.assign('SSO_SHIP_TITLE', '')
+        self.tmpl.assign('SSO_SOLARSYSTEM_ID', '')
+        self.tmpl.assign('SSO_SOLARSYSTEM_NAME', '')
+        self.tmpl.assign('SSO_ONLINE', '')
+        self.setup_locale()
         self.tmpl.assign('error_comment', comment)
         return self.tmpl.render('failure.html')
 
@@ -267,6 +283,10 @@ class WhdbxApp:
         for h in cherrypy.request.headers:
             msg += str(h) + ': ' + str(cherrypy.request.headers[h]) + '\n'
         return self.debugprint(msg, show_config=False, show_env=False)
+
+    @cherrypy.expose()
+    def test_failure(self, **params):
+        return self.display_failure('Test failure')
 
     @cherrypy.expose()
     def adm_reload_config(self, **params):
