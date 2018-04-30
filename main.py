@@ -1114,6 +1114,13 @@ if __name__ == '__main__':
         'log.screen': False
     })
 
+    # proxies = {
+    #   'http': 'http://user:pass@10.10.1.10:3128/',
+    #   'https': 'http://10.10.1.10:1080',
+    # }
+    #esi_calls.set_esi_proxies({'http': 'http://user:pass@eve-wh.space:8080/',
+    #                           'https': 'http://user:pass@eve-wh.space:8080/'})
+
     whdbx_app = WhdbxApp()
     cherrypy.tree.mount(whdbx_app, '/', whdbx_app.get_cherrypy_app_config())
 
