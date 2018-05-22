@@ -996,9 +996,7 @@ class WhdbxApp:
             'error': '',
             'is_online': False,
             'online': False,
-            'last_login': None,
-            'last_logout': None,
-            'logins': 0
+            'logins': 0,
         }
         if 'sso_char_id' not in cherrypy.session:
             ret['error'] = 'sso_char_id is not defined in session!'

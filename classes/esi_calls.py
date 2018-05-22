@@ -327,9 +327,13 @@ def location_online(cfg: sitecfg.SiteConfig, char_id: int, access_token: str) ->
                          proxies=esi_proxies,
                          timeout=10)
         response_text = r.text
+        # '{"last_login":"2018-05-22T22:52:32Z","last_logout":"2018-05-19T20:43:44Z","logins":505,"online":true}'
         if r.status_code == 200:
-            if str(response_text).lower() == 'true':
-                ret['is_online'] = True
+            obj = json.loads(r.text)
+            ret['is_online'] = obj['online']
+            ret['online'] = obj['online']
+            ret['logins'] = obj['logins']
+            ret['error'] = ''
             analyze_esi_response_headers(r.headers)
         else:
             obj = json.loads(r.text)
