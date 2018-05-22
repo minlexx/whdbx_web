@@ -994,7 +994,11 @@ class WhdbxApp:
         self.debuglog('ajax: ajax_esi_call_location_online: start')
         ret = {
             'error': '',
-            'is_online': False
+            'is_online': False,
+            'online': False,
+            'last_login': None,
+            'last_logout': None,
+            'logins': 0
         }
         if 'sso_char_id' not in cherrypy.session:
             ret['error'] = 'sso_char_id is not defined in session!'
@@ -1008,6 +1012,8 @@ class WhdbxApp:
         ret = esi_calls.location_online(self.cfg, char_id, access_token)
         if ret['error'] == '':
             self.debuglog('ajax: ajax_esi_call_location_online: success')
+            if 'online' in ret:
+                ret['is_online'] = ret['online']
         else:
             self.debuglog('ajax: ajax_esi_call_location_online: error: ' + ret['error'])
         return ret
