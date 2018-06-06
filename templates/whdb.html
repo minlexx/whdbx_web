@@ -32,7 +32,6 @@ function send_find() {
         url += look_checkbox(all_cbs[i]);
     }
     //
-    console.log('whdb: query:', url);
     res_div.innerHTML = '';
     myajax(url, whdb_search_handler);
     return true;
