@@ -807,31 +807,35 @@ class WhdbxApp:
         class_cond = ''
         eff_cond = ''
         static_cond = ''
+
         if 'class' in params:
-            class_list = params['class']
-            has_shattered = False
-            for cd in class_list:
-                if cd.isnumeric():
-                    if len(class_cond) > 0:
-                        class_cond += ' OR '
-                    class_cond += ('(class=' + str(cd) + ')')
-                elif cd == 'shattered':
-                    has_shattered = True
-                elif cd == 'frigwr':
-                    if len(class_cond) > 0:
-                        class_cond += ' OR '
-                    class_cond += '(class=13)'
-                elif cd == 'drifters':
-                    if len(class_cond) > 0:
-                        class_cond += ' OR '
-                    class_cond += '((class >= 14) AND (class <= 18))'
-            if has_shattered and (len(class_cond) > 0):
-                for cd in class_list:
-                    if cd.isnumeric():
-                        class_cond += ' OR '
-                        class_cond += ('(class=-' + str(cd) + ')')
+            class_list = params['class']  # it can be single value, str...
+            if type(class_list) == str:
+                class_list = [class_list]
+            for class_str in class_list:
+                # first, optionally append " OR " to sql query
+                if len(class_cond) > 0:
+                    class_cond += ' OR '
+                # determine if class_str is integer
+                iclass = 0
+                try:
+                    iclass = int(class_str)
+                except ValueError:
+                    pass
+                if iclass != 0:
+                    # for all numeric classes, 1, 2, 3, -1, -2, -3, ...
+                    class_cond += ('(class=' + str(iclass) + ')')
+                else:
+                    # special cases for string specifiers
+                    if class_str == 'frigwr':
+                        class_cond += '(class=13)'
+                    elif class_str == 'drifters':
+                        # drifters WH have several classes: 14, 15, 16, 17, 18
+                        class_cond += '((class >= 14) AND (class <= 18))'
         if 'effect' in params:
             eff_list = params['effect']
+            if type(eff_list) == str:
+                eff_list = [eff_list]
             for eff in eff_list:
                 if len(eff_cond) > 0:
                     eff_cond += ' OR '
@@ -882,6 +886,9 @@ class WhdbxApp:
             where_cond += '(' + static_cond + ')'
         if where_cond != '':
             q += '\n WHERE ' + where_cond
+
+        self.debuglog('whdb: query:' + q)
+
         cursor = s3conn.cursor()
         cursor.execute(q)
         for row in cursor:
@@ -890,15 +897,30 @@ class WhdbxApp:
             jsys['id'] = int(row[0])
             jsys['name'] = row[1]
             jsys['class'] = int(row[2])
-            # jsys['star'] = row[3]  # not very needed
-            # jsys['planets'] = int(row[4])  # not very needed
-            # jsys['moons'] = int(row[5])  # not very needed
+            jsys['star'] = row[3]  # not very needed
+            jsys['planets'] = int(row[4])  # not very needed
+            jsys['moons'] = int(row[5])  # not very needed
             jsys['effect'] = row[6]
             jsys['statics'] = []
             for st in str(row[7]).split(','):
                 jsys['statics'].append(st)
             res['systems'].append(jsys)
         res['query'] = q
+        cursor.close()
+
+        # also fetch statics destinations classes
+        for jsys in res['systems']:
+            for i in range(0, len(jsys['statics'])):
+                st_name = jsys['statics'][i]
+                cursor = s3conn.cursor()
+                q = 'SELECT in_class FROM wormholeclassifications WHERE hole = ?'
+                cursor.execute(q, (st_name, ))
+                row = cursor.fetchone()
+                if row:
+                    st_spec = '{} {}'.format(st_name, WHClass.to_string(row[0]))
+                    jsys['statics'][i] = st_spec
+                cursor.close()
+
         return res
 
     def ajax_sso_call_refresh_token(self) -> dict:
