@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-23 11:45+0300\n"
-"PO-Revision-Date: 2018-04-23 11:46+0300\n"
-"Language: ru\n"
+"POT-Creation-Date: 2018-06-08 13:19+0300\n"
+"PO-Revision-Date: 2018-06-08 13:32+0300\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
+"Language: ru\n"
 
 #: templates/char_info.html:101 .\templates\char_info.html:101
 #: templates/char_info.html:99
@@ -61,7 +61,7 @@ msgstr "ЭФФЕКТЫ"
 msgid "WHDB"
 msgstr "БАЗА ВХ"
 
-#: templates/footer.html:7 .\templates\footer.html:7 .\main.py:525
+#: templates/footer.html:7 .\templates\footer.html:7 .\main.py:525 main.py:547
 msgid "About project"
 msgstr "О проекте"
 
@@ -150,12 +150,16 @@ msgstr "фриг-разломанная"
 #: .\templates\whdb.html:108 .\templates\whdb.html:112
 #: .\templates\whsystem_info.html:37 templates/signature.html:86
 #: templates/signature.html:88 templates/whdb.html:106 templates/whdb.html:112
+#: templates/whdb.html:150 templates/whdb.html:152 templates/whdb.html:154
+#: templates/whdb.html:156 templates/whdb.html:158 templates/whdb.html:160
 msgid "class"
 msgstr "класс"
 
 #: templates/signature.html:84 .\templates\signature.html:84
 #: templates/whdb.html:114 .\templates\whdb.html:114
 #: templates/signature.html:88 templates/whsystem_info.html:111
+#: templates/whdb.html:163 templates/whdb.html:165 templates/whdb.html:167
+#: templates/whdb.html:169 templates/whdb.html:171 templates/whdb.html:173
 msgid "shattered"
 msgstr "разлом"
 
@@ -234,6 +238,7 @@ msgstr "без кап. дореспов"
 #: templates/signature.html:145 .\templates\signature.html:145
 #: .\templates\sleeper.html:77 .\templates\sleeper.html:124
 #: templates/sleeper.html:77 templates/sleeper.html:124
+#: templates/signature.html:149
 msgid "Total"
 msgstr "Всего"
 
@@ -320,7 +325,7 @@ msgid "Attack range"
 msgstr "Радиус атаки"
 
 #: .\templates\sleeper.html:82 .\main.py:439 templates/sleeper.html:82
-#: main.py:439
+#: main.py:439 main.py:471
 msgid "Sleepers"
 msgstr "Слиперы"
 
@@ -377,16 +382,16 @@ msgstr "Атака"
 msgid "classes:"
 msgstr "классы:"
 
-#: .\main.py:419 main.py:419 main.py:424 .\main.py:429
+#: .\main.py:419 main.py:419 main.py:424 .\main.py:429 main.py:451
 msgid "Effects"
 msgstr "Эффекты"
 
-#: .\main.py:451 main.py:451 main.py:456 .\main.py:461
+#: .\main.py:451 main.py:451 main.py:456 .\main.py:461 main.py:483
 msgid "Signatures"
 msgstr "Сигнатуры"
 
 #: .\main.py:506 main.py:506 templates/whdb.html:94 main.py:511 .\main.py:516
-#: .\templates\whdb.html:94
+#: .\templates\whdb.html:94 main.py:538 templates/whdb.html:142
 msgid "WH Database"
 msgstr "База ВХ"
 
@@ -493,28 +498,28 @@ msgstr "Радиус прицеливания"
 msgid "Tracking Speed"
 msgstr "Скорость наводки орудий"
 
-#: templates/whdb.html:99 .\templates\whdb.html:99
+#: templates/whdb.html:99 .\templates\whdb.html:99 templates/whdb.html:147
 msgid "Select class:"
 msgstr "Класс:"
 
-#: templates/whdb.html:116 .\templates\whdb.html:116
+#: templates/whdb.html:116 .\templates\whdb.html:116 templates/whdb.html:176
 msgid "frig-WH"
 msgstr "фриг-ВХ"
 
-#: templates/whdb.html:118 .\templates\whdb.html:118
+#: templates/whdb.html:118 .\templates\whdb.html:118 templates/whdb.html:178
 msgid "drifters-WH"
 msgstr "дрифтерская ВХ"
 
-#: templates/whdb.html:122 .\templates\whdb.html:122
+#: templates/whdb.html:122 .\templates\whdb.html:122 templates/whdb.html:182
 msgid "With effect"
 msgstr "С эффектом"
 
 #: templates/whdb.html:125 templates/whsystem_info.html:49
-#: .\templates\whdb.html:125
+#: .\templates\whdb.html:125 templates/whdb.html:185
 msgid "No effect"
 msgstr "Без эффекта"
 
-#: templates/whdb.html:141 .\templates\whdb.html:141
+#: templates/whdb.html:141 .\templates\whdb.html:141 templates/whdb.html:201
 msgid "With static"
 msgstr "Со статиком"
 
@@ -522,23 +527,25 @@ msgstr "Со статиком"
 #: templates/whdb.html:150 templates/whdb.html:152 templates/whdb.html:154
 #: .\templates\whdb.html:144 .\templates\whdb.html:146
 #: .\templates\whdb.html:148 .\templates\whdb.html:152
-#: .\templates\whdb.html:154
+#: .\templates\whdb.html:154 templates/whdb.html:204 templates/whdb.html:206
+#: templates/whdb.html:208 templates/whdb.html:210 templates/whdb.html:212
+#: templates/whdb.html:214
 msgid "to class"
 msgstr "в класс"
 
-#: templates/whdb.html:156 .\templates\whdb.html:156
+#: templates/whdb.html:156 .\templates\whdb.html:156 templates/whdb.html:216
 msgid "to Null-sec"
 msgstr "в Нулльсек"
 
-#: templates/whdb.html:158 .\templates\whdb.html:158
+#: templates/whdb.html:158 .\templates\whdb.html:158 templates/whdb.html:218
 msgid "to Low-sec"
 msgstr "в Лоусек"
 
-#: templates/whdb.html:160 .\templates\whdb.html:160
+#: templates/whdb.html:160 .\templates\whdb.html:160 templates/whdb.html:220
 msgid "to High-sec"
 msgstr "в Хайсек"
 
-#: templates/whdb.html:95 .\templates\whdb.html:95
+#: templates/whdb.html:95 .\templates\whdb.html:95 templates/whdb.html:143
 msgid "Find all systems:"
 msgstr "Найти все системы:"
 
@@ -798,30 +805,34 @@ msgstr "дн. назад"
 msgid "Language"
 msgstr "Язык"
 
-#: .\main.py:534
+#: .\main.py:534 main.py:556
 msgid "About EVE-SSO"
 msgstr "О EVE-SSO"
 
-#: main.py:757
+#: main.py:757 main.py:745
 msgid "Not found!"
 msgstr "Не найдено!"
 
-#: main.py:785
+#: main.py:785 main.py:773
 msgid "Mass:"
 msgstr "Масса:"
 
-#: main.py:787 main.py:791
+#: main.py:787 main.py:791 main.py:775 main.py:779
 msgid "mil.kg"
 msgstr "тыс.тонн"
 
-#: main.py:789
+#: main.py:789 main.py:777
 msgid "Jump mass:"
 msgstr "Масса на прыг:"
 
-#: main.py:793
+#: main.py:793 main.py:781
 msgid "Life time:"
 msgstr "Время жизни:"
 
-#: main.py:795
+#: main.py:795 main.py:783
 msgid "hr."
 msgstr "ч."
+
+#: templates/zkb_block.html:161
+msgid "ppl"
+msgstr "чел"

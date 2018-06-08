@@ -158,7 +158,7 @@
       <!-- other attackers -->
       % if len(akill['attackers']) > 1:
         <span class="zkb_att_hl">
-        +${len(akill['attackers'])-1} чел:
+        +${len(akill['attackers'])-1} ${tr.gettext('ppl')}:
         % for atk in akill['attackers']:
 
           ## check NPC
