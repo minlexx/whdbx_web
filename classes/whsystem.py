@@ -118,6 +118,22 @@ class WHEffect:
         return self.name + ' class ' + str(self.hole_class)
 
 
+class WHSystemPlanet:
+    def __init__(self):
+        self.name = ''
+        self.type = ''
+
+    def set_type_from_string(self, s: str):
+        """
+        Sets planet type from 'Planet (TYPE)' to 'TYPE'
+        :param s: string in form of 'Planet (TYPE)'
+        :return: None
+        """
+        s = s.lower()
+        if (s.find(' (') > 0) and (s.find(')') > 0):
+            self.type = s[s.find(' (') + 2:-1]
+
+
 class WHSystem:
     def __init__(self, db: SiteDb):
         # DB stuff
@@ -146,6 +162,7 @@ class WHSystem:
         self.sec_color = '#FFFFFF'
         self.radus = 0.0
         self.radius_ae = 0.0
+        self.planets = []
         # routes
         self.route_jita = None
         self.route_amarr = None
@@ -254,6 +271,14 @@ class WHSystem:
             self.const_id = int(row[4])
             self.reg_name = row[5]
             self.const_name = row[6]
+        # get extended planets info
+        self.planets = []
+        pls = self._db.query_solarsystem_planets(self.ssys_id)
+        for pl in pls:
+            planet = WHSystemPlanet()
+            planet.name = pl[0]
+            planet.set_type_from_string(pl[1])
+            self.planets.append(planet)
 
 #
 #   With Eve-Central dead, we have no easy way to get trade routes,

@@ -183,9 +183,30 @@ class SiteDb:
             ' JOIN mapdenormalize mc ON mc.itemID = ss.constellationID '
             'WHERE ss.solarsystemid = ?')
         cursor = self._conn.cursor()
-        cursor.execute(ccp_q, (ssys_id,))
+        cursor.execute(ccp_q, (ssys_id, ))
         row = cursor.fetchone()
         return row
+
+    def query_solarsystem_planets(self, ssid: int) -> list:
+        ret = []
+        q = 'SELECT ss.solarSystemName as ssname, ' \
+            '       mc.constellationName as constname, ' \
+            '       mr.regionName as regname, ' \
+            '       ss.security as security, ' \
+            '       round(ss.radius/149600000000,2) as radius, ' \
+            '       md.itemName as Object, it.typeName as ObjectDescription '\
+            'FROM mapSolarSystems ss ' \
+            'JOIN mapRegions mr ON mr.regionID=ss.regionID ' \
+            'JOIN mapConstellations mc ON mc.constellationID=ss.constellationID ' \
+            'JOIN mapDenormalize md ON md.solarSystemID=ss.solarSystemID ' \
+            'JOIN invTypes it ON (it.typeID=md.typeID AND it.groupID=7) ' \
+            'WHERE ss.solarSystemID=?'
+        cursor = self._conn.cursor()
+        if cursor.execute(q, (ssid, )):
+            for row in cursor.fetchall():
+                t = (row[5], row[6])  # ('J165806 I', 'Planet (Lava)')
+                ret.append(t)
+        return ret
 
     def select_all_sleepers(self) -> list:
         ret = list()
