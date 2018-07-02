@@ -119,9 +119,26 @@ class WHEffect:
 
 
 class WHSystemPlanet:
+    type_colors = {
+        'barren': '#C0C0C0',
+        'gas': '#FFFF00',
+        'ice': '#00FFFF',
+        'oceanic': '#0099FF',
+        'storm': '#8C8C8C',
+        'temperate': '#08B050',
+        'lava': '#FF6666',
+        'plasma': 'magenta',
+    }
+
     def __init__(self):
         self.name = ''
+        self.name_nbsp = ''
         self.type = ''
+        self.color = '#FFFFFF'  # white
+
+    def set_name(self, n: str):
+        self.name = n
+        self.name_nbsp = n.replace(' ', '&nbsp;')
 
     def set_type_from_string(self, s: str):
         """
@@ -132,6 +149,9 @@ class WHSystemPlanet:
         s = s.lower()
         if (s.find(' (') > 0) and (s.find(')') > 0):
             self.type = s[s.find(' (') + 2:-1]
+
+        if self.type in WHSystemPlanet.type_colors:
+            self.color = WHSystemPlanet.type_colors[self.type]
 
 
 class WHSystem:
@@ -276,7 +296,7 @@ class WHSystem:
         pls = self._db.query_solarsystem_planets(self.ssys_id)
         for pl in pls:
             planet = WHSystemPlanet()
-            planet.name = pl[0]
+            planet.set_name(pl[0])
             planet.set_type_from_string(pl[1])
             self.planets.append(planet)
 
