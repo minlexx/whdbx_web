@@ -57,7 +57,7 @@ def universe_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
     global esi_proxies
     ret = []
     error_str = ''
-    if len(ids_list) < 0:
+    if len(ids_list) <= 0:
         return ret
     try:
         # https://esi.evetech.net/ui/?version=latest#/Universe/post_universe_names
