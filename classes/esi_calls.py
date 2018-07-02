@@ -53,6 +53,50 @@ def analyze_esi_response_headers(headers: dict) -> None:
         pass
 
 
+def universe_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
+    global esi_proxies
+    ret = []
+    error_str = ''
+    if len(ids_list) < 0:
+        return ret
+    try:
+        # https://esi.evetech.net/ui/?version=latest#/Universe/post_universe_names
+        url = '{}/universe/names/'.format(cfg.ESI_BASE_URL)
+        ids_str = '['
+        for an_id in set(ids_list):
+            if len(ids_str) > 1:
+                ids_str += ','
+            ids_str += str(an_id)
+        ids_str += ']'
+        r = requests.post(url,
+                          headers={
+                              'Content-Type': 'application/json',
+                              'Accept': 'application/json',
+                              'User-Agent': cfg.SSO_USER_AGENT
+                          },
+                          data=ids_str,
+                          proxies=esi_proxies,
+                          timeout=20)
+        response_text = r.text
+        if r.status_code == 200:
+            ret = json.loads(response_text)
+            analyze_esi_response_headers(r.headers)
+        else:
+            obj = json.loads(response_text)
+            if 'error' in obj:
+                error_str = 'ESI error: {}'.format(obj['error'])
+            else:
+                error_str = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+    except requests.exceptions.RequestException as e:
+        error_str = 'Error connection to ESI server: {}'.format(str(e))
+    except json.JSONDecodeError:
+        error_str = 'Failed to parse response JSON from CCP ESI server!'
+    if error_str != '':
+        raise ESIException(error_str)
+    # ret == [{'category': 'character', 'name': 'Xur Hermit', 'id': 2114246032}]
+    return ret
+
+
 def characters_names(cfg: sitecfg.SiteConfig, ids_list: list) -> list:
     global esi_proxies
     ret = []
