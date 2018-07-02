@@ -143,7 +143,12 @@
 % endif
 <br />
 ${tr.gettext('Effect')}: ${print_effect(whsys.wh_effect)}<br />
-${tr.gettext('Planets')}: <span class="info_hl">${whsys.wh_planets}</span><br />
+${tr.gettext('Planets')}: <span class="info_hl">${whsys.wh_planets}</span> &nbsp;&nbsp;&nbsp;
+  ( <span class="static_name" onmouseover="Tip(''+
+  % for planet in whsys.planets:
+  '${planet.name_nbsp}&nbsp;&nbsp;(<span style=\&quot;color: ${planet.color}; font-weight: bold;\&quot;>${planet.type.capitalize()}</span>)<br />' +
+  % endfor
+  '');" onmouseout="UnTip();">${tr.gettext('List of planets')}</span> )<br />
 ${tr.gettext('Moons')}: <span class="info_hl">${whsys.wh_moons}</span><br />
 ${tr.gettext('Star')}: <span class="info_hl">${whsys.wh_star}</span><br />
 
