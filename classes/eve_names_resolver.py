@@ -16,6 +16,7 @@ class EsiNamesResolver:
 
     def resolve_universe_names(self, ids_list: list) -> list:
         ret = []
+        self.error_str = ''  # clear error indicator
         try:
             if len(ids_list) > self.universe_ids_limit:
                 # request part by part
@@ -168,8 +169,8 @@ class EveNamesDb:
         all_unknown_ids = unknown_charids + unknown_corpids + unknown_allyids
         names = self._resolver.resolve_universe_names(all_unknown_ids)
         if self._resolver.error_str != '':
-            print(self._resolver.error_str, file=sys.stderr)
-            pass
+            print('names resolving error: {}'.format(self._resolver.error_str), file=sys.stderr)
+            print('names resolving error:  ids were: {}'.format(all_unknown_ids), file=sys.stderr)
         for obj in names:
             # [{'category': 'character', 'name': 'Xxx', 'id': 2114246032}, {...}, ...]
             cat = obj['category']
