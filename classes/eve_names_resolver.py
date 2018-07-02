@@ -14,57 +14,6 @@ class EsiNamesResolver:
         self.ids_limit = 10
         self.universe_ids_limit = 1000
 
-    def resolve_characters_names(self, ids_list: list) -> list:
-        ret = []
-        try:
-            if len(ids_list) > self.ids_limit:
-                # request part by part
-                while len(ids_list) > 0:
-                    ids_list_part = ids_list[0:self.ids_limit]  # get first LIMIT elemnts
-                    ids_list = ids_list[self.ids_limit:]        # cut first LIMIT elements
-                    subret = esi_calls.characters_names(self.cfg, ids_list_part)
-                    for item in subret:
-                        ret.append(item)
-            else:
-                ret = esi_calls.characters_names(self.cfg, ids_list)
-        except esi_calls.ESIException as ex:
-            self.error_str = ex.error_string()
-        return ret
-
-    def resolve_corporations_names(self, ids_list: list) -> list:
-        ret = []
-        try:
-            if len(ids_list) > self.ids_limit:
-                # request part by part
-                while len(ids_list) > 0:
-                    ids_list_part = ids_list[0:self.ids_limit]  # get first LIMIT elemnts
-                    ids_list = ids_list[self.ids_limit:]        # cut first LIMIT elements
-                    subret = esi_calls.corporations_names(self.cfg, ids_list_part)
-                    for item in subret:
-                        ret.append(item)
-            else:
-                ret = esi_calls.corporations_names(self.cfg, ids_list)
-        except esi_calls.ESIException as ex:
-            self.error_str = ex.error_string()
-        return ret
-
-    def resolve_alliances_names(self, ids_list: list) -> list:
-        ret = []
-        try:
-            if len(ids_list) > self.ids_limit:
-                # request part by part
-                while len(ids_list) > 0:
-                    ids_list_part = ids_list[0:self.ids_limit]  # get first LIMIT elemnts
-                    ids_list = ids_list[self.ids_limit:]        # cut first LIMIT elements
-                    subret = esi_calls.alliances_names(self.cfg, ids_list_part)
-                    for item in subret:
-                        ret.append(item)
-            else:
-                ret = esi_calls.alliances_names(self.cfg, ids_list)
-        except esi_calls.ESIException as ex:
-            self.error_str = ex.error_string()
-        return ret
-
     def resolve_universe_names(self, ids_list: list) -> list:
         ret = []
         try:
