@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sqlite3
 import threading
+import sys
 
 from . import sitecfg
 from . import esi_calls
@@ -11,54 +12,22 @@ class EsiNamesResolver:
         self.cfg = cfg
         self.error_str = ''
         self.ids_limit = 10
+        self.universe_ids_limit = 1000
 
-    def resolve_characters_names(self, ids_list: list) -> list:
+    def resolve_universe_names(self, ids_list: list) -> list:
         ret = []
+        self.error_str = ''  # clear error indicator
         try:
-            if len(ids_list) > self.ids_limit:
+            if len(ids_list) > self.universe_ids_limit:
                 # request part by part
                 while len(ids_list) > 0:
-                    ids_list_part = ids_list[0:self.ids_limit]  # get first LIMIT elemnts
-                    ids_list = ids_list[self.ids_limit:]        # cut first LIMIT elements
-                    subret = esi_calls.characters_names(self.cfg, ids_list_part)
+                    ids_list_part = ids_list[0:self.universe_ids_limit]  # get first LIMIT elemnts
+                    ids_list = ids_list[self.universe_ids_limit:]        # cut first LIMIT elements
+                    subret = esi_calls.universe_names(self.cfg, ids_list_part)
                     for item in subret:
                         ret.append(item)
             else:
-                ret = esi_calls.characters_names(self.cfg, ids_list)
-        except esi_calls.ESIException as ex:
-            self.error_str = ex.error_string()
-        return ret
-
-    def resolve_corporations_names(self, ids_list: list) -> list:
-        ret = []
-        try:
-            if len(ids_list) > self.ids_limit:
-                # request part by part
-                while len(ids_list) > 0:
-                    ids_list_part = ids_list[0:self.ids_limit]  # get first LIMIT elemnts
-                    ids_list = ids_list[self.ids_limit:]        # cut first LIMIT elements
-                    subret = esi_calls.corporations_names(self.cfg, ids_list_part)
-                    for item in subret:
-                        ret.append(item)
-            else:
-                ret = esi_calls.corporations_names(self.cfg, ids_list)
-        except esi_calls.ESIException as ex:
-            self.error_str = ex.error_string()
-        return ret
-
-    def resolve_alliances_names(self, ids_list: list) -> list:
-        ret = []
-        try:
-            if len(ids_list) > self.ids_limit:
-                # request part by part
-                while len(ids_list) > 0:
-                    ids_list_part = ids_list[0:self.ids_limit]  # get first LIMIT elemnts
-                    ids_list = ids_list[self.ids_limit:]        # cut first LIMIT elements
-                    subret = esi_calls.alliances_names(self.cfg, ids_list_part)
-                    for item in subret:
-                        ret.append(item)
-            else:
-                ret = esi_calls.alliances_names(self.cfg, ids_list)
+                ret = esi_calls.universe_names(self.cfg, ids_list)
         except esi_calls.ESIException as ex:
             self.error_str = ex.error_string()
         return ret
@@ -195,16 +164,24 @@ class EveNamesDb:
                     if (ally_name == '') and (ally_id >= 0):
                         unknown_allyids.append(ally_id)
 
-        # 2. issue a single request to get all names at once
-        names = self._resolver.resolve_characters_names(unknown_charids)
+        # 2. make a skingle universe_names request for all IDs types
+        #  (characters, corporations, alliances) - all at once
+        all_unknown_ids = unknown_charids + unknown_corpids + unknown_allyids
+        names = self._resolver.resolve_universe_names(all_unknown_ids)
+        if self._resolver.error_str != '':
+            print('names resolving error: {}'.format(self._resolver.error_str), file=sys.stderr)
+            print('names resolving error:  ids were: {}'.format(all_unknown_ids), file=sys.stderr)
         for obj in names:
-            self.set_char_name(obj['character_id'], obj['character_name'])
-        names = self._resolver.resolve_corporations_names(unknown_corpids)
-        for obj in names:
-            self.set_corp_name(obj['corporation_id'], obj['corporation_name'])
-        names = self._resolver.resolve_alliances_names(unknown_allyids)
-        for obj in names:
-            self.set_ally_name(obj['alliance_id'], obj['alliance_name'])
+            # [{'category': 'character', 'name': 'Xxx', 'id': 2114246032}, {...}, ...]
+            cat = obj['category']
+            # category may be one of:
+            #  [ alliance, character, constellation, corporation, inventory_type, region, solar_system, station ]
+            if cat == 'character':
+                self.set_char_name(obj['id'], obj['name'])
+            elif cat == 'corporation':
+                self.set_corp_name(obj['id'], obj['name'])
+            elif cat == 'alliance':
+                self.set_ally_name(obj['id'], obj['name'])
 
         # 3. fill in gathered information
         for kill in kills:
