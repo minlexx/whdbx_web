@@ -583,15 +583,6 @@ class WhdbxApp:
             # whsys.query_trade_routes(self.cfg)
             # ^^ With Eve-Central dead, we have no easy way to get trade routes
         #
-        # zkillboard
-        #zkb = ZKB(self.zkb_options)
-        #zkb.add_solarSystem(ssid)
-        # zkb.add_limit(30) # Zkillboard has disabled 'limit' parameter for all users:
-        # '{"error":"Due to abuse of the limit parameter to avoid caches
-        #  the ability to modify limit has been revoked for all users"}'
-        #zkb_kills = zkb.go()
-        #zkb_kills = self.postprocess_zkb_kills(zkb_kills)
-        #
         # WH signatures
         sigs = []
         if whsys.is_wh:
@@ -599,8 +590,6 @@ class WhdbxApp:
         #
         # assign template vars
         self.tmpl.assign('whsys', whsys)
-        #self.tmpl.assign('zkb_kills', zkb_kills)
-        #self.tmpl.assign('zkb_block_title', '')
         self.tmpl.assign('utcnow', datetime.datetime.utcnow())
         self.tmpl.assign('sigs', sigs)
         if self.cfg.DEBUG:
