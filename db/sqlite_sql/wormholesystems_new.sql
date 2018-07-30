@@ -2546,7 +2546,7 @@ INSERT INTO "wormholesystems_new" VALUES(31002548,'J001769',-4,'Sun A0IV (Turbul
 INSERT INTO "wormholesystems_new" VALUES(31002549,'J004150',-4,'Sun A0IV (Turbulent Blue Subgiant)',9,0,'Wolf-Rayet Star','D845,C247,N766');
 INSERT INTO "wormholesystems_new" VALUES(31002550,'J005872',-4,'Sun A0IV (Turbulent Blue Subgiant)',5,0,NULL,'C247,U210,P060');
 INSERT INTO "wormholesystems_new" VALUES(31002551,'J011376',-4,'Sun A0IV (Turbulent Blue Subgiant)',8,0,NULL,'X877,H900,U210');
-INSERT INTO "wormholesystems_new" VALUES(31002552,'J005299',-4,'Sun A0IV (Turbulent Blue Subgiant)',8,0,NULL,'H900,C247,K346');
+INSERT INTO "wormholesystems_new" VALUES(31002552,'J005299',-4,'Sun A0IV (Turbulent Blue Subgiant)',8,0,NULL,'H900,C247,K346'); -- This is sansha wormhole! has Sanshas anomalies inside.
 INSERT INTO "wormholesystems_new" VALUES(31002553,'J011355',-4,'Sun A0IV (Turbulent Blue Subgiant)',6,0,NULL,'');
 INSERT INTO "wormholesystems_new" VALUES(31002554,'J011195',-4,'Sun A0IV (Turbulent Blue Subgiant)',8,0,NULL,'U210,X877,H900');
 INSERT INTO "wormholesystems_new" VALUES(31002555,'J005280',-4,'Sun A0IV (Turbulent Blue Subgiant)',8,0,NULL,'X877,C247,U210');

@@ -114,6 +114,9 @@
             <span class="newwh_comment">
               ${tr.gettext('These are new systems, statics info <br />may be incorrect or missing. Please report errors!<br />')}
               ##<%include file="report_statics_form.html"/>
+              % if whsys.name == 'J005299':
+                <b>Sansha wormhole! Sansha anomalies.</b>
+              % endif
             </span>
           </li>
         </ul>
