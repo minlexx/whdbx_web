@@ -65,10 +65,10 @@ class PriceCacheFileLoader:
             # compare deltas
             delta = dt_now - dt_cache
             delta_secs = delta.total_seconds()
-            if self._debug:
-                print('CacheFileLoader: file {}: dt_cache={}, dt_now={}, delta_secs={}, cache_time_secs={}'.format(
-                    fn, str(dt_cache), str(dt_now), delta_secs, self._cache_time_secs
-                ))
+            # if self._debug:
+            #    print('CacheFileLoader: file {}: dt_cache={}, dt_now={}, delta_secs={}, cache_time_secs={}'.format(
+            #        fn, str(dt_cache), str(dt_now), delta_secs, self._cache_time_secs
+            #    ))
             if (delta_secs < self._cache_time_secs) or (ignore_time is True):
                 if self._debug:
                     print('CacheFileLoader: Loading from cache file: [{0}]'.format(fn))
@@ -235,19 +235,20 @@ class EsiPriceResolver(EvePriceResolver):
         contents = self._cache.load_file_contents(cache_fn, ignore_time)
         if contents == '':  # not in cache
             if self._debug:
-                print('EsiPriceResolver: sell_min: {} not in cache, requesting'.format(typeid))
+                print('EsiPriceResolver: sell_min: typeID {} not in cache, requesting'.format(typeid))
             orders = esi_calls.market_region_orders(self._cfg, self.THE_FORGE_REGIONID, 'sell', typeid)
             if len(orders) > 0:
+                print('EsiPriceResolver: sell_min: typeID {} requested OK'.format(typeid))
                 self._cache.save_file_contents(cache_fn, json.dumps(orders))
         else:
             # loaded from cache
             try:
                 orders = json.loads(contents)
                 if self._debug:
-                    print('EsiPriceResolver: sell_min: {} loaded from cache'.format(typeid))
+                    print('EsiPriceResolver: sell_min: typeID {} loaded from cache'.format(typeid))
             except json.JSONDecodeError:
                 if self._debug:
-                    print('EsiPriceResolver: ERROR: sell_min: {} invalid JSON in cache!'.format(typeid))
+                    print('EsiPriceResolver: ERROR: sell_min: typeID {} invalid JSON in cache!'.format(typeid))
                 pass
         if len(orders) < 1:
             return 0.0
