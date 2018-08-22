@@ -65,6 +65,10 @@ class PriceCacheFileLoader:
             # compare deltas
             delta = dt_now - dt_cache
             delta_secs = delta.total_seconds()
+            if self._debug:
+                print('CacheFileLoader: file {}: dt_cache={}, dt_now={}, delta_secs={}, cache_time_secs={}'.format(
+                    fn, str(dt_cache), str(dt_now), delta_secs, self._cache_time_secs
+                ))
             if (delta_secs < self._cache_time_secs) or (ignore_time is True):
                 if self._debug:
                     print('CacheFileLoader: Loading from cache file: [{0}]'.format(fn))
