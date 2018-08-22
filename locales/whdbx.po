@@ -491,7 +491,7 @@ msgid "Signature Size"
 msgstr "Радиус сигнатуры"
 
 msgid "Small Weapon Damage"
-msgstr "Урон мальнький орудий"
+msgstr "Урон малых орудий"
 
 msgid "Smart Bomb Damage"
 msgstr "Урон смарт-бомб"
