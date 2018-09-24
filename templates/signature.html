@@ -93,6 +93,15 @@
     <p>${tr.gettext('Sleepers appear approximately in 20 minutes after signature activation.')}</p>
     % endif
 
+    % if sig.sig_id == 36:  # Quarantine Area
+    ${tr.gettext('No triggers on this site, any sleeper kill can trigger next wave.')}<br /><br />
+    <b>${tr.gettext('Recommendation:')}</b>
+    <ol>
+        <li>${tr.gettext('Destroy all sleeper battleships')} <img src="/static/img/sleepers/icons/battleship.png"></li>
+        <li>${tr.gettext('Destory all other sleepers')}</li>
+    </ol>
+    % endif
+
     % for wave in sig.waves:
     ${print_wave(wave)}
     % endfor
