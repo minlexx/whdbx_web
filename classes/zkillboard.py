@@ -521,19 +521,19 @@ if __name__ == '__main__':
         'cache_time': 1200,
         'cache_type': 'file',
         'cache_dir': './_caches/zkb',
-        'use_evekill': True
+        'use_evekill': False
     }
     zkb_options_sqlite = {
         'debug': True,
         'cache_time': 1200,
         'cache_type': 'sqlite',
         'cache_file': './_caches/zkb/zkb_cache.db',
-        'use_evekill': True
+        'use_evekill': False
     }
     z = ZKB(zkb_options_file)
     # z = ZKB(zkb_options_sqlite)
     z.add_solarSystem('31000707')
-    z.add_limit(1)
+    # z.add_limit(1)  # no more limits
     zkb_kills = z.go()
     if len(zkb_kills) > 0:
         i = 0
