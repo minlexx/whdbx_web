@@ -41,7 +41,7 @@ class KillMailsCache:
     def save_killmail(self, kill_id: str, kill_hash: str, killmail: object):
         json_text = json.dumps(killmail)
         cur = self._conn.cursor()
-        cur.execute('INSERT REPLACE INTO killmails (kill_id, kill_hash, json) VALUES (?,?,?)',
+        cur.execute('INSERT OR REPLACE INTO killmails (kill_id, kill_hash, json) VALUES (?,?,?)',
                     (kill_id, kill_hash, json_text))
         self._conn.commit()
         cur.close()
