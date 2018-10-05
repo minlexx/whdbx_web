@@ -383,41 +383,44 @@ class WhdbxApp:
         :param kills: list of kills as provided by zkillboard
         :return: modified list
         """
-        for a_kill in kills:
-            # find type name for victim ship
-            type_info = self.db.find_typeid(a_kill['victim']['shipTypeID'])
-            a_kill['victim']['shipTypeName'] = type_info['name']
-            a_kill['victim']['shipGroupName'] = type_info['groupname']
-            a_kill['our_corp'] = ''
-            # victim_corpid = a_kill['victim']['corporationID']
-            # if self.siteconfig.is_our_corp(victim_corpid):
-            #     a_kill['our_corp'] = 'loss'  # victim is our corp
-            # go through all attackers
-            for atk in a_kill['attackers']:
-                # find type name for attacker ship
-                type_info = self.db.find_typeid(atk['shipTypeID'])
-                atk['shipTypeName'] = type_info['name']
-                # look for our corp kills/losses
-                # if self.cfg.is_our_corp(atk['corporationID']):
-                #    if a_kill['our_corp'] == '':
-                #        a_kill['our_corp'] = 'kill'
-            # find solarsystem name for solarsystem id
-            a_kill['solarSystemName'] = ''
-            a_kill['solarSystemRegion'] = ''
-            a_kill['solarSystemSecurity'] = 0.0
-            a_kill['solarSystemSecurityColor'] = '#FFFFFF'
-            a_kill['solarSystemWhClass'] = ''
-            ss_info = self.db.find_ss_by_id(a_kill['solarSystemID'])
-            if ss_info is not None:
-                a_kill['solarSystemName'] = ss_info['name']
-                a_kill['solarSystemRegion'] = ss_info['regionname']
-                a_kill['solarSystemSecurity'] = ss_info['security']
-                a_kill['solarSystemSecurityColor'] = get_ss_security_color(ss_info['security'])
-            whsys_row = self.db.query_wormholesystem_new(a_kill['solarSystemID'])
-            if whsys_row is not None:
-                a_kill['solarSystemWhClass'] = WHClass.to_string(int(whsys_row[0]))
-        # resolve characters, corporations, alliances names from their IDs
-        kills = self.names_db.fill_names_in_zkb_kills(kills)
+        try:
+            for a_kill in kills:
+                # find type name for victim ship
+                type_info = self.db.find_typeid(a_kill['victim']['shipTypeID'])
+                a_kill['victim']['shipTypeName'] = type_info['name']
+                a_kill['victim']['shipGroupName'] = type_info['groupname']
+                a_kill['our_corp'] = ''
+                # victim_corpid = a_kill['victim']['corporationID']
+                # if self.siteconfig.is_our_corp(victim_corpid):
+                #     a_kill['our_corp'] = 'loss'  # victim is our corp
+                # go through all attackers
+                for atk in a_kill['attackers']:
+                    # find type name for attacker ship
+                    type_info = self.db.find_typeid(atk['shipTypeID'])
+                    atk['shipTypeName'] = type_info['name']
+                    # look for our corp kills/losses
+                    # if self.cfg.is_our_corp(atk['corporationID']):
+                    #    if a_kill['our_corp'] == '':
+                    #        a_kill['our_corp'] = 'kill'
+                # find solarsystem name for solarsystem id
+                a_kill['solarSystemName'] = ''
+                a_kill['solarSystemRegion'] = ''
+                a_kill['solarSystemSecurity'] = 0.0
+                a_kill['solarSystemSecurityColor'] = '#FFFFFF'
+                a_kill['solarSystemWhClass'] = ''
+                ss_info = self.db.find_ss_by_id(a_kill['solarSystemID'])
+                if ss_info is not None:
+                    a_kill['solarSystemName'] = ss_info['name']
+                    a_kill['solarSystemRegion'] = ss_info['regionname']
+                    a_kill['solarSystemSecurity'] = ss_info['security']
+                    a_kill['solarSystemSecurityColor'] = get_ss_security_color(ss_info['security'])
+                whsys_row = self.db.query_wormholesystem_new(a_kill['solarSystemID'])
+                if whsys_row is not None:
+                    a_kill['solarSystemWhClass'] = WHClass.to_string(int(whsys_row[0]))
+            # resolve characters, corporations, alliances names from their IDs
+            kills = self.names_db.fill_names_in_zkb_kills(kills)
+        except KeyError as k_e:
+            self.debuglog('ZKB API changed (again), it was a KeyError: {}'.format(str(k_e)))
         return kills
 
     @cherrypy.expose()
