@@ -18,8 +18,7 @@ class KillMailsCache:
             tables.append(str(row[0]))
 
         if 'killmails' not in tables:
-            q = 'CREATE TABLE killmails (kill_id TEXT PRIMARY KEY,' \
-                ' kill_hash TEXT PRIMARY KEY, json TEXT)'
+            q = 'CREATE TABLE killmails (kill_id TEXT, kill_hash TEXT, json TEXT, PRIMARY KEY(kill_id, kill_hash))'
             cur.execute(q)
             self._conn.commit()
         cur.close()
