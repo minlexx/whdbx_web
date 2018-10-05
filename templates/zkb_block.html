@@ -6,7 +6,7 @@
   <span class="infoblock_header_text">${zkb_block_title}</span><br />
 % else:
   <span class="infoblock_header_text">${tr.gettext('PVP-activity for system from')}
-    <a href="http://zkillboard.com/" target="_blank">zKillboard.com</a></span><br />
+    <a href="http://zkillboard.com/system/${zkb_ssid}/" target="_blank">zKillboard.com</a></span><br />
 % endif
 
 <table class="zkb_table">
@@ -194,6 +194,14 @@
   </tr>
 % endfor
 </table>
+
+
+% if len(zkb_kills) == 0:
+  <h1>${tr.gettext('ZKB API is broken (again)')}</h1>
+  <blockquote>
+    ${tr.gettext('ZKillboard.com has broken its API once more. Now it is not returning any kill data (no information about kill time, victim, attackers). Only kill_id is returned, so a large rework is needed.')}
+  </blockquote>
+% endif
 
 
 ## TODO: implement
