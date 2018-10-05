@@ -26,15 +26,15 @@
     <!-- link -->
     <td class="zkb_table_${loop.odd}">
       % if sitecfg.ZKB_USE_EVEKILL:
-      <a href="https://beta.eve-kill.net/kill/${akill['killID']}" target="_blank">EVEKILL</a><br />
+      <a href="https://beta.eve-kill.net/kill/${akill['killmail_id']}" target="_blank">EVEKILL</a><br />
       % endif
-      <a href="https://zkillboard.com/kill/${akill['killID']}" target="_blank" title="Kill on ZKillboard">ZKB</a>
+      <a href="https://zkillboard.com/kill/${akill['killmail_id']}" target="_blank" title="Kill on ZKillboard">ZKB</a>
     </td>
     <!-- solarsystem -->
     <td class="zkb_table_${loop.odd}" width="60">
-      <a href="/${akill['solarSystemName']}">${akill['solarSystemName']}</a><br />
-      <span style="color: ${akill['solarSystemSecurityColor']}">${akill['solarSystemSecurity']}</span>
-      <span class="zkb_ship">${akill['solarSystemWhClass']}</span>
+      <a href="/${akill['solar_system_name']}">${akill['solar_system_name']}</a><br />
+      <span style="color: ${akill['solar_system_security_color']}">${akill['solar_system_security']}</span>
+      <span class="zkb_ship">${akill['solar_system_whclass']}</span>
     </td>
     <!-- time -->
     <td class="zkb_table_${loop.odd}" width="60">
@@ -54,102 +54,96 @@
     <!-- ship icon -->
     <td class="zkb_table_${loop.odd}">
       <center>
-        <a href="#" onclick="showTypeInfo(${akill['victim']['shipTypeID']}); return false;"
-                   onmouseover="Tip('${akill['victim']['shipTypeName']}');"
+        <a href="#" onclick="showTypeInfo(${akill['victim']['ship_type_id']}); return false;"
+                   onmouseover="Tip('${akill['victim']['ship_type_name']}');"
                    onmouseout="UnTip();"
-                   title="Show info: ${akill['victim']['shipTypeName']}">
-                    <!-- <img src="/img/Types/${akill['victim']['shipTypeID']}_32.png" /> -->
-                    <img src="https://imageserver.eveonline.com/Type/${akill['victim']['shipTypeID']}_32.png" />
+                   title="Show info: ${akill['victim']['ship_type_name']}">
+                    <!-- <img src="/img/Types/${akill['victim']['ship_type_id']}_32.png" /> -->
+                    <img src="https://imageserver.eveonline.com/Type/${akill['victim']['ship_type_id']}_32.png" />
         </a>
         % if 'zkb' in akill:
-        <span class="zkb_totalvalue">${akill['zkb']['totalValueM']} mil</span>
+        <span class="zkb_totalvalue">${akill['zkb']['total_value_m']} mil</span>
         % endif
       </center>
     </td>
     <!-- ship name -->
     <td class="zkb_table_${loop.odd}" width="100">
-      <a href="#" onclick="showTypeInfo(${akill['victim']['shipTypeID']}); return false;"
-         title="Show info: ${akill['victim']['shipTypeName']}">
-        ${akill['victim']['shipTypeName']}
+      <a href="#" onclick="showTypeInfo(${akill['victim']['ship_type_id']}); return false;"
+         title="Show info: ${akill['victim']['ship_type_name']}">
+        ${akill['victim']['ship_type_name']}
       </a><br />
-      <span class="zkb_ship">${akill['victim']['shipGroupName']}</span>
+      <span class="zkb_ship">${akill['victim']['ship_group_name']}</span>
     </td>
     <!-- victim corp/ally icon -->
     <td class="zkb_table_${loop.odd}">
-      ##${akill['victim']['allianceID']}, ${akill['victim']['corporationID']}
+      ##${akill['victim']['alliance_id']}, ${akill['victim']['corporation_id']}
       <center>
-      % if akill['victim']['allianceID'] > 0:
-      <a href="#" onclick="showAllianceInfo(${akill['victim']['allianceID']}); return false;"
-        title="Show info: ${akill['victim']['allianceName']}">
-      <img src="https://image.eveonline.com/Alliance/${akill['victim']['allianceID']}_32.png" /></a>
+      % if akill['victim']['alliance_id'] > 0:
+      <a href="#" onclick="showAllianceInfo(${akill['victim']['alliance_id']}); return false;"
+        title="Show info: ${akill['victim']['alliance_name']}">
+      <img src="https://image.eveonline.com/Alliance/${akill['victim']['alliance_id']}_32.png" /></a>
       % else:
-      <a href="#" onclick="showCorpInfo(${akill['victim']['corporationID']}); return false;"
-         title="Show info: ${akill['victim']['corporationName']}">
-      <img src="https://image.eveonline.com/Corporation/${akill['victim']['corporationID']}_32.png" /></a>
+      <a href="#" onclick="showCorpInfo(${akill['victim']['corporation_id']}); return false;"
+         title="Show info: ${akill['victim']['corporation_name']}">
+      <img src="https://image.eveonline.com/Corporation/${akill['victim']['corporation_id']}_32.png" /></a>
       % endif
       </center>
     </td>
     <!-- victim name -->
     <td class="zkb_table_${loop.odd}" width="100">
-      <a href="#" onclick="showCharInfo(${akill['victim']['characterID']}); return false;"
-         title="Show info: ${akill['victim']['characterName']}">
-        ${akill['victim']['characterName']}
+      <a href="#" onclick="showCharInfo(${akill['victim']['character_id']}); return false;"
+         title="Show info: ${akill['victim']['character_name']}">
+        ${akill['victim']['character_name']}
       </a>
       <br />
       <span class="zkb_att_hl">
-        [${akill['victim']['corporationName']}]
-        % if akill['victim']['allianceID'] > 0:
-        <br />&lt;${akill['victim']['allianceName']}&gt;
+        [${akill['victim']['corporation_name']}]
+        % if akill['victim']['alliance_id'] > 0:
+        <br />&lt;${akill['victim']['alliance_name']}&gt;
         % endif
       </span>
     </td>
     <!-- killer corp/ally icon -->
     <td class="zkb_table_${loop.odd}">
-      ##${akill['finalBlowAttacker']}
       <center>
-      % if akill['finalBlowAttacker']['allianceID'] > 0:
-      <a href="#" onclick="showAllianceInfo(${akill['finalBlowAttacker']['allianceID']}); return false;"
-         title="Show info: ${akill['finalBlowAttacker']['allianceName']}">
-      <img src="https://image.eveonline.com/Alliance/${akill['finalBlowAttacker']['allianceID']}_32.png" /></a>
+      % if akill['final_blow_attacker']['alliance_id'] > 0:
+      <a href="#" onclick="showAllianceInfo(${akill['final_blow_attacker']['alliance_id']}); return false;"
+         title="Show info: ${akill['final_blow_attacker']['alliance_name']}">
+      <img src="https://image.eveonline.com/Alliance/${akill['final_blow_attacker']['alliance_id']}_32.png" /></a>
       % else:
-      <a href="#" onclick="showCorpInfo(${akill['finalBlowAttacker']['corporationID']}); return false;"
-         title="Show info: ${akill['finalBlowAttacker']['corporationName']}">
-      <img src="https://image.eveonline.com/Corporation/${akill['finalBlowAttacker']['corporationID']}_32.png" /></a>
+      <a href="#" onclick="showCorpInfo(${akill['final_blow_attacker']['corporation_name']}); return false;"
+         title="Show info: ${akill['final_blow_attacker']['corporation_name']}">
+      <img src="https://image.eveonline.com/Corporation/${akill['final_blow_attacker']['corporation_id']}_32.png" /></a>
       % endif
       </center>
     </td>
     <!-- killers names -->
     <td class="zkb_table_${loop.odd}">
-      ## <!-- {'finalBlow': '1', 'allianceName': 'La Division Bleue', 'corporationID': '98017240',
-      ## 'shipTypeID': '12034', 'securityStatus': '4.93913507114479', 'allianceID': '99001258', 'factionID': '0',
-      ## 'characterName': 'Pumma42', 'weaponTypeID': '27359', 'damageDone': '1195', 'characterID': '1456654176',
-      ## 'factionName': '', 'corporationName': 'EyEs.FR'} -->
       % for atk in akill['attackers']:
-        ##${atk}<br />
-        % if atk['finalBlow'] == 1:
-      <a href="#" onclick="showTypeInfo(${atk['shipTypeID']}); return false;"
-         onmouseover="Tip('${atk['shipTypeName']}');"
+        % if atk['final_blow'] == 1:
+      <a href="#" onclick="showTypeInfo(${atk['ship_type_id']}); return false;"
+         onmouseover="Tip('${atk['ship_type_name']}');"
          onmouseout="UnTip();"
-         title="Show info: ${atk['shipTypeName']}">
-        <img src="https://imageserver.eveonline.com/Type/${atk['shipTypeID']}_32.png" />
+         title="Show info: ${atk['ship_type_name']}">
+        <img src="https://imageserver.eveonline.com/Type/${atk['ship_type_id']}_32.png" />
       </a>
       &nbsp;
 
       ## check final blow by NPC
-        % if (atk['characterName'] == '') and (atk['characterID'] == 0) and (atk['factionID'] > 0):
+        % if (atk['character_name'] == '') and (atk['character_id'] == 0) and (atk['faction_id'] > 0):
         <!-- this is NPC -->
-        <a href="#" onclick="showTypeInfo(${atk['shipTypeID']}); return false;"
-           title="Show info: ${atk['shipTypeName']} (${atk['factionName']})">${atk['shipTypeName']}</a>
+        <a href="#" onclick="showTypeInfo(${atk['ship_type_id']}); return false;"
+           title="Show info: ${atk['ship_type_name']} (${atk['faction_name']})">${atk['ship_type_name']}</a>
         % else:
-        <a href="#" onclick="showCharInfo(${atk['characterID']}); return false;"
-           title="Show info: ${atk['characterName']}">${atk['characterName']}</a>
+        <a href="#" onclick="showCharInfo(${atk['character_id']}); return false;"
+           title="Show info: ${atk['character_name']}">${atk['character_name']}</a>
         % endif
         <span class="zkb_att_hl">
-        % if atk['corporationName'] != '':
-          [${atk['corporationName']}]
+        % if atk['corporation_name'] != '':
+          [${atk['corporation_name']}]
         % endif
-        % if (atk['allianceName'] != '') and (atk['allianceID'] > 0):
-           &lt;${atk['allianceName']}&gt;
+        % if (atk['alliance_name'] != '') and (atk['alliance_id'] > 0):
+           &lt;${atk['alliance_name']}&gt;
         % endif
         </span>
       % endif
@@ -162,24 +156,24 @@
         % for atk in akill['attackers']:
 
           ## check NPC
-          % if (atk['characterName'] == '') and (atk['characterID'] == 0) and (atk['factionID'] > 0):
+          % if (atk['character_name'] == '') and (atk['character_id'] == 0) and (atk['faction_id'] > 0):
             <!-- this is NPC -->
-            <a href="#" onclick="showTypeInfo(${atk['shipTypeID']}); return false;"
-               title="Show info: ${atk['shipTypeName']} (${atk['factionName']})">${atk['shipTypeName']}</a>
+            <a href="#" onclick="showTypeInfo(${atk['ship_type_id']}); return false;"
+               title="Show info: ${atk['ship_type_name']} (${atk['faction_name']})">${atk['ship_type_name']}</a>
             % if not loop.last:
               ,
             % endif
           % endif
 
           ## player character?
-          % if (atk['characterName'] != '') and (atk['characterID'] != 0):
-            <a href="#" onclick="showCharInfo(${atk['characterID']}); return false;"
-              title="Show info: ${atk['characterName']}">
-            % if atk['finalBlow'] == 0:
+          % if (atk['character_name'] != '') and (atk['character_id'] != 0):
+            <a href="#" onclick="showCharInfo(${atk['character_id']}); return false;"
+              title="Show info: ${atk['character_name']}">
+            % if atk['final_blow'] == 0:
               % if not loop.last:
-                  ${atk['characterName']}</a>,
+                  ${atk['character_name']}</a>,
               % else:
-                  ${atk['characterName']}</a>
+                  ${atk['character_name']}</a>
               % endif
             % endif
           % endif
