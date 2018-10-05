@@ -1099,6 +1099,7 @@ class WhdbxApp:
         if ssid == 'w-space':
             zkb.add_wspace()
             self.tmpl.assign('zkb_block_title', 'W-Space kills')
+            self.tmpl.assign('zkb_ssid', 0)
         else:
             zkb.add_solarSystem(int(ssid))
             self.tmpl.assign('zkb_block_title', '')
@@ -1106,8 +1107,10 @@ class WhdbxApp:
         # zkb.add_limit(30) # Zkillboard has disabled 'limit' parameter for all users:
         # '{"error":"Due to abuse of the limit parameter to avoid caches
         #  the ability to modify limit has been revoked for all users"}'
-        zkb_kills = zkb.go()
-        zkb_kills = self.postprocess_zkb_kills(zkb_kills)
+        # FIXME: temporarily disabled ZKB block because ZKB API is now broken
+        zkb_kills = []
+        #zkb_kills = zkb.go()
+        #zkb_kills = self.postprocess_zkb_kills(zkb_kills)
         self.tmpl.assign('zkb_kills', zkb_kills)
         #
         return self.tmpl.render('zkb_block.html')
