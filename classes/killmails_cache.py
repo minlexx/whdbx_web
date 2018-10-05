@@ -11,7 +11,7 @@ class KillMailsCache:
 
     def check_tables(self):
         cur = self._conn.cursor()
-        cur.execute('SELECT * FROM sqlite_master WHERE type=\'table\'')
+        cur.execute('SELECT name FROM sqlite_master WHERE type=\'table\'')
         rows = cur.fetchall()
         tables = []
         for row in rows:
