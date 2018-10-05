@@ -1102,6 +1102,7 @@ class WhdbxApp:
         else:
             zkb.add_solarSystem(int(ssid))
             self.tmpl.assign('zkb_block_title', '')
+            self.tmpl.assign('zkb_ssid', int(ssid))
         # zkb.add_limit(30) # Zkillboard has disabled 'limit' parameter for all users:
         # '{"error":"Due to abuse of the limit parameter to avoid caches
         #  the ability to modify limit has been revoked for all users"}'
