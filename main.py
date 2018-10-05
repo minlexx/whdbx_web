@@ -21,6 +21,7 @@ from classes.sitecfg import SiteConfig
 from classes.template_engine import TemplateEngine
 from classes.database import SiteDb, WHClass, get_ss_security_color
 from classes.eve_names_resolver import EveNamesDb
+from classes.killmails_cache import KillMailsCache
 from classes.sleeper import WHSleeper
 from classes.signature import WHSignature
 from classes.zkillboard import ZKB
@@ -66,6 +67,7 @@ class WhdbxApp:
         self.tmpl = TemplateEngine(self.cfg)
         self.db = SiteDb(self.cfg)
         self.names_db = EveNamesDb(self.cfg)
+        self.killmails_cache = KillMailsCache(self.cfg)
 
         # options for zkillboard helper
         self.zkb_options = {
@@ -378,45 +380,109 @@ class WhdbxApp:
 
     def postprocess_zkb_kills(self, kills: list) -> list:
         """
-        Add some EXTRA information to kills list provided by ZKillboard API
-        Adds type names and extra solarsystem info
+        ZKB returns kills without any information in them except kill_id and kill_hash.
+        We should get this information from ESI first, and then fill missing pieces
         :param kills: list of kills as provided by zkillboard
         :return: modified list
         """
         try:
+            utcnow = datetime.datetime.utcnow()
+            for a_kill in kills:
+                kill_id = a_kill['killmail_id']
+                kill_hash = a_kill['killmail_hash']
+                try:
+                    # get kill mail, try first from cache then from ESI
+                    killmail = self.killmails_cache.get_killmail(kill_id, kill_hash)
+                    if not killmail:
+                        killmail = esi_calls.get_killmail_by_id_hash(self.cfg, kill_id, kill_hash)
+                        if not killmail:
+                            continue
+                        # cache killmail
+                        self.killmails_cache.save_killmail(kill_id, kill_hash, killmail)
+
+                    # copy all keys
+                    for k in killmail.keys():
+                        a_kill[k] = killmail[k]
+                    # special processing for date/time of kill
+                    a_kill['killmail_time'] = killmail['killmail_time']  # "2018-10-03T17:15:33Z"
+                    a_kill['kill_dt'] = datetime.datetime(1970, 1, 1, 0, 0, 0, 0)
+                    try:
+                        a_kill['kill_dt'] = datetime.datetime.strptime(a_kill['killmail_time'], '%Y-%m-%dT%H:%M:%SZ')
+                    except ValueError:
+                        pass
+                    # now calculate how long ago it happened
+                    delta = utcnow - a_kill['kill_dt']
+                    a_kill['days_ago'] = delta.days
+                except esi_calls.ESIException as ee:
+                    self.debuglog('ESI exception while getting kill mail: {}/{}: {}'.format(
+                        kill_id, kill_hash, ee.error_string()))
+
             for a_kill in kills:
                 # find type name for victim ship
-                type_info = self.db.find_typeid(a_kill['victim']['shipTypeID'])
-                a_kill['victim']['shipTypeName'] = type_info['name']
-                a_kill['victim']['shipGroupName'] = type_info['groupname']
-                a_kill['our_corp'] = ''
-                # victim_corpid = a_kill['victim']['corporationID']
-                # if self.siteconfig.is_our_corp(victim_corpid):
-                #     a_kill['our_corp'] = 'loss'  # victim is our corp
+                a_kill['victim']['ship_type_name'] = ''
+                a_kill['victim']['ship_group_name'] = ''
+                if 'ship_type_id' in a_kill['victim']:
+                    type_info = self.db.find_typeid(a_kill['victim']['ship_type_id'])
+                    a_kill['victim']['ship_type_name'] = type_info['name']
+                    a_kill['victim']['ship_group_name'] = type_info['groupname']
+                if 'character_id' not in a_kill['victim']:
+                    a_kill['victim']['character_id'] = 0
+                    a_kill['victim']['character_name'] = ''
+                if 'corporation_id' not in a_kill['victim']:
+                    a_kill['victim']['corporation_id'] = 0
+                    a_kill['victim']['corporation_name'] = ''
+                if 'alliance_id' not in a_kill:
+                    a_kill['victim']['alliance_id'] = 0
+                    a_kill['victim']['alliance_name'] = ''
                 # go through all attackers
                 for atk in a_kill['attackers']:
                     # find type name for attacker ship
-                    type_info = self.db.find_typeid(atk['shipTypeID'])
-                    atk['shipTypeName'] = type_info['name']
-                    # look for our corp kills/losses
-                    # if self.cfg.is_our_corp(atk['corporationID']):
-                    #    if a_kill['our_corp'] == '':
-                    #        a_kill['our_corp'] = 'kill'
+                    atk['ship_type_name'] = ''
+                    if 'ship_type_id' in atk:
+                        type_info = self.db.find_typeid(atk['ship_type_id'])
+                        atk['ship_type_name'] = type_info['name']
+                    else:
+                        atk['ship_type_id'] = 0
+                    if 'character_id' not in atk:
+                        atk['character_id'] = 0
+                        atk['character_name'] = ''
+                    if 'corporation_id' not in atk:
+                        atk['corporation_id'] = 0
+                        atk['corporation_name'] = ''
+                    if 'alliance_id' not in a_kill:
+                        atk['alliance_id'] = 0
+                        atk['alliance_name'] = ''
+                    if 'faction_name' not in atk:
+                        atk['faction_name'] = ''
                 # find solarsystem name for solarsystem id
-                a_kill['solarSystemName'] = ''
-                a_kill['solarSystemRegion'] = ''
-                a_kill['solarSystemSecurity'] = 0.0
-                a_kill['solarSystemSecurityColor'] = '#FFFFFF'
-                a_kill['solarSystemWhClass'] = ''
-                ss_info = self.db.find_ss_by_id(a_kill['solarSystemID'])
+                a_kill['solar_system_name'] = ''
+                a_kill['solar_system_region'] = ''
+                a_kill['solar_system_security'] = 0.0
+                a_kill['solar_system_security_color'] = '#FFFFFF'
+                a_kill['solar_system_whclass'] = ''
+                ss_info = self.db.find_ss_by_id(a_kill['solar_system_id'])
                 if ss_info is not None:
-                    a_kill['solarSystemName'] = ss_info['name']
-                    a_kill['solarSystemRegion'] = ss_info['regionname']
-                    a_kill['solarSystemSecurity'] = ss_info['security']
-                    a_kill['solarSystemSecurityColor'] = get_ss_security_color(ss_info['security'])
-                whsys_row = self.db.query_wormholesystem_new(a_kill['solarSystemID'])
+                    a_kill['solar_system_name'] = ss_info['name']
+                    a_kill['solar_system_region'] = ss_info['regionname']
+                    a_kill['solar_system_security'] = ss_info['security']
+                    a_kill['solar_system_security_color'] = get_ss_security_color(ss_info['security'])
+                whsys_row = self.db.query_wormholesystem_new(a_kill['solar_system_id'])
                 if whsys_row is not None:
-                    a_kill['solarSystemWhClass'] = WHClass.to_string(int(whsys_row[0]))
+                    a_kill['solar_system_whclass'] = WHClass.to_string(int(whsys_row[0]))
+                # calc final blow
+                finalBlow_attacker = {}
+                for atk in a_kill['attackers']:
+                    if atk['final_blow'] == True:
+                        finalBlow_attacker = atk
+                a_kill['final_blow_attacker'] = finalBlow_attacker
+                # npc kills may have a faction_id
+                a_kill['faction_name'] = ''
+                if 'faction_id' in a_kill:
+                    a_kill['faction_name'] = 'NPC'
+                    a_kill['character_id'] = 0
+                    a_kill['character_name'] = ''
+                else:
+                    a_kill['faction_id'] = 0
             # resolve characters, corporations, alliances names from their IDs
             kills = self.names_db.fill_names_in_zkb_kills(kills)
         except KeyError as k_e:
@@ -1108,9 +1174,9 @@ class WhdbxApp:
         # '{"error":"Due to abuse of the limit parameter to avoid caches
         #  the ability to modify limit has been revoked for all users"}'
         # FIXME: temporarily disabled ZKB block because ZKB API is now broken
-        zkb_kills = []
-        #zkb_kills = zkb.go()
-        #zkb_kills = self.postprocess_zkb_kills(zkb_kills)
+        #zkb_kills = []
+        zkb_kills = zkb.go()
+        zkb_kills = self.postprocess_zkb_kills(zkb_kills)
         self.tmpl.assign('zkb_kills', zkb_kills)
         #
         return self.tmpl.render('zkb_block.html')
@@ -1140,8 +1206,8 @@ if __name__ == '__main__':
     #   'http': 'http://user:pass@10.10.1.10:3128/',
     #   'https': 'http://10.10.1.10:1080',
     # }
-    #esi_calls.set_esi_proxies({'http': 'http://user:pass@eve-wh.space:8080/',
-    #                           'https': 'http://user:pass@eve-wh.space:8080/'})
+    # esi_calls.set_esi_proxies({'http': 'http://user:pass@eve-wh.space:8080/',
+    #                            'https': 'http://user:pass@eve-wh.space:8080/'})
 
     whdbx_app = WhdbxApp()
     cherrypy.tree.mount(whdbx_app, '/', whdbx_app.get_cherrypy_app_config())
