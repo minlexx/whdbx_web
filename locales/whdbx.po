@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-24 12:19+0300\n"
-"PO-Revision-Date: 2018-09-24 12:27+0300\n"
+"POT-Creation-Date: 2018-10-05 11:23+0300\n"
+"PO-Revision-Date: 2018-10-05 11:28+0300\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +62,7 @@ msgid "WHDB"
 msgstr "БАЗА ВХ"
 
 #: templates/footer.html:7 .\templates\footer.html:7 .\main.py:525 main.py:547
-#: .\main.py:547
+#: .\main.py:547 main.py:550
 msgid "About project"
 msgstr "О проекте"
 
@@ -357,7 +357,7 @@ msgid "Attack range"
 msgstr "Радиус атаки"
 
 #: .\templates\sleeper.html:82 .\main.py:439 templates/sleeper.html:82
-#: main.py:439 main.py:471 .\main.py:471
+#: main.py:439 main.py:471 .\main.py:471 main.py:474
 msgid "Sleepers"
 msgstr "Слиперы"
 
@@ -415,18 +415,18 @@ msgid "classes:"
 msgstr "классы:"
 
 #: .\main.py:419 main.py:419 main.py:424 .\main.py:429 main.py:451
-#: .\main.py:451
+#: .\main.py:451 main.py:454
 msgid "Effects"
 msgstr "Эффекты"
 
 #: .\main.py:451 main.py:451 main.py:456 .\main.py:461 main.py:483
-#: .\main.py:483
+#: .\main.py:483 main.py:486
 msgid "Signatures"
 msgstr "Сигнатуры"
 
 #: .\main.py:506 main.py:506 templates/whdb.html:94 main.py:511 .\main.py:516
 #: .\templates\whdb.html:94 main.py:538 templates/whdb.html:142 .\main.py:538
-#: .\templates\whdb.html:142
+#: .\templates\whdb.html:142 main.py:541
 msgid "WH Database"
 msgstr "База ВХ"
 
@@ -872,32 +872,32 @@ msgstr "дн. назад"
 msgid "Language"
 msgstr "Язык"
 
-#: .\main.py:534 main.py:556 .\main.py:556
+#: .\main.py:534 main.py:556 .\main.py:556 main.py:559
 msgid "About EVE-SSO"
 msgstr "О EVE-SSO"
 
-#: main.py:757 main.py:745 .\main.py:734
+#: main.py:757 main.py:745 .\main.py:734 main.py:737
 msgid "Not found!"
 msgstr "Не найдено!"
 
-#: main.py:785 main.py:773 .\main.py:762
+#: main.py:785 main.py:773 .\main.py:762 main.py:765
 msgid "Mass:"
 msgstr "Масса:"
 
 #: main.py:787 main.py:791 main.py:775 main.py:779 .\main.py:764 .\main.py:768
-#: main.py:764 main.py:768
+#: main.py:764 main.py:768 main.py:767 main.py:771
 msgid "mil.kg"
 msgstr "тыс.тонн"
 
-#: main.py:789 main.py:777 .\main.py:766
+#: main.py:789 main.py:777 .\main.py:766 main.py:769
 msgid "Jump mass:"
 msgstr "Масса на прыг:"
 
-#: main.py:793 main.py:781 .\main.py:770
+#: main.py:793 main.py:781 .\main.py:770 main.py:773
 msgid "Life time:"
 msgstr "Время жизни:"
 
-#: main.py:795 main.py:783 .\main.py:772
+#: main.py:795 main.py:783 .\main.py:772 main.py:775
 msgid "hr."
 msgstr "ч."
 
@@ -922,3 +922,21 @@ msgstr "Уничтожить все линкоры слиперов"
 #: templates/signature.html:101
 msgid "Destory all other sleepers"
 msgstr "Уничтожить все остальные корабли"
+
+#: templates/zkb_block.html:200
+msgid "ZKB API is broken (again)"
+msgstr "ZKB API сломано (опять)"
+
+#: templates/zkb_block.html:202
+msgid ""
+"ZKillboard.com has broken its API once more. Now it is not returning any "
+"kill data (no information about kill time, victim, attackers). Only kill_id "
+"is returned, so a large rework is needed."
+msgstr ""
+"ZKillboard.com сломало своё API в очередной раз (уже не в первый). Теперь "
+"они не возвращают никаких данных о килле, кроме его ID (нет информации о "
+"времени килла, жертве, атакующих). Теперь на каждый килл надо отдельно "
+"запрашивать информацию через ESI (короче, они переложили работу по передаче "
+"трафика с zkillboard на EVE API). Теперь вместо одного запроса на все киллы "
+"- придется слать дополнительно отдельный запрос на каждый килл ещё и в ESI, "
+"что никак не улучшит скорость работы. Падлы они, короче, хз че делать."
