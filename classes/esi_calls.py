@@ -436,3 +436,41 @@ def ui_open_window_information(cfg: sitecfg.SiteConfig, target_id: int, access_t
     if error_str != '':
         raise ESIException(error_str)
     return ret
+
+
+def get_killmail_by_id_hash(cfg: sitecfg.SiteConfig, kill_id: str, kill_hash: str) -> dict:
+    """
+    Get killmail JSON info
+    :param cfg: configuration
+    :param kill_id: id like 72725284
+    :param kill_hash: long hash like 56a83bf9445ad4ed88426b19e600e801e6ab57f4
+    :return: returned JSON from API as python dict
+    """
+    global esi_proxies
+    ret = {}
+    error_str = ''
+    try:
+        # https://esi.evetech.net/ui/#/Killmails/get_killmails_killmail_id_killmail_hash
+        # GET /killmails/{killmail_id}/{killmail_hash}/
+        url = '{}/killmails/{}/{}/'.format(cfg.ESI_BASE_URL, kill_id, kill_hash)
+        r = requests.get(url,
+                         headers={
+                              'Content-Type': 'application/json',
+                              'Accept': 'application/json',
+                              'User-Agent': cfg.SSO_USER_AGENT
+                         },
+                         proxies=esi_proxies,
+                         timeout=10)
+        # only check return code. 204 is "reqeust accepted"
+        if (r.status_code >= 200) and (r.status_code <= 299):
+            ret = json.loads(r.text)
+            analyze_esi_response_headers(r.headers)
+        else:
+            error_str = 'Error connecting to ESI server: HTTP status {}'.format(r.status_code)
+    except requests.exceptions.RequestException as e:
+        error_str = 'Error connection to ESI server: {}'.format(str(e))
+    except json.JSONDecodeError:
+        error_str = 'Failed to parse response JSON from CCP ESI server!'
+    if error_str != '':
+        raise ESIException(error_str)
+    return ret
