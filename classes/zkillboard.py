@@ -401,87 +401,27 @@ class ZKB:
                     # Sometimes ZKB can return 'error' key as string, we can parse only dicts
                     if type(a_kill) != dict:
                         continue
-                    # fix new keys format to old format, becuase templates use old keys
-                    a_kill['killID'] = a_kill['killmail_id']
-                    # init a kill datetime with an empty date
-                    a_kill['kill_dt'] = datetime.datetime(1970, 1, 1, 0, 0, 0)
-                    a_kill['killTime'] = a_kill['killmail_time']  # compatibility with old API
-                    # guess time format, ZKB has changed it over time
-                    # ValueError: time data '2015.07.08 01:11:00' does not match format '%Y-%m-%d %H:%M:%S'
-                    # current ZKB has a totallly different time format: "2017-06-07T17:02:57Z"
-                    try:
-                        a_kill['kill_dt'] = datetime.datetime.strptime(a_kill['killmail_time'], '%Y-%m-%dT%H:%M:%SZ')
-                    except ValueError:
-                        # some older formats
-                        try:
-                            a_kill['kill_dt'] = datetime.datetime.strptime(a_kill['killmail_time'], '%Y-%m-%d %H:%M:%S')
-                        except ValueError:
-                            a_kill['kill_dt'] = datetime.datetime.strptime(a_kill['killmail_time'], '%Y.%m.%d %H:%M:%S')
-                    # now calculate how long ago it happened
-                    delta = utcnow - a_kill['kill_dt']
-                    a_kill['days_ago'] = delta.days
-                    # convert to integers (zkillboard sends strings) and also initialize all keys used by templates
-                    a_kill['victim']['characterID'] = 0
-                    a_kill['victim']['characterName'] = ''
-                    a_kill['victim']['corporationID'] = 0
-                    a_kill['victim']['corporationName'] = ''
-                    a_kill['victim']['allianceID'] = 0
-                    a_kill['victim']['allianceName'] = ''
-                    a_kill['victim']['shipTypeID'] = 0
-                    a_kill['victim']['shipTypeName'] = ''
-                    # fix character_id => characterID
-                    if 'character_id' in a_kill['victim']:
-                        a_kill['victim']['characterID'] = int(a_kill['victim']['character_id'])
-                    # fix alliance_id => allianceID
-                    if 'alliance_id' in a_kill['victim']:
-                        a_kill['victim']['allianceID'] = int(a_kill['victim']['alliance_id'])
-                    # fix corporation_id => corporationID
-                    if 'corporation_id' in a_kill['victim']:
-                        a_kill['victim']['corporationID'] = int(a_kill['victim']['corporation_id'])
-                    # fix ship_type_id => shipTypeID
-                    if 'ship_type_id' in a_kill['victim']:
-                        a_kill['victim']['shipTypeID'] = int(a_kill['victim']['ship_type_id'])
-                    # process attackers
-                    for atk in a_kill['attackers']:
-                        atk['characterID'] = 0
-                        atk['characterName'] = ''
-                        atk['corporationID'] = 0
-                        atk['corporationName'] = ''
-                        atk['allianceID'] = 0
-                        atk['allianceName'] = ''
-                        atk['shipTypeID'] = 0
-                        atk['shipTypeName'] = ''
-                        atk['finalBlow'] = atk['final_blow']
-                        atk['factionID'] = 0
-                        atk['factionName'] = ''
-                        if 'character_id' in atk:
-                            atk['characterID'] = atk['character_id']
-                        if 'alliance_id' in atk:
-                            atk['allianceID'] = atk['alliance_id']
-                        if 'corporation_id' in atk:
-                            atk['corporationID'] = atk['corporation_id']
-                        if 'ship_type_id' in atk:
-                            atk['shipTypeID'] = atk['ship_type_id']
-                        if 'faction_id' in atk:
-                            # this is an NPC kill
-                            atk['factionID'] = atk['faction_id']
-                            # NPC is not a character, zero out char name/id
-                            atk['characterID'] = 0
-                            atk['characterName'] = ''
-                    finalBlow_attacker = dict()
-                    for atk in a_kill['attackers']:
-                        if atk['final_blow'] == True:
-                            finalBlow_attacker = atk
-                    a_kill['finalBlowAttacker'] = finalBlow_attacker
-                    # fix solar system id
-                    a_kill['solarSystemID'] = a_kill['solar_system_id']
-                    # kill price in ISK
+
+                    # kill price in ISK, killmail hash
+                    a_kill['killmail_hash'] = ''
+                    a_kill['total_value'] = 0
+                    a_kill['total_value_m'] = 0
+                    a_kill['is_npc'] = False
+                    a_kill['is_solo'] = False
                     if 'zkb' in a_kill:
                         if 'totalValue' in a_kill['zkb']:
-                            a_kill['zkb']['totalValueM'] = round(float(a_kill['zkb']['totalValue']) / 1000000.0)
+                            a_kill['total_value'] = float(a_kill['zkb']['totalValue'])
+                            a_kill['total_value_m'] = round(float(a_kill['zkb']['totalValue']) / 1000000.0)
+                        if 'hash' in a_kill['zkb']:
+                            a_kill['killmail_hash'] = a_kill['zkb']['hash']
+                        if 'npc' in a_kill['zkb']:
+                            a_kill['is_npc'] = a_kill['zkb']['npc']
+                        if 'solo' in a_kill['zkb']:
+                            a_kill['is_solo'] = a_kill['zkb']['solo']
+                    del a_kill['zkb']
             except KeyError as k_e:
                 if self._debug:
-                    print('It is possible that ZKB API has chabged (again).')
+                    print('It is possible that ZKB API has changed (again).')
                     print(str(k_e))
         return zkb_kills
 
@@ -496,23 +436,17 @@ class ZKB:
 def pretty_print_kill(kill):
     for k in kill.keys():
         print('kill[{0}] -> {1}'.format(str(k), str(kill[k])))
-# kill[killID] -> 42298196
-# kill[killTime] -> 2014-11-09 01:15:00
-# kill[zkb] -> {u'source': u'API', u'totalValue': u'65945136.88', u'points': u'57'}
-# kill[attackers] = list [ {u'corporationID': u'98045540', u'factionID': u'0',
-#           u'securityStatus': u'4.55944451030535', u'weaponTypeID': u'27387',
-#           u'characterName': u'xxxMASTERxxx', u'factionName': u'',
-#           u'allianceName': u'Happy Cartel', u'finalBlow': u'1', u'allianceID':
-#           u'99002411', u'shipTypeID': u'11993', u'corporationName': u'Stain Forever',
-#           u'characterID': u'880181945', u'damageDone': u'6240'} ]
-# kill[victim] -> {u'corporationID': u'1000107', u'factionID': u'0', u'damageTaken':
-#           u'75855', u'characterName': u'Annet Svitch', u'factionName': u'',
-#           u'allianceName': u'', u'allianceID': u'0', u'shipTypeID': u'16229',
-#           u'corporationName': u'The Scope', u'victim': u'', u'characterID': u'95020841'}
-# kill[items] -> list [ {u'typeID': u'30013', u'flag': u'5',
-#           u'qtyDropped': u'8', u'singleton': u'0', u'qtyDestroyed': u'0'} ]
-# kill[solarSystemID] -> 31000707
-# kill[moonID] -> 0
+# kill[killmail_id] -> 72725284
+# kill[zkb] -> {
+#    'locationID': 40387568,
+#    'hash': '56a83bf9445ad4ed88426b19e600e801e6ab57f4',
+#    'fittedValue': 1320489.39,
+#    'totalValue': 48235664.21,
+#    'points': 1,
+#    'npc': False,
+#    'solo': True,
+#    'awox': False
+# }
 
 
 if __name__ == '__main__':
@@ -541,59 +475,3 @@ if __name__ == '__main__':
             if i == 0:
                 pretty_print_kill(a_kill)
             i += 1
-
-# end
-#  for customs office:
-# {'attackers': [
-#   {
-#       'allianceID': 0,
-#       'allianceName': '',
-#       'characterID': 94141200,
-#       'characterName': 'Roman Askirason',
-#       'corporationID': 98369889,
-#       'corporationName': 'New Home Inc.',
-#       'damageDone': 1407264,
-#       'factionID': 0,
-#       'factionName': '',
-#       'finalBlow': 0, ...
-#   },
-#   {
-#       'allianceID': 0,
-#       'allianceName': '',
-#       'characterID': 93485398,
-#       'characterName': 'EVA Smitt',
-#       'corporationID': 98142119,
-#       'corporationName': 'Wormhole Piligrims',
-#       'damageDone': 1205261,
-#       'factionID': 0,
-#       'factionName': '',
-#       'finalBlow': 0, ...
-#   }, ...
-# ],
-# 'items': [],
-# 'killID': 44088489,
-# 'killTime': '2015-01-23 20:47:00',
-# 'moonID': 0,
-# 'solarSystemID': 31001830,
-# 'victim': {
-#   'allianceID': 372230301,
-#   'allianceName': 'Stellar Economy Experts',
-#   'characterID': 0,
-#   'characterName': '',
-#   'corporationID': 677704765,
-#   'corporationName': 'Global Economy Experts',
-#   'damageTaken': 4480802,
-#   'factionID': 0,
-#   'factionName': '',
-#   'shipTypeID': 2233
-# },
-# 'zkb': {
-#   'hash': 'd9a74cd25b466b374680c3f82b14837f8db0f314',
-#   'points': '237',
-#   'source': 'CREST',
-#   'totalValue': '114417658.89'}
-# }
-
-# how to convert date from kill to datetime structure:
-# import datetime
-# kill_dt = datetime.datetime.strptime(kill['killTime'], '%Y-%m-%d %H:%M:%S')
