@@ -191,37 +191,37 @@ class EveNamesDb:
                 if char_id > 0:
                     char_name = self.get_char_name(char_id)
                     if char_name != '':
-                        victim['characterName'] = char_name
+                        victim['character_name'] = char_name
             if 'corporation_id' in victim:
                 corp_id = int(victim['corporation_id'])
                 if corp_id > 0:
                     corp_name = self.get_corp_name(corp_id)
                     if corp_name != '':
-                        victim['corporationName'] = corp_name
+                        victim['corporation_name'] = corp_name
             if 'alliance_id' in victim:
                 ally_id = int(victim['alliance_id'])
                 if ally_id > 0:
                     ally_name = self.get_ally_name(ally_id)
                     if ally_name != '':
-                        victim['allianceName'] = ally_name
+                        victim['alliance_name'] = ally_name
             for atk in kill['attackers']:
                 if 'character_id' in atk:
                     char_id = int(atk['character_id'])
                     if char_id > 0:
                         char_name = self.get_char_name(char_id)
                         if char_name != '':
-                            atk['characterName'] = char_name
+                            atk['character_name'] = char_name
                 if 'corporation_id' in atk:
                     corp_id = int(atk['corporation_id'])
                     if corp_id > 0:
                         corp_name = self.get_corp_name(corp_id)
                         if corp_name != '':
-                            atk['corporationName'] = corp_name
+                            atk['corporation_name'] = corp_name
                 if 'alliance_id' in atk:
                     ally_id = int(atk['alliance_id'])
                     if ally_id > 0:
                         ally_name = self.get_ally_name(ally_id)
                         if ally_name != '':
-                            atk['allianceName'] = ally_name
+                            atk['alliance_name'] = ally_name
 
         return kills
