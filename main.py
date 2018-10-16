@@ -431,7 +431,7 @@ class WhdbxApp:
                 if 'corporation_id' not in a_kill['victim']:
                     a_kill['victim']['corporation_id'] = 0
                     a_kill['victim']['corporation_name'] = ''
-                if 'alliance_id' not in a_kill:
+                if 'alliance_id' not in a_kill['victim']:
                     a_kill['victim']['alliance_id'] = 0
                     a_kill['victim']['alliance_name'] = ''
                 # go through all attackers
@@ -452,6 +452,8 @@ class WhdbxApp:
                     if 'alliance_id' not in a_kill:
                         atk['alliance_id'] = 0
                         atk['alliance_name'] = ''
+                    if 'faction_id' not in atk:
+                        atk['faction_id'] = 0
                     if 'faction_name' not in atk:
                         atk['faction_name'] = ''
                 # find solarsystem name for solarsystem id
