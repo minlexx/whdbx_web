@@ -449,7 +449,7 @@ class WhdbxApp:
                     if 'corporation_id' not in atk:
                         atk['corporation_id'] = 0
                         atk['corporation_name'] = ''
-                    if 'alliance_id' not in a_kill:
+                    if 'alliance_id' not in atk:
                         atk['alliance_id'] = 0
                         atk['alliance_name'] = ''
                     if 'faction_id' not in atk:
