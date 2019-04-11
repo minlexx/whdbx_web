@@ -2555,7 +2555,7 @@ INSERT INTO "wormholesystems_new" VALUES(31002557,'J001694',-5,'Sun A0IV (Turbul
 INSERT INTO "wormholesystems_new" VALUES(31002558,'J003941',-5,'Sun A0IV (Turbulent Blue Subgiant)',7,0,'Cataclysmic Variable','H296,K346');
 INSERT INTO "wormholesystems_new" VALUES(31002559,'J011790',-5,'Sun A0IV (Turbulent Blue Subgiant)',6,0,'Cataclysmic Variable','D792,M267,K346');
 INSERT INTO "wormholesystems_new" VALUES(31002560,'J013146',-5,'Sun A0IV (Turbulent Blue Subgiant)',7,0,'Magnetar','H296,K346');
-INSERT INTO "wormholesystems_new" VALUES(31002561,'J004998',-5,'Sun A0IV (Turbulent Blue Subgiant)',7,0,'Magnetar','');
+INSERT INTO "wormholesystems_new" VALUES(31002561,'J004998',-5,'Sun A0IV (Turbulent Blue Subgiant)',7,0,'Magnetar','H296,U210');
 INSERT INTO "wormholesystems_new" VALUES(31002562,'J003382',-5,'Sun A0IV (Turbulent Blue Subgiant)',6,0,'Pulsar','');
 INSERT INTO "wormholesystems_new" VALUES(31002563,'J003546',-5,'Sun A0IV (Turbulent Blue Subgiant)',8,0,'Pulsar','M267,U210');
 INSERT INTO "wormholesystems_new" VALUES(31002564,'J001820',-5,'Sun A0IV (Turbulent Blue Subgiant)',7,0,'Red Giant','H296,U210');
