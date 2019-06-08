@@ -9,7 +9,8 @@ If you already have python3.6, skip python installation and go directly to
 
 If it does not say 3.6, you can try to install it:
 ```
-sudo apt-get install python3.6
+sudo apt install python3.6
+sudo apt install python3-pip
 ```
 If your distro does not have python3.6, you can compile it from source:
 * add deb-src lines
@@ -65,8 +66,12 @@ sudo make install
 ### install python requirements
 ```
 /usr/local/bin/python3 -m pip install requests
+/usr/local/bin/python3 -m pip install setuptools
+/usr/local/bin/python3 -m pip install wheel
 /usr/local/bin/python3 -m pip install mako
 /usr/local/bin/python3 -m pip install cherrypy
+(optional)
+/usr/local/bin/python3 -m pip install redispy
 ```
 
 ### create symbolic link for python3 in /usr/bin
@@ -98,6 +103,12 @@ cd whdbx_web
 # create and edit local config:
 cp whdbx_config.ini whdbx_config_local.ini
 nano whdbx_config_local.ini
+
+# create directories for cache files
+mkdir _caches
+mkdir _caches/templates
+mkdir _caches/prices
+mkdir _caches/zkb
 ```
 ```
 # verify that whdbx app can be launched at all, test:
