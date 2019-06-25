@@ -119,7 +119,8 @@
                 ${tr.gettext('Full Venture:')} <span class="sig_isk">${gas.full_venture_price | dotted_number}</span> ISK
                 (<b>${gas.volume1piece}</b> m3 ${tr.gettext('unit')}, <b>${gas.num_pcs_in_venture}</b> ${tr.gettext('total units')})
                 <br />
-                ${tr.gettext('Harvesting in a Venture')}: <span class="sig_isk">${gas.isk_per_hour_venture | dotted_number}</span> ISK/${tr.gettext('hour')}.
+                ${tr.gettext('Harvesting in a Venture')}: <span class="sig_isk">${gas.isk_per_hour_venture | dotted_number}</span> ISK/${tr.gettext('hour')},
+                ${tr.gettext('the entire cloud in about')} <span class="sig_ehp">${round(gas.harvest_time_full_minutes)}</span> ${tr.gettext('minutes')}.
             </li>
         % endfor
         </ul>

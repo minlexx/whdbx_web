@@ -106,6 +106,7 @@ class WHSignatureGas:
         self.num_pcs_in_venture = 0
         self.full_venture_price = 0
         self.harvest_time_venture_secs = 0
+        self.harvest_time_full_minutes = 0
         self.isk_per_hour_venture = 0
 
     def __str__(self):
@@ -175,6 +176,7 @@ class WHSignatureGas:
             #  self.full_venture_price ISK  => harvest_time_venture_hr  hours
             #  ? ISK => 1 hours
             self.isk_per_hour_venture = round((1 / harvest_time_venture_hr) * self.full_venture_price)
+            self.harvest_time_full_minutes = total_volume / full_venture_volume * self.harvest_time_venture_secs / 60
 
 
 class WHSignatureOre:
