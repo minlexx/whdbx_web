@@ -167,6 +167,8 @@ class EveNamesDb:
         # 2. make a skingle universe_names request for all IDs types
         #  (characters, corporations, alliances) - all at once
         all_unknown_ids = unknown_charids + unknown_corpids + unknown_allyids
+        # filter all_unknown_ids from zeroes as they don't make sense to request as ID
+        all_unknown_ids = [x for x in all_unknown_ids if x > 0]
         names = self._resolver.resolve_universe_names(all_unknown_ids)
         if self._resolver.error_str != '':
             print('names resolving error: {}'.format(self._resolver.error_str), file=sys.stderr)
