@@ -212,6 +212,10 @@ msgstr "всего единиц"
 msgid "Harvesting in a Venture"
 msgstr "Добыча Вентурой"
 
+#: templates/signature.html:123
+msgid "the entire cloud in about"
+msgstr "все облако примерно за"
+
 #: templates/signature.html:109 templates/signature.html:152
 #: templates/signature.html:156 .\templates\signature.html:152
 #: templates/signature.html:113 templates/signature.html:160
