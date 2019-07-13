@@ -71,7 +71,7 @@ class WhdbxApp:
 
         # options for zkillboard helper
         self.zkb_options = {
-            'debug': False,
+            'debug': self.cfg.DEBUG,
             'cache_time': self.cfg.ZKB_CACHE_TIME,
             'cache_type': self.cfg.ZKB_CACHE_TYPE,
             'cache_dir': self.cfg.ZKB_CACHE_DIR,
