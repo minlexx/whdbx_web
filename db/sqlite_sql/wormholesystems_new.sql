@@ -2583,7 +2583,7 @@ INSERT INTO "wormholesystems_new" VALUES(31002585,'J000452',13,'Sun A0IV (Turbul
 INSERT INTO "wormholesystems_new" VALUES(31002586,'J000327',13,'Sun A0IV (Turbulent Blue Subgiant)',8,0,'Wolf-Rayet Star','L005,C008,Q003');
 INSERT INTO "wormholesystems_new" VALUES(31002587,'J000186',13,'Sun A0IV (Turbulent Blue Subgiant)',6,0,'Wolf-Rayet Star','L005,C008,Q003');
 INSERT INTO "wormholesystems_new" VALUES(31002588,'J000528',13,'Sun A0IV (Turbulent Blue Subgiant)',6,0,'Wolf-Rayet Star','');
-INSERT INTO "wormholesystems_new" VALUES(31002589,'J000353',13,'Sun A0IV (Turbulent Blue Subgiant)',6,0,'Wolf-Rayet Star','');
+INSERT INTO "wormholesystems_new" VALUES(31002589,'J000353',13,'Sun A0IV (Turbulent Blue Subgiant)',6,0,'Wolf-Rayet Star','L005,M001,Q003');
 INSERT INTO "wormholesystems_new" VALUES(31002590,'J000461',13,'Sun A0IV (Turbulent Blue Subgiant)',9,0,'Wolf-Rayet Star','Z006,Q003');
 INSERT INTO "wormholesystems_new" VALUES(31002591,'J000522',13,'Sun A0IV (Turbulent Blue Subgiant)',5,0,'Wolf-Rayet Star','');
 INSERT INTO "wormholesystems_new" VALUES(31002592,'J000965',13,'Sun A0IV (Turbulent Blue Subgiant)',9,0,'Wolf-Rayet Star','');
