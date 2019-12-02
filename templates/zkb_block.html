@@ -59,7 +59,7 @@
                    onmouseout="UnTip();"
                    title="Show info: ${akill['victim']['ship_type_name']}">
                     <!-- <img src="/img/Types/${akill['victim']['ship_type_id']}_32.png" /> -->
-                    <img src="https://imageserver.eveonline.com/Type/${akill['victim']['ship_type_id']}_32.png" />
+                    <img src="https://images.evetech.net/types/${akill['victim']['ship_type_id']}/icon?size=32" />
         </a>
         <span class="zkb_totalvalue">${akill['total_value_m']} mil</span>
       </center>
@@ -79,11 +79,11 @@
       % if akill['victim']['alliance_id'] > 0:
       <a href="#" onclick="showAllianceInfo(${akill['victim']['alliance_id']}); return false;"
         title="Show info: ${akill['victim']['alliance_name']}">
-      <img src="https://image.eveonline.com/Alliance/${akill['victim']['alliance_id']}_32.png" /></a>
+      <img src="https://images.evetech.net/alliances/${akill['victim']['alliance_id']}/logo?size=32" /></a>
       % else:
       <a href="#" onclick="showCorpInfo(${akill['victim']['corporation_id']}); return false;"
          title="Show info: ${akill['victim']['corporation_name']}">
-      <img src="https://image.eveonline.com/Corporation/${akill['victim']['corporation_id']}_32.png" /></a>
+      <img src="https://images.evetech.net/corporations/${akill['victim']['corporation_id']}/logo?size=32" /></a>
       % endif
       </center>
     </td>
@@ -107,11 +107,11 @@
       % if akill['final_blow_attacker']['alliance_id'] > 0:
       <a href="#" onclick="showAllianceInfo(${akill['final_blow_attacker']['alliance_id']}); return false;"
          title="Show info: ${akill['final_blow_attacker']['alliance_name']}">
-      <img src="https://image.eveonline.com/Alliance/${akill['final_blow_attacker']['alliance_id']}_32.png" /></a>
+      <img src="https://images.evetech.net/alliances/${akill['final_blow_attacker']['alliance_id']}/logo?size=32" /></a>
       % else:
       <a href="#" onclick="showCorpInfo(${akill['final_blow_attacker']['corporation_name']}); return false;"
          title="Show info: ${akill['final_blow_attacker']['corporation_name']}">
-      <img src="https://image.eveonline.com/Corporation/${akill['final_blow_attacker']['corporation_id']}_32.png" /></a>
+      <img src="https://images.evetech.net/corporations/${akill['final_blow_attacker']['corporation_id']}/logo?size=32" /></a>
       % endif
       </center>
     </td>
@@ -123,7 +123,7 @@
          onmouseover="Tip('${atk['ship_type_name']}');"
          onmouseout="UnTip();"
          title="Show info: ${atk['ship_type_name']}">
-        <img src="https://imageserver.eveonline.com/Type/${atk['ship_type_id']}_32.png" />
+        <img src="https://images.evetech.net/types/${atk['ship_type_id']}/icon?size=32" />
       </a>
       &nbsp;
 

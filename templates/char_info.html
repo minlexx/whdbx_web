@@ -15,9 +15,9 @@ from classes.utils import js_escape, length_limit_20
   <div class="character_info_inline">
     <a href="#" onclick="showCharInfo(${SSO_CHAR_ID}); return false;"
        title="Show info: ${SSO_CHAR_NAME|h}">
-       <img src="https://image.eveonline.com/Character/${SSO_CHAR_ID}_32.jpg"
+       <img src="https://images.evetech.net/characters/${SSO_CHAR_ID}/portrait?size=32"
             border="0" width="32"
-            onmouseover="Tip('<img src=&quot;https://image.eveonline.com/Character/${SSO_CHAR_ID}_128.jpg&quot;>');"
+            onmouseover="Tip('<img src=&quot;https://images.evetech.net/characters/${SSO_CHAR_ID}/portraitsize=128&quot;>');"
             onmouseout="UnTip();"/></a>
   </div>
 
@@ -34,7 +34,7 @@ from classes.utils import js_escape, length_limit_20
        title="Show info: ${SSO_CORP_NAME|h}'"
        onmouseover="Tip('${SSO_CORP_NAME|js_escape}');"
        onmouseout="UnTip();">
-      <img src="https://imageserver.eveonline.com/Corporation/${SSO_CORP_ID}_32.png" />
+      <img src="https://images.evetech.net/corporations/${SSO_CORP_ID}/logo?size=32" />
     </a>
   % endif
   </div>
@@ -56,7 +56,7 @@ from classes.utils import js_escape, length_limit_20
        title="Show info: ${SSO_SHIP_NAME|h}'"
        onmouseover="Tip('${SSO_SHIP_NAME|js_escape}');"
        onmouseout="UnTip();">
-      <img src="https://imageserver.eveonline.com/Type/${SSO_SHIP_ID}_32.png" />
+      <img src="https://images.evetech.net/types/${SSO_SHIP_ID}/icon?size=32" />
     </a>
   % endif
   </div>

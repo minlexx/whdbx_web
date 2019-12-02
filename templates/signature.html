@@ -111,7 +111,7 @@
         <ul>
         % for gas in sig.gas_clouds:
             <li>
-                <img src="https://imageserver.eveonline.com/Type/${gas.typeid}_32.png" />
+                <img src="https://images.evetech.net/types/${gas.typeid}/icon?size=32" />
                 <b><a href="#" onclick="showTypeInfo(${gas.typeid}); return false;">${gas.friendlyName}</a></b>
                 * <span class="sig_ehp">${gas.count}</span>,
                 всего <span class="sig_isk">${gas.total_price | dotted_number}</span> ISK
@@ -135,7 +135,7 @@
         <ul>
         % for ore in sig.ore_rocks:
             <li>
-                <img src="https://imageserver.eveonline.com/Type/${ore.typeid}_32.png" />
+                <img src="https://images.evetech.net/types/${ore.typeid}/icon?size=32" />
                 <b><a href="#" onclick="showTypeInfo(${ore.typeid}); return false;">${ore.name}</a></b>
                 * <span class="sig_ehp">${ore.count}</span>
             </li>
