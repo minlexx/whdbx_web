@@ -24,9 +24,11 @@
             <img src="/static/img/sleepers/icons/${sl.icon}.png" />
             <a href="/sleepers/${sl.id}/" target="_blank">${sl.name}</a>
             &nbsp;
+            % if sl.orbit > 0:
             <span class="zkb_time">
               <img src="/static/img/sleepers/icons/orbit2.png" width="16" /> ${int(sl.orbit / 1000)} km
             </span>
+            % endif
             &nbsp;
             % for abil in sl.abilities:
             <img src="/static/img/sleepers/icons/${abil}.png" width="22" />
