@@ -523,6 +523,14 @@ class WhdbxApp:
         return self.tmpl.render('effects.html')
 
     @cherrypy.expose()
+    def wh_colors(self):
+        self.init_session()
+        self.setup_template_vars('wh_colors')
+        translator = self.tr.get_translator(self.get_selected_locale_code())
+        self.tmpl.assign('title', translator.gettext('WH Colors') + ' - WHDBX')
+        return self.tmpl.render('wh_colors.html')
+
+    @cherrypy.expose()
     def sleepers(self, **params):
         self.init_session()
         self.setup_template_vars('sleepers')
