@@ -7,14 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-13 21:01+0300\n"
-"PO-Revision-Date: 2019-07-13 21:09+0300\n"
+"POT-Creation-Date: 2019-12-02 17:33+0300\n"
+"PO-Revision-Date: 2019-12-02 17:40+0300\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: templates/char_info.html:101 .\templates\char_info.html:101
 #: templates/char_info.html:99 .\templates\char_info.html:99
@@ -57,11 +58,12 @@ msgid "EFFECTS"
 msgstr "ЭФФЕКТЫ"
 
 #: templates/menu_main.html:28 .\templates\menu_main.html:28
+#: templates/menu_main.html:29
 msgid "WHDB"
 msgstr "БАЗА ВХ"
 
 #: templates/footer.html:7 .\templates\footer.html:7 .\main.py:525 main.py:547
-#: .\main.py:547 main.py:550 main.py:618
+#: .\main.py:547 main.py:550 main.py:618 main.py:626
 msgid "About project"
 msgstr "О проекте"
 
@@ -113,10 +115,12 @@ msgid "Cap. escalation wave"
 msgstr "Кап. доресп волна"
 
 #: templates/signature.html:54 .\templates\signature.html:54
+#: templates/signature.html:61
 msgid "Thera signatures and anomalies:"
 msgstr "Сигнатуры и аномалии Теры:"
 
 #: templates/signature.html:56 .\templates\signature.html:56
+#: templates/signature.html:63
 msgid "Signatues and anomalies of frig-WH:"
 msgstr "Сигнатуры и аномалии фриг-ВХ:"
 
@@ -124,7 +128,8 @@ msgstr "Сигнатуры и аномалии фриг-ВХ:"
 #: .\templates\signature.html:58 .\templates\signature.html:176
 #: templates/signature.html:184 .\templates\signature.html:60
 #: .\templates\signature.html:184 templates/signature.html:193
-#: templates/signature.html:194
+#: templates/signature.html:194 templates/signature.html:65
+#: templates/signature.html:67 templates/signature.html:201
 msgid "Signatues and anomalies"
 msgstr "Сигнатуры и аномалии"
 
@@ -134,15 +139,19 @@ msgstr "Сигнатуры и аномалии"
 #: templates/signature.html:184 .\templates\signature.html:60
 #: .\templates\signature.html:184 .\templates\sleeper.html:82
 #: templates/signature.html:193 templates/signature.html:194
+#: templates/signature.html:65 templates/signature.html:67
+#: templates/signature.html:201
 msgid "th class"
 msgstr "-го класса"
 
 #: templates/signature.html:62 .\templates\signature.html:62
+#: templates/signature.html:69
 msgid "Other signatures of the same type:"
 msgstr "Другие сигнатуры того же типа:"
 
 #: templates/signature.html:80 .\templates\signature.html:80
 #: templates/signature.html:84 .\templates\signature.html:84
+#: templates/signature.html:91
 msgid "frig-shattered"
 msgstr "фриг-разломанная"
 
@@ -160,6 +169,7 @@ msgstr "фриг-разломанная"
 #: .\templates\whdb.html:150 .\templates\whdb.html:152
 #: .\templates\whdb.html:154 .\templates\whdb.html:156
 #: .\templates\whdb.html:158 .\templates\whdb.html:160
+#: templates/signature.html:93 templates/signature.html:95
 msgid "class"
 msgstr "класс"
 
@@ -172,17 +182,19 @@ msgstr "класс"
 #: .\templates\whdb.html:165 .\templates\whdb.html:167
 #: .\templates\whdb.html:169 .\templates\whdb.html:171
 #: .\templates\whdb.html:173 .\templates\whsystem_info.html:111
+#: templates/signature.html:95
 msgid "shattered"
 msgstr "разлом"
 
 #: templates/signature.html:89 .\templates\signature.html:89
 #: templates/signature.html:93 .\templates\signature.html:93
+#: templates/signature.html:100
 msgid "Sleepers appear approximately in 20 minutes after signature activation."
 msgstr "Слиперы появляются примерно через 20 минут после активации сигнатуры."
 
 #: templates/signature.html:97 .\templates\signature.html:97
 #: templates/signature.html:101 .\templates\signature.html:101
-#: templates/signature.html:110
+#: templates/signature.html:110 templates/signature.html:117
 msgid "Gas clouds"
 msgstr "Газовые облака"
 
@@ -191,28 +203,29 @@ msgstr "Газовые облака"
 #: templates/signature.html:109 templates/signature.html:111
 #: .\templates\signature.html:109 .\templates\signature.html:111
 #: templates/signature.html:118 templates/signature.html:120
+#: templates/signature.html:125 templates/signature.html:127
 msgid "unit"
 msgstr "единица"
 
 #: templates/signature.html:106 .\templates\signature.html:106
 #: templates/signature.html:110 .\templates\signature.html:110
-#: templates/signature.html:119
+#: templates/signature.html:119 templates/signature.html:126
 msgid "Full Venture:"
 msgstr "Полная Вентура:"
 
 #: templates/signature.html:107 .\templates\signature.html:107
 #: templates/signature.html:111 .\templates\signature.html:111
-#: templates/signature.html:120
+#: templates/signature.html:120 templates/signature.html:127
 msgid "total units"
 msgstr "всего единиц"
 
 #: templates/signature.html:109 .\templates\signature.html:109
 #: templates/signature.html:113 .\templates\signature.html:113
-#: templates/signature.html:122
+#: templates/signature.html:122 templates/signature.html:129
 msgid "Harvesting in a Venture"
 msgstr "Добыча Вентурой"
 
-#: templates/signature.html:123
+#: templates/signature.html:123 templates/signature.html:130
 msgid "the entire cloud in about"
 msgstr "все облако примерно за"
 
@@ -223,49 +236,58 @@ msgstr "все облако примерно за"
 #: .\templates\signature.html:160 templates/signature.html:122
 #: templates/signature.html:165 templates/signature.html:169
 #: templates/signature.html:166 templates/signature.html:170
+#: templates/signature.html:129 templates/signature.html:173
+#: templates/signature.html:177
 msgid "hour"
 msgstr "час"
 
 #: templates/signature.html:113 .\templates\signature.html:113
 #: templates/signature.html:117 .\templates\signature.html:117
 #: templates/signature.html:126 templates/signature.html:127
+#: templates/signature.html:134
 msgid "Full profit from gas clouds"
 msgstr "Полный выхлоп с облаков"
 
 #: templates/signature.html:114 .\templates\signature.html:114
 #: templates/signature.html:118 .\templates\signature.html:118
 #: templates/signature.html:127 templates/signature.html:128
+#: templates/signature.html:135
 msgid "Jita sell price, updates once a day"
 msgstr "Цена продажи в Jita, обновление раз в сутки"
 
 #: templates/signature.html:115 .\templates\signature.html:115
 #: templates/signature.html:119 .\templates\signature.html:119
 #: templates/signature.html:128 templates/signature.html:129
+#: templates/signature.html:136
 msgid "Time to fill a Venture with"
 msgstr "Время заполнения Вентуры с"
 
 #: templates/signature.html:118 .\templates\signature.html:118
 #: templates/signature.html:122 .\templates\signature.html:122
 #: templates/signature.html:131 templates/signature.html:132
+#: templates/signature.html:139
 msgid "without mining bonuses"
 msgstr "без бонусов на копку"
 
 #: templates/signature.html:118 .\templates\signature.html:118
 #: templates/signature.html:122 .\templates\signature.html:122
 #: templates/signature.html:131 templates/signature.html:123
-#: templates/signature.html:132
+#: templates/signature.html:132 templates/signature.html:130
+#: templates/signature.html:139
 msgid "minutes"
 msgstr "минут"
 
 #: templates/signature.html:120 .\templates\signature.html:120
 #: templates/signature.html:124 .\templates\signature.html:124
 #: templates/signature.html:133 templates/signature.html:134
+#: templates/signature.html:141
 msgid "Ore asteroids"
 msgstr "Рудные астероиды"
 
 #: templates/signature.html:141 .\templates\signature.html:141
 #: templates/signature.html:145 .\templates\signature.html:145
 #: templates/signature.html:154 templates/signature.html:155
+#: templates/signature.html:162
 msgid "without cap. escalations"
 msgstr "без кап. дореспов"
 
@@ -274,24 +296,28 @@ msgstr "без кап. дореспов"
 #: templates/sleeper.html:77 templates/sleeper.html:124
 #: templates/signature.html:149 .\templates\signature.html:149
 #: templates/signature.html:158 templates/signature.html:159
+#: templates/signature.html:166
 msgid "Total"
 msgstr "Всего"
 
 #: .\templates\signature.html:193 templates/signature.html:193
 #: templates/signature.html:201 .\templates\signature.html:201
 #: templates/signature.html:210 templates/signature.html:211
+#: templates/signature.html:218
 msgid "Ore sites"
 msgstr "Рудные сигнатуры"
 
 #: .\templates\signature.html:197 templates/signature.html:197
 #: templates/signature.html:205 .\templates\signature.html:205
 #: templates/signature.html:214 templates/signature.html:215
+#: templates/signature.html:222
 msgid "Gas sites"
 msgstr "Газовые сигнатуры"
 
 #: .\templates\signature.html:201 templates/signature.html:201
 #: templates/signature.html:209 .\templates\signature.html:209
 #: templates/signature.html:218 templates/signature.html:219
+#: templates/signature.html:226
 msgid "Thera anomalies"
 msgstr "Аномалии в Thera"
 
@@ -363,7 +389,7 @@ msgid "Attack range"
 msgstr "Радиус атаки"
 
 #: .\templates\sleeper.html:82 .\main.py:439 templates/sleeper.html:82
-#: main.py:439 main.py:471 .\main.py:471 main.py:474 main.py:542
+#: main.py:439 main.py:471 .\main.py:471 main.py:474 main.py:542 main.py:550
 msgid "Sleepers"
 msgstr "Слиперы"
 
@@ -426,13 +452,13 @@ msgid "Effects"
 msgstr "Эффекты"
 
 #: .\main.py:451 main.py:451 main.py:456 .\main.py:461 main.py:483
-#: .\main.py:483 main.py:486 main.py:554
+#: .\main.py:483 main.py:486 main.py:554 main.py:562
 msgid "Signatures"
 msgstr "Сигнатуры"
 
 #: .\main.py:506 main.py:506 templates/whdb.html:94 main.py:511 .\main.py:516
 #: .\templates\whdb.html:94 main.py:538 templates/whdb.html:142 .\main.py:538
-#: .\templates\whdb.html:142 main.py:541 main.py:609
+#: .\templates\whdb.html:142 main.py:541 main.py:609 main.py:617
 msgid "WH Database"
 msgstr "База ВХ"
 
@@ -878,32 +904,33 @@ msgstr "дн. назад"
 msgid "Language"
 msgstr "Язык"
 
-#: .\main.py:534 main.py:556 .\main.py:556 main.py:559 main.py:627
+#: .\main.py:534 main.py:556 .\main.py:556 main.py:559 main.py:627 main.py:635
 msgid "About EVE-SSO"
 msgstr "О EVE-SSO"
 
-#: main.py:757 main.py:745 .\main.py:734 main.py:737 main.py:805
+#: main.py:757 main.py:745 .\main.py:734 main.py:737 main.py:805 main.py:813
 msgid "Not found!"
 msgstr "Не найдено!"
 
-#: main.py:785 main.py:773 .\main.py:762 main.py:765 main.py:833
+#: main.py:785 main.py:773 .\main.py:762 main.py:765 main.py:833 main.py:841
 msgid "Mass:"
 msgstr "Масса:"
 
 #: main.py:787 main.py:791 main.py:775 main.py:779 .\main.py:764 .\main.py:768
 #: main.py:764 main.py:768 main.py:767 main.py:771 main.py:835 main.py:839
+#: main.py:843 main.py:847
 msgid "mil.kg"
 msgstr "тыс.тонн"
 
-#: main.py:789 main.py:777 .\main.py:766 main.py:769 main.py:837
+#: main.py:789 main.py:777 .\main.py:766 main.py:769 main.py:837 main.py:845
 msgid "Jump mass:"
 msgstr "Масса на прыг:"
 
-#: main.py:793 main.py:781 .\main.py:770 main.py:773 main.py:841
+#: main.py:793 main.py:781 .\main.py:770 main.py:773 main.py:841 main.py:849
 msgid "Life time:"
 msgstr "Время жизни:"
 
-#: main.py:795 main.py:783 .\main.py:772 main.py:775 main.py:843
+#: main.py:795 main.py:783 .\main.py:772 main.py:775 main.py:843 main.py:851
 msgid "hr."
 msgstr "ч."
 
@@ -912,21 +939,21 @@ msgstr "ч."
 msgid "ppl"
 msgstr "чел"
 
-#: templates/signature.html:97
+#: templates/signature.html:97 templates/signature.html:104
 msgid "No triggers on this site, any sleeper kill can trigger next wave."
 msgstr ""
 "На данном сайте нет триггеров, любой убитый корабль может вызвать следующую "
 "волну."
 
-#: templates/signature.html:98
+#: templates/signature.html:98 templates/signature.html:105
 msgid "Recommendation:"
 msgstr "Рекомендация:"
 
-#: templates/signature.html:100
+#: templates/signature.html:100 templates/signature.html:107
 msgid "Destroy all sleeper battleships"
 msgstr "Уничтожить все линкоры слиперов"
 
-#: templates/signature.html:101
+#: templates/signature.html:101 templates/signature.html:108
 msgid "Destory all other sleepers"
 msgstr "Уничтожить все остальные корабли"
 
@@ -951,3 +978,59 @@ msgstr ""
 #: templates/zkb_block.html:194
 msgid "ZKillboard.com is broken or does not respond."
 msgstr "ZKillboard.com сломался или не отвечает."
+
+#: main.py:530
+msgid "WH Colors"
+msgstr "Цвета ВХ"
+
+#: templates/menu_main.html:28
+msgid "WH COLORS"
+msgstr "ЦВЕТА ВХ"
+
+#: templates/wh_colors.html:5
+msgid ""
+"You can in most cases easily identify the class of WH system on the other "
+"side of K162 hole by its color.  Each WH class has its own distinct sky "
+"color, and you can see this color through the hole center, if you  look "
+"closely. And halo color also helps in identifying the hole max ship size."
+msgstr ""
+"Во многих случаях можно безошибочно определить класс ВХ, куда ведет дыра "
+"K162, просто посмотрев на её цвет. В каждом классе ВХ свой цвет космоса, и "
+"он \"просвечивает\" сквозь центр червоточины, если внимательно приглядеться. "
+"Цвет ореола (ауры) вокруг дыры также помогает определить максимальную массу "
+"прохода."
+
+#: templates/wh_colors.html:28
+msgid "Center is dark gray + brown combintaion."
+msgstr "Центр тёмно-серый с коричневатым оттенком."
+
+#: templates/wh_colors.html:36
+msgid "Center color is dark gray + slight cyan <br />        combination."
+msgstr "Центр серый с голубоватым оттенком."
+
+#: templates/wh_colors.html:47
+msgid ""
+"Halo is like C3, but with light purple tint; <br />        center is darker, "
+"maroon / dark purple. You <br />        can see more purple colors here."
+msgstr ""
+"Ореол как у С3, но с фиолетовым оттенком; <br />        центр же темнее, "
+"тёмно-бордовый с оттенками фиолетового."
+
+#: templates/wh_colors.html:57
+msgid "Center has strong red + black color combination.<br />"
+msgstr "Центр черно-красный.<br />"
+
+#: templates/wh_colors.html:65
+msgid ""
+"Bright orange color definitely points to C6. <br />        You cannot make "
+"mistakes here."
+msgstr "Ярко-оранжевый цвет нельзя спутать ни с чем другим."
+
+#: templates/wh_colors.html:17
+msgid ""
+"Halo colour is cyan, that means the hole is <br />        medium ship sized; "
+"that definitely points to <br />        holes that lead to (or from) C1. "
+"<br />        From inside C1 all holes are like that."
+msgstr ""
+"Ореол ярко-голубой, это однозначно <br />указывает на круз-сайз дыру; такие "
+"ведут в С1<br />или из неё."
