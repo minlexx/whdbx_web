@@ -20,6 +20,9 @@ class WHSignatureWave:
         self.total_dps = 0
         self.total_isk = 0
         self.total_ehp = 0
+        # min/max NPC orbit distance
+        self.min_orbit = 999999
+        self.max_orbit = -1
 
     def initfromrow(self, row: tuple):
         #  sig_id, wave_id, is_capital, sleepers
@@ -57,8 +60,11 @@ class WHSignatureWave:
             sl.set_abilities_from_wave(self.sleeper_abilities[i])
             sl.set_count(self.sleeper_count[i])
             self.sleepers.append(sl)
+            if sl.orbit > self.max_orbit:
+                self.max_orbit = sl.orbit
+            if sl.orbit < self.min_orbit:
+                self.min_orbit = sl.orbit
             i += 1
-        # return sl
 
     def calc_stats(self):
         self.total_dps = 0
