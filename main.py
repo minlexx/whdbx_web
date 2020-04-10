@@ -238,22 +238,18 @@ class WhdbxApp:
         no locale can be determined, or locale unsupported, return 'en'
         :return: string, 'en', 'ru', etc. Always returns valid value
         """
-        selected_locale = ''
         # first, check that user has configured language. Then don't autodetect
         if 'configured_locale' in cherrypy.session:
-            if cherrypy.session['configured_locale'] != '':
-                configured_locale = cherrypy.session['configured_locale']
-                if configured_locale in self.tr.supported_locales:
-                    selected_locale = configured_locale
-        # no user-configured locale, try to autodetect
-        if selected_locale == '':
+            configured_locale = cherrypy.session['configured_locale']
+            if configured_locale != '' and self.tr.is_supported_locale(configured_locale):
+                return configured_locale
+        else:
+            # no user-configured locale, try to autodetect from browser headers
             accept_language = self.parse_client_accept_language()
-            if accept_language != '':
-                selected_locale = accept_language
-        # fallback to english
-        if selected_locale == '':
-            selected_locale = 'en'
-        return selected_locale
+            if accept_language != '' and self.tr.is_supported_locale(accept_language):
+                return accept_language
+        # fallback, return default locale
+        return 'en'
 
     def gettext(self, msg) -> str:
         """

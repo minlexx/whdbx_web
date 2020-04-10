@@ -42,3 +42,6 @@ class MultiLangTranslator:
         if locale_name in self.translators:
             return self.translators[locale_name]
         return self.null_translator
+
+    def is_supported_locale(self, locale_name: str) -> bool:
+        return locale_name in self.supported_locales
