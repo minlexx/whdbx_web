@@ -830,7 +830,17 @@ class WhdbxApp:
                     if (wh['in_class'] >= -6) and (wh['in_class'] <= -1):
                         wh['in_class_str'] = 'C' + str(wh['in_class']) + ' shattered'
                     if WHClass.is_drifters(wh['in_class']):
-                        wh['in_class_str'] = 'Drifters WH'
+                        wh['in_class_str'] = 'Drifters '
+                        if wh['in_class'] == WHClass.DRIFTERS_SENTINEL:
+                            wh['in_class_str'] += '(Sentinel)'
+                        if wh['in_class'] == WHClass.DRIFTERS_BARBICAN:
+                            wh['in_class_str'] += '(Barbican)'
+                        if wh['in_class'] == WHClass.DRIFTERS_VIDETTE:
+                            wh['in_class_str'] += '(Vidette)'
+                        if wh['in_class'] == WHClass.DRIFTERS_CONFLUX:
+                            wh['in_class_str'] += '(Conflux)'
+                        if wh['in_class'] == WHClass.DRIFTERS_REDOUBT:
+                            wh['in_class_str'] += '(Redoubt)'
                 # create reply
                 tip_str = ''
                 # mass

@@ -15,6 +15,11 @@ class WHClass(IntEnum):
     THERA_WH_CLASS = 12
     FRIG_WH_CLASS = 13
     DRIFTERS_WH_CLASS_MIN = 14
+    DRIFTERS_SENTINEL = 14  # S877 Sentinel Drifter
+    DRIFTERS_BARBICAN = 15  # B735 Barbican Drifter
+    DRIFTERS_VIDETTE = 16   # V928 Vidette Drifter
+    DRIFTERS_CONFLUX = 17   # C414 Conflux Drifter
+    DRIFTERS_REDOUBT = 18   # R259 Redoubt Drifter
     DRIFTERS_WH_CLASS_MAX = 18
 
     @staticmethod
