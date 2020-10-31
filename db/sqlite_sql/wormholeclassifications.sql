@@ -98,3 +98,9 @@ INSERT INTO wormholeclassifications VALUES(86,'B735',15,960,750000000,0,30000000
 INSERT INTO wormholeclassifications VALUES(87,'V928',16,960,750000000,0,300000000);
 INSERT INTO wormholeclassifications VALUES(88,'C414',17,960,750000000,0,300000000);
 INSERT INTO wormholeclassifications VALUES(89,'R259',18,960,750000000,0,300000000);
+
+-- new WH into Pochven region
+-- This wormhole seems to lead into Triglavian space (reserve class 99 for Pochven)
+-- see https://github.com/minlexx/whdbx_web/issues/45
+-- Mass numbers may be wrong, taken from ellatha which is widely known for many mistakes.
+INSERT INTO wormholeclassifications VALUES(90,'F216',99,960,1000000000,0,300000000);

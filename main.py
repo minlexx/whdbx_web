@@ -825,6 +825,8 @@ class WhdbxApp:
                         wh['in_class_str'] = 'Low sec'
                     if wh['in_class'] == WHClass.NULL_WH_CLASS:
                         wh['in_class_str'] = 'Null sec'
+                    if wh['in_class'] == WHClass.TRIGLAVS_WH:
+                        wh['in_class_str'] = 'Triglavs (Pochven)'
                     if (wh['in_class'] >= 1) and (wh['in_class'] <= 6):
                         wh['in_class_str'] = 'C' + str(wh['in_class'])
                     if (wh['in_class'] >= -6) and (wh['in_class'] <= -1):

@@ -21,6 +21,7 @@ class WHClass(IntEnum):
     DRIFTERS_CONFLUX = 17   # C414 Conflux Drifter
     DRIFTERS_REDOUBT = 18   # R259 Redoubt Drifter
     DRIFTERS_WH_CLASS_MAX = 18
+    TRIGLAVS_WH = 99  # I'm not sure which class those systems belong to, let it be 99
 
     @staticmethod
     def is_drifters(cl: int) -> bool:
