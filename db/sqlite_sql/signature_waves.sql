@@ -91,7 +91,7 @@ INSERT INTO signature_waves VALUES (18, 2, 0, '16:4:t');
 INSERT INTO signature_waves VALUES (18, 3, 0, '19:4:w,12:2:wZ');
 -- 19 - Solar Cell
 INSERT INTO signature_waves VALUES (19, 1, 0, '17:1:wn,21:1:wndt,12:1:wR');
-INSERT INTO signature_waves VALUES (19, 2, 0, '17:1:wn,16:3,19:2:w,20:2:nrt');
+INSERT INTO signature_waves VALUES (19, 2, 0, '17:1:wn,16:2,19:2:w,20:2:nrt');
 INSERT INTO signature_waves VALUES (19, 3, 0, '14:1:rZ,12:1:w,16:2');
 -- 20 - The Oruze Construct
 INSERT INTO signature_waves VALUES (20, 1, 0, '22:2,18:1:rR,17:4:wnt');
