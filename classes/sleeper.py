@@ -49,11 +49,12 @@ class WHSleeper:
         self.rr_amount = 0
         self.rr_duration = 0
         self.extra_comment = ''
-        # for wave in signature
+        # for wave in signature (in SQL: t/R/Z/D/T)
         self.is_trigger = False
         self.is_random_spawn = False
         self.is_anomaly_despawn_trigger = False
         self.is_decloaked_container_trigger = False
+        self.is_on_attack_trigger = False
         self.count = 0
         # calculatable
         self.dps_total = 0
@@ -209,6 +210,8 @@ class WHSleeper:
                 self.is_anomaly_despawn_trigger = True
             elif c == 'D':
                 self.is_decloaked_container_trigger = True
+            elif c == 'T':
+                self.is_on_attack_trigger = True
         return True
 
     def set_count(self, c: int):

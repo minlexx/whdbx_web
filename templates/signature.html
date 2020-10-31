@@ -45,6 +45,9 @@
             % if sl.is_decloaked_container_trigger:
             <font color="#666666"><b>DRIFTER CONTAINER</b></font>
             % endif
+            % if sl.is_on_attack_trigger:
+            <font color="#FF2222"><b>TRIGGER_ON_ATTACK</b></font>
+            % endif
         </li>
         % endfor
     </ul>
