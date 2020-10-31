@@ -122,7 +122,7 @@ INSERT INTO signature_waves VALUES (24, 4, 0, '19:4:w,14:2:r');
 -- 25 - Frontier Barracks
 INSERT INTO signature_waves VALUES (25, 1, 0, '13:1:n,14:1:rt');
 INSERT INTO signature_waves VALUES (25, 2, 0, '18:2:r,13:3:nt');
-INSERT INTO signature_waves VALUES (25, 3, 0, '21:3:wnd,18:4:r,14:3:r');
+INSERT INTO signature_waves VALUES (25, 3, 0, '21:3:wnd,18:4:r,14:2:r');
 -- 26 - Frontier Command Post
 INSERT INTO signature_waves VALUES (26, 1, 0, '22:5,19:4:w,21:4:wndt');
 INSERT INTO signature_waves VALUES (26, 2, 0, '20:4:nr,16:6:t,12:2:w');
