@@ -14,12 +14,12 @@ INSERT INTO signature_oregas VALUES (57, 'ark:4,bis:6,cro:2,dar:1,gne:1,hed:6,he
 INSERT INTO signature_oregas VALUES (58, 'ark:1,bis:1,cro:1,dar:1,gne:1,hed:1,hem:1,jas:1,ker:1,mer:0,omb:1,pla:2,pyr:0,sco:0,spo:1,vel:4'); -- Unexceptional Frontier Deposit
 
 -- gas clouds
-INSERT INTO signature_oregas VALUES (59, 'c50:3000,c60:1500'); -- Barren Perimeter Reservoir
-INSERT INTO signature_oregas VALUES (60, 'c28:5000,c32:1000'); -- Bountiful Frontier Reservoir
-INSERT INTO signature_oregas VALUES (61, 'c320:6000,c540:500'); -- Instrumental Core Reservoir
-INSERT INTO signature_oregas VALUES (62, 'c70:3000,c72:1500'); -- Minor Perimeter Reservoir
-INSERT INTO signature_oregas VALUES (63, 'c72:3000,c84:1500'); -- Ordinary Perimeter Reservoir
-INSERT INTO signature_oregas VALUES (64, 'c50:1500,c84:3000'); -- Sizeable Perimeter Reservoir
-INSERT INTO signature_oregas VALUES (65, 'c60:3000,c70:1500'); -- Token Perimeter Reservoir
-INSERT INTO signature_oregas VALUES (66, 'c28:1000,c32:5000'); -- Vast Frontier Reservoir
-INSERT INTO signature_oregas VALUES (67, 'c320:500,c540:6000'); -- Vital Core Reservoir
+INSERT INTO signature_oregas VALUES (59, 'c50:6000,c60:3000'); -- Barren Perimeter Reservoir
+INSERT INTO signature_oregas VALUES (60, 'c28:10000,c32:2000'); -- Bountiful Frontier Reservoir
+INSERT INTO signature_oregas VALUES (61, 'c320:12000,c540:1000'); -- Instrumental Core Reservoir
+INSERT INTO signature_oregas VALUES (62, 'c70:6000,c72:3000'); -- Minor Perimeter Reservoir
+INSERT INTO signature_oregas VALUES (63, 'c72:6000,c84:3000'); -- Ordinary Perimeter Reservoir
+INSERT INTO signature_oregas VALUES (64, 'c50:3000,c84:6000'); -- Sizeable Perimeter Reservoir
+INSERT INTO signature_oregas VALUES (65, 'c60:6000,c70:3000'); -- Token Perimeter Reservoir
+INSERT INTO signature_oregas VALUES (66, 'c28:2000,c32:10000'); -- Vast Frontier Reservoir
+INSERT INTO signature_oregas VALUES (67, 'c320:1000,c540:12000'); -- Vital Core Reservoir
